@@ -6,6 +6,7 @@ import { ButtonMedium } from '../../components/button'
 import logo from '../../assets/logo.svg'
 import { CampaignCard } from '../../components/campaign-card'
 import { Duration } from 'luxon'
+import { ExplanationSection } from '../../components/home/explanation-section'
 
 const RootContainer = styled(Flex)`
   position: relative;
@@ -25,6 +26,13 @@ const HeroLogoBack = styled.div`
   height: 400px;
   border-radius: 50%;
   background: linear-gradient(180deg, ${(props) => props.theme.primary1} 0%, rgba(0, 0, 0, 0) 100%);
+`
+
+const ExplanationSectionLogoPlaceholder = styled.div`
+  border-radius: 50%;
+  height: 74px;
+  width: 74px;
+  background: ${(props) => props.theme.divider};
 `
 
 const GrabCarrotContainer = styled(Flex)`
@@ -51,7 +59,7 @@ export function Home(): ReactElement {
   return (
     <Flex flexDirection="column">
       <RootContainer alignItems="center" justifyContent="center" flexDirection="column">
-        <Flex width={['100%', '80%', '60%']} alignItems="center" justifyContent="space-between" mb="80px" py="160px">
+        <Flex width={['100%', '80%', '60%']} alignItems="center" justifyContent="space-between" py="160px">
           <Flex flexDirection="column" pr="120px">
             <Text mb="40px" fontSize="64px" fontWeight="800" lineHeight="64px">
               Incentivize your community with a carrot
@@ -67,6 +75,28 @@ export function Home(): ReactElement {
             </HeroLogoBack>
           </Box>
         </Flex>
+        <Box
+          mb="80px"
+          width={['100%', '80%', '60%']}
+          sx={{
+            display: 'grid',
+            gridGap: '120px',
+            gridTemplateColumns: 'auto auto auto',
+          }}
+        >
+          <ExplanationSection image={<ExplanationSectionLogoPlaceholder />} title="Lorem ipsum">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry&apos;s standard dummy text.
+          </ExplanationSection>
+          <ExplanationSection image={<ExplanationSectionLogoPlaceholder />} title="Lorem ipsum">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry&apos;s standard dummy text.
+          </ExplanationSection>
+          <ExplanationSection image={<ExplanationSectionLogoPlaceholder />} title="Lorem ipsum">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry&apos;s standard dummy text.
+          </ExplanationSection>
+        </Box>
       </RootContainer>
       <CampaignsContainer flexDirection="column" alignItems="center" mx="-8px" py="120px">
         <Flex flexDirection="column" width={['100%', '80%', '60%']}>
@@ -75,7 +105,13 @@ export function Home(): ReactElement {
               Featured campaigns
             </Text>
           </Box>
-          <Flex justifyContent="space-between">
+          <Box
+            sx={{
+              display: 'grid',
+              gridGap: '40px',
+              gridTemplateColumns: 'auto auto auto',
+            }}
+          >
             {new Array(3).fill(null).map((_, i) => (
               <Box key={i}>
                 <CampaignCard
@@ -83,10 +119,13 @@ export function Home(): ReactElement {
                   duration={Duration.fromObject({ days: 2 })}
                   goal="Goal"
                   rewardsUSD={12345}
+                  progress={0.4}
+                  lowerBound={0}
+                  higherBound={300}
                 />
               </Box>
             ))}
-          </Flex>
+          </Box>
         </Flex>
       </CampaignsContainer>
       <BottomSectionContainer flexDirection="column" alignItems="center">
