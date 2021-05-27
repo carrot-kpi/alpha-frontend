@@ -6,6 +6,7 @@ import { ButtonMedium } from '../../components/button'
 import logo from '../../assets/logo.svg'
 import { CampaignCard } from '../../components/campaign-card'
 import { Duration } from 'luxon'
+import { animated, useTrail, config } from '@react-spring/web'
 
 const RootContainer = styled(Flex)`
   position: relative;
@@ -46,31 +47,44 @@ const Logo = styled.img`
 
 export function Home(): ReactElement {
   const theme = useTheme()
+  const [fadeInAnimations] = useTrail(4, () => ({
+    from: { opacity: 0, y: 8 },
+    to: { opacity: 1, y: 0 },
+    config: { ...config.default, duration: 200 },
+  }))
 
   return (
     <Flex flexDirection="column">
       <RootContainer alignItems="center" justifyContent="center" flexDirection="column" minHeight="80vh">
         <Flex width={['100%', '80%', '60%']} alignItems="center" justifyContent="space-between" mb="80px">
           <Flex flexDirection="column" pr="120px">
-            <Text mb="20px" fontSize="64px" fontWeight="800">
-              Incentivize your community with a carrot
-            </Text>
-            <Text
-              mb="40px"
-              fontSize="22px"
-              fontWeight="800"
-              lineHeight="24px"
-              color={theme.primaryDark}
-              letterSpacing="0.05em"
-            >
-              Increase TVL, volume, price, engagement and more.
-            </Text>
-            <ButtonMedium width="fit-content">See campaigns</ButtonMedium>
+            <animated.div style={fadeInAnimations[0]}>
+              <Text mb="20px" fontSize="64px" fontWeight="800">
+                Incentivize your community with a carrot
+              </Text>
+            </animated.div>
+            <animated.div style={fadeInAnimations[1]}>
+              <Text
+                mb="40px"
+                fontSize="22px"
+                fontWeight="800"
+                lineHeight="24px"
+                color={theme.primaryDark}
+                letterSpacing="0.05em"
+              >
+                Increase TVL, volume, price, engagement and more.
+              </Text>
+            </animated.div>
+            <animated.div style={fadeInAnimations[2]}>
+              <ButtonMedium width="fit-content">See campaigns</ButtonMedium>
+            </animated.div>
           </Flex>
           <Box minWidth="auto">
-            <HeroLogoBack>
-              <HeroLogo src={heroImage} alt="hero" />
-            </HeroLogoBack>
+            <animated.div style={fadeInAnimations[3]}>
+              <HeroLogoBack>
+                <HeroLogo src={heroImage} alt="hero" />
+              </HeroLogoBack>
+            </animated.div>
           </Box>
         </Flex>
       </RootContainer>
