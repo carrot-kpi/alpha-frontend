@@ -1,4 +1,4 @@
-import { ReactElement, Suspense, useMemo } from 'react'
+import { ReactElement, useMemo } from 'react'
 import { ThemeProvider } from 'styled-components'
 import Web3ReactManager from '../../components/web3-react-manager'
 import { SkeletonTheme } from 'react-loading-skeleton'
@@ -16,29 +16,27 @@ export function App(): ReactElement {
   const theme = useMemo(() => getTheme(darkMode), [darkMode])
 
   return (
-    <Suspense fallback={null}>
-      <ApolloProvider client={subgraphClient}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <SkeletonTheme color={theme.white} highlightColor={theme.black}>
-            <Web3ReactManager>
-              <ToastContainer
-                className="custom-toast-root"
-                toastClassName="custom-toast-container"
-                bodyClassName="custom-toast-body"
-                position="top-right"
-                closeButton={false}
-                transition={Slide}
-              />
-              <Header />
-              <Switch>
-                <Route strict exact path="/" component={Home} />
-                <Redirect to="/" />
-              </Switch>
-            </Web3ReactManager>
-          </SkeletonTheme>
-        </ThemeProvider>
-      </ApolloProvider>
-    </Suspense>
+    <ApolloProvider client={subgraphClient}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <SkeletonTheme color={theme.white} highlightColor={theme.black}>
+          <Web3ReactManager>
+            <ToastContainer
+              className="custom-toast-root"
+              toastClassName="custom-toast-container"
+              bodyClassName="custom-toast-body"
+              position="top-right"
+              closeButton={false}
+              transition={Slide}
+            />
+            <Header />
+            <Switch>
+              <Route strict exact path="/" component={Home} />
+              <Redirect to="/" />
+            </Switch>
+          </Web3ReactManager>
+        </SkeletonTheme>
+      </ThemeProvider>
+    </ApolloProvider>
   )
 }
