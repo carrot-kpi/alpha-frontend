@@ -130,7 +130,8 @@ export function Home(): ReactElement {
       </CampaignsContainer>
       <BottomSectionContainer flexDirection="column" alignItems="center">
         <GrabCarrotContainer
-          my="200px"
+          mt="200px"
+          mb="260px"
           p="84px"
           flexDirection="column"
           width={['100%', '80%', '60%']}
