@@ -31,6 +31,7 @@ const HeroLogoBack = styled.div`
 const GrabCarrotContainer = styled(Flex)`
   border-radius: 48px;
   background: linear-gradient(97.59deg, #f8ebff 0.96%, rgba(193, 218, 214, 0.08) 48.51%, #ffd1b8 99.36%);
+  box-shadow: 0px 45px 80px rgba(255, 163, 112, 0.2);
 `
 
 const CampaignsContainer = styled(Flex)`
@@ -59,19 +60,12 @@ export function Home(): ReactElement {
         <Flex width={['100%', '80%', '60%']} alignItems="center" justifyContent="space-between" mb="80px">
           <Flex flexDirection="column" pr="120px">
             <animated.div style={fadeInAnimations[0]}>
-              <Text mb="20px" fontSize="64px" fontWeight="800">
+              <Text mb="20px" fontSize="64px" lineHeight="68px" fontWeight="800">
                 Incentivize your community with a carrot
               </Text>
             </animated.div>
             <animated.div style={fadeInAnimations[1]}>
-              <Text
-                mb="40px"
-                fontSize="22px"
-                fontWeight="800"
-                lineHeight="24px"
-                color={theme.primaryDark}
-                letterSpacing="0.05em"
-              >
+              <Text mb="40px" fontSize="22px" fontWeight="800" lineHeight="24px" color={theme.primaryDark}>
                 Increase TVL, volume, price, engagement and more.
               </Text>
             </animated.div>

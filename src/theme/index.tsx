@@ -39,14 +39,15 @@ export function getTheme(darkMode: boolean): Theme {
 
 export const GlobalStyle = createGlobalStyle`
   html, input, textarea, button {
-    font-family: 'Montserrat', sans-serif;
-    font-display: fallback;
+    font-family: 'Nunito';
   }
 
   html,
   body {
     margin: 0;
     padding: 0;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   .custom-toast-root {
