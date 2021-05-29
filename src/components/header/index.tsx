@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { injected } from '../../connectors'
 import { shortenAddress } from '../../utils'
 import { ButtonMedium } from '../button'
+import { SmoothScrollLink } from '../smooth-scroll-link'
 import logo from '../../assets/logo.svg'
 
 const FlexContainer = styled(Flex)`
@@ -53,8 +54,11 @@ export const Header = (): ReactElement => {
             <Box mr="36px">
               <Divider />
             </Box>
-            <HeaderItem mr="36px">Campaigns</HeaderItem>
-            <HeaderItem>How it works</HeaderItem>
+            <HeaderItem mr="36px">
+              <SmoothScrollLink smooth="easeInOutQuint" to="campaigns">
+                Campaigns
+              </SmoothScrollLink>
+            </HeaderItem>
           </Flex>
           <Box>
             {!!account ? (

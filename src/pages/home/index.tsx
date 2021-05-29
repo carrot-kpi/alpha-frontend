@@ -7,6 +7,8 @@ import logo from '../../assets/logo.svg'
 import { CampaignCard } from '../../components/campaign-card'
 import { Duration } from 'luxon'
 import { ExplanationSection } from '../../components/home/explanation-section'
+import { SmoothScrollLink } from '../../components/smooth-scroll-link'
+import { UndecoratedLink } from '../../components/undecorated-link'
 
 const RootContainer = styled(Flex)`
   position: relative;
@@ -67,7 +69,11 @@ export function Home(): ReactElement {
             <Text mb="40px" fontSize="22px" fontWeight="800" lineHeight="24px" color={theme.primaryDark}>
               Increase TVL, volume, price, engagement and more.
             </Text>
-            <ButtonMedium width="fit-content">See campaigns</ButtonMedium>
+            <Box>
+              <SmoothScrollLink smooth="easeInOutQuint" to="campaigns">
+                <ButtonMedium width="fit-content">See campaigns</ButtonMedium>
+              </SmoothScrollLink>
+            </Box>
           </Flex>
           <Box minWidth="auto">
             <HeroLogoBack>
@@ -98,7 +104,7 @@ export function Home(): ReactElement {
           </ExplanationSection>
         </Box>
       </RootContainer>
-      <CampaignsContainer flexDirection="column" alignItems="center" mx="-8px" py="120px">
+      <CampaignsContainer flexDirection="column" alignItems="center" mx="-8px" py="120px" id="campaigns">
         <Flex flexDirection="column" width={['100%', '80%', '60%']}>
           <Box mb="60px">
             <Text fontSize="36px" lineHeight="64px" fontWeight="800">
@@ -160,19 +166,18 @@ export function Home(): ReactElement {
           </Flex>
           <Flex>
             <Box mr="40px">
-              <Text fontSize="17px" fontWeight="400">
-                About
-              </Text>
+              <UndecoratedLink href="https://discord.com/invite/4QXEJQkvHH" target="_blank" rel="noreferrer noopener">
+                <Text fontSize="17px" fontWeight="400">
+                  Discord
+                </Text>
+              </UndecoratedLink>
             </Box>
             <Box mr="40px">
-              <Text fontSize="17px" fontWeight="400">
-                Discord
-              </Text>
-            </Box>
-            <Box mr="40px">
-              <Text fontSize="17px" fontWeight="400">
-                Forum
-              </Text>
+              <UndecoratedLink href="https://daotalk.org/c/dx-dao/15" target="_blank" rel="noreferrer noopener">
+                <Text fontSize="17px" fontWeight="400">
+                  Forum
+                </Text>
+              </UndecoratedLink>
             </Box>
           </Flex>
         </Flex>
