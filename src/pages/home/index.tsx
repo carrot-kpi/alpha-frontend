@@ -5,10 +5,11 @@ import heroImage from '../../assets/hero.png'
 import { ButtonMedium } from '../../components/button'
 import logo from '../../assets/logo.svg'
 import { CampaignCard } from '../../components/campaign-card'
-import { Duration } from 'luxon'
 import { ExplanationSection } from '../../components/home/explanation-section'
 import { SmoothScrollLink } from '../../components/smooth-scroll-link'
 import { UndecoratedLink } from '../../components/undecorated-link'
+import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
+import { CREATORS_NAME_MAP } from '../../constants'
 
 const RootContainer = styled(Flex)`
   position: relative;
@@ -57,6 +58,7 @@ const Logo = styled.img`
 
 export function Home(): ReactElement {
   const theme = useTheme()
+  const { featuredKpiTokens } = useFeaturedKpiTokens()
 
   return (
     <Flex flexDirection="column">
@@ -115,22 +117,23 @@ export function Home(): ReactElement {
             sx={{
               display: 'grid',
               gridGap: '40px',
-              gridTemplateColumns: 'auto auto auto',
+              gridTemplateColumns: '33% 33% 33%',
             }}
           >
-            {new Array(3).fill(null).map((_, i) => (
-              <Box key={i}>
+            <Box>
+              {featuredKpiTokens.map((featuredKpiToken) => (
                 <CampaignCard
-                  creator="DXdao"
-                  duration={Duration.fromObject({ days: 2 })}
-                  goal="Goal"
-                  rewardsUSD={12345}
+                  key={featuredKpiToken.kpiId}
+                  creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || featuredKpiToken.creator}
+                  duration={featuredKpiToken.expiresAt.diffNow()}
+                  goal={featuredKpiToken.question}
+                  collateral={featuredKpiToken.collateral}
                   progress={0.4}
                   lowerBound={0}
                   higherBound={300}
                 />
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
         </Flex>
       </CampaignsContainer>

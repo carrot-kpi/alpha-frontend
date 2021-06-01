@@ -8,7 +8,7 @@ export const network = new NetworkConnector({
     1: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
     4: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
   },
-  defaultChainId: 1,
+  defaultChainId: 4,
 })
 
 export const injected = new InjectedConnector({
