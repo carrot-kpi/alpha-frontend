@@ -55,7 +55,6 @@ export function useTokenPriceUSD(token: Token): { loading: boolean; priceUSD: Cu
         nativeCurrency.decimals
       )
     )
-    console.log(tokenDerivedNativeCurrency.multiply(nativeCurrencyPrice).toFixed(2))
     setPriceUSD(tokenDerivedNativeCurrency.multiply(nativeCurrencyPrice))
     setLoading(false)
   }, [loadingNativeCurrencyPrice, nativeCurrency, nativeCurrencyPrice, swaprTokenPriceData, swaprTokenPriceDataLoading])
