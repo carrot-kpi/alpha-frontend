@@ -7,6 +7,7 @@ import { shortenAddress } from '../../utils'
 import { ButtonMedium } from '../button'
 import { SmoothScrollLink } from '../smooth-scroll-link'
 import logo from '../../assets/logo.svg'
+import { UndecoratedInternalLink } from '../undecorated-link'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
@@ -49,7 +50,9 @@ export const Header = (): ReactElement => {
         <Flex width={['100%', '80%', '60%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
             <Box mr="36px">
-              <Logo src={logo} alt="logo" />
+              <UndecoratedInternalLink to="/">
+                <Logo src={logo} alt="logo" />
+              </UndecoratedInternalLink>
             </Box>
             <Box mr="36px">
               <Divider />

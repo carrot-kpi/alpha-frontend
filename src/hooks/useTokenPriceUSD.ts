@@ -22,14 +22,14 @@ interface SwaprQueryResult {
   }
 }
 
-export function useTokenPriceUSD(token: Token): { loading: boolean; priceUSD: CurrencyAmount } {
+export function useTokenPriceUSD(token?: Token): { loading: boolean; priceUSD: CurrencyAmount } {
   const swaprSubgraphClient = useSwaprSubgraphClient()
   const nativeCurrency = useNativeCurrency()
   const { loading: loadingNativeCurrencyPrice, priceUSD: nativeCurrencyPrice } = useNativeCurrencyUSDPrice()
   const { data: swaprTokenPriceData, loading: swaprTokenPriceDataLoading } = useQuery<SwaprQueryResult>(
     SWAPR_TOKEN_PRICE_QUERY,
     {
-      variables: { id: token.address.toLowerCase() },
+      variables: { id: token?.address.toLowerCase() },
       client: swaprSubgraphClient,
     }
   )
@@ -38,6 +38,11 @@ export function useTokenPriceUSD(token: Token): { loading: boolean; priceUSD: Cu
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    if (!token) {
+      setLoading(false)
+      setPriceUSD(ZERO_USD)
+      return
+    }
     if (swaprTokenPriceDataLoading || loadingNativeCurrencyPrice) {
       setLoading(true)
       setPriceUSD(ZERO_USD)
@@ -57,7 +62,14 @@ export function useTokenPriceUSD(token: Token): { loading: boolean; priceUSD: Cu
     )
     setPriceUSD(tokenDerivedNativeCurrency.multiply(nativeCurrencyPrice))
     setLoading(false)
-  }, [loadingNativeCurrencyPrice, nativeCurrency, nativeCurrencyPrice, swaprTokenPriceData, swaprTokenPriceDataLoading])
+  }, [
+    loadingNativeCurrencyPrice,
+    nativeCurrency,
+    nativeCurrencyPrice,
+    swaprTokenPriceData,
+    swaprTokenPriceDataLoading,
+    token,
+  ])
 
   return { loading, priceUSD }
 }

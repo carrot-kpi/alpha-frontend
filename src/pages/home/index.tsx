@@ -7,7 +7,7 @@ import logo from '../../assets/logo.svg'
 import { CampaignCard } from '../../components/campaign-card'
 import { ExplanationSection } from '../../components/home/explanation-section'
 import { SmoothScrollLink } from '../../components/smooth-scroll-link'
-import { UndecoratedLink } from '../../components/undecorated-link'
+import { UndecoratedExternalLink } from '../../components/undecorated-link'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
 import { CREATORS_NAME_MAP } from '../../constants'
 
@@ -58,7 +58,7 @@ const Logo = styled.img`
 
 export function Home(): ReactElement {
   const theme = useTheme()
-  const { featuredKpiTokens } = useFeaturedKpiTokens()
+  const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
 
   return (
     <Flex flexDirection="column">
@@ -120,20 +120,23 @@ export function Home(): ReactElement {
               gridTemplateColumns: '33% 33% 33%',
             }}
           >
-            <Box>
-              {featuredKpiTokens.map((featuredKpiToken) => (
-                <CampaignCard
-                  key={featuredKpiToken.kpiId}
-                  creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || featuredKpiToken.creator}
-                  duration={featuredKpiToken.expiresAt.diffNow()}
-                  goal={featuredKpiToken.question}
-                  collateral={featuredKpiToken.collateral}
-                  progress={0.4}
-                  lowerBound={0}
-                  higherBound={300}
-                />
-              ))}
-            </Box>
+            {loadingFeaturedKpiTokens
+              ? new Array(3).fill(null).map((_, index) => {
+                  return <CampaignCard key={index} loading />
+                })
+              : featuredKpiTokens.map((featuredKpiToken) => (
+                  <CampaignCard
+                    key={featuredKpiToken.kpiId}
+                    kpiId={featuredKpiToken.kpiId}
+                    creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || featuredKpiToken.creator}
+                    duration={featuredKpiToken.expiresAt.diffNow()}
+                    goal={featuredKpiToken.question}
+                    collateral={featuredKpiToken.collateral}
+                    progress={0.4}
+                    lowerBound={0}
+                    higherBound={300}
+                  />
+                ))}
           </Box>
         </Flex>
       </CampaignsContainer>
@@ -169,18 +172,18 @@ export function Home(): ReactElement {
           </Flex>
           <Flex>
             <Box mr="40px">
-              <UndecoratedLink href="https://discord.com/invite/4QXEJQkvHH" target="_blank" rel="noreferrer noopener">
+              <UndecoratedExternalLink href="https://discord.com/invite/4QXEJQkvHH">
                 <Text fontSize="17px" fontWeight="400">
                   Discord
                 </Text>
-              </UndecoratedLink>
+              </UndecoratedExternalLink>
             </Box>
             <Box mr="40px">
-              <UndecoratedLink href="https://daotalk.org/c/dx-dao/15" target="_blank" rel="noreferrer noopener">
+              <UndecoratedExternalLink href="https://daotalk.org/c/dx-dao/15">
                 <Text fontSize="17px" fontWeight="400">
                   Forum
                 </Text>
-              </UndecoratedLink>
+              </UndecoratedExternalLink>
             </Box>
           </Flex>
         </Flex>

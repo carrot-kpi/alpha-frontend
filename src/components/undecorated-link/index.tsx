@@ -1,7 +1,12 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-export const UndecoratedLink = styled.a`
+export const UndecoratedInternalLink = styled(Link)`
   text-decoration: none;
-  color: initial;
+  cursor: pointer;
+`
+
+export const UndecoratedExternalLink = styled.a.attrs((props) => ({ target: '_blank', rel: 'noopener noreferrer' }))`
+  text-decoration: none;
   cursor: pointer;
 `

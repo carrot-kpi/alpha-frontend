@@ -8,6 +8,7 @@ import { Header } from '../../components/header'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ToastContainer, Slide } from 'react-toastify'
 import { Home } from '../home'
+import { Campaign } from '../campaign'
 
 export function App(): ReactElement {
   const darkMode = useIsDarkMode()
@@ -16,7 +17,7 @@ export function App(): ReactElement {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <SkeletonTheme color={theme.white} highlightColor={theme.black}>
+      <SkeletonTheme color={theme.grey1} highlightColor={theme.grey2}>
         <Web3ReactManager>
           <ToastContainer
             className="custom-toast-root"
@@ -29,6 +30,7 @@ export function App(): ReactElement {
           <Header />
           <Switch>
             <Route strict exact path="/" component={Home} />
+            <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
             <Redirect to="/" />
           </Switch>
         </Web3ReactManager>

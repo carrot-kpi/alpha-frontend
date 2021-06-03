@@ -9,6 +9,8 @@ import { Calendar } from 'react-feather'
 import { TokenAmount } from 'carrot-sdk'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 // import { ProgressBar } from '../progress-bar'
+import Skeleton from 'react-loading-skeleton'
+import { UndecoratedInternalLink } from '../undecorated-link'
 
 const RootContainer = styled(Flex)`
   background-color: ${(props) => props.theme.white};
@@ -29,16 +31,20 @@ const DurationContainer = styled(Flex)`
 `
 
 interface CampaignCardProps {
-  creator: string
-  duration: Duration
-  goal: string
-  collateral: TokenAmount
-  progress: number
-  lowerBound: number
-  higherBound: number
+  loading?: boolean
+  kpiId?: string
+  creator?: string
+  duration?: Duration
+  goal?: string
+  collateral?: TokenAmount
+  progress?: number
+  lowerBound?: number
+  higherBound?: number
 }
 
 export function CampaignCard({
+  loading,
+  kpiId,
   creator,
   duration,
   goal,
@@ -48,12 +54,13 @@ export function CampaignCard({
   higherBound,
 }: CampaignCardProps) {
   const theme = useTheme()
-  const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral.token)
+  const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.token)
 
   const [countdownDuration, setCountdownDuration] = useState(duration)
   const [countdownText, setCountdownText] = useState('')
 
   useInterval(() => {
+    if (!countdownDuration) return
     setCountdownDuration(countdownDuration.minus(1000))
     const rawText = countdownDuration.toFormat('dd/hh/mm/ss')
     const splitRawText = rawText.split('/')
@@ -64,14 +71,14 @@ export function CampaignCard({
     <RootContainer p="24px 32px" flexDirection="column">
       <Flex width="100%" justifyContent="space-between" mb="16px">
         <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.primary1}>
-          {creator}
+          {loading ? <Skeleton width="40px" /> : creator}
         </Text>
         <DurationContainer alignItems="center">
           <Box mr="4px">
             <Calendar size="12px" color="#B1B5C3" />
           </Box>
           <Text fontSize="12px" fontWeight="600" color="#B1B5C3">
-            {countdownText}
+            {loading ? <Skeleton width="80px" /> : countdownText}
           </Text>
         </DurationContainer>
       </Flex>
@@ -80,17 +87,19 @@ export function CampaignCard({
           <CheckCircle size="16px" />
         </Box>
         <Text fontSize="20px" fontWeight="800" lineHeight="20px">
-          {goal}
+          {loading ? <Skeleton width="160px" /> : goal}
         </Text>
       </Flex>
       {/* <Box mb="32px">
         <ProgressBar lowerBound={lowerBound} higherBound={higherBound} progress={progress} />
       </Box> */}
       <Box mb="24px">
-        <ButtonMedium width="100%">See campaign</ButtonMedium>
+        <ButtonMedium width="100%" as={UndecoratedInternalLink} to={`/campaigns/${kpiId}`}>
+          See campaign
+        </ButtonMedium>
       </Box>
       <Text textAlign="center" fontSize="20px" fontWeight="800" lineHeight="32px" color={theme.primary1}>
-        ${collateral.multiply(collateralPriceUSD).toFixed(2)}
+        ${loading || !collateral ? <Skeleton width="60px" /> : collateral.multiply(collateralPriceUSD).toFixed(2)}
       </Text>
     </RootContainer>
   )

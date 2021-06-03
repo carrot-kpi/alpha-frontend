@@ -19,6 +19,8 @@ export interface Theme {
   error: string
   success: string
   warning: string
+  grey1: string
+  grey2: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -35,6 +37,8 @@ export function getTheme(darkMode: boolean): Theme {
     error: '#c62828',
     success: '#008035',
     warning: '#FF6F00',
+    grey1: '#f2f2f2',
+    grey2: '#d9d9d9',
   }
 }
 
