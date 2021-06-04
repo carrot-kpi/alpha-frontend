@@ -30,7 +30,11 @@ export function Home(): ReactElement {
         <Flex justifyContent="center" mb="60px" width="100%">
           {loadingFeaturedKpiTokens
             ? new Array(3).fill(null).map((_, index) => {
-                return <CampaignCard key={index} loading />
+                return (
+                  <Box key={index} width="100%" p="8px">
+                    <CampaignCard loading />
+                  </Box>
+                )
               })
             : featuredKpiTokens.map((featuredKpiToken) => (
                 <Box key={featuredKpiToken.kpiId}>

@@ -2,7 +2,7 @@ import { Box, Flex, Text } from 'rebass'
 import { Duration } from 'luxon'
 import { ButtonMedium } from '../button'
 import { useTheme } from 'styled-components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useInterval } from 'react-use'
 import { TokenAmount } from 'carrot-sdk'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
@@ -29,10 +29,14 @@ export function CampaignCard({ loading, kpiId, creator, duration, goal, collater
   useInterval(() => {
     if (!countdownDuration) return
     setCountdownDuration(countdownDuration.minus(1000))
+  }, 1000)
+
+  useEffect(() => {
+    if (!countdownDuration) return
     const rawText = countdownDuration.toFormat('dd/hh/mm/ss')
     const splitRawText = rawText.split('/')
     setCountdownText(`${splitRawText[0]}D ${splitRawText[1]}H ${splitRawText[2]}M ${splitRawText[3]}S`)
-  }, 1000)
+  }, [countdownDuration])
 
   return (
     <Card p="24px 32px" flexDirection="column" maxWidth="300px">
