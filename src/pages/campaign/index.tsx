@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useMemo, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { Flex, Box, Text } from 'rebass'
 import { RouteComponentProps } from 'react-router-dom'
 import { useKpiToken } from '../../hooks/useKpiToken'
@@ -12,6 +12,7 @@ import { CREATORS_NAME_MAP } from '../../constants'
 import { useTheme } from 'styled-components'
 import { UndecoratedExternalLink } from '../../components/undecorated-link'
 import { useWeb3React } from '@web3-react/core'
+import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 
 export function Campaign({
   match: {
@@ -21,12 +22,12 @@ export function Campaign({
   const theme = useTheme()
   const { account } = useWeb3React()
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
+  const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(
+    kpiToken,
+    account || undefined
+  )
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.token
-  )
-  const loading = useMemo(
-    () => loadingKpiToken || loadingCollateralTokenPrice,
-    [loadingCollateralTokenPrice, loadingKpiToken]
   )
 
   const [countdownDuration, setCountdownDuration] = useState(
@@ -52,25 +53,25 @@ export function Campaign({
           <Flex flexGrow={1} flexDirection="column">
             <Card m="8px" height="fit-content">
               <Text fontSize="20px" fontWeight="700" color={theme.primary} mb="16px">
-                {loading || !kpiToken ? (
+                {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="40px" />
                 ) : (
                   CREATORS_NAME_MAP[kpiToken.creator] || kpiToken.creator
                 )}
               </Text>
               <Text fontSize="24px" mb="20px">
-                {loading || !kpiToken ? <Skeleton count={3} width="80px" /> : kpiToken.question}
+                {loadingKpiToken || !kpiToken ? <Skeleton count={3} width="80px" /> : kpiToken.question}
               </Text>
               <Flex justifyContent="space-between" alignItems="center" mb="4px">
                 <Text>Symbol:</Text>
                 <Text fontSize="18px" fontWeight="700">
-                  {loading || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
+                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
                 </Text>
               </Flex>
               <Flex justifyContent="space-between" alignItems="center" mb="20px">
                 <Text>Total supply:</Text>
                 <Text fontSize="18px" fontWeight="700">
-                  {loading || !kpiToken ? <Skeleton width="40px" /> : `${kpiToken.totalSupply.toFixed(2)}`}
+                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : `${kpiToken.totalSupply.toFixed(2)}`}
                 </Text>
               </Flex>
               <Box>
@@ -87,7 +88,11 @@ export function Campaign({
                 <Flex justifyContent="space-between" alignItems="center" mb="4px">
                   <Text>Your balance:</Text>
                   <Text fontSize="18px" fontWeight="700">
-                    FAKE
+                    {loadingKpiTokenBalance || !kpiToken || !kpiTokenBalance ? (
+                      <Skeleton width="80px" />
+                    ) : (
+                      kpiTokenBalance.toFixed(4)
+                    )}
                   </Text>
                 </Flex>
                 <Flex justifyContent="space-between" alignItems="center">
@@ -104,21 +109,21 @@ export function Campaign({
               <Text mb="8px" fontWeight="700">
                 Time left
               </Text>
-              <Text fontSize="20px">{loading ? <Skeleton width="80px" /> : countdownText}</Text>
+              <Text fontSize="20px">{!countdownText ? <Skeleton width="80px" /> : countdownText}</Text>
             </Card>
             <Card flexDirection="column" m="8px">
               <Text mb="8px" fontWeight="700">
                 Rewards
               </Text>
               <Text fontSize="20px" mb="4px">
-                {loading || !kpiToken ? (
+                {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
                   `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.token.symbol}`
                 )}
               </Text>
               <Text fontSize="20px">
-                {loading || !kpiToken ? (
+                {loadingKpiToken || loadingCollateralTokenPrice || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
                   `$${kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2)}`
