@@ -1,8 +1,10 @@
 import { createGlobalStyle } from 'styled-components'
-import '@fontsource/nunito/400.css'
-import '@fontsource/nunito/600.css'
-import '@fontsource/nunito/800.css'
+import '@fontsource/montserrat/500.css'
+import '@fontsource/montserrat/600.css'
+import '@fontsource/montserrat/700.css'
+import '@fontsource/ubuntu-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
+import { transparentize } from 'polished'
 
 const white = '#fff'
 const black = '#000'
@@ -28,12 +30,12 @@ export function getTheme(darkMode: boolean): Theme {
   return {
     white,
     black,
-    divider: '#E6E8EC',
+    divider: '#e6e6e6',
     primary1: '#FF782D',
     primary2: '#F5B6A7',
-    primary3: '#F3D8CF',
+    primary3: '#ffeee6',
     primaryDark: '#CB563C',
-    shadow: 'rgba(0, 0, 0, 0.4)',
+    shadow: '#000',
     error: '#c62828',
     success: '#008035',
     warning: '#FF6F00',
@@ -44,7 +46,7 @@ export function getTheme(darkMode: boolean): Theme {
 
 export const GlobalStyle = createGlobalStyle`
   html, input, textarea, button {
-    font-family: 'Nunito';
+    font-family: 'Montserrat';
   }
 
   html,
@@ -68,7 +70,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .custom-toast-container {
-      box-shadow: 0px 30px 62px 0px ${(props) => props.theme.shadow} !important;
+      box-shadow: 0px 30px 62px 0px ${(props) => transparentize(0.9, props.theme.shadow)} !important;
       border-radius: 16px !important;
   }
 

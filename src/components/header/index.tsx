@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { injected } from '../../connectors'
 import { shortenAddress } from '../../utils'
 import { ButtonMedium } from '../button'
-import { SmoothScrollLink } from '../smooth-scroll-link'
 import logo from '../../assets/logo.svg'
 import { UndecoratedInternalLink } from '../undecorated-link'
 
@@ -21,20 +20,7 @@ const Spacer = styled.img`
 `
 
 const Logo = styled.img`
-  height: 36px;
-`
-
-const Divider = styled.div`
-  width: 1px;
-  height: 36px;
-  background-color: ${(props) => props.theme.divider};
-`
-
-const HeaderItem = styled(Box)`
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 16px;
-  letter-spacing: 0em;
+  height: 30px;
 `
 
 export const Header = (): ReactElement => {
@@ -46,22 +32,14 @@ export const Header = (): ReactElement => {
 
   return (
     <>
-      <FlexContainer width="100%" height="80px" justifyContent="center" alignItems="center" px="24px">
-        <Flex width={['100%', '80%', '60%']} justifyContent="space-between" alignItems="center">
+      <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px="24px">
+        <Flex width={['100%', '80%', '60%', '50%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
-            <Box mr="36px">
+            <Box>
               <UndecoratedInternalLink to="/">
                 <Logo src={logo} alt="logo" />
               </UndecoratedInternalLink>
             </Box>
-            <Box mr="36px">
-              <Divider />
-            </Box>
-            <HeaderItem mr="36px">
-              <SmoothScrollLink smooth="easeInOutQuint" to="campaigns">
-                Campaigns
-              </SmoothScrollLink>
-            </HeaderItem>
           </Flex>
           <Box>
             {!!account ? (

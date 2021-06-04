@@ -5,7 +5,7 @@
   "description": "Frontend for Carrot KPIs.",
   "devDependencies": {
     "@apollo/client": "^3.3.19",
-    "@fontsource/nunito": "^4.3.0",
+    "@fontsource/montserrat": "^4.4.2",
     "@react-spring/web": "^9.1.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@types/luxon": "^1.26.5",
@@ -74,5 +74,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@fontsource/ubuntu-mono": "^4.4.2"
   }
 }

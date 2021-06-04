@@ -1907,10 +1907,15 @@
     "@ethersproject/properties" "^5.2.0"
     "@ethersproject/strings" "^5.2.0"
 
-"@fontsource/nunito@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/nunito/-/nunito-4.3.0.tgz#8115d855c1d01f07b616a12de1732a6b750de9cc"
-  integrity sha512-LPFiLiBGpRzC20h0QkRJg/S8iQ7C4MQ537YJ7pXcDa9koYuS/5MAdm/lYlg/yWAdJjo7Aeusv5zv2w5X/V4okQ==
+"@fontsource/montserrat@^4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-4.4.2.tgz#e754ea89d74f9c5fd8fac662e0aa8f31f8996080"
+  integrity sha512-Eg9qi9H/QzHPfBQ9qvivDSdJ00YFgrmr1W/30IaEc6mHqiYI4R+s2J9Gf2GRs4gWVxUfLd9n9icsr0hke7rVgA==
+
+"@fontsource/ubuntu-mono@^4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu-mono/-/ubuntu-mono-4.4.2.tgz#bbaafea80089aed108759303b54bf6a955f43e1b"
+  integrity sha512-Of2c1mJgwWlTfkdNFsLbGNTLgkAiO22t4EmaPjEghYD6nV2eSX5Wbyfdbadq6TZr6IjKlFGP4GTmMnUhSOafIg==
 
 "@graphql-typed-document-node/core@^3.0.0":
   version "3.1.0"

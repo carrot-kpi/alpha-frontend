@@ -1,5 +1,5 @@
 import { ReactElement, useMemo } from 'react'
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import Web3ReactManager from '../../components/web3-react-manager'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { getTheme, GlobalStyle } from '../../theme'
@@ -9,6 +9,10 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { ToastContainer, Slide } from 'react-toastify'
 import { Home } from '../home'
 import { Campaign } from '../campaign'
+
+const Content = styled.div`
+  padding-top: 24px;
+`
 
 export function App(): ReactElement {
   const darkMode = useIsDarkMode()
@@ -28,11 +32,13 @@ export function App(): ReactElement {
             transition={Slide}
           />
           <Header />
-          <Switch>
-            <Route strict exact path="/" component={Home} />
-            <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
-            <Redirect to="/" />
-          </Switch>
+          <Content>
+            <Switch>
+              <Route strict exact path="/" component={Home} />
+              <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
+              <Redirect to="/" />
+            </Switch>
+          </Content>
         </Web3ReactManager>
       </SkeletonTheme>
     </ThemeProvider>
