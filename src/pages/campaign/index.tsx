@@ -13,6 +13,7 @@ import { useTheme } from 'styled-components'
 import { UndecoratedExternalLink } from '../../components/undecorated-link'
 import { useWeb3React } from '@web3-react/core'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
+import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 
 export function Campaign({
   match: {
@@ -26,6 +27,7 @@ export function Campaign({
     kpiToken,
     account || undefined
   )
+  const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.token
   )
@@ -98,7 +100,13 @@ export function Campaign({
                 <Flex justifyContent="space-between" alignItems="center">
                   <Text>Reward if KPI is reached:</Text>
                   <Text fontSize="18px" fontWeight="700">
-                    FAKE
+                    {!rewardIfKpiIsReached ? (
+                      <Skeleton width="80px" />
+                    ) : (
+                      `${rewardIfKpiIsReached.toFixed(4)} ($${rewardIfKpiIsReached
+                        ?.multiply(collateralPriceUSD)
+                        .toFixed(2)})`
+                    )}
                   </Text>
                 </Flex>
               </Card>
@@ -128,6 +136,18 @@ export function Campaign({
                 ) : (
                   `$${kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2)}`
                 )}
+              </Text>
+            </Card>
+            <Card flexDirection="column" m="8px">
+              <Text mb="8px" fontWeight="700">
+                Oracle
+              </Text>
+              <Text fontSize="20px" mb="4px">
+                Reality.eth (
+                <UndecoratedExternalLink href={`https://reality.eth.link/app/#!/question/${kpiId}`}>
+                  see question
+                </UndecoratedExternalLink>
+                )
               </Text>
             </Card>
           </Flex>
