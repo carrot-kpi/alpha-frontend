@@ -9,7 +9,7 @@ const Logo = styled.img`
 
 export const Footer = () => {
   return (
-    <Flex mb="60px" width={['100%', '80%', '60%', '50%']} justifyContent="space-between">
+    <Flex mb="60px" justifyContent="space-between">
       <Flex>
         <Box mr="40px">
           <Logo src={logo} alt="logo" />

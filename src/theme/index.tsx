@@ -13,10 +13,7 @@ export interface Theme {
   white: string
   black: string
   divider: string
-  primary1: string
-  primary2: string
-  primary3: string
-  primaryDark: string
+  primary: string
   shadow: string
   error: string
   success: string
@@ -31,10 +28,7 @@ export function getTheme(darkMode: boolean): Theme {
     white,
     black,
     divider: '#e6e6e6',
-    primary1: '#FF782D',
-    primary2: '#F5B6A7',
-    primary3: '#ffeee6',
-    primaryDark: '#CB563C',
+    primary: '#FF782D',
     shadow: '#000',
     error: '#c62828',
     success: '#008035',
@@ -54,7 +48,14 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     max-width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  #root {
+    height: 100vh;
+    min-height: 100vh;
   }
 
   .custom-toast-root {

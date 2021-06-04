@@ -9,6 +9,7 @@ import { ApplicationUpdater } from './state/application/updater'
 import { TransactionsUpdater } from './state/transactions/updater'
 import { UserUpdater } from './state/user/updater'
 import { Web3Provider } from '@ethersproject/providers'
+import Web3ReactManager from './components/web3-react-manager'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getLibrary = (provider: any) => new Web3Provider(provider)
@@ -21,7 +22,9 @@ ReactDOM.render(
         <TransactionsUpdater />
         <HashRouter>
           <UserUpdater />
-          <App />
+          <Web3ReactManager>
+            <App />
+          </Web3ReactManager>
         </HashRouter>
       </Provider>
     </Web3ReactProvider>

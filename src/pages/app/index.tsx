@@ -1,46 +1,49 @@
-import { ReactElement, useMemo } from 'react'
-import styled, { ThemeProvider } from 'styled-components'
-import Web3ReactManager from '../../components/web3-react-manager'
-import { SkeletonTheme } from 'react-loading-skeleton'
-import { getTheme, GlobalStyle } from '../../theme'
+import { ReactElement } from 'react'
+
+import { getTheme } from '../../theme'
 import { useIsDarkMode } from '../../state/user/hooks'
+import { Footer } from '../../components/footer'
 import { Header } from '../../components/header'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ToastContainer, Slide } from 'react-toastify'
 import { Home } from '../home'
 import { Campaign } from '../campaign'
-
-const Content = styled.div`
-  padding-top: 24px;
-`
+import { Flex, Box } from 'rebass'
+import { ThemeProvider } from 'styled-components'
+import { GlobalStyle } from '../../theme'
 
 export function App(): ReactElement {
   const darkMode = useIsDarkMode()
-  const theme = useMemo(() => getTheme(darkMode), [darkMode])
+  const theme = getTheme(darkMode)
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <SkeletonTheme color={theme.grey1} highlightColor={theme.grey2}>
-        <Web3ReactManager>
-          <ToastContainer
-            className="custom-toast-root"
-            toastClassName="custom-toast-container"
-            bodyClassName="custom-toast-body"
-            position="top-right"
-            closeButton={false}
-            transition={Slide}
-          />
-          <Header />
-          <Content>
-            <Switch>
-              <Route strict exact path="/" component={Home} />
-              <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
-              <Redirect to="/" />
-            </Switch>
-          </Content>
-        </Web3ReactManager>
-      </SkeletonTheme>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Header />
+        <Flex justifyContent="center" pt="94px" height="100%">
+          <Flex flexDirection="column" height="100%" width={['100%', '80%', '60%', '60%', '40%']}>
+            <Box flexGrow={1} height="100%">
+              <Switch>
+                <Route strict exact path="/" component={Home} />
+                <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
+                <Redirect to="/" />
+              </Switch>
+            </Box>
+            <Box>
+              <Footer />
+            </Box>
+          </Flex>
+        </Flex>
+      </ThemeProvider>
+      <ToastContainer
+        className="custom-toast-root"
+        toastClassName="custom-toast-container"
+        bodyClassName="custom-toast-body"
+        position="top-right"
+        closeButton={false}
+        transition={Slide}
+      />
+    </>
   )
 }

@@ -35,9 +35,9 @@ export function CampaignCard({ loading, kpiId, creator, duration, goal, collater
   }, 1000)
 
   return (
-    <Card p="24px 32px" flexDirection="column">
+    <Card p="24px 32px" flexDirection="column" maxWidth="300px">
       <Flex width="100%" justifyContent="space-between" mb="16px">
-        <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.primary1}>
+        <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.primary}>
           {loading ? <Skeleton width="40px" /> : creator}
         </Text>
       </Flex>
@@ -48,7 +48,7 @@ export function CampaignCard({ loading, kpiId, creator, duration, goal, collater
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Text>Rewards:</Text>
-        <Text textAlign="center" fontSize="20px" fontWeight="800" color={theme.primary1}>
+        <Text textAlign="center" fontSize="20px" fontWeight="800" color={theme.primary}>
           ${loading || !collateral ? <Skeleton width="60px" /> : collateral.multiply(collateralPriceUSD).toFixed(2)}
         </Text>
       </Flex>

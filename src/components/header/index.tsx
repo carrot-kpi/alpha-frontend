@@ -15,10 +15,6 @@ const FlexContainer = styled(Flex)`
   border-bottom: solid 1px ${(props) => props.theme.divider};
 `
 
-const Spacer = styled.img`
-  height: 74px;
-`
-
 const Logo = styled.img`
   height: 30px;
 `
@@ -33,7 +29,7 @@ export const Header = (): ReactElement => {
   return (
     <>
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px="24px">
-        <Flex width={['100%', '80%', '60%', '50%']} justifyContent="space-between" alignItems="center">
+        <Flex width={['100%', '80%', '60%', '60%', '40%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
             <Box>
               <UndecoratedInternalLink to="/">
@@ -51,7 +47,6 @@ export const Header = (): ReactElement => {
           </Box>
         </Flex>
       </FlexContainer>
-      <Spacer />
     </>
   )
 }

@@ -11,7 +11,7 @@ const Container = styled.div`
 const Child = styled.div<{ progress: number }>`
   height: 12px;
   border-radius: 6px;
-  background-color: ${(props) => props.theme.primary1};
+  background-color: ${(props) => props.theme.primary};
   width: ${(props) => props.progress * 100}%;
 `
 

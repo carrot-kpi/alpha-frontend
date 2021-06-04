@@ -8,17 +8,17 @@ const Base = styled(RebassButton)`
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 12px !important;
   font-weight: 700;
   padding: 0 20px;
   cursor: pointer;
-  background-color: ${(props) => props.theme.primary1};
+  background-color: ${(props) => props.theme.primary};
   border: none;
   outline: none;
   color: ${(props) => props.theme.white};
   transition: background-color 0.3s ease, transform 0.3s ease;
   :hover:not(:disabled) {
-    background-color: ${(props) => darken(0.06, props.theme.primary1)};
+    background-color: ${(props) => darken(0.06, props.theme.primary)};
     transform: scale(1.02);
   }
   :active:not(:disabled) {
@@ -32,15 +32,15 @@ const Base = styled(RebassButton)`
 
 export const ButtonSmall = styled(Base)`
   height: 36px;
-  border-radius: 22px;
+  border-radius: 18px !important;
 `
 
 export const ButtonMedium = styled(Base)`
   height: 40px;
-  border-radius: 24px;
+  border-radius: 20px !important;
 `
 
 export const ButtonLarge = styled(Base)`
   height: 44px;
-  border-radius: 28px;
+  border-radius: 24px !important;
 `

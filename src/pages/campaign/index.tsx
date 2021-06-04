@@ -4,7 +4,6 @@ import { RouteComponentProps } from 'react-router-dom'
 import { useKpiToken } from '../../hooks/useKpiToken'
 import { Card } from '../../components/card'
 import { ButtonSmall } from '../../components/button'
-import { Footer } from '../../components/footer'
 import { useInterval } from 'react-use'
 import { Duration } from 'luxon'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
@@ -12,6 +11,7 @@ import Skeleton from 'react-loading-skeleton'
 import { CREATORS_NAME_MAP } from '../../constants'
 import { useTheme } from 'styled-components'
 import { UndecoratedExternalLink } from '../../components/undecorated-link'
+import { useWeb3React } from '@web3-react/core'
 
 export function Campaign({
   match: {
@@ -19,6 +19,7 @@ export function Campaign({
   },
 }: RouteComponentProps<{ kpiId: string }>): ReactElement {
   const theme = useTheme()
+  const { account } = useWeb3React()
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.token
@@ -46,11 +47,11 @@ export function Campaign({
 
   return (
     <Flex flexDirection="column" alignItems="center">
-      <Flex flexDirection="column" width={['100%', '80%', '60%', '50%']} mb="60px">
+      <Flex flexDirection="column" mb="60px">
         <Flex mx="8px" width="100%">
           <Flex flexGrow={1} flexDirection="column">
             <Card m="8px" height="fit-content">
-              <Text fontSize="20px" fontWeight="700" color={theme.primary1} mb="16px">
+              <Text fontSize="20px" fontWeight="700" color={theme.primary} mb="16px">
                 {loading || !kpiToken ? (
                   <Skeleton width="40px" />
                 ) : (
@@ -81,20 +82,22 @@ export function Campaign({
                 </ButtonSmall>
               </Box>
             </Card>
-            <Card m="8px" flexGrow={1} height="fit-content">
-              <Flex justifyContent="space-between" alignItems="center" mb="4px">
-                <Text>Your balance:</Text>
-                <Text fontSize="18px" fontWeight="700">
-                  FAKE
-                </Text>
-              </Flex>
-              <Flex justifyContent="space-between" alignItems="center">
-                <Text>Reward if KPI is reached:</Text>
-                <Text fontSize="18px" fontWeight="700">
-                  FAKE
-                </Text>
-              </Flex>
-            </Card>
+            {account && (
+              <Card m="8px" flexGrow={1} height="fit-content">
+                <Flex justifyContent="space-between" alignItems="center" mb="4px">
+                  <Text>Your balance:</Text>
+                  <Text fontSize="18px" fontWeight="700">
+                    FAKE
+                  </Text>
+                </Flex>
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Text>Reward if KPI is reached:</Text>
+                  <Text fontSize="18px" fontWeight="700">
+                    FAKE
+                  </Text>
+                </Flex>
+              </Card>
+            )}
           </Flex>
           <Flex flexDirection="column" width="35%">
             <Card flexDirection="column" m="8px">
@@ -125,7 +128,6 @@ export function Campaign({
           </Flex>
         </Flex>
       </Flex>
-      <Footer />
     </Flex>
   )
 }
