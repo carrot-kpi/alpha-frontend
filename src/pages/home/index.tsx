@@ -22,7 +22,7 @@ export function Home(): ReactElement {
             With a carrot.
           </Text>
           <Text mb="40px" fontSize="22px" fontWeight="700" lineHeight="24px" color={theme.primary}>
-            Increase TVL, volume, price, engagement.
+            Increase TVL, volume, price, engagement and more.
           </Text>
         </Flex>
       </Flex>
