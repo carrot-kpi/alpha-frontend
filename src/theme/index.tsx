@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 import '@fontsource/montserrat/500.css'
 import '@fontsource/montserrat/600.css'
 import '@fontsource/montserrat/700.css'
-import '@fontsource/ubuntu-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { transparentize } from 'polished'
 
