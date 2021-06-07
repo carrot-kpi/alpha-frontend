@@ -23,7 +23,7 @@ export function App(): ReactElement {
         <Header />
         <Flex justifyContent="center" pt="94px" height="100%">
           <Flex flexDirection="column" height="100%" width={['100%', '80%', '60%', '60%', '40%']}>
-            <Box flexGrow={1} height="100%">
+            <Box flexGrow={1}>
               <Switch>
                 <Route strict exact path="/" component={Home} />
                 <Route strict exact path="/campaigns/:kpiId" component={Campaign} />

@@ -16,6 +16,9 @@ const KPI_TOKEN_QUERY = gql`
       kpiId
       totalSupply
       oracle
+      lowerBound
+      higherBound
+      finalResult
       finalized
       kpiReached
       creator
@@ -46,6 +49,9 @@ interface CarrotQueryResult {
     expiresAt: string
     totalSupply: string
     oracle: string
+    lowerBound: string
+    higherBound: string
+    finalResult: string
     oracleQuestion: { text: string }
     finalized: boolean
     kpiReached: boolean
@@ -102,6 +108,9 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
       BigNumber.from(rawKpiToken.totalSupply),
       rawKpiToken.oracle,
       rawKpiToken.oracleQuestion.text,
+      BigNumber.from(rawKpiToken.lowerBound),
+      BigNumber.from(rawKpiToken.higherBound),
+      BigNumber.from(rawKpiToken.finalResult),
       DateTime.fromSeconds(parseInt(rawKpiToken.expiresAt)),
       rawKpiToken.finalized,
       rawKpiToken.kpiReached,

@@ -17,6 +17,9 @@ const FEATURED_KPI_TOKENS_QUERY = gql`
       kpiId
       totalSupply
       oracle
+      lowerBound
+      higherBound
+      finalResult
       finalized
       kpiReached
       creator
@@ -47,6 +50,9 @@ interface CarrotQueryResult {
     expiresAt: string
     totalSupply: string
     oracle: string
+    lowerBound: string
+    higherBound: string
+    finalResult: string
     oracleQuestion: { text: string }
     finalized: boolean
     kpiReached: boolean
@@ -101,6 +107,9 @@ export function useFeaturedKpiTokens() {
         BigNumber.from(kpiToken.totalSupply),
         kpiToken.oracle,
         kpiToken.oracleQuestion.text,
+        BigNumber.from(kpiToken.lowerBound),
+        BigNumber.from(kpiToken.higherBound),
+        BigNumber.from(kpiToken.finalResult),
         DateTime.fromSeconds(parseInt(kpiToken.expiresAt)),
         kpiToken.finalized,
         kpiToken.kpiReached,

@@ -3,17 +3,47 @@ import { Flex, Box, Text } from 'rebass'
 import { RouteComponentProps } from 'react-router-dom'
 import { useKpiToken } from '../../hooks/useKpiToken'
 import { Card } from '../../components/card'
-import { ButtonSmall } from '../../components/button'
-import { useInterval } from 'react-use'
-import { Duration } from 'luxon'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { CREATORS_NAME_MAP } from '../../constants'
-import { useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { UndecoratedExternalLink } from '../../components/undecorated-link'
+import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
 import { useWeb3React } from '@web3-react/core'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
+import { Countdown } from '../../components/countdown'
+import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
+import { ExternalLink } from 'react-feather'
+
+export enum Status {
+  AWAITING_EXPIRY,
+  AWAITING_ANSWER,
+  AWAITING_FINALIZATION,
+  KPI_REACHED,
+  KPI_NOT_REACHED,
+}
+
+const PrimaryUndecoratedExternalLink = styled(UndecoratedExternalLink)`
+  color: ${(props) => props.theme.primary};
+  text-decoration: underline;
+`
+
+const KpiExpiredText = styled(Text)`
+  color: ${(props) => props.theme.error};
+`
+
+const ExternalLinkIcon = styled(ExternalLink)`
+  color: ${(props) => props.theme.primary};
+  width: 12px;
+  height: 12px;
+`
+
+const DividerBox = styled(Box)`
+  height: 1px;
+  width: 100%;
+  background-color: ${(props) => props.theme.divider};
+`
 
 export function Campaign({
   match: {
@@ -27,32 +57,36 @@ export function Campaign({
     kpiToken,
     account || undefined
   )
+  const { realityQuestionFinalized, loading: loadingRealityQuestionFinalized } = useIsRealityQuestionFinalized(
+    kpiToken?.kpiId
+  )
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.token
   )
 
-  const [countdownDuration, setCountdownDuration] = useState(
-    kpiToken ? kpiToken.expiresAt.diffNow() : Duration.fromMillis(0)
-  )
-  const [countdownText, setCountdownText] = useState('')
-
-  useInterval(() => {
-    if (!countdownDuration) return
-    setCountdownDuration(countdownDuration.minus(1000))
-  }, 1000)
+  const [status, setStatus] = useState(Status.AWAITING_ANSWER)
 
   useEffect(() => {
-    const rawText = countdownDuration.toFormat('dd/hh/mm/ss')
-    const splitRawText = rawText.split('/')
-    setCountdownText(`${splitRawText[0]}D ${splitRawText[1]}H ${splitRawText[2]}M ${splitRawText[3]}S`)
-  }, [countdownDuration])
+    if (!kpiToken || loadingRealityQuestionFinalized) return
+    if (kpiToken.expiresAt.toJSDate().getTime() > Date.now()) {
+      setStatus(Status.AWAITING_EXPIRY)
+    } else if (realityQuestionFinalized) {
+      if (kpiToken.finalized) {
+        setStatus(kpiToken.kpiReached ? Status.KPI_REACHED : Status.KPI_NOT_REACHED)
+      } else {
+        setStatus(Status.AWAITING_FINALIZATION)
+      }
+    } else {
+      setStatus(Status.AWAITING_ANSWER)
+    }
+  }, [kpiToken, loadingRealityQuestionFinalized, realityQuestionFinalized])
 
   return (
-    <Flex flexDirection="column" alignItems="center">
-      <Flex flexDirection="column" mb="60px">
-        <Flex mx="8px" width="100%">
-          <Flex flexGrow={1} flexDirection="column">
+    <Flex flexDirection="column" alignItems="center" width="100%">
+      <Flex flexDirection="column" mb="60px" width="100%">
+        <Flex mx="8px" width="100%" flexDirection={['column', 'row']}>
+          <Flex flexGrow={[0, 1]} flexDirection="column" width={['100%', '65%']}>
             <Card m="8px" height="fit-content">
               <Text fontSize="20px" fontWeight="700" color={theme.primary} mb="16px">
                 {loadingKpiToken || !kpiToken ? (
@@ -70,6 +104,12 @@ export function Campaign({
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
                 </Text>
               </Flex>
+              <Flex justifyContent="space-between" alignItems="center" mb="4px">
+                <Text>Name:</Text>
+                <Text fontSize="18px" fontWeight="700">
+                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}
+                </Text>
+              </Flex>
               <Flex justifyContent="space-between" alignItems="center" mb="20px">
                 <Text>Total supply:</Text>
                 <Text fontSize="18px" fontWeight="700">
@@ -77,12 +117,9 @@ export function Campaign({
                 </Text>
               </Flex>
               <Box>
-                <ButtonSmall
-                  as={UndecoratedExternalLink}
-                  href={`https://rinkeby.etherscan.io/address/${kpiToken?.address}`}
-                >
-                  View on explorer
-                </ButtonSmall>
+                <PrimaryUndecoratedExternalLink href={`https://rinkeby.etherscan.io/address/${kpiToken?.address}`}>
+                  View on explorer <ExternalLinkIcon />
+                </PrimaryUndecoratedExternalLink>
               </Box>
             </Card>
             {account && (
@@ -97,7 +134,7 @@ export function Campaign({
                     )}
                   </Text>
                 </Flex>
-                <Flex justifyContent="space-between" alignItems="center">
+                <Flex justifyContent="space-between" alignItems="center" mb="20px">
                   <Text>Reward if KPI is reached:</Text>
                   <Text fontSize="18px" fontWeight="700">
                     {!rewardIfKpiIsReached ? (
@@ -109,15 +146,25 @@ export function Campaign({
                     )}
                   </Text>
                 </Flex>
+                <DividerBox mb="20px" />
+                <Flex flexDirection="column">
+                  <CampaignStatusAndActions status={status} kpiToken={kpiToken} />
+                </Flex>
               </Card>
             )}
           </Flex>
-          <Flex flexDirection="column" width="35%">
+          <Flex flexDirection="column" width={['100%', '35%']}>
             <Card flexDirection="column" m="8px">
               <Text mb="8px" fontWeight="700">
                 Time left
               </Text>
-              <Text fontSize="20px">{!countdownText ? <Skeleton width="80px" /> : countdownText}</Text>
+              {!kpiToken ? (
+                <Skeleton width="80px" />
+              ) : kpiToken.expiresAt.toJSDate().getTime() < Date.now() ? (
+                <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
+              ) : (
+                <Countdown to={kpiToken.expiresAt} fontSize="20px" />
+              )}
             </Card>
             <Card flexDirection="column" m="8px">
               <Text mb="8px" fontWeight="700">

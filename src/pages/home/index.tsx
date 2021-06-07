@@ -31,17 +31,17 @@ export function Home(): ReactElement {
           {loadingFeaturedKpiTokens
             ? new Array(3).fill(null).map((_, index) => {
                 return (
-                  <Box key={index} width="100%" p="8px">
+                  <Box key={index} p="8px">
                     <CampaignCard loading />
                   </Box>
                 )
               })
             : featuredKpiTokens.map((featuredKpiToken) => (
-                <Box key={featuredKpiToken.kpiId}>
+                <Box key={featuredKpiToken.kpiId} p="8px">
                   <CampaignCard
                     kpiId={featuredKpiToken.kpiId}
                     creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || featuredKpiToken.creator}
-                    duration={featuredKpiToken.expiresAt.diffNow()}
+                    expiresAt={featuredKpiToken.expiresAt}
                     goal={featuredKpiToken.question}
                     collateral={featuredKpiToken.collateral}
                     onClick={() => {

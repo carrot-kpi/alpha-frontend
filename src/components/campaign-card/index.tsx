@@ -1,42 +1,30 @@
 import { Box, Flex, Text } from 'rebass'
-import { Duration } from 'luxon'
+import { DateTime } from 'luxon'
 import { ButtonMedium } from '../button'
-import { useTheme } from 'styled-components'
-import { useEffect, useState } from 'react'
-import { useInterval } from 'react-use'
+import styled, { useTheme } from 'styled-components'
 import { TokenAmount } from 'carrot-sdk'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { Card } from '../card'
+import { Countdown } from '../countdown'
+
+const KpiExpiredText = styled(Text)`
+  color: ${(props) => props.theme.error};
+`
 
 interface CampaignCardProps {
   loading?: boolean
   kpiId?: string
   creator?: string
-  duration?: Duration
+  expiresAt?: DateTime
   goal?: string
   collateral?: TokenAmount
   onClick?: () => void
 }
 
-export function CampaignCard({ loading, kpiId, creator, duration, goal, collateral, onClick }: CampaignCardProps) {
+export function CampaignCard({ loading, creator, expiresAt, goal, collateral, onClick }: CampaignCardProps) {
   const theme = useTheme()
   const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.token)
-
-  const [countdownDuration, setCountdownDuration] = useState(duration)
-  const [countdownText, setCountdownText] = useState('')
-
-  useInterval(() => {
-    if (!countdownDuration) return
-    setCountdownDuration(countdownDuration.minus(1000))
-  }, 1000)
-
-  useEffect(() => {
-    if (!countdownDuration) return
-    const rawText = countdownDuration.toFormat('dd/hh/mm/ss')
-    const splitRawText = rawText.split('/')
-    setCountdownText(`${splitRawText[0]}D ${splitRawText[1]}H ${splitRawText[2]}M ${splitRawText[3]}S`)
-  }, [countdownDuration])
 
   return (
     <Card p="24px 32px" flexDirection="column" maxWidth="300px">
@@ -58,9 +46,13 @@ export function CampaignCard({ loading, kpiId, creator, duration, goal, collater
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mb="24px">
         <Text>Time left:</Text>
-        <Text fontSize="12px" fontWeight="600">
-          {loading ? <Skeleton width="80px" /> : countdownText}
-        </Text>
+        {!expiresAt ? (
+          <Skeleton width="80px" />
+        ) : expiresAt.toJSDate().getTime() < Date.now() ? (
+          <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
+        ) : (
+          <Countdown fontSize="12px" fontWeight="600" to={expiresAt} />
+        )}
       </Flex>
       <Box>
         <ButtonMedium onClick={onClick} width="100%">
