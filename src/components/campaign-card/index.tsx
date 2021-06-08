@@ -27,17 +27,17 @@ export function CampaignCard({ loading, creator, expiresAt, goal, collateral, on
   const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.token)
 
   return (
-    <Card p="24px 32px" flexDirection="column" maxWidth="300px">
+    <Card p="24px 32px" flexDirection="column" width="100%" maxWidth="300px" height="100%">
       <Flex width="100%" justifyContent="space-between" mb="16px">
         <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.primary}>
           {loading ? <Skeleton width="40px" /> : creator}
         </Text>
       </Flex>
-      <Flex mb="20px">
+      <Box mb="20px" flexGrow={1}>
         <Text fontSize="20px" fontWeight="800" lineHeight="20px">
           {loading ? <Skeleton width="160px" /> : goal}
         </Text>
-      </Flex>
+      </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Text>Rewards:</Text>
         <Text textAlign="center" fontSize="20px" fontWeight="800" color={theme.primary}>

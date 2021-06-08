@@ -7,7 +7,10 @@ export const UndecoratedInternalLink = styled(Link)`
 `
 
 export const UndecoratedExternalLink = styled.a.attrs((props) => ({ target: '_blank', rel: 'noopener noreferrer' }))`
-  text-decoration: none;
   width: fit-content;
   cursor: pointer;
+  color: ${(props) => props.theme.primary};
+  :visited {
+    color: ${(props) => props.theme.primary};
+  }
 `

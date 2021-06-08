@@ -1,7 +1,7 @@
 import { Status } from '../../pages/campaign'
 import { UndecoratedExternalLink } from '../undecorated-link'
 import { Flex, Box } from 'rebass'
-import { KpiToken } from 'carrot-sdk'
+import { KpiToken, TokenAmount } from 'carrot-sdk'
 import { ButtonMedium } from '../button'
 import { useFinalizeKpiTokenCallback } from '../../hooks/useFinalizeKpiTokenCallback'
 import { ZERO_DECIMAL } from '../../constants'
@@ -11,9 +11,10 @@ import Skeleton from 'react-loading-skeleton'
 interface CampaignStatusAndActionsProps {
   status: Status | null
   kpiToken?: KpiToken
+  kpiTokenBalance?: TokenAmount
 }
 
-export const CampaignStatusAndActions = ({ status, kpiToken }: CampaignStatusAndActionsProps) => {
+export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: CampaignStatusAndActionsProps) => {
   const finalize = useFinalizeKpiTokenCallback(kpiToken)
   const redeem = useRedeemKpiTokenCallback(kpiToken)
 
@@ -54,7 +55,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken }: CampaignStatusAnd
         </Box>
       </Flex>
     )
-  if (status === Status.KPI_REACHED)
+  if (status === Status.KPI_REACHED && kpiTokenBalance && !kpiTokenBalance.isZero())
     return (
       <Flex flexDirection="column">
         <Box mb="20px">
@@ -69,7 +70,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken }: CampaignStatusAnd
     )
   if (status === Status.KPI_NOT_REACHED) {
     const kpiProgress = kpiToken?.progressPercentage
-    if (kpiProgress && kpiProgress > ZERO_DECIMAL)
+    if (kpiTokenBalance && !kpiTokenBalance.isZero() && kpiProgress && kpiProgress > ZERO_DECIMAL)
       return (
         <Flex flexDirection="column">
           <Box mb="20px">

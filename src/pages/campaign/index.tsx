@@ -96,22 +96,22 @@ export function Campaign({
                 )}
               </Text>
               <Text fontSize="24px" mb="20px">
-                {loadingKpiToken || !kpiToken ? <Skeleton count={3} width="80px" /> : kpiToken.question}
+                {loadingKpiToken || !kpiToken ? <Skeleton width="120px" /> : kpiToken.question}
               </Text>
               <Flex justifyContent="space-between" alignItems="center" mb="4px">
-                <Text>Symbol:</Text>
+                <Text mr="24px">Symbol:</Text>
                 <Text fontSize="18px" fontWeight="700">
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
                 </Text>
               </Flex>
               <Flex justifyContent="space-between" alignItems="center" mb="4px">
-                <Text>Name:</Text>
-                <Text fontSize="18px" fontWeight="700">
+                <Text mr="24px">Name:</Text>
+                <Text fontSize="18px" fontWeight="700" textAlign="right">
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}
                 </Text>
               </Flex>
               <Flex justifyContent="space-between" alignItems="center" mb="20px">
-                <Text>Total supply:</Text>
+                <Text mr="24px">Total supply:</Text>
                 <Text fontSize="18px" fontWeight="700">
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : `${kpiToken.totalSupply.toFixed(2)}`}
                 </Text>
@@ -134,7 +134,11 @@ export function Campaign({
                     )}
                   </Text>
                 </Flex>
-                <Flex justifyContent="space-between" alignItems="center" mb="20px">
+                <Flex
+                  justifyContent="space-between"
+                  alignItems="center"
+                  mb={kpiTokenBalance && !kpiTokenBalance.isZero() ? '20px' : '0px'}
+                >
                   <Text>Reward if KPI is reached:</Text>
                   <Text fontSize="18px" fontWeight="700">
                     {!rewardIfKpiIsReached ? (
@@ -146,10 +150,14 @@ export function Campaign({
                     )}
                   </Text>
                 </Flex>
-                <DividerBox mb="20px" />
-                <Flex flexDirection="column">
-                  <CampaignStatusAndActions status={status} kpiToken={kpiToken} />
-                </Flex>
+                {kpiTokenBalance && !kpiTokenBalance.isZero() && (
+                  <>
+                    <DividerBox mb="20px" />
+                    <Box>
+                      <CampaignStatusAndActions status={status} kpiToken={kpiToken} />
+                    </Box>
+                  </>
+                )}
               </Card>
             )}
           </Flex>

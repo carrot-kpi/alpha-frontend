@@ -5,9 +5,6 @@ import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { App } from './pages/app'
 import { store } from './state'
-import { ApplicationUpdater } from './state/application/updater'
-import { TransactionsUpdater } from './state/transactions/updater'
-import { UserUpdater } from './state/user/updater'
 import { Web3Provider } from '@ethersproject/providers'
 import Web3ReactManager from './components/web3-react-manager'
 
@@ -18,10 +15,7 @@ ReactDOM.render(
   <StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
       <Provider store={store}>
-        <ApplicationUpdater />
-        <TransactionsUpdater />
         <HashRouter>
-          <UserUpdater />
           <Web3ReactManager>
             <App />
           </Web3ReactManager>

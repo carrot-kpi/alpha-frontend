@@ -7,11 +7,13 @@ import { shortenAddress } from '../../utils'
 import { ButtonMedium } from '../button'
 import logo from '../../assets/logo.svg'
 import { UndecoratedInternalLink } from '../undecorated-link'
+import { Sun, Moon } from 'react-feather'
+import { useIsDarkMode, useToggleDarkMode } from '../../state/user/hooks'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
   z-index: 4;
-  background-color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.background};
   border-bottom: solid 1px ${(props) => props.theme.divider};
 `
 
@@ -19,8 +21,20 @@ const Logo = styled.img`
   height: 30px;
 `
 
+const AddressContainer = styled.div`
+  height: 36px;
+  color: ${(props) => props.theme.primary};
+  border: solid 1px ${(props) => props.theme.primary};
+  border-radius: 20px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+`
+
 export const Header = (): ReactElement => {
   const { activate, account } = useWeb3React()
+  const darkMode = useIsDarkMode()
+  const toggleDarkMode = useToggleDarkMode()
 
   const handleClick = useCallback(() => {
     activate(injected)
@@ -37,14 +51,22 @@ export const Header = (): ReactElement => {
               </UndecoratedInternalLink>
             </Box>
           </Flex>
-          <Box>
-            {!!account ? (
-              /* Make this a secondary button */
-              <ButtonMedium>{shortenAddress(account)}</ButtonMedium>
-            ) : (
-              <ButtonMedium onClick={handleClick}>Connect wallet</ButtonMedium>
-            )}
-          </Box>
+          <Flex alignItems="center">
+            <Box mr="20px">
+              {!!account ? (
+                <AddressContainer>{shortenAddress(account)}</AddressContainer>
+              ) : (
+                <ButtonMedium onClick={handleClick}>Connect wallet</ButtonMedium>
+              )}
+            </Box>
+            <Box>
+              {darkMode ? (
+                <Sun size="20px" cursor="pointer" onClick={toggleDarkMode} />
+              ) : (
+                <Moon size="20px" cursor="pointer" onClick={toggleDarkMode} />
+              )}
+            </Box>
+          </Flex>
         </Flex>
       </FlexContainer>
     </>

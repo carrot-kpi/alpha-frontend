@@ -1,16 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateDarkMode } from './actions'
+import { toggleDarkMode } from './actions'
 
-export interface UserState {
-  darkMode: boolean
+export interface ApplicationState {
+  readonly darkMode: boolean
 }
 
-export const initialState: UserState = {
-  darkMode: true,
+const initialState: ApplicationState = {
+  darkMode: false,
 }
 
 export const userReducer = createReducer(initialState, (builder) =>
-  builder.addCase(updateDarkMode, (state, action) => {
-    state.darkMode = action.payload
+  builder.addCase(toggleDarkMode, (state) => {
+    state.darkMode = !state.darkMode
   })
 )

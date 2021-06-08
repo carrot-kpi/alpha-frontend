@@ -11,14 +11,16 @@ const black = '#000'
 export interface Theme {
   white: string
   black: string
+  text: string
+  background: string
   divider: string
   primary: string
   shadow: string
   error: string
   success: string
   warning: string
-  grey1: string
-  grey2: string
+  skeletonColor: string
+  skeletonHighlightColor: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,14 +28,16 @@ export function getTheme(darkMode: boolean): Theme {
   return {
     white,
     black,
-    divider: '#e6e6e6',
+    text: darkMode ? white : black,
+    background: darkMode ? black : white,
+    divider: darkMode ? '#404040' : '#e6e6e6',
     primary: '#FF782D',
-    shadow: '#000',
+    shadow: darkMode ? '#fff' : '#000',
     error: '#c62828',
     success: '#008035',
     warning: '#FF6F00',
-    grey1: '#f2f2f2',
-    grey2: '#d9d9d9',
+    skeletonColor: darkMode ? '#1a1a1a' : '#f2f2f2',
+    skeletonHighlightColor: darkMode ? '#404040' : '#d9d9d9',
   }
 }
 
@@ -50,6 +54,8 @@ export const GlobalStyle = createGlobalStyle`
     height: 100vh;
     min-height: 100vh;
     overflow-x: hidden;
+    background-color: ${(props) => props.theme.background};
+    color: ${(props) => props.theme.text};
   }
 
   #root {

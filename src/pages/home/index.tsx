@@ -3,7 +3,7 @@ import { Box, Flex, Text } from 'rebass'
 import { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
-import { CREATORS_NAME_MAP } from '../../constants'
+import { CREATORS_NAME_MAP, FEATURED_KPI_TOKENS } from '../../constants'
 import { useHistory } from 'react-router-dom'
 
 export function Home(): ReactElement {
@@ -29,15 +29,15 @@ export function Home(): ReactElement {
       <Flex flexDirection="column" alignItems="center" mx="-8px" pb="20px">
         <Flex justifyContent="center" mb="60px" width="100%">
           {loadingFeaturedKpiTokens
-            ? new Array(3).fill(null).map((_, index) => {
+            ? new Array(FEATURED_KPI_TOKENS.length).fill(null).map((_, index) => {
                 return (
-                  <Box key={index} p="8px">
+                  <Box key={index} p="8px" width="100%" maxWidth="300px">
                     <CampaignCard loading />
                   </Box>
                 )
               })
             : featuredKpiTokens.map((featuredKpiToken) => (
-                <Box key={featuredKpiToken.kpiId} p="8px">
+                <Box key={featuredKpiToken.kpiId} p="8px" width="100%" maxWidth="300px">
                   <CampaignCard
                     kpiId={featuredKpiToken.kpiId}
                     creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || featuredKpiToken.creator}

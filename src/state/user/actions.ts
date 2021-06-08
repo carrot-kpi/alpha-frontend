@@ -1,3 +1,3 @@
 import { createAction } from '@reduxjs/toolkit'
 
-export const updateDarkMode = createAction<boolean>('user/updateUserDarkMode')
+export const toggleDarkMode = createAction('application/toggleDarkMode')
