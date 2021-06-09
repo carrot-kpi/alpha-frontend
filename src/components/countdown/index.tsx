@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 
 interface CountdownProps {
   loading?: boolean
-  fontSize: string
+  fontSize?: string
   fontWeight?: string
   to: DateTime
 }

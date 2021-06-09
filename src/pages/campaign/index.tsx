@@ -1,13 +1,15 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Flex, Box, Text } from 'rebass'
 import { RouteComponentProps } from 'react-router-dom'
 import { useKpiToken } from '../../hooks/useKpiToken'
 import { Card } from '../../components/card'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
-import { CREATORS_NAME_MAP } from '../../constants'
+import { CREATORS_NAME_MAP, DexSpecificData, FEATURED_CAMPAIGNS, SpecificPlatform } from '../../constants'
 import styled, { useTheme } from 'styled-components'
 import { UndecoratedExternalLink } from '../../components/undecorated-link'
+import { SwaprLiquidityChart } from '../../components/charts/swapr-liquidity-chart'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
 import { useWeb3React } from '@web3-react/core'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
@@ -15,6 +17,7 @@ import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
 import { ExternalLink } from 'react-feather'
+import { DateTime } from 'luxon'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -52,14 +55,13 @@ export function Campaign({
 }: RouteComponentProps<{ kpiId: string }>): ReactElement {
   const theme = useTheme()
   const { account } = useWeb3React()
+  const featuredCampaignSpec = useMemo(() => FEATURED_CAMPAIGNS.find((campaign) => campaign.kpiId === kpiId), [kpiId])
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(
     kpiToken,
     account || undefined
   )
-  const { realityQuestionFinalized, loading: loadingRealityQuestionFinalized } = useIsRealityQuestionFinalized(
-    kpiToken?.kpiId
-  )
+  const { realityQuestionFinalized, loading: loadingRealityQuestionFinalized } = useIsRealityQuestionFinalized(kpiId)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.token
@@ -82,6 +84,7 @@ export function Campaign({
     }
   }, [kpiToken, loadingRealityQuestionFinalized, realityQuestionFinalized])
 
+  if (!featuredCampaignSpec) return <Redirect to="/" />
   return (
     <Flex flexDirection="column" alignItems="center" width="100%">
       <Flex flexDirection="column" mb="60px" width="100%">
@@ -160,6 +163,21 @@ export function Campaign({
                 )}
               </Card>
             )}
+            <Card m="8px">
+              {featuredCampaignSpec?.platform.specific === SpecificPlatform.SWAPR && (
+                <>
+                  <Text mb="20px" fontWeight="700">
+                    Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/
+                    {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol} liquidity
+                  </Text>
+                  <SwaprLiquidityChart
+                    token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
+                    token1={(featuredCampaignSpec.platform.specificData as DexSpecificData).token1}
+                    startDate={DateTime.now().minus({ days: 30 })}
+                  />
+                </>
+              )}
+            </Card>
           </Flex>
           <Flex flexDirection="column" width={['100%', '35%']}>
             <Card flexDirection="column" m="8px">
@@ -171,21 +189,21 @@ export function Campaign({
               ) : kpiToken.expiresAt.toJSDate().getTime() < Date.now() ? (
                 <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
               ) : (
-                <Countdown to={kpiToken.expiresAt} fontSize="20px" />
+                <Countdown to={kpiToken.expiresAt} />
               )}
             </Card>
             <Card flexDirection="column" m="8px">
               <Text mb="8px" fontWeight="700">
                 Rewards
               </Text>
-              <Text fontSize="20px" mb="4px">
+              <Text mb="4px">
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
                   `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.token.symbol}`
                 )}
               </Text>
-              <Text fontSize="20px">
+              <Text>
                 {loadingKpiToken || loadingCollateralTokenPrice || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
@@ -197,7 +215,7 @@ export function Campaign({
               <Text mb="8px" fontWeight="700">
                 Oracle
               </Text>
-              <Text fontSize="20px" mb="4px">
+              <Text>
                 Reality.eth (
                 <UndecoratedExternalLink href={`https://reality.eth.link/app/#!/question/${kpiId}`}>
                   see question

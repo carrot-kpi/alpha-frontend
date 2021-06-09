@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FEATURED_KPI_TOKENS } from '../constants'
+import { FEATURED_CAMPAIGNS } from '../constants'
 import { KpiToken, TokenAmount, Token } from 'carrot-sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
@@ -75,7 +75,7 @@ export function useFeaturedKpiTokens() {
   const { data: featuredKpiTokensData, loading: featuredKpiTokensLoading } = useQuery<CarrotQueryResult>(
     FEATURED_KPI_TOKENS_QUERY,
     {
-      variables: { ids: FEATURED_KPI_TOKENS },
+      variables: { ids: FEATURED_CAMPAIGNS.map((campaign) => campaign.id) },
       client: carrotSubgraphClient,
     }
   )
