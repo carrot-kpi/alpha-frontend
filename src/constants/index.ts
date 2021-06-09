@@ -104,8 +104,8 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0x646656003218c4a57ec2c0f1ed4834576d10dc92',
-    kpiId: '0x6669d9ae3b027b7a262441b2851e6c1b8a8f3d5f82c222c34f9a07bac27ad5ea',
+    id: '0x34ef922c049d581af050d2e28d93c6367ee045f8',
+    kpiId: '0x293990e87ac8c4a0fe568fc80e8256baacefde632a0b40142a7071786bc1b360',
   },
   {
     platform: {
@@ -116,7 +116,19 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0x9f1d6b5be1c250d2345b5df7d19ae55ea274afbc',
-    kpiId: '0x28e114a3abeb5f605dfd14e60e3fea274c7b3e8a48477309d36db331512620c9',
+    id: '0xa4965ca891158608a64e6d7e512e3eabcfb7a1eb',
+    kpiId: '0x874f88bf3510fef21f6b1aef2b3a9e4093c906fa92fc098492feae5863517cc5',
+  },
+  {
+    platform: {
+      type: SupportedPlatformType.DEX,
+      specific: SpecificPlatform.SWAPR,
+      specificData: {
+        token0: WBTC,
+        token1: WETH,
+      },
+    },
+    id: '0xf41800ebe4dac76031f21dfb10eb4187da6ae216',
+    kpiId: '0x5a79ec8881f7190c0d526a7eae5b4a13915efc3fb891b6cc48f4ad0b15afe1d7',
   },
 ]
