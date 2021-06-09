@@ -48,6 +48,13 @@ export const XEENUS = new Token(
   'XEENUS',
   'XEENUS'
 )
+export const WBTC = new Token(
+  ChainId.RINKEBY,
+  '0x577d296678535e4903d59a4c929b718e1d575e0a',
+  BigNumber.from(18),
+  'WBTC',
+  'WBTC'
+)
 export const WETH = new Token(
   ChainId.RINKEBY,
   '0xc778417e063141139fce010982780140aa0cd5ab',
