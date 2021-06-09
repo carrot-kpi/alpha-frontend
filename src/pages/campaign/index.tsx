@@ -157,7 +157,7 @@ export function Campaign({
                   <>
                     <DividerBox mb="20px" />
                     <Box>
-                      <CampaignStatusAndActions status={status} kpiToken={kpiToken} />
+                      <CampaignStatusAndActions status={status} kpiToken={kpiToken} kpiTokenBalance={kpiTokenBalance} />
                     </Box>
                   </>
                 )}
