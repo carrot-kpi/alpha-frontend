@@ -20,7 +20,7 @@ export function App() {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Header />
-        <Flex justifyContent="center" pt="94px" height="100%">
+        <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
           <Flex flexDirection="column" height="100%" width={['100%', '80%', '60%', '60%', '40%']}>
             <Box flexGrow={1}>
               <SkeletonTheme color={theme.skeletonColor} highlightColor={theme.skeletonHighlightColor}>
@@ -31,10 +31,10 @@ export function App() {
                 </Switch>
               </SkeletonTheme>
             </Box>
-            <Box>
-              <Footer />
-            </Box>
           </Flex>
+          <Box width={['100%', '80%', '70%', '50%', '30%']}>
+            <Footer />
+          </Box>
         </Flex>
       </ThemeProvider>
       <ToastContainer
