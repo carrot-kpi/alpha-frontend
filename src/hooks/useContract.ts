@@ -12,7 +12,7 @@ export function useContract(
   return useMemo(() => {
     if (!address || !abi || !library) return null
     try {
-      return new Contract(address, abi, withSignerIfPossible && account ? library.getSigner(account) : undefined)
+      return new Contract(address, abi, withSignerIfPossible && account ? library.getSigner(account) : library)
     } catch (error) {
       console.error('Failed to get contract', error)
       return null
