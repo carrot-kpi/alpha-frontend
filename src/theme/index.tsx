@@ -30,7 +30,7 @@ export function getTheme(darkMode: boolean): Theme {
     black,
     text: darkMode ? white : black,
     background: darkMode ? black : white,
-    divider: darkMode ? '#404040' : '#e6e6e6',
+    divider: darkMode ? '#404040' : '#cccccc',
     primary: '#FF782D',
     shadow: darkMode ? '#fff' : '#000',
     error: '#c62828',
