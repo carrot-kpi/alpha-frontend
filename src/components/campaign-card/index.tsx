@@ -40,7 +40,7 @@ export function CampaignCard({ loading, creator, expiresAt, goal, collateral, on
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Text>Rewards:</Text>
-        <Text textAlign="center" fontSize="20px" fontWeight="800" color={theme.primary}>
+        <Text textAlign="center" fontWeight="800" color={theme.primary}>
           ${loading || !collateral ? <Skeleton width="60px" /> : collateral.multiply(collateralPriceUSD).toFixed(2)}
         </Text>
       </Flex>
