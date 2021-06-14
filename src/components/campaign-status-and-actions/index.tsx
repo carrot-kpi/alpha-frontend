@@ -64,7 +64,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
           token holders in realtion to their balance.
         </Box>
         <Box>
-          <ButtonMedium onClick={finalize}>Redeem reward</ButtonMedium>
+          <ButtonMedium onClick={redeem}>Redeem reward</ButtonMedium>
         </Box>
       </Flex>
     )
