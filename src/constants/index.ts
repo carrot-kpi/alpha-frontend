@@ -111,8 +111,8 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0xd314957f516ea39050c44f67d3725b1558c735da',
-    kpiId: '0x36c94ef3c626fb310996f12a0f1f0ad1284f512aeb4f5659a3a5690d139e8342',
+    id: '0x3719bf5b307d72cdd14e05fbb283a6ebc8fb02ef',
+    kpiId: '0xe5758e9ed35bdbc149cbc0680eaa27d70b4c2ad4fa8252b64dd54de08eefb45f',
   },
   {
     platform: {
@@ -123,8 +123,8 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0x5da5f6b0b840225be42898633ba849048ccf8b73',
-    kpiId: '0xffd7059d5e6deabc5faffaf479a0657acd336ce25e1f9151a80c33f58ba25035',
+    id: '0xa49d50f044439c932fba143c985b170d40431082',
+    kpiId: '0xa1836f64c67b7f28c0e361bcf1e2ecda58c956b2fb119be113bab60191b21160',
   },
   {
     platform: {
@@ -135,7 +135,7 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0x00c45689839932d042f471b179a75f43c8626cfd',
-    kpiId: '0xfcd76224f52a379394d360aac1185b427381e471eb19633c35f72b0213054fe8',
+    id: '0x01fa27f13f550cc0f3852c796b433d655cbf01af',
+    kpiId: '0x3d5fd0785ae80ea425fb466f1c8e08a108d5574cfb5e9a6a8b4e0493c16d37d5',
   },
 ]
