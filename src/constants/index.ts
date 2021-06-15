@@ -48,6 +48,13 @@ export const XEENUS = new Token(
   'XEENUS',
   'XEENUS'
 )
+export const ZEENUS = new Token(
+  ChainId.RINKEBY,
+  '0x1f9061B953bBa0E36BF50F21876132DcF276fC6e',
+  BigNumber.from(18),
+  'ZEENUS',
+  'ZEENUS'
+)
 export const WBTC = new Token(
   ChainId.RINKEBY,
   '0x577d296678535e4903d59a4c929b718e1d575e0a',
@@ -104,20 +111,20 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0xc03f3f7c211d155fa6f8df86f89ec8363fdc1928',
-    kpiId: '0x84717ede0d431e27ae706683ba9f4754f5ea0a75a18476b0587cccd5bfb1f4b1',
+    id: '0xd314957f516ea39050c44f67d3725b1558c735da',
+    kpiId: '0x36c94ef3c626fb310996f12a0f1f0ad1284f512aeb4f5659a3a5690d139e8342',
   },
   {
     platform: {
       type: SupportedPlatformType.DEX,
       specific: SpecificPlatform.SWAPR,
       specificData: {
-        token0: XEENUS,
+        token0: ZEENUS,
         token1: WETH,
       },
     },
-    id: '0x87f2d2b2926c38684d0e47debe9a7ecd88be21f9',
-    kpiId: '0x0e4439bbfdfc64bf60712f9990faa10431b7171139590437bc7b376b681b63b2',
+    id: '0x5da5f6b0b840225be42898633ba849048ccf8b73',
+    kpiId: '0xffd7059d5e6deabc5faffaf479a0657acd336ce25e1f9151a80c33f58ba25035',
   },
   {
     platform: {
@@ -128,7 +135,7 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0x3d026efd73b1d37fb4194fcadb53e9938fc99279',
-    kpiId: '0xea064d3549e44c2c455cd99b19a919e8c9693b77730a60922cad5882a3cb8637',
+    id: '0x00c45689839932d042f471b179a75f43c8626cfd',
+    kpiId: '0xfcd76224f52a379394d360aac1185b427381e471eb19633c35f72b0213054fe8',
   },
 ]
