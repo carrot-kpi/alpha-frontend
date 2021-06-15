@@ -135,7 +135,7 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0x01fa27f13f550cc0f3852c796b433d655cbf01af',
-    kpiId: '0x3d5fd0785ae80ea425fb466f1c8e08a108d5574cfb5e9a6a8b4e0493c16d37d5',
+    id: '0x35b5e24a8849c47036a68bbb1ad3646ed3b42545',
+    kpiId: '0xc0081e2b24608f482babb63bdce02d9a0c6824295bad60e27d9ab29d09d0e762',
   },
 ]
