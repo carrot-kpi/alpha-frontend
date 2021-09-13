@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { KPI_TOKEN_ABI, KpiToken } from 'carrot-sdk'
+import { KPI_TOKEN_ABI, KpiToken } from '@carrot-kpi/sdk'
 import { useContract } from './useContract'
 
 export function useFinalizeKpiTokenCallback(kpiToken?: KpiToken) {

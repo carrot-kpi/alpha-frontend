@@ -2,11 +2,12 @@ import { Box, Flex, Text } from 'rebass'
 import { DateTime } from 'luxon'
 import { ButtonMedium } from '../button'
 import styled, { useTheme } from 'styled-components'
-import { TokenAmount } from 'carrot-sdk'
+import { Amount } from '@carrot-kpi/sdk'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { Card } from '../card'
 import { Countdown } from '../countdown'
+import { Token } from '@usedapp/core'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.error};
@@ -18,13 +19,13 @@ interface CampaignCardProps {
   creator?: string
   expiresAt?: DateTime
   goal?: string
-  collateral?: TokenAmount
+  collateral?: Amount<Token>
   onClick?: () => void
 }
 
 export function CampaignCard({ loading, creator, expiresAt, goal, collateral, onClick }: CampaignCardProps) {
   const theme = useTheme()
-  const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.token)
+  const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
 
   return (
     <Card p="24px 32px" flexDirection="column" width="100%" maxWidth="300px" height="100%" display="flex">

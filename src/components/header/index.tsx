@@ -1,12 +1,11 @@
-import { useWeb3React } from '@web3-react/core'
 import { ReactElement, useCallback } from 'react'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
-import { injected } from '../../connectors'
 import { shortenAddress } from '../../utils'
-import { ButtonMedium } from '../button'
+import { ButtonSmall } from '../button'
 import logo from '../../assets/logo.svg'
 import { UndecoratedInternalLink } from '../undecorated-link'
+import { useEthers } from '@usedapp/core'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
@@ -30,13 +29,15 @@ const AddressContainer = styled.div`
 `
 
 export const Header = (): ReactElement => {
-  const { activate, account } = useWeb3React()
+  const { activateBrowserWallet, account } = useEthers()
   /* const darkMode = useIsDarkMode()
   const toggleDarkMode = useToggleDarkMode() */
 
   const handleClick = useCallback(() => {
-    activate(injected)
-  }, [activate])
+    activateBrowserWallet((error) => {
+      console.error('error connecting')
+    })
+  }, [activateBrowserWallet])
 
   return (
     <>
@@ -54,7 +55,7 @@ export const Header = (): ReactElement => {
               {!!account ? (
                 <AddressContainer>{shortenAddress(account)}</AddressContainer>
               ) : (
-                <ButtonMedium onClick={handleClick}>Connect wallet</ButtonMedium>
+                <ButtonSmall onClick={handleClick}>Connect wallet</ButtonSmall>
               )}
             </Box>
             {/* <Box ml="20px">

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { KpiToken, TokenAmount } from 'carrot-sdk'
+import { KpiToken, Amount } from '@carrot-kpi/sdk'
+import { Token } from '@usedapp/core'
 
-export function useRewardIfKpiIsReached(kpiToken?: KpiToken, balance?: TokenAmount | null) {
-  const [rewardIfKpiIsReached, setRewardIfKpiIsReached] = useState<TokenAmount | null>(null)
+export function useRewardIfKpiIsReached(kpiToken?: KpiToken, balance?: Amount<Token> | null) {
+  const [rewardIfKpiIsReached, setRewardIfKpiIsReached] = useState<Amount<Token> | null>(null)
 
   useEffect(() => {
     if (!kpiToken || !balance) {
@@ -10,7 +11,9 @@ export function useRewardIfKpiIsReached(kpiToken?: KpiToken, balance?: TokenAmou
       return
     }
     setRewardIfKpiIsReached(
-      new TokenAmount(kpiToken.collateral.token, balance.divide(kpiToken.totalSupply).multiply(kpiToken.collateral))
+      balance
+        .divide(new Amount<Token>(kpiToken.collateral.currency, kpiToken.totalSupply.raw))
+        .multiply(kpiToken.collateral)
     )
   }, [balance, kpiToken])
 

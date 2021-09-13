@@ -12,7 +12,7 @@ export function Home(): ReactElement {
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
 
   return (
-    <Flex flexDirection="column" id="asddsaasddsa">
+    <Flex flexDirection="column">
       <Flex alignItems="center" justifyContent="center" flexDirection="column">
         <Flex flexDirection="column" alignItems="center" justifyContent="space-between" pt="40px" pb="40px">
           <Text fontSize="48px" fontWeight="700" lineHeight="50px" textAlign="center">

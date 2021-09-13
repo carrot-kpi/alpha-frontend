@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { KpiToken, TokenAmount, Token } from 'carrot-sdk'
+import { KpiToken, Amount } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
-import { useWeb3React } from '@web3-react/core'
+import { useEthers } from '@usedapp/core'
 import { BigNumber } from 'ethers'
 import { DateTime } from 'luxon'
+import { Token } from '@usedapp/core'
 
 const KPI_TOKEN_QUERY = gql`
   query kpiToken($kpiId: ID!) {
@@ -69,7 +70,7 @@ interface CarrotQueryResult {
 }
 
 export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiToken } {
-  const { chainId } = useWeb3React()
+  const { chainId } = useEthers()
   const carrotSubgraphClient = useCarrotSubgraphClient()
   const { data: kpiTokenData, loading: kpiTokenLoading } = useQuery<CarrotQueryResult>(KPI_TOKEN_QUERY, {
     variables: { kpiId },
@@ -93,11 +94,11 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
     }
     const rawKpiToken = kpiTokenData.kpiTokens[0]
     const collateralToken = new Token(
+      rawKpiToken.collateral.token.name,
+      rawKpiToken.collateral.token.symbol,
       chainId,
       rawKpiToken.collateral.token.id,
-      BigNumber.from(rawKpiToken.collateral.token.decimals),
-      rawKpiToken.collateral.token.symbol,
-      rawKpiToken.collateral.token.name
+      rawKpiToken.collateral.token.decimals
     )
     const kpiToken = new KpiToken(
       chainId,
@@ -115,8 +116,8 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
       rawKpiToken.finalized,
       rawKpiToken.kpiReached,
       rawKpiToken.creator,
-      new TokenAmount(collateralToken, BigNumber.from(rawKpiToken.collateral.amount)),
-      new TokenAmount(collateralToken, BigNumber.from(rawKpiToken.fee))
+      new Amount<Token>(collateralToken, BigNumber.from(rawKpiToken.collateral.amount)),
+      new Amount<Token>(collateralToken, BigNumber.from(rawKpiToken.fee))
     )
     setKpiToken(kpiToken)
     setLoading(false)

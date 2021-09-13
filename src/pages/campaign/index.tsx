@@ -11,7 +11,7 @@ import styled, { useTheme } from 'styled-components'
 import { UndecoratedExternalLink } from '../../components/undecorated-link'
 import { SwaprLiquidityChart } from '../../components/charts/swapr-liquidity-chart'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
-import { useWeb3React } from '@web3-react/core'
+import { useEthers } from '@usedapp/core'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
@@ -59,7 +59,7 @@ export function Campaign({
   },
 }: RouteComponentProps<{ kpiId: string }>): ReactElement {
   const theme = useTheme()
-  const { account } = useWeb3React()
+  const { account } = useEthers()
   const featuredCampaignSpec = useMemo(() => FEATURED_CAMPAIGNS.find((campaign) => campaign.kpiId === kpiId), [kpiId])
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(
@@ -69,7 +69,7 @@ export function Campaign({
   const { realityQuestionFinalized, loading: loadingRealityQuestionFinalized } = useIsRealityQuestionFinalized(kpiId)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
-    kpiToken?.collateral.token
+    kpiToken?.collateral.currency
   )
 
   const [status, setStatus] = useState(Status.AWAITING_ANSWER)
@@ -111,7 +111,7 @@ export function Campaign({
                   Symbol:
                 </Text>
                 <EllipsizedText fontSize="18px" overflow="hidden">
-                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
+                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.ticker}
                 </EllipsizedText>
               </Flex>
               <Flex flexDirection="column" mb="12px">
@@ -176,8 +176,8 @@ export function Campaign({
               {featuredCampaignSpec?.platform.specific === SpecificPlatform.SWAPR && (
                 <>
                   <Text mb="20px" fontWeight="700">
-                    Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/
-                    {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol} liquidity
+                    Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.ticker}/
+                    {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.ticker} liquidity
                   </Text>
                   <SwaprLiquidityChart
                     token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
@@ -209,7 +209,7 @@ export function Campaign({
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
-                  `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.token.symbol}`
+                  `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.ticker}`
                 )}
               </Text>
               <Text>

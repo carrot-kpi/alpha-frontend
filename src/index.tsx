@@ -1,27 +1,28 @@
-import { Web3ReactProvider } from '@web3-react/core'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { App } from './pages/app'
 import { store } from './state'
-import { Web3Provider } from '@ethersproject/providers'
-import Web3ReactManager from './components/web3-react-manager'
+import { Config, ChainId, DAppProvider } from '@usedapp/core'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getLibrary = (provider: any) => new Web3Provider(provider)
+const config: Config = {
+  readOnlyChainId: ChainId.Rinkeby,
+  readOnlyUrls: {
+    [ChainId.Mainnet]: 'https://mainnet.infura.io/v3/c3838db5bd7548059b34406877c476c2',
+    [ChainId.Rinkeby]: 'https://rinkeby.infura.io/v3/c3838db5bd7548059b34406877c476c2',
+  },
+}
 
 ReactDOM.render(
   <StrictMode>
-    <Web3ReactProvider getLibrary={getLibrary}>
+    <DAppProvider config={config}>
       <Provider store={store}>
         <HashRouter>
-          <Web3ReactManager>
-            <App />
-          </Web3ReactManager>
+          <App />
         </HashRouter>
       </Provider>
-    </Web3ReactProvider>
+    </DAppProvider>
   </StrictMode>,
   document.getElementById('root')
 )

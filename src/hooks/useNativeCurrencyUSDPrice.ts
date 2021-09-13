@@ -3,10 +3,11 @@ import Decimal from 'decimal.js-light'
 import { BigNumber } from 'ethers'
 import { parseUnits } from 'ethers/lib/utils'
 import { useEffect, useState } from 'react'
-import { CurrencyAmount } from 'carrot-sdk'
+import { Amount } from '@carrot-kpi/sdk'
 import { USD_CURRENCY, ZERO_USD } from '../constants'
 import { useNativeCurrency } from './useNativeCurrency'
 import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
+import { Currency } from '@usedapp/core'
 
 const QUERY = gql`
   query {
@@ -43,11 +44,11 @@ export function useNativeCurrencyUSDPrice() {
     }
     setLoading(false)
     setPriceUSD(
-      new CurrencyAmount(
+      new Amount<Currency>(
         USD_CURRENCY,
         BigNumber.from(
           parseUnits(
-            new Decimal(data.bundle.nativeCurrencyPrice).toFixed(USD_CURRENCY.decimals.toNumber()),
+            new Decimal(data.bundle.nativeCurrencyPrice).toFixed(USD_CURRENCY.decimals),
             USD_CURRENCY.decimals
           ).toString()
         )

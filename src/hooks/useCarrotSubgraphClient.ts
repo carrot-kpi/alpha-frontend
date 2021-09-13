@@ -1,10 +1,10 @@
 import { CARROT_SUBGRAPH_CLIENT } from '../constants'
-import { ChainId } from 'carrot-sdk'
+import { ChainId } from '@usedapp/core'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { useWeb3React } from '@web3-react/core'
+import { useEthers } from '@usedapp/core'
 
 export function useCarrotSubgraphClient(): ApolloClient<NormalizedCacheObject> {
-  const { chainId } = useWeb3React()
+  const { chainId } = useEthers()
 
-  return CARROT_SUBGRAPH_CLIENT[(chainId as ChainId) || ChainId.MAINNET]
+  return CARROT_SUBGRAPH_CLIENT[(chainId as ChainId) || ChainId.Mainnet]
 }

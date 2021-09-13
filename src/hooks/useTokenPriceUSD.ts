@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Token, CurrencyAmount } from 'carrot-sdk'
+import { Amount } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
 import { ZERO_USD } from '../constants'
@@ -7,6 +7,7 @@ import { parseUnits } from 'ethers/lib/utils'
 import Decimal from 'decimal.js-light'
 import { useNativeCurrencyUSDPrice } from './useNativeCurrencyUSDPrice'
 import { useNativeCurrency } from './useNativeCurrency'
+import { Currency, Token } from '@usedapp/core'
 
 const SWAPR_TOKEN_PRICE_QUERY = gql`
   query swaprTokenDerivedNativeCurrency($id: ID!) {
@@ -22,7 +23,7 @@ interface SwaprQueryResult {
   }
 }
 
-export function useTokenPriceUSD(token?: Token): { loading: boolean; priceUSD: CurrencyAmount } {
+export function useTokenPriceUSD(token?: Token): { loading: boolean; priceUSD: Amount<Currency> } {
   const swaprSubgraphClient = useSwaprSubgraphClient()
   const nativeCurrency = useNativeCurrency()
   const { loading: loadingNativeCurrencyPrice, priceUSD: nativeCurrencyPrice } = useNativeCurrencyUSDPrice()
@@ -53,10 +54,10 @@ export function useTokenPriceUSD(token?: Token): { loading: boolean; priceUSD: C
       setPriceUSD(ZERO_USD)
       return
     }
-    const tokenDerivedNativeCurrency = new CurrencyAmount(
+    const tokenDerivedNativeCurrency = new Amount<Currency>(
       nativeCurrency,
       parseUnits(
-        new Decimal(swaprTokenPriceData.token.derivedNativeCurrency).toFixed(nativeCurrency.decimals.toNumber()),
+        new Decimal(swaprTokenPriceData.token.derivedNativeCurrency).toFixed(nativeCurrency.decimals),
         nativeCurrency.decimals
       )
     )

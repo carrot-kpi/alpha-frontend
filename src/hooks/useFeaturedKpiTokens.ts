@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { FEATURED_CAMPAIGNS } from '../constants'
-import { KpiToken, TokenAmount, Token } from 'carrot-sdk'
+import { KpiToken, Amount } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
-import { useWeb3React } from '@web3-react/core'
+import { useEthers } from '@usedapp/core'
 import { BigNumber } from 'ethers'
 import { DateTime } from 'luxon'
+import { Token } from '@usedapp/core'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -70,7 +71,7 @@ interface CarrotQueryResult {
 }
 
 export function useFeaturedKpiTokens() {
-  const { chainId } = useWeb3React()
+  const { chainId } = useEthers()
   const carrotSubgraphClient = useCarrotSubgraphClient()
   const { data: featuredKpiTokensData, loading: featuredKpiTokensLoading } = useQuery<CarrotQueryResult>(
     FEATURED_KPI_TOKENS_QUERY,
@@ -92,11 +93,11 @@ export function useFeaturedKpiTokens() {
     }
     const featuredKpiTokens = featuredKpiTokensData.kpiTokens.map((kpiToken) => {
       const collateralToken = new Token(
+        kpiToken.collateral.token.name,
+        kpiToken.collateral.token.symbol,
         chainId,
         kpiToken.collateral.token.id,
-        BigNumber.from(kpiToken.collateral.token.decimals),
-        kpiToken.collateral.token.symbol,
-        kpiToken.collateral.token.name
+        kpiToken.collateral.token.decimals
       )
       return new KpiToken(
         chainId,
@@ -114,8 +115,8 @@ export function useFeaturedKpiTokens() {
         kpiToken.finalized,
         kpiToken.kpiReached,
         kpiToken.creator,
-        new TokenAmount(collateralToken, BigNumber.from(kpiToken.collateral.amount)),
-        new TokenAmount(collateralToken, BigNumber.from(kpiToken.fee))
+        new Amount<Token>(collateralToken, BigNumber.from(kpiToken.collateral.amount)),
+        new Amount<Token>(collateralToken, BigNumber.from(kpiToken.fee))
       )
     })
     setFeaturedKpiTokens(featuredKpiTokens)

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { ERC20_ABI, KpiToken, Token, TokenAmount } from 'carrot-sdk'
+import { ERC20_ABI, KpiToken, Amount } from '@carrot-kpi/sdk'
 import { useContract } from './useContract'
+import { Token } from '@usedapp/core'
 
 export function useKpiTokenBalance(kpiToken?: KpiToken, account?: string) {
   const kpiTokenContract = useContract(kpiToken?.address, ERC20_ABI)
 
-  const [balance, setBalance] = useState<TokenAmount | null>(null)
+  const [balance, setBalance] = useState<Amount<Token> | null>(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -13,9 +14,9 @@ export function useKpiTokenBalance(kpiToken?: KpiToken, account?: string) {
       if (!account || !kpiTokenContract || !kpiToken) return
       setLoading(true)
       try {
-        const token = new Token(kpiToken.chainId, kpiToken.address, kpiToken.decimals, kpiToken.symbol, kpiToken.name)
+        const token = new Token(kpiToken.name, kpiToken.ticker, kpiToken.chainId, kpiToken.address, kpiToken.decimals)
         const balance = await kpiTokenContract.balanceOf(account)
-        setBalance(new TokenAmount(token, balance))
+        setBalance(new Amount<Token>(token, balance))
       } catch (error) {
         console.error(`could not get kpi token balance for ${account}`, error)
       } finally {
