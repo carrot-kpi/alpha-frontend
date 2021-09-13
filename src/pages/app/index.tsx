@@ -10,10 +10,18 @@ import { Flex, Box } from 'rebass'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../../theme'
 import { SkeletonTheme } from 'react-loading-skeleton'
+import { useEffect } from 'react'
+import { useLocation } from 'react-use'
 
 export function App() {
   const darkMode = useIsDarkMode()
   const theme = getTheme(darkMode)
+  const location = useLocation()
+
+  // resets scroll on body after every change of route
+  useEffect(() => {
+    document.getElementsByTagName('body')[0].scrollTo(0, 0)
+  }, [location])
 
   return (
     <>
