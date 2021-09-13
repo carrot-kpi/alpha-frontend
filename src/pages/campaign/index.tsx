@@ -36,6 +36,11 @@ const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.error};
 `
 
+const EllipsizedText = styled(Text)`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
+
 const ExternalLinkIcon = styled(ExternalLink)`
   color: ${(props) => props.theme.primary};
   width: 12px;
@@ -88,7 +93,7 @@ export function Campaign({
   return (
     <Flex flexDirection="column" alignItems="center" width="100%">
       <Flex flexDirection="column" mb="60px" width="100%">
-        <Flex mx="8px" width="100%" flexDirection={['column', 'row']}>
+        <Flex mx="8px" flexDirection={['column', 'row']}>
           <Flex flexGrow={[0, 1]} flexDirection="column" width={['100%', '65%']}>
             <Card m="8px" height="fit-content">
               <Text fontSize="20px" fontWeight="700" color={theme.primary} mb="16px">
@@ -101,21 +106,25 @@ export function Campaign({
               <Text fontSize="24px" mb="20px">
                 {loadingKpiToken || !kpiToken ? <Skeleton width="120px" /> : kpiToken.question}
               </Text>
-              <Flex justifyContent="space-between" alignItems="center" mb="4px">
-                <Text mr="24px">Symbol:</Text>
-                <Text fontSize="18px" fontWeight="700">
+              <Flex flexDirection="column" mb="12px">
+                <Text fontWeight="700" mb="4px">
+                  Symbol:
+                </Text>
+                <EllipsizedText fontSize="18px" overflow="hidden">
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
-                </Text>
+                </EllipsizedText>
               </Flex>
-              <Flex justifyContent="space-between" alignItems="center" mb="4px">
-                <Text mr="24px">Name:</Text>
-                <Text fontSize="18px" fontWeight="700" textAlign="right">
-                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}
+              <Flex flexDirection="column" mb="12px">
+                <Text fontWeight="700" mb="4px">
+                  Name:
                 </Text>
+                <Text fontSize="18px">{loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}</Text>
               </Flex>
-              <Flex justifyContent="space-between" alignItems="center" mb="20px">
-                <Text mr="24px">Total supply:</Text>
-                <Text fontSize="18px" fontWeight="700">
+              <Flex flexDirection="column" mb="20px">
+                <Text fontWeight="700" mb="4px">
+                  Total supply:
+                </Text>
+                <Text fontSize="18px">
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : `${kpiToken.totalSupply.toFixed(2)}`}
                 </Text>
               </Flex>

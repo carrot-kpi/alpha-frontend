@@ -10,7 +10,7 @@ const Base = styled(RebassButton)`
   text-decoration: none;
   font-size: 12px !important;
   font-weight: 700;
-  padding: 0 20px;
+  padding: 0 12px;
   cursor: pointer;
   background-color: ${(props) => props.theme.primary};
   border: none;

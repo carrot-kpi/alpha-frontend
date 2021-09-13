@@ -14,20 +14,26 @@ export function Home(): ReactElement {
   return (
     <Flex flexDirection="column" id="asddsaasddsa">
       <Flex alignItems="center" justifyContent="center" flexDirection="column">
-        <Flex flexDirection="column" alignItems="center" justifyContent="space-between" pt="60px" pb="60px">
-          <Text fontSize="48px" fontWeight="700" lineHeight="64px" textAlign="center">
+        <Flex flexDirection="column" alignItems="center" justifyContent="space-between" pt="40px" pb="40px">
+          <Text fontSize="48px" fontWeight="700" lineHeight="50px" textAlign="center">
             Incentivize your community.
           </Text>
-          <Text mb="8px" fontSize="48px" fontWeight="700" lineHeight="64px">
+          <Text mb="8px" fontSize="48px" fontWeight="700" lineHeight="64px" textAlign="center">
             With a carrot.
           </Text>
-          <Text mb="40px" fontSize="22px" fontWeight="700" lineHeight="24px" color={theme.primary}>
+          <Text mb="40px" fontSize="22px" fontWeight="700" lineHeight="24px" color={theme.primary} textAlign="center">
             Increase TVL, volume, price, engagement and more.
           </Text>
         </Flex>
       </Flex>
       <Flex flexDirection="column" alignItems="center" mx="-8px" pb="20px">
-        <Flex justifyContent="center" mb="60px" width="100%">
+        <Flex
+          flexDirection={['column', 'row']}
+          justifyContent={['flex-start', 'center']}
+          alignItems={['center', 'flex-start']}
+          mb="60px"
+          width="100%"
+        >
           {loadingFeaturedKpiTokens
             ? new Array(FEATURED_CAMPAIGNS.length).fill(null).map((_, index) => {
                 return (
