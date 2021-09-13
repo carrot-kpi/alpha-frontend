@@ -4,11 +4,9 @@ import { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
 import { CREATORS_NAME_MAP, FEATURED_CAMPAIGNS } from '../../constants'
-import { useHistory } from 'react-router-dom'
 
 export function Home(): ReactElement {
   const theme = useTheme()
-  const history = useHistory()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
 
   return (
@@ -37,25 +35,19 @@ export function Home(): ReactElement {
           {loadingFeaturedKpiTokens
             ? new Array(FEATURED_CAMPAIGNS.length).fill(null).map((_, index) => {
                 return (
-                  <Box key={index} p="8px" width="100%" maxWidth="300px">
+                  <Box key={index} p="8px" width="100%" maxWidth={['100%', '300px']}>
                     <CampaignCard loading />
                   </Box>
                 )
               })
             : featuredKpiTokens.map((featuredKpiToken) => (
-                <Box key={featuredKpiToken.kpiId} p="8px" width="100%" maxWidth="300px">
+                <Box key={featuredKpiToken.kpiId} p="8px" width="100%" maxWidth={['100%', '300px']}>
                   <CampaignCard
                     kpiId={featuredKpiToken.kpiId}
                     creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || featuredKpiToken.creator}
                     expiresAt={featuredKpiToken.expiresAt}
                     goal={featuredKpiToken.question}
                     collateral={featuredKpiToken.collateral}
-                    onClick={() => {
-                      history.push({
-                        pathname: `/campaigns/${featuredKpiToken.kpiId}`,
-                        state: featuredKpiToken,
-                      })
-                    }}
                   />
                 </Box>
               ))}

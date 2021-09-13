@@ -8,6 +8,7 @@ import Skeleton from 'react-loading-skeleton'
 import { Card } from '../card'
 import { Countdown } from '../countdown'
 import { Token } from '@usedapp/core'
+import { UndecoratedInternalLink } from '../undecorated-link'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.error};
@@ -20,15 +21,21 @@ interface CampaignCardProps {
   expiresAt?: DateTime
   goal?: string
   collateral?: Amount<Token>
-  onClick?: () => void
 }
 
-export function CampaignCard({ loading, creator, expiresAt, goal, collateral, onClick }: CampaignCardProps) {
+export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
   const theme = useTheme()
   const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
 
   return (
-    <Card p="24px 32px" flexDirection="column" width="100%" maxWidth="300px" height="100%" display="flex">
+    <Card
+      p="24px 32px"
+      mx={['16px', '0px']}
+      flexDirection="column"
+      maxWidth={['auto', '300px']}
+      height="100%"
+      display="flex"
+    >
       <Flex width="100%" justifyContent="space-between" mb="16px">
         <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.primary}>
           {loading ? <Skeleton width="40px" /> : creator}
@@ -56,9 +63,9 @@ export function CampaignCard({ loading, creator, expiresAt, goal, collateral, on
         )}
       </Flex>
       <Box>
-        <ButtonMedium onClick={onClick} width="100%">
-          See campaign
-        </ButtonMedium>
+        <UndecoratedInternalLink to={`/campaigns/${kpiId}`}>
+          <ButtonMedium width="100%">See campaign</ButtonMedium>
+        </UndecoratedInternalLink>
       </Box>
     </Card>
   )
