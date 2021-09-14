@@ -12,8 +12,8 @@ export function useRewardIfKpiIsReached(kpiToken?: KpiToken, balance?: Amount<To
     }
     setRewardIfKpiIsReached(
       balance
-        .divide(new Amount<Token>(kpiToken.collateral.currency, kpiToken.totalSupply.raw))
         .multiply(kpiToken.collateral)
+        .divide(new Amount<Token>(kpiToken.collateral.currency, kpiToken.totalSupply.raw))
     )
   }, [balance, kpiToken])
 

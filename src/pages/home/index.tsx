@@ -28,7 +28,7 @@ export function Home(): ReactElement {
         <Flex
           flexDirection={['column', 'row']}
           justifyContent={['flex-start', 'center']}
-          alignItems={['center', 'flex-start']}
+          alignItems={['center', 'stretch']}
           mb="60px"
           width="100%"
         >

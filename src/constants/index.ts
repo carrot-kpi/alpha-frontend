@@ -1,8 +1,12 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
+import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Amount } from '@carrot-kpi/sdk'
 import { ChainId, Token, FiatCurrency, Currency } from '@usedapp/core'
 import Decimal from 'decimal.js-light'
 import { BigNumber } from 'ethers'
+import { injected, walletConnect } from '../connectors'
+import metamaskIcon from '../assets/metamask-icon.webp'
+import walletConnectIcon from '../assets/wallet-connect-icon.png'
 
 export const USD_CURRENCY = new FiatCurrency('US dollar', 'USD', 18)
 export const ZERO_USD = new Amount<Currency>(USD_CURRENCY, BigNumber.from(0))
@@ -120,5 +124,24 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
     },
     id: '0x35b5e24a8849c47036a68bbb1ad3646ed3b42545',
     kpiId: '0xc0081e2b24608f482babb63bdce02d9a0c6824295bad60e27d9ab29d09d0e762',
+  },
+]
+
+export interface WalletInfo {
+  connector: AbstractConnector
+  name: string
+  icon: string
+}
+
+export const SUPPORTED_WALLETS: WalletInfo[] = [
+  {
+    connector: injected,
+    name: 'MetaMask',
+    icon: metamaskIcon,
+  },
+  {
+    connector: walletConnect,
+    name: 'WalletConnect',
+    icon: walletConnectIcon,
   },
 ]

@@ -21,6 +21,7 @@ export interface Theme {
   warning: string
   skeletonColor: string
   skeletonHighlightColor: string
+  boxShadow: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -38,6 +39,7 @@ export function getTheme(darkMode: boolean): Theme {
     warning: '#FF6F00',
     skeletonColor: darkMode ? '#1a1a1a' : '#f2f2f2',
     skeletonHighlightColor: darkMode ? '#404040' : '#d9d9d9',
+    boxShadow: '#0A0A0F',
   }
 }
 

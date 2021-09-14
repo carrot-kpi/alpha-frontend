@@ -1,4 +1,4 @@
-import { ReactElement, useCallback } from 'react'
+import { ReactElement, useCallback, useState } from 'react'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
 import { shortenAddress } from '../../utils'
@@ -6,6 +6,7 @@ import { ButtonSmall } from '../button'
 import logo from '../../assets/logo.svg'
 import { UndecoratedInternalLink } from '../undecorated-link'
 import { useEthers } from '@usedapp/core'
+import { WalletConnectionModal } from '../wallet-connection-modal'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
@@ -29,18 +30,22 @@ const AddressContainer = styled.div`
 `
 
 export const Header = (): ReactElement => {
-  const { activateBrowserWallet, account } = useEthers()
+  const { account } = useEthers()
+  const [walletConnectionModalOpen, setWalletConnectionModalOpen] = useState(false)
   /* const darkMode = useIsDarkMode()
   const toggleDarkMode = useToggleDarkMode() */
 
   const handleClick = useCallback(() => {
-    activateBrowserWallet((error) => {
-      console.error('error connecting')
-    })
-  }, [activateBrowserWallet])
+    setWalletConnectionModalOpen(true)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    setWalletConnectionModalOpen(false)
+  }, [])
 
   return (
     <>
+      <WalletConnectionModal open={walletConnectionModalOpen} onDismiss={handleClose} />
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px={['16px', '24px']}>
         <Flex width={['100%', '80%', '60%', '60%', '40%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
