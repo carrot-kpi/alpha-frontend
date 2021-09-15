@@ -8,15 +8,16 @@ import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { CREATORS_NAME_MAP, DexSpecificData, FEATURED_CAMPAIGNS, SpecificPlatform } from '../../constants'
 import styled, { useTheme } from 'styled-components'
-import { UndecoratedExternalLink } from '../../components/undecorated-link'
+import { ExternalLink } from '../../components/undecorated-link'
 import { SwaprLiquidityChart } from '../../components/charts/swapr-liquidity-chart'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
-import { ExternalLink } from 'react-feather'
+import { ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
+import { getExplorerLink } from '../../utils'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -25,11 +26,6 @@ export enum Status {
   KPI_REACHED,
   KPI_NOT_REACHED,
 }
-
-const PrimaryUndecoratedExternalLink = styled(UndecoratedExternalLink)`
-  color: ${(props) => props.theme.primary};
-  text-decoration: underline;
-`
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.error};
@@ -40,7 +36,7 @@ const EllipsizedText = styled(Text)`
   text-overflow: ellipsis;
 `
 
-const ExternalLinkIcon = styled(ExternalLink)`
+const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
   color: ${(props) => props.theme.primary};
   width: 12px;
   height: 12px;
@@ -58,7 +54,7 @@ export function Campaign({
   },
 }: RouteComponentProps<{ kpiId: string }>): ReactElement {
   const theme = useTheme()
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const featuredCampaignSpec = useMemo(() => FEATURED_CAMPAIGNS.find((campaign) => campaign.kpiId === kpiId), [kpiId])
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(
@@ -127,11 +123,13 @@ export function Campaign({
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : `${kpiToken.totalSupply.toFixed(2)}`}
                 </Text>
               </Flex>
-              <Box>
-                <PrimaryUndecoratedExternalLink href={`https://rinkeby.etherscan.io/address/${kpiToken?.address}`}>
-                  View on explorer <ExternalLinkIcon />
-                </PrimaryUndecoratedExternalLink>
-              </Box>
+              {chainId && kpiToken?.address && (
+                <Box>
+                  <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')}>
+                    View on explorer <StyledExternalLinkIcon />
+                  </ExternalLink>
+                </Box>
+              )}
             </Card>
             {account && (
               <Card m="8px" flexGrow={1} height="fit-content">
@@ -226,10 +224,7 @@ export function Campaign({
               </Text>
               <Text>
                 Reality.eth (
-                <UndecoratedExternalLink href={`https://reality.eth.link/app/#!/question/${kpiId}`}>
-                  see question
-                </UndecoratedExternalLink>
-                )
+                <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiId}`}>see question</ExternalLink>)
               </Text>
             </Card>
           </Flex>

@@ -1,5 +1,5 @@
 import { Flex, Box, Text } from 'rebass'
-import { UndecoratedExternalLink } from '../undecorated-link'
+import { ExternalLink } from '../undecorated-link'
 import logo from '../../assets/logo.svg'
 import styled from 'styled-components'
 
@@ -20,14 +20,14 @@ export const Footer = () => {
       </Flex>
       <Flex>
         <Box mr="16px">
-          <UndecoratedExternalLink href="https://discord.com/invite/4QXEJQkvHH">
+          <ExternalLink href="https://discord.com/invite/4QXEJQkvHH">
             <Text fontSize="17px">Discord</Text>
-          </UndecoratedExternalLink>
+          </ExternalLink>
         </Box>
         <Box>
-          <UndecoratedExternalLink href="https://daotalk.org/c/dx-dao/15">
+          <ExternalLink href="https://daotalk.org/c/dx-dao/15">
             <Text fontSize="17px">Forum</Text>
-          </UndecoratedExternalLink>
+          </ExternalLink>
         </Box>
       </Flex>
     </Flex>

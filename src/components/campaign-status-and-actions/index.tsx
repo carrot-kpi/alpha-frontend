@@ -1,5 +1,5 @@
 import { Status } from '../../pages/campaign'
-import { UndecoratedExternalLink } from '../undecorated-link'
+import { ExternalLink } from '../undecorated-link'
 import { Flex, Box } from 'rebass'
 import { KpiToken, Amount } from '@carrot-kpi/sdk'
 import { ButtonMedium } from '../button'
@@ -44,9 +44,9 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
           button below to submit it and receive a reward for your services.
         </Box>
         <Box>
-          <UndecoratedExternalLink href={`https://reality.eth.link/app/#!/question/${kpiToken?.kpiId}`}>
+          <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiToken?.kpiId}`}>
             <ButtonMedium>Submit answer</ButtonMedium>
-          </UndecoratedExternalLink>
+          </ExternalLink>
         </Box>
       </Flex>
     )

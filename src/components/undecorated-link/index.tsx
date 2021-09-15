@@ -6,11 +6,18 @@ export const UndecoratedInternalLink = styled(Link)`
   cursor: pointer;
 `
 
-export const UndecoratedExternalLink = styled.a.attrs((props) => ({ target: '_blank', rel: 'noopener noreferrer' }))`
+export const ExternalLink = styled.a.attrs(() => ({ target: '_blank', rel: 'noopener noreferrer' }))`
   width: fit-content;
   cursor: pointer;
   color: ${(props) => props.theme.primary};
   :visited {
     color: ${(props) => props.theme.primary};
   }
+`
+
+export const UndecoratedExternalLink = styled.a.attrs(() => ({ target: '_blank', rel: 'noopener noreferrer' }))`
+  width: fit-content;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${(props) => props.theme.text};
 `
