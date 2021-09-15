@@ -3,10 +3,10 @@ import { FEATURED_CAMPAIGNS } from '../constants'
 import { KpiToken, Amount } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
-import { useEthers } from '@usedapp/core'
 import { BigNumber } from 'ethers'
 import { DateTime } from 'luxon'
 import { Token } from '@usedapp/core'
+import { useActiveWeb3React } from './useActiveWeb3React'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -71,7 +71,7 @@ interface CarrotQueryResult {
 }
 
 export function useFeaturedKpiTokens() {
-  const { chainId } = useEthers()
+  const { chainId } = useActiveWeb3React()
   const carrotSubgraphClient = useCarrotSubgraphClient()
   const { data: featuredKpiTokensData, loading: featuredKpiTokensLoading } = useQuery<CarrotQueryResult>(
     FEATURED_KPI_TOKENS_QUERY,

@@ -1,13 +1,13 @@
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { useMemo } from 'react'
-import { useEthers } from '@usedapp/core'
+import { useActiveWeb3React } from './useActiveWeb3React'
 
 export function useContract(
   address: string | undefined,
   abi: ContractInterface,
   withSignerIfPossible = true
 ): Contract | null {
-  const { library, account } = useEthers()
+  const { library, account } = useActiveWeb3React()
 
   return useMemo(() => {
     if (!address || !abi || !library) return null

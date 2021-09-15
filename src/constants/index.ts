@@ -1,12 +1,13 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { Amount } from '@carrot-kpi/sdk'
+import { Amount, NATIVE_CURRENCY } from '@carrot-kpi/sdk'
 import { ChainId, Token, FiatCurrency, Currency } from '@usedapp/core'
 import Decimal from 'decimal.js-light'
 import { BigNumber } from 'ethers'
 import { injected, walletConnect } from '../connectors'
-import metamaskIcon from '../assets/metamask-icon.webp'
-import walletConnectIcon from '../assets/wallet-connect-icon.png'
+import metamaskLogo from '../assets/metamask-logo.webp'
+import walletConnectLogo from '../assets/wallet-connect-logo.png'
+import ethereumLogo from '../assets/ethereum-logo.png'
 import { DateTime } from 'luxon'
 
 export const USD_CURRENCY = new FiatCurrency('US dollar', 'USD', 18)
@@ -146,11 +147,42 @@ export const SUPPORTED_WALLETS: WalletInfo[] = [
   {
     connector: injected,
     name: 'MetaMask',
-    icon: metamaskIcon,
+    icon: metamaskLogo,
   },
   {
     connector: walletConnect,
     name: 'WalletConnect',
-    icon: walletConnectIcon,
+    icon: walletConnectLogo,
   },
 ]
+
+export interface NetworkDetails {
+  chainId: string
+  chainName: string
+  icon: string
+  nativeCurrency: {
+    name: string
+    symbol: string
+    decimals: number
+  }
+  rpcUrls: string[]
+  blockExplorerUrls?: string[]
+  iconUrls?: string[] // Currently ignored.
+}
+
+export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
+  [ChainId.Rinkeby]: {
+    chainId: `0x${ChainId.Rinkeby.toString(16)}`,
+    chainName: 'Rinkeby testnet',
+    icon: ethereumLogo,
+    nativeCurrency: {
+      name: NATIVE_CURRENCY[ChainId.Rinkeby].name || 'Ether',
+      symbol: NATIVE_CURRENCY[ChainId.Rinkeby].ticker || 'ETH',
+      decimals: NATIVE_CURRENCY[ChainId.Rinkeby].decimals || 18,
+    },
+    rpcUrls: ['https://mainnet.infura.io/v3'],
+    blockExplorerUrls: ['https://etherscan.io'],
+  },
+}
+
+export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'

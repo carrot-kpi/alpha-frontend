@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { KpiToken, Amount } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
-import { useEthers } from '@usedapp/core'
 import { BigNumber } from 'ethers'
 import { DateTime } from 'luxon'
 import { Token } from '@usedapp/core'
+import { useActiveWeb3React } from './useActiveWeb3React'
 
 const KPI_TOKEN_QUERY = gql`
   query kpiToken($kpiId: ID!) {
@@ -70,7 +70,7 @@ interface CarrotQueryResult {
 }
 
 export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiToken } {
-  const { chainId } = useEthers()
+  const { chainId } = useActiveWeb3React()
   const carrotSubgraphClient = useCarrotSubgraphClient()
   const { data: kpiTokenData, loading: kpiTokenLoading } = useQuery<CarrotQueryResult>(KPI_TOKEN_QUERY, {
     variables: { kpiId },

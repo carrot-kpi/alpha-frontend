@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { getAddress } from 'ethers/lib/utils'
+import { NetworkDetails } from '../constants'
 
 const ETHERSCAN_PREFIXES: { [chainId in number]: string } = {
   1: '',
@@ -44,4 +45,27 @@ export function shortenAddress(address: string, chars = 4): string {
 
 export function addMarginToGasEstimation(gas: BigNumber): BigNumber {
   return gas.add(gas.mul(5).div(100))
+}
+
+export const switchOrAddNetwork = (networkDetails?: NetworkDetails, account?: string) => {
+  if (!window.ethereum || !window.ethereum.request || !window.ethereum.isMetaMask || !networkDetails) return
+  window.ethereum
+    .request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: networkDetails.chainId }],
+    })
+    .catch((error) => {
+      if (error.code !== 4902) {
+        console.error('error switching to chain id', networkDetails.chainId, error)
+      }
+      if (!window.ethereum || !window.ethereum.request || !account) return
+      window.ethereum
+        .request({
+          method: 'wallet_addEthereumChain',
+          params: [{ ...networkDetails }, account],
+        })
+        .catch((error) => {
+          console.error('error adding chain with id', networkDetails.chainId, error)
+        })
+    })
 }

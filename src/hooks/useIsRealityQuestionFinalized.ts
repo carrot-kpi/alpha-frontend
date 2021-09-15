@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { REALITY_ABI, REALITY_ADDRESS } from '@carrot-kpi/sdk'
 import { useContract } from './useContract'
-import { useEthers } from '@usedapp/core'
 import { ChainId } from '@usedapp/core'
+import { useActiveWeb3React } from './useActiveWeb3React'
 
 export function useIsRealityQuestionFinalized(kpiId?: string) {
-  const { chainId } = useEthers()
+  const { chainId } = useActiveWeb3React()
   const realityContract = useContract(REALITY_ADDRESS[(chainId as ChainId) || ChainId.Mainnet], REALITY_ABI)
 
   const [realityQuestionFinalized, setRealityQuestionFinalized] = useState(false)

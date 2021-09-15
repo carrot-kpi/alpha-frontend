@@ -31,16 +31,16 @@ const Base = styled(RebassButton)`
 `
 
 export const ButtonSmall = styled(Base)`
-  height: 36px;
-  border-radius: 18px !important;
+  height: 28px;
+  border-radius: 28px !important;
 `
 
 export const ButtonMedium = styled(Base)`
-  height: 40px;
-  border-radius: 20px !important;
+  height: 36px;
+  border-radius: 36px !important;
 `
 
 export const ButtonLarge = styled(Base)`
-  height: 44px;
-  border-radius: 24px !important;
+  height: 40px;
+  border-radius: 40px !important;
 `

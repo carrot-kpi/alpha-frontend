@@ -11,12 +11,12 @@ import styled, { useTheme } from 'styled-components'
 import { UndecoratedExternalLink } from '../../components/undecorated-link'
 import { SwaprLiquidityChart } from '../../components/charts/swapr-liquidity-chart'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
-import { useEthers } from '@usedapp/core'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
 import { ExternalLink } from 'react-feather'
+import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -58,7 +58,7 @@ export function Campaign({
   },
 }: RouteComponentProps<{ kpiId: string }>): ReactElement {
   const theme = useTheme()
-  const { account } = useEthers()
+  const { account } = useActiveWeb3React()
   const featuredCampaignSpec = useMemo(() => FEATURED_CAMPAIGNS.find((campaign) => campaign.kpiId === kpiId), [kpiId])
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(

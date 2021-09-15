@@ -1,6 +1,6 @@
 import { KPI_TOKEN_ABI, KpiToken } from '@carrot-kpi/sdk'
-import { useEthers } from '@usedapp/core'
 import { useMemo } from 'react'
+import { useActiveWeb3React } from './useActiveWeb3React'
 import { useContract } from './useContract'
 import { useContractFunction } from './useContractFunction'
 import { useKpiTokenBalance } from './useKpiTokenBalance'
@@ -8,7 +8,7 @@ import { useRewardIfKpiIsReached } from './useRewardIfKpiIsReached'
 import { useTokenPriceUSD } from './useTokenPriceUSD'
 
 export function useRedeemKpiTokenCallback(kpiToken?: KpiToken) {
-  const { account } = useEthers()
+  const { account } = useActiveWeb3React()
   const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(kpiToken?.collateral.currency)
   const { balance } = useKpiTokenBalance(kpiToken, account || undefined)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, balance)
