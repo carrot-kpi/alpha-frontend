@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 export const Card = styled(RebassCard)<{ clickable?: boolean; backgroundColor?: string }>`
   border: solid 1px ${(props) => props.theme.divider};
-  padding: 24px 30px;
+  padding: 20px;
   border-radius: 16px;
   background-color: ${(props) => props.backgroundColor || props.theme.background};
   cursor: ${(props) => (props.clickable ? 'pointer' : 'auto')};

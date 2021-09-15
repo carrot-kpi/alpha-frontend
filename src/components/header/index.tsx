@@ -7,6 +7,7 @@ import logo from '../../assets/logo.svg'
 import { UndecoratedInternalLink } from '../undecorated-link'
 import { useEthers } from '@usedapp/core'
 import { WalletConnectionModal } from '../wallet-connection-modal'
+import { WalletModal } from '../wallet-modal'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
@@ -22,30 +23,41 @@ const Logo = styled.img`
 const AddressContainer = styled.div`
   height: 36px;
   color: ${(props) => props.theme.primary};
-  border: solid 1px ${(props) => props.theme.primary};
+  border: solid 1.5px ${(props) => props.theme.primary};
   border-radius: 20px;
   padding: 0 16px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `
 
 export const Header = (): ReactElement => {
   const { account } = useEthers()
   const [walletConnectionModalOpen, setWalletConnectionModalOpen] = useState(false)
+  const [walletModalOpen, setWalletModalOpen] = useState(false)
   /* const darkMode = useIsDarkMode()
   const toggleDarkMode = useToggleDarkMode() */
 
-  const handleClick = useCallback(() => {
+  const handleConnectWalletClick = useCallback(() => {
     setWalletConnectionModalOpen(true)
   }, [])
 
-  const handleClose = useCallback(() => {
+  const handleWalletConnectionModalClose = useCallback(() => {
     setWalletConnectionModalOpen(false)
+  }, [])
+  
+  const handleAccountClick = useCallback(() => {
+    setWalletModalOpen(true)
+  }, [])
+
+  const handleWalletModalClose = useCallback(() => {
+    setWalletModalOpen(false)
   }, [])
 
   return (
     <>
-      <WalletConnectionModal open={walletConnectionModalOpen} onDismiss={handleClose} />
+      <WalletConnectionModal open={walletConnectionModalOpen} onDismiss={handleWalletConnectionModalClose} />
+      <WalletModal open={walletModalOpen} onDismiss={handleWalletModalClose} />
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px={['16px', '24px']}>
         <Flex width={['100%', '80%', '60%', '60%', '40%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
@@ -58,9 +70,9 @@ export const Header = (): ReactElement => {
           <Flex alignItems="center">
             <Box>
               {!!account ? (
-                <AddressContainer>{shortenAddress(account)}</AddressContainer>
+                <AddressContainer onClick={handleAccountClick}>{shortenAddress(account)}</AddressContainer>
               ) : (
-                <ButtonSmall onClick={handleClick}>Connect wallet</ButtonSmall>
+                <ButtonSmall onClick={handleConnectWalletClick}>Connect wallet</ButtonSmall>
               )}
             </Box>
             {/* <Box ml="20px">

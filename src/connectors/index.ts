@@ -5,6 +5,13 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 export const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
 
+export const RPC_URL: {[chainId: number]: string} = {
+  [ChainId.Mainnet]:  `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
+  [ChainId.Rinkeby]:  `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
+} 
+
+export const SUPPORTED_CHAINS = [ChainId.Mainnet, ChainId.Rinkeby]
+
 export const network = new NetworkConnector({
   urls: {
     [ChainId.Rinkeby]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
@@ -13,11 +20,11 @@ export const network = new NetworkConnector({
 })
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.Mainnet, ChainId.Rinkeby],
+  supportedChainIds: SUPPORTED_CHAINS,
 })
 
 export const walletConnect = new WalletConnectConnector({
-  supportedChainIds: [ChainId.Mainnet, ChainId.Rinkeby],
+  supportedChainIds: SUPPORTED_CHAINS,
   rpc: {
     [ChainId.Rinkeby]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`
   },

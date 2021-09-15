@@ -29,7 +29,6 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
 
   return (
     <Card
-      p="24px 32px"
       mx={['16px', '0px']}
       flexDirection="column"
       maxWidth={['auto', '300px']}
@@ -59,7 +58,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         ) : expiresAt.toJSDate().getTime() < Date.now() ? (
           <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
         ) : (
-          <Countdown fontSize="12px" fontWeight="600" to={expiresAt} />
+          <Countdown fontSize="14px" fontWeight="600" to={expiresAt} />
         )}
       </Flex>
       <Box>

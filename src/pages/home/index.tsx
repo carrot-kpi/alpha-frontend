@@ -16,7 +16,7 @@ export function Home(): ReactElement {
           <Text fontSize="48px" fontWeight="700" lineHeight="50px" textAlign="center">
             Incentivize your community.
           </Text>
-          <Text mb="8px" fontSize="48px" fontWeight="700" lineHeight="64px" textAlign="center">
+          <Text mb="16px" fontSize="48px" fontWeight="700" lineHeight="64px" textAlign="center">
             With a carrot.
           </Text>
           <Text mb="40px" fontSize="22px" fontWeight="700" lineHeight="24px" color={theme.primary} textAlign="center">

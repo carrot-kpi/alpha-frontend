@@ -7,6 +7,7 @@ import { BigNumber } from 'ethers'
 import { injected, walletConnect } from '../connectors'
 import metamaskIcon from '../assets/metamask-icon.webp'
 import walletConnectIcon from '../assets/wallet-connect-icon.png'
+import { DateTime } from 'luxon'
 
 export const USD_CURRENCY = new FiatCurrency('US dollar', 'USD', 18)
 export const ZERO_USD = new Amount<Currency>(USD_CURRENCY, BigNumber.from(0))
@@ -86,6 +87,8 @@ interface FeaturedCampaign {
   platform: SupportedPlatform
   id: string
   kpiId: string
+  startDate: DateTime
+  endDate: DateTime
 }
 
 export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
@@ -98,8 +101,10 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    id: '0x3719bf5b307d72cdd14e05fbb283a6ebc8fb02ef',
-    kpiId: '0xe5758e9ed35bdbc149cbc0680eaa27d70b4c2ad4fa8252b64dd54de08eefb45f',
+    startDate: DateTime.fromSeconds(1631232000),
+    endDate: DateTime.fromSeconds(1632096000),
+    id: '0x613ef9212cb80d449f64ad7459961b532756e29b',
+    kpiId: '0x260f29efbfb43d7f3189b747bcbaf10041b609c68a7462c058840d64c9fc1a87',
   },
   {
     platform: {
@@ -110,6 +115,8 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
+    startDate: DateTime.fromSeconds(1631232000),
+    endDate: DateTime.fromSeconds(1632096000),
     id: '0xa49d50f044439c932fba143c985b170d40431082',
     kpiId: '0xa1836f64c67b7f28c0e361bcf1e2ecda58c956b2fb119be113bab60191b21160',
   },
@@ -122,6 +129,8 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
+    startDate: DateTime.fromSeconds(1631232000),
+    endDate: DateTime.fromSeconds(1632096000),
     id: '0x35b5e24a8849c47036a68bbb1ad3646ed3b42545',
     kpiId: '0xc0081e2b24608f482babb63bdce02d9a0c6824295bad60e27d9ab29d09d0e762',
   },

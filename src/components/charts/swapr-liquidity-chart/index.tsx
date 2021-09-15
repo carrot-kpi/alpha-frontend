@@ -15,9 +15,10 @@ interface SwaprLiquidityChartProps {
   token0: Token
   token1: Token
   startDate: DateTime
+  endDate: DateTime
 }
 
-export const SwaprLiquidityChart = ({ token0, token1, startDate }: SwaprLiquidityChartProps) => {
+export const SwaprLiquidityChart = ({ token0, token1, startDate, endDate }: SwaprLiquidityChartProps) => {
   const theme = useTheme()
   const { data } = useSwaprPairLiquidityDayData(token0, token1)
 
@@ -26,9 +27,10 @@ export const SwaprLiquidityChart = ({ token0, token1, startDate }: SwaprLiquidit
   useEffect(() => {
     if (data && data.length > 0) {
       const startDateSeconds = startDate.toSeconds()
-      setChartData(data.filter((item) => item.date >= startDateSeconds))
+      const endDateSeconds = endDate.toSeconds()
+      setChartData(data.filter((item) => item.date >= startDateSeconds && item.date <= endDateSeconds))
     }
-  }, [data, startDate])
+  }, [data, endDate, startDate])
 
   return (
     <ChartContainer>

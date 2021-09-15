@@ -8,6 +8,7 @@ import { ZERO_DECIMAL } from '../../constants'
 import { useRedeemKpiTokenCallback } from '../../hooks/useRedeemKpiTokenCallback'
 import Skeleton from 'react-loading-skeleton'
 import { Token } from '@usedapp/core'
+import { useCallback } from 'react'
 
 interface CampaignStatusAndActionsProps {
   status: Status | null
@@ -19,12 +20,20 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
   const finalize = useFinalizeKpiTokenCallback(kpiToken)
   const redeem = useRedeemKpiTokenCallback(kpiToken)
 
+  const handleFinalize = useCallback(() => {
+    if (finalize) finalize()
+  }, [finalize])
+
+  const handleRedeem = useCallback(() => {
+    if (redeem) redeem()
+  }, [redeem])
+
   if (status === null) return <Skeleton width="100%" height="16px" />
   if (status === Status.AWAITING_EXPIRY)
     return (
       <>
         The condition still has to play out. Results will be known only after{' '}
-        {kpiToken?.expiresAt.toFormat('dd/mm/yyyy hh:ss')}.
+        {kpiToken?.expiresAt.toFormat('dd/mm/yyyy hh:ss')} local time.
       </>
     )
   if (status === Status.AWAITING_ANSWER)
@@ -35,12 +44,9 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
           button below to submit it and receive a reward for your services.
         </Box>
         <Box>
-          <ButtonMedium
-            as={UndecoratedExternalLink}
-            href={`https://reality.eth.link/app/#!/question/${kpiToken?.kpiId}`}
-          >
-            Submit answer
-          </ButtonMedium>
+          <UndecoratedExternalLink href={`https://reality.eth.link/app/#!/question/${kpiToken?.kpiId}`}>
+            <ButtonMedium>Submit answer</ButtonMedium>
+          </UndecoratedExternalLink>
         </Box>
       </Flex>
     )
@@ -52,7 +58,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
           collateral to be distributed among token holders in relation to their balance.
         </Box>
         <Box>
-          <ButtonMedium onClick={finalize}>Finalize KPI token</ButtonMedium>
+          <ButtonMedium onClick={handleFinalize}>Finalize KPI token</ButtonMedium>
         </Box>
       </Flex>
     )
@@ -65,7 +71,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
           by token holders in realtion to their balance.
         </Box>
         <Box>
-          <ButtonMedium onClick={redeem}>Redeem reward</ButtonMedium>
+          <ButtonMedium onClick={handleRedeem}>Redeem reward</ButtonMedium>
         </Box>
       </Flex>
     )
@@ -79,11 +85,18 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
             holders to redeem. Click the button below to redeem your part.
           </Box>
           <Box>
-            <ButtonMedium onClick={redeem}>Redeem reward</ButtonMedium>
+            <ButtonMedium onClick={handleRedeem}>Redeem reward</ButtonMedium>
           </Box>
         </Flex>
       )
-    return <>The KPI has not been reached.</>
+    return (
+      <Flex flexDirection="column">
+        <Box mb="20px">The KPI has not been reached. You can click the button below to burn your KPI tokens.</Box>
+        <Box>
+          <ButtonMedium onClick={handleRedeem}>Burn tokens</ButtonMedium>
+        </Box>
+      </Flex>
+    )
   }
   return null
 }

@@ -17,7 +17,6 @@ import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
 import { ExternalLink } from 'react-feather'
-import { DateTime } from 'luxon'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -182,7 +181,8 @@ export function Campaign({
                   <SwaprLiquidityChart
                     token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
                     token1={(featuredCampaignSpec.platform.specificData as DexSpecificData).token1}
-                    startDate={DateTime.now().minus({ days: 30 })}
+                    startDate={featuredCampaignSpec.startDate}
+                    endDate={featuredCampaignSpec.endDate}
                   />
                 </>
               )}
