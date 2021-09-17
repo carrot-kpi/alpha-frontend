@@ -5,7 +5,7 @@ import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 import Portal from '@reach/portal'
 import { Card } from '../card'
-import { useInterval } from '@usedapp/core'
+import { useInterval } from 'react-use'
 
 const PopoverContainer = styled(Card)<{ show: boolean; style: any }>`
   z-index: ${(props) => (props.show ? 9999 : 0)};
@@ -44,7 +44,13 @@ export function Popover({
   const { styles, update, attributes } = usePopper(referenceElement, popperElement, {
     placement,
     strategy: 'fixed',
-    modifiers: [{ name: 'offset', options: { offset: [offsetX, offsetY] } }],
+    modifiers: [
+      { name: 'offset', options: { offset: [offsetX, offsetY] } },
+      {
+        name: 'computeStyles',
+        options: { adaptive: false },
+      },
+    ],
   })
   const updateCallback = useCallback(() => {
     update && update()

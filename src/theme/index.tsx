@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
-import '@fontsource/montserrat/500.css'
-import '@fontsource/montserrat/600.css'
-import '@fontsource/montserrat/700.css'
+import '@fontsource/inter/500.css'
+import '@fontsource/inter/600.css'
+import '@fontsource/inter/700.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { transparentize } from 'polished'
 
@@ -45,7 +45,7 @@ export function getTheme(darkMode: boolean): Theme {
 
 export const GlobalStyle = createGlobalStyle`
   html, input, textarea, button {
-    font-family: 'Montserrat';
+    font-family: 'Inter';
   }
 
   html,
@@ -83,7 +83,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .custom-toast-body {
-      font-family: "Montserrat";
+      font-family: "Inter";
       padding: 4px 8px;
   }
 

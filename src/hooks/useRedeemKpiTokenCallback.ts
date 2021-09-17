@@ -1,8 +1,8 @@
 import { KPI_TOKEN_ABI, KpiToken } from '@carrot-kpi/sdk'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { useContract } from './useContract'
-import { useContractFunction } from './useContractFunction'
 import { useKpiTokenBalance } from './useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from './useRewardIfKpiIsReached'
 import { useTokenPriceUSD } from './useTokenPriceUSD'
@@ -17,11 +17,20 @@ export function useRedeemKpiTokenCallback(kpiToken?: KpiToken) {
     [collateralPriceUSD, rewardIfKpiIsReached]
   )
 
-  return useContractFunction(
-    'redeem',
-    `Redeem ${rewardIfKpiIsReached?.toFixed(3)} ${
-      rewardIfKpiIsReached?.currency.ticker
-    } ($${redeemedCollateral?.toFixed(2)}) from ${kpiToken?.ticker}`,
-    useContract(kpiToken?.address, KPI_TOKEN_ABI)
-  )
+  const kpiTokenContract = useContract(kpiToken?.address, KPI_TOKEN_ABI)
+  const addTransaction = useTransactionAdder()
+
+  return useCallback(async () => {
+    if (!kpiTokenContract || !kpiToken) return
+    try {
+      const tx = await kpiTokenContract.redeem()
+      addTransaction(tx, {
+        summary: `Redeem ${rewardIfKpiIsReached?.toFixed(3)} ${
+          rewardIfKpiIsReached?.currency.symbol
+        } ($${redeemedCollateral?.toFixed(2)}) from ${kpiToken?.symbol}`,
+      })
+    } catch (error) {
+      console.error('error redeeming carrot', error)
+    }
+  }, [addTransaction, kpiToken, kpiTokenContract, redeemedCollateral, rewardIfKpiIsReached])
 }

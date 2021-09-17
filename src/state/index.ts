@@ -1,18 +1,22 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import { save, load } from 'redux-localstorage-simple'
 import { userReducer } from './user/reducer'
+import { multicallReducer } from './multicall/reducer'
+import { transactionsReducer } from './transactions/reducer'
+import { applicationReducer } from './application/reducer'
 
 const PERSISTED_KEYS: string[] = ['user']
 
 const persistenceNamespace = 'carrot'
 export const store = configureStore({
   reducer: {
+    application: applicationReducer,
     user: userReducer,
+    multicall: multicallReducer,
+    transactions: transactionsReducer,
   },
-  middleware: [
-    ...getDefaultMiddleware({ thunk: false }),
-    save({ states: PERSISTED_KEYS, namespace: persistenceNamespace }),
-  ],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: false }).concat(save({ states: PERSISTED_KEYS, namespace: persistenceNamespace })),
   preloadedState: load({ states: PERSISTED_KEYS, namespace: persistenceNamespace }),
 })
 

@@ -1,13 +1,12 @@
 import { gql, useQuery } from '@apollo/client'
 import Decimal from 'decimal.js-light'
-import { BigNumber } from 'ethers'
-import { parseUnits } from 'ethers/lib/utils'
+import { BigNumber } from '@ethersproject/bignumber'
+import { parseUnits } from '@ethersproject/units'
 import { useEffect, useState } from 'react'
-import { Amount } from '@carrot-kpi/sdk'
-import { USD_CURRENCY, ZERO_USD } from '../constants'
+import { Amount, Currency } from '@carrot-kpi/sdk'
+import { ZERO_USD } from '../constants'
 import { useNativeCurrency } from './useNativeCurrency'
 import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
-import { Currency } from '@usedapp/core'
 
 const QUERY = gql`
   query {
@@ -45,11 +44,11 @@ export function useNativeCurrencyUSDPrice() {
     setLoading(false)
     setPriceUSD(
       new Amount<Currency>(
-        USD_CURRENCY,
+        Currency.USD,
         BigNumber.from(
           parseUnits(
-            new Decimal(data.bundle.nativeCurrencyPrice).toFixed(USD_CURRENCY.decimals),
-            USD_CURRENCY.decimals
+            new Decimal(data.bundle.nativeCurrencyPrice).toFixed(Currency.USD.decimals),
+            Currency.USD.decimals
           ).toString()
         )
       )

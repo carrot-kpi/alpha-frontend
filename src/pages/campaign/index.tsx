@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useMemo, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Flex, Box, Text } from 'rebass'
 import { RouteComponentProps } from 'react-router-dom'
@@ -18,6 +18,7 @@ import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionF
 import { ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { getExplorerLink } from '../../utils'
+import { commify } from '@ethersproject/units'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -57,32 +58,30 @@ export function Campaign({
   const { account, chainId } = useActiveWeb3React()
   const featuredCampaignSpec = useMemo(() => FEATURED_CAMPAIGNS.find((campaign) => campaign.kpiId === kpiId), [kpiId])
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
-  const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(
-    kpiToken,
-    account || undefined
-  )
-  const { realityQuestionFinalized, loading: loadingRealityQuestionFinalized } = useIsRealityQuestionFinalized(kpiId)
+  const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
+  const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
+    useIsRealityQuestionFinalized(kpiId)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.currency
   )
 
   const [status, setStatus] = useState(Status.AWAITING_ANSWER)
+  const [currentPeriodEnded, setCurrentPeriodEnded] = useState(false)
 
   useEffect(() => {
     if (!kpiToken || loadingRealityQuestionFinalized) return
-    if (kpiToken.expiresAt.toJSDate().getTime() > Date.now()) {
-      setStatus(Status.AWAITING_EXPIRY)
-    } else if (realityQuestionFinalized) {
-      if (kpiToken.finalized) {
-        setStatus(kpiToken.kpiReached ? Status.KPI_REACHED : Status.KPI_NOT_REACHED)
-      } else {
-        setStatus(Status.AWAITING_FINALIZATION)
-      }
-    } else {
-      setStatus(Status.AWAITING_ANSWER)
-    }
-  }, [kpiToken, loadingRealityQuestionFinalized, realityQuestionFinalized])
+    if (kpiToken.expiresAt.toJSDate().getTime() > Date.now()) setStatus(Status.AWAITING_EXPIRY)
+    else if (realityQuestionFinalized) {
+      if (kpiToken.finalized) setStatus(kpiToken.kpiReached ? Status.KPI_REACHED : Status.KPI_NOT_REACHED)
+      else setStatus(Status.AWAITING_FINALIZATION)
+    } else setStatus(Status.AWAITING_ANSWER)
+    setCurrentPeriodEnded(false)
+  }, [kpiToken, realityQuestionFinalized, currentPeriodEnded, loadingRealityQuestionFinalized])
+
+  const handleCountdownEnd = useCallback(() => {
+    setCurrentPeriodEnded(true)
+  }, [])
 
   if (!featuredCampaignSpec) return <Redirect to="/" />
   return (
@@ -106,7 +105,7 @@ export function Campaign({
                   Symbol:
                 </Text>
                 <EllipsizedText fontSize="18px" overflow="hidden">
-                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.ticker}
+                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
                 </EllipsizedText>
               </Flex>
               <Flex flexDirection="column" mb="12px">
@@ -120,7 +119,11 @@ export function Campaign({
                   Total supply:
                 </Text>
                 <Text fontSize="18px">
-                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : `${kpiToken.totalSupply.toFixed(2)}`}
+                  {loadingKpiToken || !kpiToken ? (
+                    <Skeleton width="40px" />
+                  ) : (
+                    `${commify(kpiToken.totalSupply.toFixed(2))}`
+                  )}
                 </Text>
               </Flex>
               {chainId && kpiToken?.address && (
@@ -173,8 +176,8 @@ export function Campaign({
               {featuredCampaignSpec?.platform.specific === SpecificPlatform.SWAPR && (
                 <>
                   <Text mb="20px" fontWeight="700">
-                    Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.ticker}/
-                    {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.ticker} liquidity
+                    Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/
+                    {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol} liquidity
                   </Text>
                   <SwaprLiquidityChart
                     token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
@@ -196,7 +199,7 @@ export function Campaign({
               ) : kpiToken.expiresAt.toJSDate().getTime() < Date.now() ? (
                 <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
               ) : (
-                <Countdown to={kpiToken.expiresAt} />
+                <Countdown to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
               )}
             </Card>
             <Card flexDirection="column" m="8px">
@@ -207,14 +210,14 @@ export function Campaign({
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
-                  `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.ticker}`
+                  `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.symbol}`
                 )}
               </Text>
               <Text>
                 {loadingKpiToken || loadingCollateralTokenPrice || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
-                  `$${kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2)}`
+                  `$${commify(kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2))}`
                 )}
               </Text>
             </Card>

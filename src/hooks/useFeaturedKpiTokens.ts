@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { FEATURED_CAMPAIGNS } from '../constants'
-import { KpiToken, Amount } from '@carrot-kpi/sdk'
+import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
-import { BigNumber } from 'ethers'
+import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
-import { Token } from '@usedapp/core'
 import { useActiveWeb3React } from './useActiveWeb3React'
+import { getAddress } from '@ethersproject/address'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -93,15 +93,15 @@ export function useFeaturedKpiTokens() {
     }
     const featuredKpiTokens = featuredKpiTokensData.kpiTokens.map((kpiToken) => {
       const collateralToken = new Token(
-        kpiToken.collateral.token.name,
-        kpiToken.collateral.token.symbol,
         chainId,
-        kpiToken.collateral.token.id,
-        kpiToken.collateral.token.decimals
+        getAddress(kpiToken.collateral.token.id),
+        kpiToken.collateral.token.decimals,
+        kpiToken.collateral.token.symbol,
+        kpiToken.collateral.token.name
       )
       return new KpiToken(
         chainId,
-        kpiToken.id,
+        getAddress(kpiToken.id),
         kpiToken.symbol,
         kpiToken.name,
         kpiToken.kpiId,

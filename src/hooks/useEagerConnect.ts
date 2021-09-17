@@ -1,10 +1,10 @@
-import { useEthers } from '@usedapp/core'
 import { useEffect, useState } from 'react'
 import { injected } from '../connectors'
 import { useIsMobile } from './useIsMobile'
+import { useWeb3React } from '@web3-react/core'
 
 export function useEagerConnect() {
-  const { activate, active } = useEthers() // specifically using useWeb3ReactCore because of what this hook does
+  const { activate, active } = useWeb3React() // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false)
   const isMobile = useIsMobile()
 

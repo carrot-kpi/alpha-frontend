@@ -1,9 +1,9 @@
-import { useEthers } from '@usedapp/core'
 import { useEffect } from 'react'
 import { injected } from '../connectors'
+import { useWeb3React } from '@web3-react/core'
 
 export function useInactiveListener(suppress = false) {
-  const { active, error, activate } = useEthers()
+  const { active, error, activate } = useWeb3React()
 
   useEffect(() => {
     const { ethereum } = window

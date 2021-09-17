@@ -1,13 +1,12 @@
 import { Status } from '../../pages/campaign'
 import { ExternalLink } from '../undecorated-link'
 import { Flex, Box } from 'rebass'
-import { KpiToken, Amount } from '@carrot-kpi/sdk'
+import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
 import { ButtonMedium } from '../button'
 import { useFinalizeKpiTokenCallback } from '../../hooks/useFinalizeKpiTokenCallback'
 import { ZERO_DECIMAL } from '../../constants'
 import { useRedeemKpiTokenCallback } from '../../hooks/useRedeemKpiTokenCallback'
 import Skeleton from 'react-loading-skeleton'
-import { Token } from '@usedapp/core'
 import { useCallback } from 'react'
 
 interface CampaignStatusAndActionsProps {
@@ -67,7 +66,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
       <Flex flexDirection="column">
         <Box mb="20px">
           The KPI has been reached with {kpiToken?.progressPercentage.toFixed(2)}% completion rate.{' '}
-          {kpiToken?.collateral.toFixed(4)} {kpiToken?.collateral.currency.ticker} have been unlocked and are redeemable
+          {kpiToken?.collateral.toFixed(4)} {kpiToken?.collateral.currency.symbol} have been unlocked and are redeemable
           by token holders in realtion to their balance.
         </Box>
         <Box>

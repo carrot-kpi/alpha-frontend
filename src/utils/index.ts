@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { getAddress } from 'ethers/lib/utils'
+import { getAddress } from '@ethersproject/address'
 import { NetworkDetails } from '../constants'
 
 const ETHERSCAN_PREFIXES: { [chainId in number]: string } = {

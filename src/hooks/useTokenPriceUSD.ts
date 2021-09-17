@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Amount } from '@carrot-kpi/sdk'
+import { Amount, Currency, Token } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
 import { ZERO_USD } from '../constants'
-import { parseUnits } from 'ethers/lib/utils'
+import { parseUnits } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
 import { useNativeCurrencyUSDPrice } from './useNativeCurrencyUSDPrice'
 import { useNativeCurrency } from './useNativeCurrency'
-import { Currency, Token } from '@usedapp/core'
 
 const SWAPR_TOKEN_PRICE_QUERY = gql`
   query swaprTokenDerivedNativeCurrency($id: ID!) {

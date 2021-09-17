@@ -1,16 +1,15 @@
 import { ReactNode, useCallback, useRef } from 'react'
 import styled from 'styled-components'
-import { NETWORK_DETAIL } from '../../constants'
+import { NETWORK_CONTEXT_NAME, NETWORK_DETAIL } from '../../constants'
 import { Popover } from '../popover'
 import { useClickAway } from 'react-use'
-import { ChainId, useEthers } from '@usedapp/core'
+import { ChainId } from '@carrot-kpi/sdk'
 import { Box, Flex, Text } from 'rebass'
 import { Card } from '../card'
 import { NetworkConnector } from '@web3-react/network-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
-import { UnsupportedChainIdError } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { switchOrAddNetwork } from '../../utils'
-import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,8 +31,8 @@ interface NetworkSwitcherPopoverProps {
 }
 
 export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitcherPopoverProps) => {
-  const { connector, account, chainId } = useActiveWeb3React()
-  const { error: walletConnectionError, connector: walletConnectionConnector } = useEthers()
+  const { connector, account, chainId } = useWeb3React(NETWORK_CONTEXT_NAME)
+  const { error: walletConnectionError, connector: walletConnectionConnector } = useWeb3React()
   const popoverRef = useRef<HTMLDivElement | null>(null)
   useClickAway(popoverRef, () => {
     if (show) onHide()
@@ -58,7 +57,7 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
   const isOptionDisabled = useCallback(
     (networkId: ChainId) => {
       if (walletConnectionError instanceof UnsupportedChainIdError) return false
-      return connector?.supportedChainIds?.indexOf(networkId) === -1 || (chainId && chainId === networkId)
+      return !!(connector?.supportedChainIds?.indexOf(networkId) === -1 || (chainId && chainId === networkId))
     },
     [chainId, connector, walletConnectionError]
   )

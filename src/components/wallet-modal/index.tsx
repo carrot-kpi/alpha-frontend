@@ -1,13 +1,13 @@
 import { Modal } from '../modal'
 import { Flex, Box, Text } from 'rebass'
 import styled from 'styled-components'
-import { shortenAddress, useTransactions } from '@usedapp/core'
 import { ChevronRight, Layers } from 'react-feather'
 import { AddressZero } from '@ethersproject/constants'
 import { Card } from '../card'
 import { UndecoratedExternalLink } from '../undecorated-link'
-import { getExplorerLink } from '../../utils'
+import { getExplorerLink, shortenAddress } from '../../utils'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
+import { useAllTransactions } from '../../state/transactions/hooks'
 
 interface WalletConnectionModalProps {
   open?: boolean
@@ -25,8 +25,8 @@ const EllipsizedText = styled(Text)`
 `
 
 export const WalletModal = ({ open, onDismiss }: WalletConnectionModalProps) => {
-  const { account } = useActiveWeb3React()
-  const { transactions: wrappedTransactions } = useTransactions()
+  const { account, chainId } = useActiveWeb3React()
+  const transactions = useAllTransactions()
 
   return (
     <Modal open={!!open} onDismiss={onDismiss}>
@@ -40,19 +40,13 @@ export const WalletModal = ({ open, onDismiss }: WalletConnectionModalProps) => 
         <Text mb="12px" fontSize="16px" fontWeight="700">
           Transactions
         </Text>
-        {wrappedTransactions.length > 0 ? (
-          wrappedTransactions.map((wrappedTransaction) => {
+        {Object.keys(transactions).length > 0 && chainId ? (
+          Object.entries(transactions).map(([hash, transaction]) => {
             return (
-              <Box key={wrappedTransaction.transaction.hash}>
-                <UndecoratedExternalLink
-                  href={getExplorerLink(
-                    wrappedTransaction.transaction.chainId,
-                    wrappedTransaction.transaction.hash,
-                    'transaction'
-                  )}
-                >
+              <Box key={hash}>
+                <UndecoratedExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
                   <Flex justifyContent="space-between" alignItems="center">
-                    <EllipsizedText>{wrappedTransaction.transactionName}</EllipsizedText>
+                    <EllipsizedText>{transaction.summary}</EllipsizedText>
                     <Box ml="12px">
                       <ChevronRight />
                     </Box>

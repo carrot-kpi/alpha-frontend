@@ -1,10 +1,10 @@
 import { XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar } from 'recharts'
 import styled, { useTheme } from 'styled-components'
 import { DayData, useSwaprPairLiquidityDayData } from '../../../hooks/useSwaprPairLiquidityDayData'
-import { Token } from '@usedapp/core'
 import { useEffect, useState } from 'react'
+import { Token } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { commify } from 'ethers/lib/utils'
+import { commify } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
 
 const ChartContainer = styled.div`

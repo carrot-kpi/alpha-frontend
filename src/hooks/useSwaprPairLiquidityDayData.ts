@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
 import { DateTime } from 'luxon'
-import { Token } from '@usedapp/core'
+import { Token } from '@carrot-kpi/sdk'
 
 const DAY_DATA_QUERY = gql`
   query getSwaprDayData($skip: Int!, $token0: ID!, $token1: ID!) {

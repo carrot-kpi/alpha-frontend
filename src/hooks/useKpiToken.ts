@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { KpiToken, Amount } from '@carrot-kpi/sdk'
+import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
 import { gql, useQuery } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
-import { BigNumber } from 'ethers'
+import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
-import { Token } from '@usedapp/core'
 import { useActiveWeb3React } from './useActiveWeb3React'
+import { getAddress } from '@ethersproject/address'
 
 const KPI_TOKEN_QUERY = gql`
   query kpiToken($kpiId: ID!) {
@@ -94,15 +94,15 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
     }
     const rawKpiToken = kpiTokenData.kpiTokens[0]
     const collateralToken = new Token(
-      rawKpiToken.collateral.token.name,
-      rawKpiToken.collateral.token.symbol,
       chainId,
-      rawKpiToken.collateral.token.id,
-      rawKpiToken.collateral.token.decimals
+      getAddress(rawKpiToken.collateral.token.id),
+      rawKpiToken.collateral.token.decimals,
+      rawKpiToken.collateral.token.symbol,
+      rawKpiToken.collateral.token.name
     )
     const kpiToken = new KpiToken(
       chainId,
-      rawKpiToken.id,
+      getAddress(rawKpiToken.id),
       rawKpiToken.symbol,
       rawKpiToken.name,
       rawKpiToken.kpiId,

@@ -1,30 +1,29 @@
-import { useEffect, useState } from 'react'
-import { REALITY_ABI, REALITY_ADDRESS } from '@carrot-kpi/sdk'
-import { useContract } from './useContract'
-import { ChainId } from '@usedapp/core'
-import { useActiveWeb3React } from './useActiveWeb3React'
+import { useEffect, useMemo, useState } from 'react'
+import { useSingleCallResult } from '../state/multicall/hooks'
+import { useRealityContract } from './useContract'
 
-export function useIsRealityQuestionFinalized(kpiId?: string) {
-  const { chainId } = useActiveWeb3React()
-  const realityContract = useContract(REALITY_ADDRESS[(chainId as ChainId) || ChainId.Mainnet], REALITY_ABI)
+export function useIsRealityQuestionFinalized(kpiId?: string): { loading: boolean; finalized: boolean } {
+  const realityContract = useRealityContract(false)
+  const callParams = useMemo(() => [kpiId], [kpiId])
+  const wrappedResult = useSingleCallResult(realityContract, 'isFinalized', callParams)
 
-  const [realityQuestionFinalized, setRealityQuestionFinalized] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [finalized, setFinalized] = useState(false)
 
   useEffect(() => {
-    const fetchResult = async () => {
-      if (!realityContract || !kpiId) return
+    if (!kpiId || !realityContract) return
+    if (wrappedResult.loading) {
       setLoading(true)
-      try {
-        setRealityQuestionFinalized(await realityContract.isFinalized(kpiId))
-      } catch (error) {
-        console.error(`could not determine if reality question was finalized for kpi id ${kpiId}`, error)
-      } finally {
-        setLoading(false)
-      }
+      return
     }
-    fetchResult()
-  }, [kpiId, realityContract])
+    if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
+      console.error('could not fetch finalization status', wrappedResult.error)
+      setLoading(true)
+      return
+    }
+    setLoading(false)
+    setFinalized(wrappedResult.result[0])
+  }, [kpiId, realityContract, wrappedResult.error, wrappedResult.loading, wrappedResult.result])
 
-  return { loading, realityQuestionFinalized }
+  return { loading, finalized }
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { KpiToken, Amount } from '@carrot-kpi/sdk'
-import { Token } from '@usedapp/core'
+import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
 
 export function useRewardIfKpiIsReached(kpiToken?: KpiToken, balance?: Amount<Token> | null) {
   const [rewardIfKpiIsReached, setRewardIfKpiIsReached] = useState<Amount<Token> | null>(null)

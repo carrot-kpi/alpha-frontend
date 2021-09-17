@@ -2,12 +2,11 @@ import { Box, Flex, Text } from 'rebass'
 import { DateTime } from 'luxon'
 import { ButtonMedium } from '../button'
 import styled, { useTheme } from 'styled-components'
-import { Amount } from '@carrot-kpi/sdk'
+import { Amount, Token } from '@carrot-kpi/sdk'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { Card } from '../card'
 import { Countdown } from '../countdown'
-import { Token } from '@usedapp/core'
 import { UndecoratedInternalLink } from '../undecorated-link'
 
 const KpiExpiredText = styled(Text)`
@@ -28,20 +27,14 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
   const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
 
   return (
-    <Card
-      mx={['16px', '0px']}
-      flexDirection="column"
-      maxWidth={['auto', '300px']}
-      height="100%"
-      display="flex"
-    >
+    <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
       <Flex width="100%" justifyContent="space-between" mb="16px">
         <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.primary}>
           {loading ? <Skeleton width="40px" /> : creator}
         </Text>
       </Flex>
       <Box mb="20px" flexGrow={1}>
-        <Text fontSize="20px" fontWeight="800" lineHeight="20px">
+        <Text fontSize="20px" lineHeight="20px">
           {loading ? <Skeleton width="160px" /> : goal}
         </Text>
       </Box>

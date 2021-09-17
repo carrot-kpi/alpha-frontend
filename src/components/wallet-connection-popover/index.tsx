@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { SUPPORTED_WALLETS } from '../../constants'
 import { Popover } from '../popover'
 import { useClickAway } from 'react-use'
-import { useEthers } from '@usedapp/core'
 import { Box, Flex, Text } from 'rebass'
 import { Card } from '../card'
 import { CheckCircle } from 'react-feather'
+import { useWeb3React } from '@web3-react/core'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,7 +31,7 @@ interface ConnectWalletProps {
 }
 
 export const WalletConnectionPopover = ({ children, show, onHide }: ConnectWalletProps) => {
-  const { activate, connector, active } = useEthers()
+  const { activate, connector, active } = useWeb3React()
   const popoverRef = useRef<HTMLDivElement | null>(null)
   useClickAway(popoverRef, () => {
     if (show) onHide()

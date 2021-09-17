@@ -1,4 +1,3 @@
-import { useEthers } from '@usedapp/core'
 import { useWeb3React } from '@web3-react/core'
 import { useEffect, useState } from 'react'
 import { Flex, Card } from 'rebass'
@@ -41,7 +40,7 @@ function Loader({ size = '16px', stroke, ...rest }: { size?: string; stroke?: st
 }
 
 export default function Web3ReactManager({ children }: { children: JSX.Element }) {
-  const { active } = useEthers()
+  const { active } = useWeb3React()
   const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React(NETWORK_CONTEXT_NAME)
   const targetedChainId = useTargetedChainIdFromUrl()
 

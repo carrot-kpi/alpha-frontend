@@ -1,62 +1,51 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { Amount, NATIVE_CURRENCY } from '@carrot-kpi/sdk'
-import { ChainId, Token, FiatCurrency, Currency } from '@usedapp/core'
+import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
 import Decimal from 'decimal.js-light'
-import { BigNumber } from 'ethers'
+import { BigNumber } from '@ethersproject/bignumber'
 import { injected, walletConnect } from '../connectors'
 import metamaskLogo from '../assets/metamask-logo.webp'
 import walletConnectLogo from '../assets/wallet-connect-logo.png'
 import ethereumLogo from '../assets/ethereum-logo.png'
 import { DateTime } from 'luxon'
 
-export const USD_CURRENCY = new FiatCurrency('US dollar', 'USD', 18)
-export const ZERO_USD = new Amount<Currency>(USD_CURRENCY, BigNumber.from(0))
+export const ZERO_USD = new Amount<Currency>(Currency.USD, BigNumber.from(0))
 export const ZERO_DECIMAL = new Decimal(0)
 
 export const CREATORS_NAME_MAP: { [address: string]: string } = {
   '0xb4124ceb3451635dacedd11767f004d8a28c6ee7': 'Luzzif',
 }
 
-export const CARROT_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
-  // this must be changed once on mainnet
-  [ChainId.Mainnet]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/kpi-tokens-framework-rinkeby',
-    cache: new InMemoryCache(),
-  }),
-  [ChainId.Rinkeby]: new ApolloClient({
+export const CARROT_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
+  [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/kpi-tokens-framework-rinkeby',
     cache: new InMemoryCache(),
   }),
 }
 
-export const SWAPR_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
-  [ChainId.Mainnet]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-mainnet-alpha',
-    cache: new InMemoryCache(),
-  }),
-  [ChainId.Rinkeby]: new ApolloClient({
+export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
+  [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr_rinkeby',
     cache: new InMemoryCache(),
   }),
 }
 
-export const WEENUS = new Token('Weenus', 'WEENUS', ChainId.Rinkeby, '0xaff4481d10270f50f203e0763e2597776068cbc5', 18)
-export const XEENUS = new Token('Xeenus', 'XEENUS', ChainId.Rinkeby, '0x022e292b44b5a146f2e8ee36ff44d3dd863c915c', 18)
-export const ZEENUS = new Token('Zeenus', 'ZEENUS', ChainId.Rinkeby, '0x1f9061B953bBa0E36BF50F21876132DcF276fC6e', 18)
+export const WEENUS = new Token(ChainId.RINKEBY, '0xaFF4481D10270F50f203E0763e2597776068CBc5', 18, 'WEENUS', 'Weenus')
+export const XEENUS = new Token(ChainId.RINKEBY, '0x022E292b44B5a146F2e8ee36Ff44D3dd863C915c', 18, 'XEENUS', 'Xeenus')
+export const ZEENUS = new Token(ChainId.RINKEBY, '0x1f9061B953bBa0E36BF50F21876132DcF276fC6e', 18, 'ZEENUS', 'Zeenus')
 export const WBTC = new Token(
-  'Wrapped Bitcoin',
+  ChainId.RINKEBY,
+  '0x577D296678535e4903D59A4C929B718e1D575e0A',
+  18,
   'WBTC',
-  ChainId.Rinkeby,
-  '0x577d296678535e4903d59a4c929b718e1d575e0a',
-  18
+  'Wrapped Bitcoin'
 )
 export const WETH = new Token(
-  'Wrapped Ether',
+  ChainId.RINKEBY,
+  '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+  18,
   'WETH',
-  ChainId.Rinkeby,
-  '0xc778417e063141139fce010982780140aa0cd5ab',
-  18
+  'Wrapped Ether'
 )
 
 export enum SupportedPlatformType {
@@ -104,8 +93,8 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
     },
     startDate: DateTime.fromSeconds(1631232000),
     endDate: DateTime.fromSeconds(1632096000),
-    id: '0x613ef9212cb80d449f64ad7459961b532756e29b',
-    kpiId: '0x260f29efbfb43d7f3189b747bcbaf10041b609c68a7462c058840d64c9fc1a87',
+    id: '0x6a3a6c413e353771a9f538a003117ce405b5b55e',
+    kpiId: '0xa74ca29265b648ef9972238e9c63d8ddb539c389d07ace433346e98ce7680874',
   },
   {
     platform: {
@@ -171,17 +160,17 @@ export interface NetworkDetails {
 }
 
 export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
-  [ChainId.Rinkeby]: {
-    chainId: `0x${ChainId.Rinkeby.toString(16)}`,
+  [ChainId.RINKEBY]: {
+    chainId: `0x${ChainId.RINKEBY.toString(16)}`,
     chainName: 'Rinkeby testnet',
     icon: ethereumLogo,
     nativeCurrency: {
-      name: NATIVE_CURRENCY[ChainId.Rinkeby].name || 'Ether',
-      symbol: NATIVE_CURRENCY[ChainId.Rinkeby].ticker || 'ETH',
-      decimals: NATIVE_CURRENCY[ChainId.Rinkeby].decimals || 18,
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
     },
-    rpcUrls: ['https://mainnet.infura.io/v3'],
-    blockExplorerUrls: ['https://etherscan.io'],
+    rpcUrls: ['https://rinkeby.infura.io/v3'],
+    blockExplorerUrls: ['https://rinkeby.etherscan.io'],
   },
 }
 
