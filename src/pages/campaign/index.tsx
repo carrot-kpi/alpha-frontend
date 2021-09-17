@@ -19,6 +19,7 @@ import { ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { getExplorerLink } from '../../utils'
 import { commify } from '@ethersproject/units'
+import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -65,19 +66,28 @@ export function Campaign({
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.currency
   )
+  // this auto updates at each block, instead of using the static value attached to the kpi token ts instance
+  const { loading: loadingKpiTokenFinalized, finalized: kpiTokenFinalized } = useIsKpiTokenFinalized(kpiToken)
 
   const [status, setStatus] = useState(Status.AWAITING_ANSWER)
   const [currentPeriodEnded, setCurrentPeriodEnded] = useState(false)
 
   useEffect(() => {
-    if (!kpiToken || loadingRealityQuestionFinalized) return
+    if (!kpiToken || loadingRealityQuestionFinalized || loadingKpiTokenFinalized) return
     if (kpiToken.expiresAt.toJSDate().getTime() > Date.now()) setStatus(Status.AWAITING_EXPIRY)
     else if (realityQuestionFinalized) {
-      if (kpiToken.finalized) setStatus(kpiToken.kpiReached ? Status.KPI_REACHED : Status.KPI_NOT_REACHED)
+      if (kpiTokenFinalized) setStatus(kpiToken.kpiReached ? Status.KPI_REACHED : Status.KPI_NOT_REACHED)
       else setStatus(Status.AWAITING_FINALIZATION)
     } else setStatus(Status.AWAITING_ANSWER)
     setCurrentPeriodEnded(false)
-  }, [kpiToken, realityQuestionFinalized, currentPeriodEnded, loadingRealityQuestionFinalized])
+  }, [
+    kpiToken,
+    realityQuestionFinalized,
+    currentPeriodEnded,
+    loadingRealityQuestionFinalized,
+    kpiTokenFinalized,
+    loadingKpiTokenFinalized,
+  ])
 
   const handleCountdownEnd = useCallback(() => {
     setCurrentPeriodEnded(true)
