@@ -17,7 +17,7 @@ export function useRedeemKpiTokenCallback(kpiToken?: KpiToken) {
     [collateralPriceUSD, rewardIfKpiIsReached]
   )
 
-  const kpiTokenContract = useContract(kpiToken?.address, KPI_TOKEN_ABI)
+  const kpiTokenContract = useContract(kpiToken?.address, KPI_TOKEN_ABI, true)
   const addTransaction = useTransactionAdder()
 
   return useCallback(async () => {
