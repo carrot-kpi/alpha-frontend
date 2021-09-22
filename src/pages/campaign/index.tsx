@@ -17,7 +17,7 @@ import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
 import { ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { getExplorerLink } from '../../utils'
+import { getExplorerLink, shortenAddress } from '../../utils'
 import { commify } from '@ethersproject/units'
 import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 
@@ -104,7 +104,7 @@ export function Campaign({
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="40px" />
                 ) : (
-                  CREATORS_NAME_MAP[kpiToken.creator] || kpiToken.creator
+                  CREATORS_NAME_MAP[kpiToken.creator] || shortenAddress(kpiToken.creator)
                 )}
               </Text>
               <Text fontSize="24px" mb="20px">
