@@ -4,6 +4,7 @@ import { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
 import { CREATORS_NAME_MAP, FEATURED_CAMPAIGNS } from '../../constants'
+import { shortenAddress } from '../../utils'
 
 export function Home(): ReactElement {
   const theme = useTheme()
@@ -44,7 +45,7 @@ export function Home(): ReactElement {
                 <Box key={featuredKpiToken.kpiId} p="8px" width="100%" maxWidth={['100%', '300px']}>
                   <CampaignCard
                     kpiId={featuredKpiToken.kpiId}
-                    creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || featuredKpiToken.creator}
+                    creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || shortenAddress(featuredKpiToken.creator)}
                     expiresAt={featuredKpiToken.expiresAt}
                     goal={featuredKpiToken.question}
                     collateral={featuredKpiToken.collateral}

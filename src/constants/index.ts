@@ -91,10 +91,10 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
         token1: WETH,
       },
     },
-    startDate: DateTime.fromSeconds(1631232000),
-    endDate: DateTime.fromSeconds(1632096000),
-    id: '0x6a3a6c413e353771a9f538a003117ce405b5b55e',
-    kpiId: '0xa74ca29265b648ef9972238e9c63d8ddb539c389d07ace433346e98ce7680874',
+    startDate: DateTime.fromSeconds(0),
+    endDate: DateTime.fromSeconds(1632960000),
+    id: '0x4aea914e70db869b2e7dda8db7f107e8804b61ab',
+    kpiId: '0x8931cd8e45e12cfabd3ae5f105e585cf19ca446615d6fce746cf3f1ee08f5944',
   },
   {
     platform: {
