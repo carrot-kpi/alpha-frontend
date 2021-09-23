@@ -93,8 +93,8 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
     },
     startDate: DateTime.fromSeconds(0),
     endDate: DateTime.fromSeconds(1632960000),
-    id: '0x4aea914e70db869b2e7dda8db7f107e8804b61ab',
-    kpiId: '0x8931cd8e45e12cfabd3ae5f105e585cf19ca446615d6fce746cf3f1ee08f5944',
+    id: '0x4834c6895fb2ccfb1fb0080eebef0be805c573a2',
+    kpiId: '0xcf758e906e6d4c12f867c3d14a05e03e02e8853b76cb3dbf7970a26326be4d06',
   },
   {
     platform: {

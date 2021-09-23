@@ -76,6 +76,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
     )
   if (status === Status.KPI_NOT_REACHED) {
     const kpiProgress = kpiToken?.progressPercentage
+    console.log(kpiProgress?.toFixed(2))
     if (kpiTokenBalance && !kpiTokenBalance.isZero() && kpiProgress && kpiProgress > ZERO_DECIMAL)
       return (
         <Flex flexDirection="column">
