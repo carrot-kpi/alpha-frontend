@@ -20,6 +20,8 @@ import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { getExplorerLink, shortenAddress } from '../../utils'
 import { commify } from '@ethersproject/units'
 import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
+import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
+import Decimal from 'decimal.js-light'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -66,27 +68,38 @@ export function Campaign({
   const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
     kpiToken?.collateral.currency
   )
-  // this auto updates at each block, instead of using the static value attached to the kpi token ts instance
+  // these auto updates at each block, instead of using the static value attached to the kpi token ts instance
   const { loading: loadingKpiTokenFinalized, finalized: kpiTokenFinalized } = useIsKpiTokenFinalized(kpiToken)
+  const { loading: loadingKpiTokenProgress, progress: kpiTokenProgress } = useKpiTokenProgress(kpiToken)
 
   const [status, setStatus] = useState(Status.AWAITING_ANSWER)
   const [currentPeriodEnded, setCurrentPeriodEnded] = useState(false)
+  const [kpiProgressPercentage, setKpiProgressPercentage] = useState(new Decimal('0'))
 
   useEffect(() => {
-    if (!kpiToken || loadingRealityQuestionFinalized || loadingKpiTokenFinalized) return
+    if (!kpiToken || loadingKpiTokenProgress) return
+    const kpiScalarRange = kpiToken.higherBound.sub(kpiToken.lowerBound)
+    setKpiProgressPercentage(new Decimal(kpiTokenProgress.toString()).dividedBy(kpiScalarRange.toString()).times(100))
+  }, [kpiToken, kpiTokenProgress, loadingKpiTokenProgress])
+
+  useEffect(() => {
+    if (!kpiToken || loadingRealityQuestionFinalized || loadingKpiTokenFinalized || loadingKpiTokenProgress) return
     if (kpiToken.expiresAt.toJSDate().getTime() > Date.now()) setStatus(Status.AWAITING_EXPIRY)
     else if (realityQuestionFinalized) {
-      if (kpiTokenFinalized) setStatus(kpiToken.kpiReached ? Status.KPI_REACHED : Status.KPI_NOT_REACHED)
+      if (kpiTokenFinalized)
+        setStatus(kpiProgressPercentage.equals('100') ? Status.KPI_REACHED : Status.KPI_NOT_REACHED)
       else setStatus(Status.AWAITING_FINALIZATION)
     } else setStatus(Status.AWAITING_ANSWER)
     setCurrentPeriodEnded(false)
   }, [
+    kpiProgressPercentage,
     kpiToken,
-    realityQuestionFinalized,
-    currentPeriodEnded,
-    loadingRealityQuestionFinalized,
     kpiTokenFinalized,
     loadingKpiTokenFinalized,
+    loadingKpiTokenProgress,
+    loadingRealityQuestionFinalized,
+    realityQuestionFinalized,
+    currentPeriodEnded,
   ])
 
   const handleCountdownEnd = useCallback(() => {
@@ -176,7 +189,12 @@ export function Campaign({
                   <>
                     <DividerBox mb="20px" />
                     <Box>
-                      <CampaignStatusAndActions status={status} kpiToken={kpiToken} kpiTokenBalance={kpiTokenBalance} />
+                      <CampaignStatusAndActions
+                        status={status}
+                        kpiToken={kpiToken}
+                        kpiTokenBalance={kpiTokenBalance}
+                        kpiProgressPercentage={kpiProgressPercentage}
+                      />
                     </Box>
                   </>
                 )}
