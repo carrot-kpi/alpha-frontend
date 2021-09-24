@@ -8,14 +8,21 @@ import { ZERO_DECIMAL } from '../../constants'
 import { useRedeemKpiTokenCallback } from '../../hooks/useRedeemKpiTokenCallback'
 import Skeleton from 'react-loading-skeleton'
 import { useCallback } from 'react'
+import Decimal from 'decimal.js-light'
 
 interface CampaignStatusAndActionsProps {
   status: Status | null
   kpiToken?: KpiToken
   kpiTokenBalance?: Amount<Token>
+  kpiProgressPercentage: Decimal
 }
 
-export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: CampaignStatusAndActionsProps) => {
+export const CampaignStatusAndActions = ({
+  status,
+  kpiToken,
+  kpiTokenBalance,
+  kpiProgressPercentage,
+}: CampaignStatusAndActionsProps) => {
   const finalize = useFinalizeKpiTokenCallback(kpiToken)
   const redeem = useRedeemKpiTokenCallback(kpiToken)
 
@@ -65,7 +72,7 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
     return (
       <Flex flexDirection="column">
         <Box mb="20px">
-          The KPI has been reached with {kpiToken?.progressPercentage.toFixed(2)}% completion rate.{' '}
+          The KPI has been reached with {kpiProgressPercentage.toFixed(2)}% completion rate.{' '}
           {kpiToken?.collateral.toFixed(4)} {kpiToken?.collateral.currency.symbol} have been unlocked and are redeemable
           by token holders in realtion to their balance.
         </Box>
@@ -75,14 +82,12 @@ export const CampaignStatusAndActions = ({ status, kpiToken, kpiTokenBalance }: 
       </Flex>
     )
   if (status === Status.KPI_NOT_REACHED) {
-    const kpiProgress = kpiToken?.progressPercentage
-    console.log(kpiProgress?.toFixed(2))
-    if (kpiTokenBalance && !kpiTokenBalance.isZero() && kpiProgress && kpiProgress > ZERO_DECIMAL)
+    if (kpiTokenBalance && !kpiTokenBalance.isZero() && kpiProgressPercentage.greaterThan(ZERO_DECIMAL))
       return (
         <Flex flexDirection="column">
           <Box mb="20px">
-            The KPI has been partly reached. {kpiProgress.toFixed(2)}% of the collateral has been unlocked for token
-            holders to redeem. Click the button below to redeem your part.
+            The KPI has been partly reached. {kpiProgressPercentage.toFixed(2)}% of the collateral has been unlocked for
+            token holders to redeem. Click the button below to redeem your part.
           </Box>
           <Box>
             <ButtonMedium onClick={handleRedeem}>Redeem reward</ButtonMedium>
