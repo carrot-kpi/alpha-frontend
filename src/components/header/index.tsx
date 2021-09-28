@@ -5,7 +5,7 @@ import { shortenAddress } from '../../utils'
 import { ButtonSmall } from '../button'
 import logo from '../../assets/logo.svg'
 import { UndecoratedInternalLink } from '../undecorated-link'
-import { UnsupportedChainIdError } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectionPopover } from '../wallet-connection-popover'
 import { NetworkSwitcherPopover } from '../network-switcher-popover'
 import { WalletModal } from '../wallet-modal'
@@ -53,7 +53,8 @@ const WrongNetwork = styled.div`
 `
 
 export const Header = (): ReactElement => {
-  const { chainId, account, error } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
+  const { error } = useWeb3React()
   const [showWalletConnectionPopover, setShowWalletConnectionPopover] = useState(false)
   const [showNetworkSwitchPopover, setShowNetworkSwitchPopover] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState(false)
