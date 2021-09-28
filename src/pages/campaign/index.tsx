@@ -165,7 +165,7 @@ export function Campaign({
                     {loadingKpiTokenBalance || !kpiToken || !kpiTokenBalance ? (
                       <Skeleton width="80px" />
                     ) : (
-                      kpiTokenBalance.toFixed(4)
+                      `${kpiTokenBalance.toFixed(4)} ${kpiToken.symbol}`
                     )}
                   </Text>
                 </Flex>
@@ -179,9 +179,9 @@ export function Campaign({
                     {!rewardIfKpiIsReached ? (
                       <Skeleton width="80px" />
                     ) : (
-                      `${rewardIfKpiIsReached.toFixed(4)} ($${rewardIfKpiIsReached
-                        ?.multiply(collateralPriceUSD)
-                        .toFixed(2)})`
+                      `${rewardIfKpiIsReached.toFixed(4)} ${
+                        kpiToken?.collateral.currency.symbol
+                      } ($${rewardIfKpiIsReached?.multiply(collateralPriceUSD).toFixed(2)})`
                     )}
                   </Text>
                 </Flex>
