@@ -78,33 +78,58 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .custom-toast-container {
-      box-shadow: 0px 30px 62px 0px ${(props) => transparentize(0.9, props.theme.shadow)} !important;
-      border-radius: 16px !important;
+      box-shadow: 0px 16px 12px ${({ theme }) => transparentize(0.8, theme.boxShadow)};
+      border-radius: 12px !important;
   }
 
   .custom-toast-body {
       font-family: "Inter";
-      padding: 4px 8px;
   }
 
   .Toastify__toast {
       min-height: auto !important;
+      padding: 16px;
+  }
+
+  .Toastify__progress-bar--info {
+    background-color: ${(props) => props.theme.primary};
   }
 
   .Toastify__toast-body {
       margin: 0 !important;
+      padding: 0 !important;
   }
 
-  .Toastify__toast--warning {
-      background: ${(props) => props.theme.warning} !important;
+  .Toastify__close-button {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+  }
+
+  .Toastify__toast--info {
+      background: ${(props) => props.theme.white} !important;
+      border: solid 1px ${(props) => props.theme.divider};
   }
   
-  .Toastify__toast--error {
-      background: ${(props) => props.theme.error} !important;
+  .Toastify__toast-icon {
+      display: none;
   }
-  
-  .Toastify__toast--success {
-      background: ${(props) => props.theme.success} !important;
+
+  .Toastify__toast-container--top-right {
+    right: 28px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .Toastify__toast-container--top-right {
+        top: auto !important;
+        bottom: 70px !important;
+        left: 12px !important;
+        right: 12px !important;
+    }
+    
+    .Toastify__toast-container {
+        width: auto !important;
+    }
   }
 `
 

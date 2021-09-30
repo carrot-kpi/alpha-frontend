@@ -12,6 +12,7 @@ import { GlobalStyle } from '../../theme'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { useEffect } from 'react'
 import { useLocation } from 'react-use'
+import { TransactionsStateUpdater } from '../../state/transactions/updater'
 
 export function App() {
   const darkMode = useIsDarkMode()
@@ -26,6 +27,7 @@ export function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <TransactionsStateUpdater />
         <GlobalStyle />
         <Header />
         <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">

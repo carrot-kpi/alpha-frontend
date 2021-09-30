@@ -1,8 +1,10 @@
 import { ChainId } from '@carrot-kpi/sdk'
 import { useCallback, useEffect, useMemo } from 'react'
+import { AlertCircle, CheckCircle } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { Flex, Text } from 'rebass'
+import { Box, Flex, Text } from 'rebass'
+import { useTheme } from 'styled-components'
 import { ExternalLink } from '../../components/undecorated-link'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { getExplorerLink } from '../../utils'
@@ -47,6 +49,7 @@ export function TransactionsStateUpdater(): null {
   const { chainId, library } = useActiveWeb3React()
 
   const lastBlockNumber = useBlockNumber()
+  const theme = useTheme()
 
   const dispatch = useDispatch()
   const state = useSelector<AppState, TransactionState>((state) => state.transactions)
@@ -99,11 +102,25 @@ export function TransactionsStateUpdater(): null {
                 })
               )
 
-              const showToast = receipt.status === 1 ? toast.success : toast.error
-              showToast(
-                <Flex flexDirection="column">
-                  <Text mb="8px">{transactions[hash]?.summary}</Text>
-                  <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}></ExternalLink>
+              toast.info(
+                <Flex alignItems="center">
+                  <Box pr="12px">
+                    {receipt.status === 1 ? (
+                      <CheckCircle color={theme.success} size={24} />
+                    ) : (
+                      <AlertCircle color={theme.error} size={24} />
+                    )}
+                  </Box>
+                  <Flex flexDirection="column">
+                    <Text mb="4px" color={theme.text}>
+                      {transactions[hash]?.summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
+                    </Text>
+                    {chainId && (
+                      <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
+                        <Text fontSize="14px">View on block explorer</Text>
+                      </ExternalLink>
+                    )}
+                  </Flex>
                 </Flex>
               )
 
@@ -126,7 +143,7 @@ export function TransactionsStateUpdater(): null {
     return () => {
       cancels.forEach((cancel) => cancel())
     }
-  }, [chainId, library, transactions, lastBlockNumber, dispatch, getReceipt])
+  }, [chainId, library, transactions, lastBlockNumber, dispatch, getReceipt, theme])
 
   return null
 }

@@ -9,7 +9,6 @@ import { NETWORK_CONTEXT_NAME } from './constants'
 import { Web3Provider } from '@ethersproject/providers'
 import Web3ReactManager from './components/web3-manager'
 import { ApplicationStateUpdater } from './state/application/updater'
-import { TransactionsStateUpdater } from './state/transactions/updater'
 import { MulticallStateUpdater } from './state/multicall/updater'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NETWORK_CONTEXT_NAME)
@@ -22,7 +21,6 @@ function Updaters() {
   return (
     <>
       <ApplicationStateUpdater />
-      <TransactionsStateUpdater />
       <MulticallStateUpdater />
     </>
   )
