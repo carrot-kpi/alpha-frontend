@@ -42,7 +42,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
         <Text textAlign="center" fontWeight="800">
-          $
+          {collateral?.toFixed(4)} {collateral?.currency.symbol} ($
           {loading || !collateral ? (
             <Skeleton width="60px" />
           ) : collateral.multiply(collateralPriceUSD).isZero() ? (
@@ -50,6 +50,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
           ) : (
             collateral.multiply(collateralPriceUSD).toFixed(2)
           )}
+          )
         </Text>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mb="24px">

@@ -22,7 +22,6 @@ import { commify } from '@ethersproject/units'
 import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
 import Decimal from 'decimal.js-light'
-import { DateTime } from 'luxon'
 import { Title } from '../../components/title'
 
 export enum Status {
@@ -33,9 +32,9 @@ export enum Status {
   KPI_NOT_REACHED,
 }
 
-/* const KpiExpiredText = styled(Text)`
+const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
-` */
+`
 
 const EllipsizedText = styled(Text)`
   white-space: nowrap;
@@ -218,13 +217,13 @@ export function Campaign({
           <Flex flexDirection="column" width={['100%', '35%']}>
             <Card flexDirection="column" m="8px">
               <Title mb="8px">Time left</Title>
-              {/* {!kpiToken ? (
+              {!kpiToken ? (
                 <Skeleton width="80px" />
               ) : kpiToken.expiresAt.toJSDate().getTime() < Date.now() ? (
                 <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
-              ) : ( */}
-              <Countdown to={DateTime.now().plus({ days: 4 })} onEnd={handleCountdownEnd} />
-              {/* )} */}
+              ) : (
+                <Countdown to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
+              )}
             </Card>
             <Card flexDirection="column" m="8px">
               <Title mb="8px">Rewards</Title>

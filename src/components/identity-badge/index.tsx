@@ -11,17 +11,20 @@ const FlexContainer = styled.div<{ onClick?: any; mobile: boolean }>`
   align-items: center;
   height: 28px;
   width: fit-content;
+  border: ${(props) => `solid 1px ${props.theme.border}`};
+  border-radius: 8px !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
+  background-color: ${(props) => props.theme.surface};
   padding: ${(props) => (props.mobile ? '0px' : '0px 12px 0px 0px')};
-  border-radius: 8px;
-  background-color: ${(props) => props.theme.infoSurface};
   cursor: ${(props) => (props.onClick ? 'pointer' : 'auto')};
 `
 
 const Blockie = styled(Blockies)<{ mobile: boolean }>`
   border-radius: 8px;
-  height: 28px !important;
-  width: 28px !important;
+  height: 24px !important;
+  width: 24px !important;
   margin-right: ${(props) => (props.mobile ? 0 : '8px')};
+  margin-left: 2px;
 `
 
 const ConnectedDot = styled.div`
