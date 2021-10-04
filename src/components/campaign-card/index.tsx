@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from 'rebass'
 import { DateTime } from 'luxon'
-import { ButtonMedium } from '../button'
+import { Button } from '../button'
 import styled, { useTheme } from 'styled-components'
 import { Amount, Token } from '@carrot-kpi/sdk'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
@@ -8,9 +8,10 @@ import Skeleton from 'react-loading-skeleton'
 import { Card } from '../card'
 import { Countdown } from '../countdown'
 import { UndecoratedInternalLink } from '../undecorated-link'
+import { Title } from '../title'
 
 const KpiExpiredText = styled(Text)`
-  color: ${(props) => props.theme.error};
+  color: ${(props) => props.theme.negativeSurfaceContent};
 `
 
 interface CampaignCardProps {
@@ -29,7 +30,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
   return (
     <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
       <Flex width="100%" justifyContent="space-between" mb="16px">
-        <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.primary}>
+        <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.accent}>
           {loading ? <Skeleton width="40px" /> : creator}
         </Text>
       </Flex>
@@ -39,13 +40,13 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         </Text>
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
-        <Text>Rewards:</Text>
-        <Text textAlign="center" fontWeight="800" color={theme.primary}>
+        <Title>Rewards:</Title>
+        <Text textAlign="center" fontWeight="800" color={theme.accent}>
           ${loading || !collateral ? <Skeleton width="60px" /> : collateral.multiply(collateralPriceUSD).toFixed(2)}
         </Text>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mb="24px">
-        <Text>Time left:</Text>
+        <Title>Time left:</Title>
         {!expiresAt ? (
           <Skeleton width="80px" />
         ) : expiresAt.toJSDate().getTime() < Date.now() ? (
@@ -56,7 +57,9 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       </Flex>
       <Box>
         <UndecoratedInternalLink to={`/campaigns/${kpiId}`}>
-          <ButtonMedium width="100%">See campaign</ButtonMedium>
+          <Button primary medium>
+            See campaign
+          </Button>
         </UndecoratedInternalLink>
       </Box>
     </Card>

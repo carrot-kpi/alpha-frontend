@@ -4,14 +4,14 @@ import styled from 'styled-components'
 const Container = styled.div`
   height: 12px;
   width: 100%;
-  background-color: ${(props) => props.theme.divider};
+  background-color: ${(props) => props.theme.disabledContent};
   border-radius: 6px;
 `
 
 const Child = styled.div<{ progress: number }>`
   height: 12px;
   border-radius: 6px;
-  background-color: ${(props) => props.theme.primary};
+  background-color: ${(props) => props.theme.disabledContent};
   width: ${(props) => props.progress * 100}%;
 `
 

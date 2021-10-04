@@ -1,51 +1,117 @@
 import { createGlobalStyle } from 'styled-components'
-import '@fontsource/inter/500.css'
-import '@fontsource/inter/600.css'
-import '@fontsource/inter/700.css'
+import '@fontsource/overpass/400.css'
+import '@fontsource/overpass/600.css'
+import '@fontsource/overpass/700.css'
+import '@fontsource/overpass-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { transparentize } from 'polished'
-
-const white = '#fff'
-const black = '#000'
+import { lightTheme } from './light'
+import { darkTheme } from './dark'
 
 export interface Theme {
-  white: string
-  black: string
-  text: string
   background: string
-  divider: string
-  primary: string
-  shadow: string
-  error: string
-  success: string
+  border: string
+  overlay: string
+  content: string
+  contentSecondary: string
+
+  surface: string
+  surfaceContent: string
+  surfaceContentSecondary: string
+  surfaceIcon: string
+  surfaceUnder: string
+  surfaceOpened: string
+  surfaceSelected: string
+  surfaceHighlight: string
+  surfacePressed: string
+  surfaceInteractive: string
+
+  feedbackSurface: string
+  feedbackSurfaceContent: string
+  feedbackSurfaceContentSecondary: string
+
   warning: string
-  skeletonColor: string
-  skeletonHighlightColor: string
-  boxShadow: string
+  warningSurface: string
+  warningSurfaceContent: string
+
+  info: string
+  infoSurface: string
+  infoSurfaceContent: string
+
+  help: string
+  helpContent: string
+  helpSurface: string
+  helpSurfaceContent: string
+
+  negative: string
+  negativeContent: string
+  negativeSurface: string
+  negativeSurfaceContent: string
+
+  positive: string
+  positiveContent: string
+  positiveSurface: string
+  positiveSurfaceContent: string
+
+  badge: string
+  badgeContent: string
+  badgePressed: string
+
+  tagIdentifier: string
+  tagIdentifierContent: string
+
+  tagNew: string
+  tagNewContent: string
+
+  tagIndicator: string
+  tagIndicatorContent: string
+
+  tagActivity: string
+  tagActivityContent: string
+
+  hint: string
+  link: string
+  focus: string
+  selected: string
+  selectedContent: string
+  selectedDisabled: string
+
+  disabled: string
+  disabledContent: string
+  disabledIcon: string
+
+  control: string
+  controlBorder: string
+  controlBorderPressed: string
+  controlDisabled: string
+  controlSurface: string
+  controlUnder: string
+
+  accent: string
+  accentStart: string
+  accentEnd: string
+  accentContent: string
+
+  floating: string
+  floatingContent: string
+
+  green: string
+  yellow: string
+  red: string
+  blue: string
+  brown: string
+  purple: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getTheme(darkMode: boolean): Theme {
-  return {
-    white,
-    black,
-    text: darkMode ? white : black,
-    background: darkMode ? black : white,
-    divider: darkMode ? '#404040' : '#cccccc',
-    primary: '#FF782D',
-    shadow: darkMode ? '#fff' : '#000',
-    error: '#c62828',
-    success: '#008035',
-    warning: '#FF6F00',
-    skeletonColor: darkMode ? '#1a1a1a' : '#f2f2f2',
-    skeletonHighlightColor: darkMode ? '#404040' : '#d9d9d9',
-    boxShadow: '#0A0A0F',
-  }
+  return darkMode ? darkTheme : lightTheme
 }
 
 export const GlobalStyle = createGlobalStyle`
   html, input, textarea, button {
-    font-family: 'Inter';
+    font-family: 'Overpass';
+    font-weight: 400;
   }
 
   html,
@@ -57,7 +123,7 @@ export const GlobalStyle = createGlobalStyle`
     min-height: 100vh;
     overflow-x: hidden;
     background-color: ${(props) => props.theme.background};
-    color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.surfaceContent};
   }
 
   #root {
@@ -78,7 +144,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .custom-toast-container {
-      box-shadow: 0px 16px 12px ${({ theme }) => transparentize(0.8, theme.boxShadow)};
+      box-shadow: 0px 16px 12px ${({ theme }) => transparentize(0.8, theme.overlay)};
       border-radius: 12px !important;
   }
 
@@ -92,7 +158,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .Toastify__progress-bar--info {
-    background-color: ${(props) => props.theme.primary};
+    background-color: ${(props) => props.theme.accent};
   }
 
   .Toastify__toast-body {
@@ -107,8 +173,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .Toastify__toast--info {
-      background: ${(props) => props.theme.white} !important;
-      border: solid 1px ${(props) => props.theme.divider};
+      background: ${(props) => props.theme.surface} !important;
+      border: solid 1px ${(props) => props.theme.border};
   }
   
   .Toastify__toast-icon {

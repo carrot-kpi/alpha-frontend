@@ -20,7 +20,7 @@ export function Home(): ReactElement {
           <Text mb="16px" fontSize="48px" fontWeight="700" lineHeight="64px" textAlign="center">
             With a carrot.
           </Text>
-          <Text mb="40px" fontSize="22px" fontWeight="700" lineHeight="24px" color={theme.primary} textAlign="center">
+          <Text mb="40px" fontSize="22px" fontWeight="700" lineHeight="24px" color={theme.accent} textAlign="center">
             Increase TVL, volume, price, engagement and more.
           </Text>
         </Flex>

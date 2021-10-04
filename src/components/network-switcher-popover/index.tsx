@@ -1,28 +1,14 @@
-import { ReactNode, useCallback, useRef } from 'react'
-import styled from 'styled-components'
+import { ReactNode, useCallback } from 'react'
 import { NETWORK_CONTEXT_NAME, NETWORK_DETAIL } from '../../constants'
 import { Popover } from '../popover'
-import { useClickAway } from 'react-use'
 import { ChainId } from '@carrot-kpi/sdk'
-import { Box, Flex, Text } from 'rebass'
+import { Flex, Text } from 'rebass'
 import { Card } from '../card'
 import { NetworkConnector } from '@web3-react/network-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { switchOrAddNetwork } from '../../utils'
-
-const Wrapper = styled.div`
-  width: 100%;
-`
-
-const StyledPopover = styled(Popover)`
-  max-width: 290px;
-  padding: 22px;
-  border-style: solid;
-  border-width: 1.2px;
-  border-radius: 12px;
-  border-image: none;
-`
+import styled from 'styled-components'
 
 interface NetworkSwitcherPopoverProps {
   children: ReactNode
@@ -30,13 +16,22 @@ interface NetworkSwitcherPopoverProps {
   onHide: () => void
 }
 
+const BackgroundImageCard = styled(Card)<{ backgroundImage: string }>`
+  background-image: url(${(props) => props.backgroundImage});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+`
+
+const NetworkText = styled(Text)`
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 4px 8px;
+  border-radius: 8px;
+`
+
 export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitcherPopoverProps) => {
   const { connector, account, chainId } = useWeb3React(NETWORK_CONTEXT_NAME)
   const { error: walletConnectionError, connector: walletConnectionConnector } = useWeb3React()
-  const popoverRef = useRef<HTMLDivElement | null>(null)
-  useClickAway(popoverRef, () => {
-    if (show) onHide()
-  })
 
   const handleNetworkChange = useCallback(
     (optionChainId: ChainId) => {
@@ -63,44 +58,39 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
   )
 
   return (
-    <Wrapper>
-      <StyledPopover
-        innerRef={popoverRef}
-        content={
-          <Flex flexDirection="column" alignItems="center">
-            {Object.entries(NETWORK_DETAIL).map(([chainId, networkDetail]) => {
-              return (
-                <Card
-                  width="100%"
-                  mb="8px"
-                  p="8px 12px"
-                  clickable
-                  key={chainId}
-                  justifyContent="space-between"
-                  disabled={isOptionDisabled(Number(chainId))}
-                  onClick={() => {
-                    handleNetworkChange(Number(chainId))
-                  }}
-                >
-                  <Flex alignItems="center" opacity={isOptionDisabled(Number(chainId)) ? '0.2' : '1'}>
-                    <Box mr="12px">
-                      <img height="24px" src={networkDetail.icon} alt={networkDetail.chainName} />
-                    </Box>
-                    <Text>{networkDetail.chainName}</Text>
-                  </Flex>
-                </Card>
-              )
-            })}
-            <Text mt="8px" fontWeight={700} fontSize="10px" letterSpacing="3px">
-              A DXDAO PRODUCT
-            </Text>
-          </Flex>
-        }
-        show={show}
-        placement="bottom-end"
-      >
-        {children}
-      </StyledPopover>
-    </Wrapper>
+    <Popover
+      content={
+        <Flex flexWrap="nowrap" alignItems="center">
+          {Object.entries(NETWORK_DETAIL).map(([chainId, networkDetail], index) => {
+            return (
+              <BackgroundImageCard
+                width="180px"
+                height="100px"
+                p="12px"
+                clickable
+                ml={index !== 0 ? '8px' : '0'}
+                key={chainId}
+                disabled={isOptionDisabled(Number(chainId))}
+                onClick={() => {
+                  handleNetworkChange(Number(chainId))
+                }}
+                backgroundImage={networkDetail.icon}
+                opacity={isOptionDisabled(Number(chainId)) ? '0.2' : '1'}
+              >
+                <Flex height="100%" alignItems="flex-end">
+                  <NetworkText fontSize="18px" color="#fff">
+                    {networkDetail.chainName}
+                  </NetworkText>
+                </Flex>
+              </BackgroundImageCard>
+            )
+          })}
+        </Flex>
+      }
+      show={show}
+      onHide={onHide}
+    >
+      {children}
+    </Popover>
   )
 }

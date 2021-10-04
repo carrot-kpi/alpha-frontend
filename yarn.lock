@@ -1882,10 +1882,15 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
-"@fontsource/inter@^4.5.0":
+"@fontsource/overpass-mono@^4.5.0":
   version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.5.0.tgz#b99e49fa178e4086250fb3df2ed6a7366c9a0cb5"
-  integrity sha512-2efK8Ru0LkuOYrEpiHPlV02YkTdIKGbezlxVNeA8/3c+tNt7P2aQPuiYYkVy7N4GA5LWSUVcLL/91MpCIjinOw==
+  resolved "https://registry.yarnpkg.com/@fontsource/overpass-mono/-/overpass-mono-4.5.0.tgz#66fdd559c05305a01c4a39cd61451f44f804dc87"
+  integrity sha512-iC2xoWfcnDYKsa6lrA97qPVL7Dnv+vT4R+qC+j0r4sZjn6JpIY27/mPOhMTf9d7r+AGCtq+5OjBEFt7S/v8aEg==
+
+"@fontsource/overpass@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/overpass/-/overpass-4.5.0.tgz#893a9190e4f99733c2a0308705350d5ea53935c1"
+  integrity sha512-UEf8emYYzXWsGXMON+Q3ovzAZDcLbRO+dYa0eS6FqEHVYvtJUiEfultXTOTKc4FauJ0zoktjZpAhKH49XI3tRg==
 
 "@graphql-typed-document-node/core@^3.0.0":
   version "3.1.0"
@@ -2720,6 +2725,13 @@
   version "6.9.7"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
   integrity sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
+
+"@types/react-blockies@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@types/react-blockies/-/react-blockies-1.4.1.tgz#d5f6fff8ece3e90f2e7708f8f3156c87333312df"
+  integrity sha512-aDX0g0hwzdodkGLSDNUQr6gXxwclGjnhS8jhsR8uQhAfe/7i3GZD/NDcSlQ2SiQiLhfRxX3NlY+nvBwf5Y0tTg==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-dom@^17.0.9":
   version "17.0.9"
@@ -11674,7 +11686,7 @@ prompts@2.4.0, prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -11910,6 +11922,13 @@ react-app-rewired@^2.1.6:
   integrity sha512-wjXPdKPLscA7mn0I1de1NHrbfWdXz4S1ladaGgHVKdn1hTgKK5N6EdGIJM0KrS6bKnJBj7WuqJroDTsPKKr66Q==
   dependencies:
     semver "^5.6.0"
+
+react-blockies@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/react-blockies/-/react-blockies-1.4.1.tgz#d4f0faf95ac197213a297a370a4d7f77ea3d0b08"
+  integrity sha512-4N015X5oPNnD3xQPsiqolOFzPZSSWyc5mJhJUZShUCHtiGUxVN+1qsWTcglkHMNySux9hUofaispqcw9QkWP5Q==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-clientside-effect@^1.2.5:
   version "1.2.5"

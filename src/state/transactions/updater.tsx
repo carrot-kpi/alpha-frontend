@@ -106,13 +106,13 @@ export function TransactionsStateUpdater(): null {
                 <Flex alignItems="center">
                   <Box pr="12px">
                     {receipt.status === 1 ? (
-                      <CheckCircle color={theme.success} size={24} />
+                      <CheckCircle color={theme.positiveSurfaceContent} size={24} />
                     ) : (
-                      <AlertCircle color={theme.error} size={24} />
+                      <AlertCircle color={theme.negativeSurfaceContent} size={24} />
                     )}
                   </Box>
                   <Flex flexDirection="column">
-                    <Text mb="4px" color={theme.text}>
+                    <Text mb="4px" color={theme.surfaceContent}>
                       {transactions[hash]?.summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
                     </Text>
                     {chainId && (

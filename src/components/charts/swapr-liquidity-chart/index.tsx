@@ -44,20 +44,20 @@ export const SwaprLiquidityChart = ({ token0, token1, startDate, endDate }: Swap
               minTickGap={80}
               tickFormatter={(tick) => DateTime.fromSeconds(tick).toFormat('DD')}
               dataKey="date"
-              tick={{ fill: theme.text }}
+              tick={{ fill: theme.surfaceContent }}
               type={'number'}
               domain={['dataMin', 'dataMax']}
             />
             <YAxis type="number" axisLine={false} interval="preserveEnd" yAxisId={0} tick={false} />
             <Tooltip
-              cursor={{ fill: theme.background }}
+              cursor={{ fill: theme.border }}
               formatter={(val: string) => `$${commify(new Decimal(val).toFixed(2))}`}
               labelFormatter={(label) => DateTime.fromSeconds(label).toFormat('DD')}
               labelStyle={{ paddingTop: 4 }}
               contentStyle={{
                 padding: '8px 12px',
                 borderRadius: 12,
-                borderColor: theme.divider,
+                borderColor: theme.border,
                 color: 'black',
               }}
             />
@@ -65,9 +65,9 @@ export const SwaprLiquidityChart = ({ token0, token1, startDate, endDate }: Swap
               type="monotone"
               name={'Liquidity'}
               dataKey={'reserveUSD'}
-              fill={theme.primary}
+              fill={theme.accent}
               yAxisId={0}
-              stroke={theme.primary}
+              stroke={theme.accent}
             />
           </BarChart>
         </ResponsiveContainer>

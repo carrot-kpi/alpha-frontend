@@ -22,7 +22,7 @@ const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
   height: ${({ size }) => size};
   width: ${({ size }) => size};
   path {
-    stroke: ${({ stroke, theme }) => stroke ?? theme.white};
+    stroke: ${({ stroke, theme }) => stroke ?? theme.accent};
   }
 `
 

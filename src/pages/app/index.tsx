@@ -33,7 +33,7 @@ export function App() {
         <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
           <Flex flexDirection="column" flex="1" width={['100%', '80%', '60%', '60%', '40%']}>
             <Box flexGrow={1}>
-              <SkeletonTheme color={theme.skeletonColor} highlightColor={theme.skeletonHighlightColor}>
+              <SkeletonTheme color={theme.border} highlightColor={theme.surfaceInteractive}>
                 <Switch>
                   <Route strict exact path="/" component={Home} />
                   <Route strict exact path="/campaigns/:kpiId" component={Campaign} />

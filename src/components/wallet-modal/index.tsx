@@ -2,12 +2,12 @@ import { Modal } from '../modal'
 import { Flex, Box, Text } from 'rebass'
 import styled from 'styled-components'
 import { ChevronRight, Layers } from 'react-feather'
-import { AddressZero } from '@ethersproject/constants'
-import { Card } from '../card'
 import { UndecoratedExternalLink } from '../undecorated-link'
-import { getExplorerLink, shortenAddress } from '../../utils'
+import { getExplorerLink } from '../../utils'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useAllTransactions } from '../../state/transactions/hooks'
+import { Title } from '../title'
+import { IdentityBadge } from '../identity-badge'
 
 interface WalletConnectionModalProps {
   open?: boolean
@@ -15,7 +15,7 @@ interface WalletConnectionModalProps {
 }
 
 const RootFlex = styled(Flex)`
-  background-color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.surface};
 `
 
 const EllipsizedText = styled(Text)`
@@ -31,15 +31,13 @@ export const WalletModal = ({ open, onDismiss }: WalletConnectionModalProps) => 
   return (
     <Modal open={!!open} onDismiss={onDismiss}>
       <RootFlex p="20px" flexDirection="column" width="100%">
-        <Text mb="12px" fontSize="20px" fontWeight="700">
+        <Title mb="20px" fontSize="16px">
           Account
-        </Text>
-        <Card mb="20px" p="12px">
-          <Text fontSize="24px">{shortenAddress(account || AddressZero)}</Text>
-        </Card>
-        <Text mb="12px" fontSize="16px" fontWeight="700">
-          Transactions
-        </Text>
+        </Title>
+        <Box mb="20px">
+          <IdentityBadge account={account || ''} />
+        </Box>
+        <Title mb="12px">Transactions</Title>
         {Object.keys(transactions).length > 0 && chainId ? (
           Object.entries(transactions).map(([hash, transaction]) => {
             return (

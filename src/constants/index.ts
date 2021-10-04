@@ -7,6 +7,7 @@ import { injected, walletConnect } from '../connectors'
 import metamaskLogo from '../assets/metamask-logo.webp'
 import walletConnectLogo from '../assets/wallet-connect-logo.png'
 import ethereumLogo from '../assets/ethereum-logo.png'
+// import xDaiLogo from '../assets/svgs/xdai-logo.svg'
 import { DateTime } from 'luxon'
 
 export const ZERO_USD = new Amount<Currency>(Currency.USD, BigNumber.from(0))
@@ -140,6 +141,18 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
     rpcUrls: ['https://rinkeby.infura.io/v3'],
     blockExplorerUrls: ['https://rinkeby.etherscan.io'],
   },
+  /* 100: {
+    chainId: `0x${Number(100).toString(16)}`,
+    chainName: 'xDai',
+    icon: xDaiLogo,
+    nativeCurrency: {
+      name: 'xDai',
+      symbol: 'xDAI',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.xdaichain.com'],
+    blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
+  }, */
 }
 
 export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'

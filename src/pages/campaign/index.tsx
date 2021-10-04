@@ -22,6 +22,8 @@ import { commify } from '@ethersproject/units'
 import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
 import Decimal from 'decimal.js-light'
+import { DateTime } from 'luxon'
+import { Title } from '../../components/title'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -31,9 +33,9 @@ export enum Status {
   KPI_NOT_REACHED,
 }
 
-const KpiExpiredText = styled(Text)`
-  color: ${(props) => props.theme.error};
-`
+/* const KpiExpiredText = styled(Text)`
+  color: ${(props) => props.theme.negativeSurfaceContent};
+` */
 
 const EllipsizedText = styled(Text)`
   white-space: nowrap;
@@ -41,7 +43,7 @@ const EllipsizedText = styled(Text)`
 `
 
 const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
-  color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.accent};
   width: 12px;
   height: 12px;
 `
@@ -49,7 +51,7 @@ const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
 const DividerBox = styled(Box)`
   height: 1px;
   width: 100%;
-  background-color: ${(props) => props.theme.divider};
+  background-color: ${(props) => props.theme.accentContent};
 `
 
 export function Campaign({
@@ -113,7 +115,7 @@ export function Campaign({
         <Flex mx="8px" flexDirection={['column', 'row']}>
           <Flex flexGrow={[0, 1]} flexDirection="column" width={['100%', '65%']}>
             <Card m="8px" height="fit-content">
-              <Text fontSize="20px" fontWeight="700" color={theme.primary} mb="16px">
+              <Text fontSize="20px" fontWeight="700" color={theme.accent} mb="16px">
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="40px" />
                 ) : (
@@ -124,23 +126,17 @@ export function Campaign({
                 {loadingKpiToken || !kpiToken ? <Skeleton width="120px" /> : kpiToken.question}
               </Text>
               <Flex flexDirection="column" mb="12px">
-                <Text fontWeight="700" mb="4px">
-                  Symbol:
-                </Text>
+                <Title mb="4px">Symbol:</Title>
                 <EllipsizedText fontSize="18px" overflow="hidden">
                   {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
                 </EllipsizedText>
               </Flex>
               <Flex flexDirection="column" mb="12px">
-                <Text fontWeight="700" mb="4px">
-                  Name:
-                </Text>
+                <Title mb="4px">Name:</Title>
                 <Text fontSize="18px">{loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}</Text>
               </Flex>
               <Flex flexDirection="column" mb="20px">
-                <Text fontWeight="700" mb="4px">
-                  Total supply:
-                </Text>
+                <Title mb="4px">Total supply:</Title>
                 <Text fontSize="18px">
                   {loadingKpiToken || !kpiToken ? (
                     <Skeleton width="40px" />
@@ -221,21 +217,17 @@ export function Campaign({
           </Flex>
           <Flex flexDirection="column" width={['100%', '35%']}>
             <Card flexDirection="column" m="8px">
-              <Text mb="8px" fontWeight="700">
-                Time left
-              </Text>
-              {!kpiToken ? (
+              <Title mb="8px">Time left</Title>
+              {/* {!kpiToken ? (
                 <Skeleton width="80px" />
               ) : kpiToken.expiresAt.toJSDate().getTime() < Date.now() ? (
                 <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
-              ) : (
-                <Countdown to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
-              )}
+              ) : ( */}
+              <Countdown to={DateTime.now().plus({ days: 4 })} onEnd={handleCountdownEnd} />
+              {/* )} */}
             </Card>
             <Card flexDirection="column" m="8px">
-              <Text mb="8px" fontWeight="700">
-                Rewards
-              </Text>
+              <Title mb="8px">Rewards</Title>
               <Text mb="4px">
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="80px" />
@@ -252,9 +244,7 @@ export function Campaign({
               </Text>
             </Card>
             <Card flexDirection="column" m="8px">
-              <Text mb="8px" fontWeight="700">
-                Oracle
-              </Text>
+              <Title mb="8px">Oracle</Title>
               <Text>
                 Reality.eth (
                 <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiId}`}>see question</ExternalLink>)
