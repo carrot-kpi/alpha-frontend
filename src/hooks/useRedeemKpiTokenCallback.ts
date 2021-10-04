@@ -9,7 +9,7 @@ import { useTokenPriceUSD } from './useTokenPriceUSD'
 
 export function useRedeemKpiTokenCallback(kpiToken?: KpiToken) {
   const { account } = useActiveWeb3React()
-  const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(kpiToken?.collateral.currency)
+  const collateralPriceUSD = useTokenPriceUSD(kpiToken?.collateral.currency)
   const { balance } = useKpiTokenBalance(kpiToken, account || undefined)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, balance)
   const redeemedCollateral = useMemo(

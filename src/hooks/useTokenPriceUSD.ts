@@ -1,75 +1,29 @@
 import { useEffect, useState } from 'react'
-import { Amount, Currency, Token } from '@carrot-kpi/sdk'
-import { gql, useQuery } from '@apollo/client'
-import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
-import { ZERO_USD } from '../constants'
-import { parseUnits } from '@ethersproject/units'
+import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
+import { parseEther } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
-import { useNativeCurrencyUSDPrice } from './useNativeCurrencyUSDPrice'
-import { useNativeCurrency } from './useNativeCurrency'
+import { useCoingeckoTokenPrice } from '@usedapp/coingecko'
+import { AddressZero } from '@ethersproject/constants'
+import { BigNumber } from '@ethersproject/bignumber'
+import { useActiveWeb3React } from './useActiveWeb3React'
 
-const SWAPR_TOKEN_PRICE_QUERY = gql`
-  query swaprTokenDerivedNativeCurrency($id: ID!) {
-    token(id: $id) {
-      derivedNativeCurrency
-    }
-  }
-`
-
-interface SwaprQueryResult {
-  token: {
-    derivedNativeCurrency: string
-  }
+const COINGECKO_PLATFORMS: { [chainId in ChainId]: string } = {
+  [ChainId.RINKEBY]: 'ethereum',
 }
 
-export function useTokenPriceUSD(token?: Token): { loading: boolean; priceUSD: Amount<Currency> } {
-  const swaprSubgraphClient = useSwaprSubgraphClient()
-  const nativeCurrency = useNativeCurrency()
-  const { loading: loadingNativeCurrencyPrice, priceUSD: nativeCurrencyPrice } = useNativeCurrencyUSDPrice()
-  const { data: swaprTokenPriceData, loading: swaprTokenPriceDataLoading } = useQuery<SwaprQueryResult>(
-    SWAPR_TOKEN_PRICE_QUERY,
-    {
-      variables: { id: token?.address.toLowerCase() },
-      client: swaprSubgraphClient,
-    }
+export function useTokenPriceUSD(token?: Token): Amount<Currency> {
+  const { chainId } = useActiveWeb3React()
+  const coingeckoPrice = useCoingeckoTokenPrice(
+    token?.address || AddressZero,
+    'usd',
+    chainId && COINGECKO_PLATFORMS[chainId]
   )
-
-  const [priceUSD, setPriceUSD] = useState(ZERO_USD)
-  const [loading, setLoading] = useState(false)
+  const [price, setPrice] = useState(new Amount(Currency.USD, BigNumber.from('0')))
 
   useEffect(() => {
-    if (!token) {
-      setLoading(false)
-      setPriceUSD(ZERO_USD)
-      return
-    }
-    if (swaprTokenPriceDataLoading || loadingNativeCurrencyPrice) {
-      setLoading(true)
-      setPriceUSD(ZERO_USD)
-      return
-    }
-    if (!swaprTokenPriceData || !swaprTokenPriceData.token || !nativeCurrencyPrice) {
-      setLoading(false)
-      setPriceUSD(ZERO_USD)
-      return
-    }
-    const tokenDerivedNativeCurrency = new Amount<Currency>(
-      nativeCurrency,
-      parseUnits(
-        new Decimal(swaprTokenPriceData.token.derivedNativeCurrency).toFixed(nativeCurrency.decimals),
-        nativeCurrency.decimals
-      )
-    )
-    setPriceUSD(tokenDerivedNativeCurrency.multiply(nativeCurrencyPrice))
-    setLoading(false)
-  }, [
-    loadingNativeCurrencyPrice,
-    nativeCurrency,
-    nativeCurrencyPrice,
-    swaprTokenPriceData,
-    swaprTokenPriceDataLoading,
-    token,
-  ])
+    if (!coingeckoPrice) return
+    setPrice(new Amount(Currency.USD, parseEther(new Decimal(coingeckoPrice).toFixed(18))))
+  }, [coingeckoPrice])
 
-  return { loading, priceUSD }
+  return price
 }

@@ -67,9 +67,7 @@ export function Campaign({
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(kpiId)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
-  const { priceUSD: collateralPriceUSD, loading: loadingCollateralTokenPrice } = useTokenPriceUSD(
-    kpiToken?.collateral.currency
-  )
+  const collateralPriceUSD = useTokenPriceUSD(kpiToken?.collateral.currency)
   // these auto updates at each block, instead of using the static value attached to the kpi token ts instance
   const { loading: loadingKpiTokenFinalized, finalized: kpiTokenFinalized } = useIsKpiTokenFinalized(kpiToken)
   const { loading: loadingKpiTokenProgress, progress: kpiTokenProgress } = useKpiTokenProgress(kpiToken)
@@ -175,9 +173,11 @@ export function Campaign({
                     {!rewardIfKpiIsReached ? (
                       <Skeleton width="80px" />
                     ) : (
-                      `${rewardIfKpiIsReached.toFixed(4)} ${
-                        kpiToken?.collateral.currency.symbol
-                      } ($${rewardIfKpiIsReached?.multiply(collateralPriceUSD).toFixed(2)})`
+                      `${rewardIfKpiIsReached.toFixed(4)} ${kpiToken?.collateral.currency.symbol} ($${
+                        collateralPriceUSD.isZero()
+                          ? '-'
+                          : rewardIfKpiIsReached?.multiply(collateralPriceUSD).toFixed(2)
+                      })`
                     )}
                   </Text>
                 </Flex>
@@ -232,14 +232,11 @@ export function Campaign({
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (
-                  `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.symbol}`
-                )}
-              </Text>
-              <Text>
-                {loadingKpiToken || loadingCollateralTokenPrice || !kpiToken ? (
-                  <Skeleton width="80px" />
-                ) : (
-                  `$${commify(kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2))}`
+                  `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.symbol} ($${
+                    collateralPriceUSD.isZero()
+                      ? '-'
+                      : commify(kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2))
+                  })`
                 )}
               </Text>
             </Card>

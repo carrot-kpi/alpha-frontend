@@ -25,7 +25,7 @@ interface CampaignCardProps {
 
 export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
   const theme = useTheme()
-  const { priceUSD: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
+  const collateralPriceUSD = useTokenPriceUSD(collateral?.currency)
 
   return (
     <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
@@ -41,8 +41,15 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
-        <Text textAlign="center" fontWeight="800" color={theme.accent}>
-          ${loading || !collateral ? <Skeleton width="60px" /> : collateral.multiply(collateralPriceUSD).toFixed(2)}
+        <Text textAlign="center" fontWeight="800">
+          $
+          {loading || !collateral ? (
+            <Skeleton width="60px" />
+          ) : collateral.multiply(collateralPriceUSD).isZero() ? (
+            '-'
+          ) : (
+            collateral.multiply(collateralPriceUSD).toFixed(2)
+          )}
         </Text>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mb="24px">

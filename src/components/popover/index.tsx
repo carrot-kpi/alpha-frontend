@@ -1,4 +1,3 @@
-import { Placement } from '@popperjs/core'
 import React, { useRef } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
@@ -19,7 +18,6 @@ export interface PopoverProps {
   show: boolean
   onHide: () => void
   children: React.ReactNode
-  placement?: Placement
   className?: string
   offsetX?: number
   offsetY?: number
