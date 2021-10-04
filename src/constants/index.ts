@@ -70,7 +70,7 @@ export interface LendingSpecificData {
 interface SupportedPlatform {
   type: SupportedPlatformType
   specific: SpecificPlatform
-  specificData: DexSpecificData | LendingSpecificData
+  specificData?: DexSpecificData | LendingSpecificData
 }
 
 interface FeaturedCampaign {
@@ -86,43 +86,11 @@ export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
     platform: {
       type: SupportedPlatformType.DEX,
       specific: SpecificPlatform.SWAPR,
-      specificData: {
-        token0: WEENUS,
-        token1: WETH,
-      },
     },
     startDate: DateTime.fromSeconds(0),
     endDate: DateTime.fromSeconds(1632960000),
-    id: '0xca72a6769b8dfa2297199621458fbfa9da31a347',
-    kpiId: '0x4fe4501cfc480f86d76adabee3d24ed97095c1401874f925d88a12bf05236e31',
-  },
-  {
-    platform: {
-      type: SupportedPlatformType.DEX,
-      specific: SpecificPlatform.SWAPR,
-      specificData: {
-        token0: ZEENUS,
-        token1: WETH,
-      },
-    },
-    startDate: DateTime.fromSeconds(1631232000),
-    endDate: DateTime.fromSeconds(1632096000),
-    id: '0xa49d50f044439c932fba143c985b170d40431082',
-    kpiId: '0xa1836f64c67b7f28c0e361bcf1e2ecda58c956b2fb119be113bab60191b21160',
-  },
-  {
-    platform: {
-      type: SupportedPlatformType.DEX,
-      specific: SpecificPlatform.SWAPR,
-      specificData: {
-        token0: WBTC,
-        token1: WETH,
-      },
-    },
-    startDate: DateTime.fromSeconds(1631232000),
-    endDate: DateTime.fromSeconds(1632096000),
-    id: '0x35b5e24a8849c47036a68bbb1ad3646ed3b42545',
-    kpiId: '0xc0081e2b24608f482babb63bdce02d9a0c6824295bad60e27d9ab29d09d0e762',
+    id: '0x2e56fcdf03224f517ecad56e97469946cebcf713',
+    kpiId: '0xbea91af71aec36944621c30866b22513c56237198c178131be2f094260c2ca68',
   },
 ]
 

@@ -1466,10 +1466,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@carrot-kpi/sdk@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-0.3.0.tgz#31b511549fc62a445a2c2a12a4547955da92f492"
-  integrity sha512-zIkZ9q2hUlFOqqO2kBGn7U3jjTRGWHYtSsLMIxnxwsP/D40nykf1Ao5bQDPclYS5TcjIzTdFcL1dCNO7gagODw==
+"@carrot-kpi/sdk@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-0.3.1.tgz#5ce54d465f8f7c6f3cd90cfaf3151884321d1aae"
+  integrity sha512-LkkNAF02wjqW7sES440hfMvWea0L/a/hdM12HiFBbxpdNVYU006dTgViwHdwwaPIBpoFyI2lRfjBjDxoUAS7zA==
   dependencies:
     decimal.js-light "^2.5.1"
     luxon "^1.27.0"

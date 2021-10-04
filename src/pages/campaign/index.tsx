@@ -200,22 +200,24 @@ export function Campaign({
                 )}
               </Card>
             )}
-            <Card m="8px">
-              {featuredCampaignSpec?.platform.specific === SpecificPlatform.SWAPR && (
-                <>
-                  <Text mb="20px" fontWeight="700">
-                    Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/
-                    {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol} liquidity
-                  </Text>
-                  <SwaprLiquidityChart
-                    token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
-                    token1={(featuredCampaignSpec.platform.specificData as DexSpecificData).token1}
-                    startDate={featuredCampaignSpec.startDate}
-                    endDate={featuredCampaignSpec.endDate}
-                  />
-                </>
-              )}
-            </Card>
+            {featuredCampaignSpec.platform.specificData && (
+              <Card m="8px">
+                {featuredCampaignSpec?.platform.specific === SpecificPlatform.SWAPR && (
+                  <>
+                    <Text mb="20px" fontWeight="700">
+                      Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/
+                      {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol} liquidity
+                    </Text>
+                    <SwaprLiquidityChart
+                      token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
+                      token1={(featuredCampaignSpec.platform.specificData as DexSpecificData).token1}
+                      startDate={featuredCampaignSpec.startDate}
+                      endDate={featuredCampaignSpec.endDate}
+                    />
+                  </>
+                )}
+              </Card>
+            )}
           </Flex>
           <Flex flexDirection="column" width={['100%', '35%']}>
             <Card flexDirection="column" m="8px">
