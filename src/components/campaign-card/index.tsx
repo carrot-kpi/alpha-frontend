@@ -42,15 +42,13 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
         <Text textAlign="center" fontWeight="800">
-          {collateral?.toFixed(4)} {collateral?.currency.symbol} ($
           {loading || !collateral ? (
-            <Skeleton width="60px" />
-          ) : collateral.multiply(collateralPriceUSD).isZero() ? (
-            '-'
+            <Skeleton width="100px" />
           ) : (
-            collateral.multiply(collateralPriceUSD).toFixed(2)
+            `${collateral?.toFixed(4)} ${collateral?.currency.symbol} ($${
+              collateralPriceUSD.isZero() ? '-' : collateral.multiply(collateralPriceUSD).toFixed(2)
+            })`
           )}
-          )
         </Text>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center" mb="24px">
