@@ -60,7 +60,10 @@ export function Campaign({
 }: RouteComponentProps<{ kpiId: string }>): ReactElement {
   const theme = useTheme()
   const { account, chainId } = useActiveWeb3React()
-  const featuredCampaignSpec = useMemo(() => FEATURED_CAMPAIGNS.find((campaign) => campaign.kpiId === kpiId), [kpiId])
+  const featuredCampaignSpec = useMemo(
+    () => (chainId ? FEATURED_CAMPAIGNS[chainId].find((campaign) => campaign.kpiId === kpiId) : undefined),
+    [kpiId, chainId]
+  )
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =

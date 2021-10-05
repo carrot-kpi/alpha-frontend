@@ -30,8 +30,13 @@ const NetworkText = styled(Text)`
 `
 
 export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitcherPopoverProps) => {
-  const { connector, account, chainId } = useWeb3React(NETWORK_CONTEXT_NAME)
-  const { error: walletConnectionError, connector: walletConnectionConnector } = useWeb3React()
+  const { connector, chainId: networkConnectorChainId } = useWeb3React(NETWORK_CONTEXT_NAME)
+  const {
+    error: walletConnectionError,
+    connector: walletConnectionConnector,
+    account,
+    chainId: walletConnectorChainId,
+  } = useWeb3React()
 
   const handleNetworkChange = useCallback(
     (optionChainId: ChainId) => {
@@ -52,9 +57,12 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
   const isOptionDisabled = useCallback(
     (networkId: ChainId) => {
       if (walletConnectionError instanceof UnsupportedChainIdError) return false
-      return !!(connector?.supportedChainIds?.indexOf(networkId) === -1 || (chainId && chainId === networkId))
+      return !!(
+        connector?.supportedChainIds?.indexOf(networkId) === -1 ||
+        (walletConnectorChainId || networkConnectorChainId) === networkId
+      )
     },
-    [chainId, connector, walletConnectionError]
+    [connector?.supportedChainIds, networkConnectorChainId, walletConnectionError, walletConnectorChainId]
   )
 
   return (
@@ -64,7 +72,7 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
           {Object.entries(NETWORK_DETAIL).map(([chainId, networkDetail], index) => {
             return (
               <BackgroundImageCard
-                width="180px"
+                width="140px"
                 height="100px"
                 p="12px"
                 clickable

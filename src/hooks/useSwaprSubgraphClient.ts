@@ -6,5 +6,5 @@ import { useActiveWeb3React } from './useActiveWeb3React'
 export function useSwaprSubgraphClient(): ApolloClient<NormalizedCacheObject> {
   const { chainId } = useActiveWeb3React()
   // FIXME: use mainnet as the fdefault indexing key
-  return SWAPR_SUBGRAPH_CLIENT[(chainId as ChainId) || ChainId.RINKEBY]
+  return SWAPR_SUBGRAPH_CLIENT[(chainId as ChainId) || ChainId.XDAI]
 }

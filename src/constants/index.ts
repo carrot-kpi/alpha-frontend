@@ -7,7 +7,7 @@ import { injected, walletConnect } from '../connectors'
 import metamaskLogo from '../assets/metamask-logo.webp'
 import walletConnectLogo from '../assets/wallet-connect-logo.png'
 import ethereumLogo from '../assets/ethereum-logo.png'
-// import xDaiLogo from '../assets/svgs/xdai-logo.svg'
+import xDaiLogo from '../assets/svgs/xdai-logo.svg'
 import { DateTime } from 'luxon'
 
 export const ZERO_USD = new Amount<Currency>(Currency.USD, BigNumber.from(0))
@@ -19,7 +19,11 @@ export const CREATORS_NAME_MAP: { [address: string]: string } = {
 
 export const CARROT_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.RINKEBY]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/kpi-tokens-framework-rinkeby',
+    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/carrot-rinkeby',
+    cache: new InMemoryCache(),
+  }),
+  [ChainId.XDAI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/carrot-xdai',
     cache: new InMemoryCache(),
   }),
 }
@@ -27,6 +31,10 @@ export const CARROT_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normal
 export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr_rinkeby',
+    cache: new InMemoryCache(),
+  }),
+  [ChainId.XDAI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai',
     cache: new InMemoryCache(),
   }),
 }
@@ -82,18 +90,21 @@ interface FeaturedCampaign {
   endDate: DateTime
 }
 
-export const FEATURED_CAMPAIGNS: FeaturedCampaign[] = [
-  {
-    platform: {
-      type: SupportedPlatformType.DEX,
-      specific: SpecificPlatform.SWAPR,
+export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
+  [ChainId.RINKEBY]: [
+    {
+      platform: {
+        type: SupportedPlatformType.DEX,
+        specific: SpecificPlatform.SWAPR,
+      },
+      startDate: DateTime.fromSeconds(0),
+      endDate: DateTime.fromSeconds(1632960000),
+      id: '0x2e56fcdf03224f517ecad56e97469946cebcf713',
+      kpiId: '0xbea91af71aec36944621c30866b22513c56237198c178131be2f094260c2ca68',
     },
-    startDate: DateTime.fromSeconds(0),
-    endDate: DateTime.fromSeconds(1632960000),
-    id: '0x2e56fcdf03224f517ecad56e97469946cebcf713',
-    kpiId: '0xbea91af71aec36944621c30866b22513c56237198c178131be2f094260c2ca68',
-  },
-]
+  ],
+  [ChainId.XDAI]: [],
+}
 
 export interface WalletInfo {
   connector: AbstractConnector
@@ -131,7 +142,7 @@ export interface NetworkDetails {
 export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
   [ChainId.RINKEBY]: {
     chainId: `0x${ChainId.RINKEBY.toString(16)}`,
-    chainName: 'Rinkeby testnet',
+    chainName: 'Rinkeby',
     icon: ethereumLogo,
     nativeCurrency: {
       name: 'Ether',
@@ -141,7 +152,7 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
     rpcUrls: ['https://rinkeby.infura.io/v3'],
     blockExplorerUrls: ['https://rinkeby.etherscan.io'],
   },
-  /* 100: {
+  [ChainId.XDAI]: {
     chainId: `0x${Number(100).toString(16)}`,
     chainName: 'xDai',
     icon: xDaiLogo,
@@ -152,7 +163,7 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
     },
     rpcUrls: ['https://rpc.xdaichain.com'],
     blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
-  }, */
+  },
 }
 
 export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'

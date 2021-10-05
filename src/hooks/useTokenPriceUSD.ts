@@ -9,6 +9,7 @@ import { useActiveWeb3React } from './useActiveWeb3React'
 
 const COINGECKO_PLATFORMS: { [chainId in ChainId]: string } = {
   [ChainId.RINKEBY]: 'ethereum',
+  [ChainId.XDAI]: 'xdai',
 }
 
 export function useTokenPriceUSD(token?: Token): Amount<Currency> {

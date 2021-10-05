@@ -76,7 +76,7 @@ export function useFeaturedKpiTokens() {
   const { data: featuredKpiTokensData, loading: featuredKpiTokensLoading } = useQuery<CarrotQueryResult>(
     FEATURED_KPI_TOKENS_QUERY,
     {
-      variables: { ids: FEATURED_CAMPAIGNS.map((campaign) => campaign.id) },
+      variables: { ids: chainId && FEATURED_CAMPAIGNS[chainId].map((campaign) => campaign.id) },
       client: carrotSubgraphClient,
     }
   )

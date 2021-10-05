@@ -5,8 +5,11 @@ import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
 import { CREATORS_NAME_MAP, FEATURED_CAMPAIGNS } from '../../constants'
 import { shortenAddress } from '../../utils'
+import { ChainId } from '@carrot-kpi/sdk'
+import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 
 export function Home(): ReactElement {
+  const { chainId } = useActiveWeb3React()
   const theme = useTheme()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
 
@@ -34,7 +37,7 @@ export function Home(): ReactElement {
           width="100%"
         >
           {loadingFeaturedKpiTokens
-            ? new Array(FEATURED_CAMPAIGNS.length).fill(null).map((_, index) => {
+            ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.XDAI].length).fill(null).map((_, index) => {
                 return (
                   <Box key={index} p="8px" width="100%" maxWidth={['100%', '300px']}>
                     <CampaignCard loading />
