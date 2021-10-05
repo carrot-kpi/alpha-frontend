@@ -39,6 +39,28 @@ export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normali
   }),
 }
 
+export const AGAVE_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
+  [ChainId.RINKEBY]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/pjcolombo/agave-rinkeby',
+    cache: new InMemoryCache(),
+  }),
+  [ChainId.XDAI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/agave-dao/agave-xdai',
+    cache: new InMemoryCache(),
+  }),
+}
+
+export const BLOCK_SUBGRAPH_CLIENTS: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
+  [ChainId.RINKEBY]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/rinkeby-blocks',
+    cache: new InMemoryCache(),
+  }),
+  [ChainId.XDAI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/1hive/xdai-blocks',
+    cache: new InMemoryCache(),
+  }),
+}
+
 export const WEENUS = new Token(ChainId.RINKEBY, '0xaFF4481D10270F50f203E0763e2597776068CBc5', 18, 'WEENUS', 'Weenus')
 export const XEENUS = new Token(ChainId.RINKEBY, '0x022E292b44B5a146F2e8ee36Ff44D3dd863C915c', 18, 'XEENUS', 'Xeenus')
 export const ZEENUS = new Token(ChainId.RINKEBY, '0x1f9061B953bBa0E36BF50F21876132DcF276fC6e', 18, 'ZEENUS', 'Zeenus')
@@ -101,6 +123,16 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       endDate: DateTime.fromSeconds(1632960000),
       id: '0x2e56fcdf03224f517ecad56e97469946cebcf713',
       kpiId: '0xbea91af71aec36944621c30866b22513c56237198c178131be2f094260c2ca68',
+    },
+    {
+      platform: {
+        type: SupportedPlatformType.LENDING,
+        specific: SpecificPlatform.AGAVE,
+      },
+      startDate: DateTime.now().minus({ days: 10 }),
+      endDate: DateTime.now(),
+      id: '0xa35ff0288c647f74ca0536dbf0aed820b66d27e4',
+      kpiId: '0xefa2051e965e72c2776be6a870f8d25fc8bbde8af7b92e9a3e5adbae3f9923a9',
     },
   ],
   [ChainId.XDAI]: [],

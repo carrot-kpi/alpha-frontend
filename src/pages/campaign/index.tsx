@@ -23,6 +23,7 @@ import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
 import Decimal from 'decimal.js-light'
 import { Title } from '../../components/title'
+import { AgaveTvlChart } from '../../components/charts/agave-tvl-chart'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -198,20 +199,32 @@ export function Campaign({
                 )}
               </Card>
             )}
-            {featuredCampaignSpec.platform.specificData && (
+            {featuredCampaignSpec.platform && (
               <Card m="8px">
                 {featuredCampaignSpec?.platform.specific === SpecificPlatform.SWAPR && (
                   <>
-                    <Text mb="20px" fontWeight="700">
-                      Swapr {(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/
-                      {(featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol} liquidity
-                    </Text>
+                    <Title mb="20px" fontWeight="700">
+                      Swapr{' '}
+                      {!!featuredCampaignSpec.platform.specificData
+                        ? `${(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/${
+                            (featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol
+                          }`
+                        : 'TVL'}
+                    </Title>
                     <SwaprLiquidityChart
                       token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
                       token1={(featuredCampaignSpec.platform.specificData as DexSpecificData).token1}
                       startDate={featuredCampaignSpec.startDate}
                       endDate={featuredCampaignSpec.endDate}
                     />
+                  </>
+                )}
+                {featuredCampaignSpec?.platform.specific === SpecificPlatform.AGAVE && (
+                  <>
+                    <Title mb="20px" fontWeight="700">
+                      Agave TVL
+                    </Title>
+                    <AgaveTvlChart startDate={featuredCampaignSpec.startDate} endDate={featuredCampaignSpec.endDate} />
                   </>
                 )}
               </Card>
