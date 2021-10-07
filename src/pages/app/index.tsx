@@ -13,6 +13,7 @@ import { SkeletonTheme } from 'react-loading-skeleton'
 import { useEffect } from 'react'
 import { useLocation } from 'react-use'
 import { TransactionsStateUpdater } from '../../state/transactions/updater'
+import { NetworkWarningModal } from '../../components/network-warning-modal'
 
 export function App() {
   const darkMode = useIsDarkMode()
@@ -46,6 +47,7 @@ export function App() {
             <Footer />
           </Box>
         </Flex>
+        <NetworkWarningModal />
       </ThemeProvider>
       <ToastContainer
         className="custom-toast-root"
