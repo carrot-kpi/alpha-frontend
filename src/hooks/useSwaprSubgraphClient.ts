@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { ChainId } from '@carrot-kpi/sdk'
-import { SWAPR_SUBGRAPH_CLIENT } from '../constants'
+import { SWAPR_SUBGRAPH_CLIENT } from '../constants/apollo'
 import { useActiveWeb3React } from './useActiveWeb3React'
 
 export function useSwaprSubgraphClient(): ApolloClient<NormalizedCacheObject> {

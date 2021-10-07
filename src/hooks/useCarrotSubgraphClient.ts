@@ -1,4 +1,4 @@
-import { CARROT_SUBGRAPH_CLIENT } from '../constants'
+import { CARROT_SUBGRAPH_CLIENT } from '../constants/apollo'
 import { ChainId } from '@carrot-kpi/sdk'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { useActiveWeb3React } from './useActiveWeb3React'

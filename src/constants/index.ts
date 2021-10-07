@@ -1,4 +1,3 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
 import Decimal from 'decimal.js-light'
@@ -15,50 +14,6 @@ export const ZERO_DECIMAL = new Decimal(0)
 
 export const CREATORS_NAME_MAP: { [address: string]: string } = {
   '0xb4124ceb3451635dacedd11767f004d8a28c6ee7': 'Luzzif',
-}
-
-export const CARROT_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
-  [ChainId.RINKEBY]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/carrot-rinkeby',
-    cache: new InMemoryCache(),
-  }),
-  [ChainId.XDAI]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/carrot-xdai',
-    cache: new InMemoryCache(),
-  }),
-}
-
-export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
-  [ChainId.RINKEBY]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr_rinkeby',
-    cache: new InMemoryCache(),
-  }),
-  [ChainId.XDAI]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai',
-    cache: new InMemoryCache(),
-  }),
-}
-
-export const AGAVE_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
-  [ChainId.RINKEBY]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/pjcolombo/agave-rinkeby',
-    cache: new InMemoryCache(),
-  }),
-  [ChainId.XDAI]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/agave-dao/agave-xdai',
-    cache: new InMemoryCache(),
-  }),
-}
-
-export const BLOCK_SUBGRAPH_CLIENTS: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
-  [ChainId.RINKEBY]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/rinkeby-blocks',
-    cache: new InMemoryCache(),
-  }),
-  [ChainId.XDAI]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/1hive/xdai-blocks',
-    cache: new InMemoryCache(),
-  }),
 }
 
 export const WEENUS = new Token(ChainId.RINKEBY, '0xaFF4481D10270F50f203E0763e2597776068CBc5', 18, 'WEENUS', 'Weenus')

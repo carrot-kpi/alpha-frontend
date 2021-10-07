@@ -3,12 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { DateTime } from 'luxon'
 import { useAgaveSubgraphClient } from './useAgaveSubgraphClient'
 import { useBlocksFromTimestamps } from './useBlocksFromTimestamps'
-import { useETHPriceUSD } from './useETHPriceUSD'
 import { Amount, Currency, Token } from '@carrot-kpi/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
-import { formatEther } from '@ethersproject/units'
+import { formatEther, parseEther } from '@ethersproject/units'
+import { UNISWAP_V2_MAINNET_SUBGRAPH_CLIENT } from '../constants/apollo'
+import Decimal from 'decimal.js-light'
 
 interface Reserve {
   price: { priceInEth: string }
@@ -19,8 +20,12 @@ interface Reserve {
   totalLiquidity: string
 }
 
-interface QueryResponse {
+interface DayDataQueryResponse {
   [timestampString: string]: { reserves: Reserve[] }[]
+}
+
+interface HistoricalEthPriceQueryResponse {
+  [timestampString: string]: { ethPrice: string }
 }
 
 interface DayData {
@@ -28,7 +33,6 @@ interface DayData {
   tvlUSD: string
 }
 
-// FIXME: this can be optimized. Avoid performing a single request per block number and aggregate them in 1
 export const useAgaveTvlDayData = (
   startDate = DateTime.now().minus({ days: 30 }).endOf('day'),
   endDate = DateTime.now().startOf('day')
@@ -45,11 +49,15 @@ export const useAgaveTvlDayData = (
     }
     return timestamps
   }, [endDate, startDate])
-  const { loading: loadingBlockNumbers, blocks } = useBlocksFromTimestamps(timestamps)
-  const query = useMemo(() => {
-    if (!blocks || blocks.length === 0) return undefined
+  const { loading: loadingTvlDataBlockNumbers, blocks: tvlDataBlocks } = useBlocksFromTimestamps(timestamps)
+  const { loading: loadingHistoricalEthPriceBlockNumbers, blocks: historicalEthPriceBlocks } = useBlocksFromTimestamps(
+    timestamps,
+    1 // FIXME: replace with mainnet once it's there
+  )
+  const reservesQuery = useMemo(() => {
+    if (!tvlDataBlocks || tvlDataBlocks.length === 0) return undefined
     let queryString = 'query getHistoricalAgaveTvl {'
-    queryString += blocks.map((block) => {
+    queryString += tvlDataBlocks.map((block) => {
       return `t${block.timestamp}: pools(block: { number: ${block.number} }) {
         reserves(where: { totalLiquidity_gt: 0 }) {
           price {
@@ -65,8 +73,18 @@ export const useAgaveTvlDayData = (
     })
     queryString += '}'
     return gql(queryString)
-  }, [blocks])
-  const ethPrice = useETHPriceUSD()
+  }, [tvlDataBlocks])
+  const historicalEthPriceUSDQuery = useMemo(() => {
+    if (!historicalEthPriceBlocks || historicalEthPriceBlocks.length === 0) return undefined
+    let queryString = 'query getHistoricalEthPrice {'
+    queryString += historicalEthPriceBlocks.map((block) => {
+      return `t${block.timestamp}: bundle(id: 1, block: { number: ${block.number} }) {
+        ethPrice
+      }`
+    })
+    queryString += '}'
+    return gql(queryString)
+  }, [historicalEthPriceBlocks])
 
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<DayData[]>([])
@@ -74,14 +92,26 @@ export const useAgaveTvlDayData = (
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (!chainId || !query || loadingBlockNumbers || ethPrice.isZero()) {
+      if (
+        !chainId ||
+        !reservesQuery ||
+        !historicalEthPriceUSDQuery ||
+        loadingTvlDataBlockNumbers ||
+        loadingHistoricalEthPriceBlockNumbers
+      ) {
+        setLoading(true)
         setData([])
         return
       }
       setLoading(true)
       try {
-        const { data } = await agaveSubgraph.query<QueryResponse>({
-          query,
+        const { data: historicalEthPriceData } =
+          await UNISWAP_V2_MAINNET_SUBGRAPH_CLIENT.query<HistoricalEthPriceQueryResponse>({
+            query: historicalEthPriceUSDQuery,
+          })
+
+        const { data } = await agaveSubgraph.query<DayDataQueryResponse>({
+          query: reservesQuery,
         })
         if (!cancelled) {
           setData(
@@ -106,7 +136,14 @@ export const useAgaveTvlDayData = (
 
               dayDatas.push({
                 date: Math.floor(parseInt(timestampString.substring(1)) / 1000),
-                tvlUSD: formatEther(ethReserve.multiply(ethPrice).raw),
+                tvlUSD: formatEther(
+                  ethReserve.multiply(
+                    new Amount(
+                      Currency.ETHER,
+                      parseEther(new Decimal(historicalEthPriceData[timestampString].ethPrice).toFixed(18))
+                    )
+                  ).raw
+                ),
               })
               return dayDatas
             }, [])
@@ -122,7 +159,15 @@ export const useAgaveTvlDayData = (
     return () => {
       cancelled = true
     }
-  }, [agaveSubgraph, chainId, ethPrice, loadingBlockNumbers, query, timestamps])
+  }, [
+    agaveSubgraph,
+    chainId,
+    historicalEthPriceUSDQuery,
+    loadingHistoricalEthPriceBlockNumbers,
+    loadingTvlDataBlockNumbers,
+    reservesQuery,
+    timestamps,
+  ])
 
   return { loading, data }
 }

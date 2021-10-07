@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { ChainId } from '@carrot-kpi/sdk'
-import { AGAVE_SUBGRAPH_CLIENT } from '../constants'
+import { AGAVE_SUBGRAPH_CLIENT } from '../constants/apollo'
 import { useActiveWeb3React } from './useActiveWeb3React'
 
 export function useAgaveSubgraphClient(): ApolloClient<NormalizedCacheObject> {

@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
 import { gql } from '@apollo/client'
 import { useBlocksSubgraphClient } from './useBlocksSubgraphClient'
+import { ChainId } from '@carrot-kpi/sdk'
 
 interface QueryResponse {
   [timestampString: string]: { number: string }[]
 }
 
-export function useBlocksFromTimestamps(timestamps: number[]): {
+export function useBlocksFromTimestamps(
+  timestamps: number[],
+  chainIdOverride?: ChainId | number
+): {
   loading: boolean
   blocks: { number: number; timestamp: number }[]
 } {
@@ -16,16 +20,14 @@ export function useBlocksFromTimestamps(timestamps: number[]): {
     if (!timestamps || timestamps.length === 0) return undefined
     let queryString = 'query blocks {'
     queryString += timestamps.map((timestamp) => {
-      return `t${timestamp}: blocks(first: 1, orderBy: number, orderDirection: asc, where: { timestamp_gt: ${Math.floor(
-        timestamp / 1000
-      )} }) {
+      return `t${timestamp}: blocks(first: 1, where: { timestamp_gt: ${Math.floor(timestamp / 1000)} }) {
         number
       }`
     })
     queryString += '}'
     return gql(queryString)
   }, [timestamps])
-  const blocksSubgraph = useBlocksSubgraphClient()
+  const blocksSubgraph = useBlocksSubgraphClient(chainIdOverride)
 
   useEffect(() => {
     let cancelled = false
@@ -57,7 +59,7 @@ export function useBlocksFromTimestamps(timestamps: number[]): {
     return () => {
       cancelled = true
     }
-  }, [blocksSubgraph, query, timestamps])
+  }, [blocksSubgraph, chainIdOverride, query, timestamps])
 
   return { loading, blocks: blocksFromTimestamps }
 }
