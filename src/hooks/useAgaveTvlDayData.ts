@@ -7,9 +7,9 @@ import { Amount, Currency, Token } from '@carrot-kpi/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
-import { formatEther, parseEther } from '@ethersproject/units'
-import { UNISWAP_V2_MAINNET_SUBGRAPH_CLIENT } from '../constants/apollo'
+import { parseEther } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
+import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
 
 interface Reserve {
   price: { priceInEth: string }
@@ -24,8 +24,8 @@ interface DayDataQueryResponse {
   [timestampString: string]: { reserves: Reserve[] }[]
 }
 
-interface HistoricalEthPriceQueryResponse {
-  [timestampString: string]: { ethPrice: string }
+interface HistoricalNativeCurrencyPriceQueryResponse {
+  [timestampString: string]: { nativeCurrencyPrice: string }
 }
 
 interface DayData {
@@ -39,6 +39,7 @@ export const useAgaveTvlDayData = (
 ) => {
   const { chainId } = useActiveWeb3React()
   const agaveSubgraph = useAgaveSubgraphClient()
+  const swaprSubgraph = useSwaprSubgraphClient()
   const timestamps = useMemo(() => {
     let loopedDate = startDate.endOf('day')
     const normalizedEndDate = endDate.startOf('day')
@@ -50,10 +51,6 @@ export const useAgaveTvlDayData = (
     return timestamps
   }, [endDate, startDate])
   const { loading: loadingTvlDataBlockNumbers, blocks: tvlDataBlocks } = useBlocksFromTimestamps(timestamps)
-  const { loading: loadingHistoricalEthPriceBlockNumbers, blocks: historicalEthPriceBlocks } = useBlocksFromTimestamps(
-    timestamps,
-    1 // FIXME: replace with mainnet once it's there
-  )
   const reservesQuery = useMemo(() => {
     if (!tvlDataBlocks || tvlDataBlocks.length === 0) return undefined
     let queryString = 'query getHistoricalAgaveTvl {'
@@ -74,17 +71,17 @@ export const useAgaveTvlDayData = (
     queryString += '}'
     return gql(queryString)
   }, [tvlDataBlocks])
-  const historicalEthPriceUSDQuery = useMemo(() => {
-    if (!historicalEthPriceBlocks || historicalEthPriceBlocks.length === 0) return undefined
-    let queryString = 'query getHistoricalEthPrice {'
-    queryString += historicalEthPriceBlocks.map((block) => {
+  const historicalNativeCurrencyPriceUSDQuery = useMemo(() => {
+    if (!tvlDataBlocks || tvlDataBlocks.length === 0) return undefined
+    let queryString = 'query getHistoricalNativeCurrencyPrice {'
+    queryString += tvlDataBlocks.map((block) => {
       return `t${block.timestamp}: bundle(id: 1, block: { number: ${block.number} }) {
-        ethPrice
+        nativeCurrencyPrice
       }`
     })
     queryString += '}'
     return gql(queryString)
-  }, [historicalEthPriceBlocks])
+  }, [tvlDataBlocks])
 
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<DayData[]>([])
@@ -92,22 +89,16 @@ export const useAgaveTvlDayData = (
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (
-        !chainId ||
-        !reservesQuery ||
-        !historicalEthPriceUSDQuery ||
-        loadingTvlDataBlockNumbers ||
-        loadingHistoricalEthPriceBlockNumbers
-      ) {
+      if (!chainId || !reservesQuery || !historicalNativeCurrencyPriceUSDQuery || loadingTvlDataBlockNumbers) {
         setLoading(true)
         setData([])
         return
       }
       setLoading(true)
       try {
-        const { data: historicalEthPriceData } =
-          await UNISWAP_V2_MAINNET_SUBGRAPH_CLIENT.query<HistoricalEthPriceQueryResponse>({
-            query: historicalEthPriceUSDQuery,
+        const { data: historicalNativeCurrencyPriceData } =
+          await swaprSubgraph.query<HistoricalNativeCurrencyPriceQueryResponse>({
+            query: historicalNativeCurrencyPriceUSDQuery,
           })
 
         const { data } = await agaveSubgraph.query<DayDataQueryResponse>({
@@ -118,7 +109,8 @@ export const useAgaveTvlDayData = (
             Object.entries(data).reduce((dayDatas: DayData[], [timestampString, wrappedReserves]) => {
               const ethReserve = wrappedReserves.reduce<Amount<Currency>>((ethTvl, { reserves }) => {
                 const reserveLiquidityEth = reserves.reduce((reserveLiquidity: Amount<Currency>, reserve) => {
-                  const tokenEthPrice = new Amount(Currency.ETHER, BigNumber.from(reserve.price.priceInEth))
+                  const totalLiquidityBn = BigNumber.from(reserve.totalLiquidity)
+                  if (totalLiquidityBn.isZero()) return reserveLiquidity
                   const reserveAmount = new Amount(
                     new Token(
                       chainId,
@@ -127,23 +119,26 @@ export const useAgaveTvlDayData = (
                       reserve.symbol,
                       reserve.name
                     ),
-                    BigNumber.from(reserve.totalLiquidity)
+                    totalLiquidityBn
                   )
-                  return reserveLiquidity.plus(reserveAmount.multiply(tokenEthPrice))
+                  const tokenNativeCurrencyPrice = new Amount(Currency.ETHER, BigNumber.from(reserve.price.priceInEth))
+                  return reserveLiquidity.plus(reserveAmount.multiply(tokenNativeCurrencyPrice))
                 }, new Amount(Currency.ETHER, BigNumber.from('0')))
                 return ethTvl.plus(reserveLiquidityEth)
               }, new Amount(Currency.ETHER, BigNumber.from('0')))
 
               dayDatas.push({
                 date: Math.floor(parseInt(timestampString.substring(1)) / 1000),
-                tvlUSD: formatEther(
-                  ethReserve.multiply(
+                tvlUSD: ethReserve
+                  .multiply(
                     new Amount(
                       Currency.ETHER,
-                      parseEther(new Decimal(historicalEthPriceData[timestampString].ethPrice).toFixed(18))
+                      parseEther(
+                        new Decimal(historicalNativeCurrencyPriceData[timestampString].nativeCurrencyPrice).toFixed(18)
+                      )
                     )
-                  ).raw
-                ),
+                  )
+                  .toFixed(2),
               })
               return dayDatas
             }, [])
@@ -161,9 +156,9 @@ export const useAgaveTvlDayData = (
     }
   }, [
     agaveSubgraph,
+    swaprSubgraph,
     chainId,
-    historicalEthPriceUSDQuery,
-    loadingHistoricalEthPriceBlockNumbers,
+    historicalNativeCurrencyPriceUSDQuery,
     loadingTvlDataBlockNumbers,
     reservesQuery,
     timestamps,
