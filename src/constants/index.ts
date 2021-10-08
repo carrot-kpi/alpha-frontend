@@ -90,7 +90,18 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: '0xefa2051e965e72c2776be6a870f8d25fc8bbde8af7b92e9a3e5adbae3f9923a9',
     },
   ],
-  [ChainId.XDAI]: [],
+  [ChainId.XDAI]: [
+    {
+      platform: {
+        type: SupportedPlatformType.LENDING,
+        specific: SpecificPlatform.AGAVE,
+      },
+      startDate: DateTime.fromFormat('20/09/2021', 'dd/MM/yyyy'),
+      endDate: DateTime.fromFormat('10/10/2021', 'dd/MM/yyyy'),
+      id: '0x539b8d0f2ff2a44c48cc7f28a666d8a1c131346f',
+      kpiId: '0xaa79603608b0afd28493637164a684361723674fb6aa1ca250dc819351b323dd',
+    },
+  ],
 }
 
 export interface WalletInfo {
