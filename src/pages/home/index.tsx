@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useLayoutEffect, useMemo } from 'react'
 import { Box, Flex, Text } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
@@ -8,6 +8,7 @@ import { shortenAddress } from '../../utils'
 import { ChainId } from '@carrot-kpi/sdk'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
+import { animated, useTrail } from '@react-spring/web'
 
 const ImagePlaceholderBox = styled(Box)<{ size: string }>`
   width: ${(props) => props.size};
@@ -29,20 +30,41 @@ export function Home(): ReactElement {
   const { chainId } = useActiveWeb3React()
   const theme = useTheme()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
+  const titleItems = useMemo(
+    () => [
+      <Text key="title-incentivize" fontSize="52px" fontWeight="800" lineHeight="50px">
+        Reach your goals.
+      </Text>,
+      <Text key="title-carrot" mb="16px" fontSize="52px" fontWeight="800" lineHeight="64px">
+        With a carrot.
+      </Text>,
+      <Text key="title-more" mb="40px" fontSize="22px" fontWeight="800" lineHeight="24px" color={theme.accent}>
+        Increase TVL, volume, price, engagement and more.
+      </Text>,
+    ],
+    [theme.accent]
+  )
+  const [trail, api] = useTrail(titleItems.length, () => ({
+    opacity: 0,
+    x: 24,
+    config: { mass: 1, tension: 200, friction: 200, duration: 200 },
+  }))
+
+  useLayoutEffect(() => {
+    api.start({ opacity: 1, x: 0 })
+  })
 
   return (
     <Flex flexDirection="column" alignItems="center">
-      <Flex justifyContent="space-between" pt="80px" pb="80px" width={['100%', '80%', '60%', '60%', '40%']}>
+      <Flex justifyContent="space-between" pt="40px" pb="90px" width={['100%', '80%', '60%', '60%', '40%']}>
         <Flex flexDirection="column" justifyContent="center">
-          <Text fontSize="48px" fontWeight="700" lineHeight="50px">
-            Incentivize your community.
-          </Text>
-          <Text mb="16px" fontSize="48px" fontWeight="700" lineHeight="64px">
-            With a carrot.
-          </Text>
-          <Text mb="40px" fontSize="22px" fontWeight="700" lineHeight="24px" color={theme.accent}>
-            Increase TVL, volume, price, engagement and more.
-          </Text>
+          {trail.map((style, index) => {
+            return (
+              <animated.div key={index} style={style}>
+                {titleItems[index]}
+              </animated.div>
+            )
+          })}
         </Flex>
         <ImagePlaceholderBox size="300px" />
       </Flex>
@@ -79,7 +101,7 @@ export function Home(): ReactElement {
       </FeaturedCampaignsContainer>
       <Flex width={['100%', '80%', '60%', '60%', '40%']} flexDirection="column" alignItems="center">
         <Flex width="80%" mb="80px" justifyContent="stretch" alignItems="center">
-          <ImagePlaceholderBox size="200px" mr="40px" />
+          <ImagePlaceholderBox size="200px" mr="60px" />
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
               Lorem ipsum dolor sit amet
@@ -102,10 +124,10 @@ export function Home(): ReactElement {
               ea commodo consequat.
             </Box>
           </Flex>
-          <ImagePlaceholderBox size="200px" ml="40px" />
+          <ImagePlaceholderBox size="200px" ml="60px" />
         </Flex>
         <Flex width="80%" mb="120px" justifyContent="stretch" alignItems="center">
-          <ImagePlaceholderBox size="200px" mr="40px" />
+          <ImagePlaceholderBox size="200px" mr="60px" />
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
               Lorem ipsum dolor sit amet
