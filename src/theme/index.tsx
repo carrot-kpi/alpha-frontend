@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
-import '@fontsource/overpass/400.css'
-import '@fontsource/overpass/600.css'
-import '@fontsource/overpass/700.css'
+import '@fontsource/manrope/500.css'
+import '@fontsource/manrope/600.css'
+import '@fontsource/manrope/700.css'
 import '@fontsource/overpass-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { transparentize } from 'polished'
@@ -110,8 +110,8 @@ export function getTheme(darkMode: boolean): Theme {
 
 export const GlobalStyle = createGlobalStyle`
   html, input, textarea, button {
-    font-family: 'Overpass';
-    font-weight: 400;
+    font-family: 'Manrope';
+    font-weight: 500;
   }
 
   html,

@@ -7,7 +7,7 @@ import { Amount, Currency, Token } from '@carrot-kpi/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
-import { parseEther } from '@ethersproject/units'
+import { parseEther, parseUnits } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
 import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
 
@@ -121,7 +121,7 @@ export const useAgaveTvlDayData = (
                     ),
                     totalLiquidityBn
                   )
-                  const tokenNativeCurrencyPrice = new Amount(Currency.ETHER, BigNumber.from(reserve.price.priceInEth))
+                  const tokenNativeCurrencyPrice = new Amount(Currency.ETHER, parseUnits(reserve.price.priceInEth, 10))
                   return reserveLiquidity.plus(reserveAmount.multiply(tokenNativeCurrencyPrice))
                 }, new Amount(Currency.ETHER, BigNumber.from('0')))
                 return ethTvl.plus(reserveLiquidityEth)

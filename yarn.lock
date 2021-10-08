@@ -2078,6 +2078,11 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
+"@fontsource/manrope@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/manrope/-/manrope-4.5.0.tgz#3bf9d3b24f29051573af5e1c93cf045ac213147c"
+  integrity sha512-9t7ppN9PRut9nldJ8pvvixGx97NOyFbswhp9ssBkLjpIsYHpaRj3x9W0eqfflH008kg6UK0ywwpU1fu5y8J5xw==
+
 "@fontsource/overpass-mono@^4.5.0":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@fontsource/overpass-mono/-/overpass-mono-4.5.0.tgz#66fdd559c05305a01c4a39cd61451f44f804dc87"

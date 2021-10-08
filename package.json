@@ -12,7 +12,7 @@
     "@ethersproject/contracts": "^5.4.1",
     "@ethersproject/providers": "^5.4.5",
     "@ethersproject/units": "^5.4.0",
-    "@fontsource/overpass": "^4.5.0",
+    "@fontsource/manrope": "^4.5.0",
     "@fontsource/overpass-mono": "^4.5.0",
     "@popperjs/core": "^2.10.2",
     "@react-spring/web": "^9.2.4",
