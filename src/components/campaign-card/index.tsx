@@ -29,15 +29,11 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
 
   return (
     <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
-      <Flex width="100%" justifyContent="space-between" mb="16px">
-        <Text fontSize="20px" fontWeight="700" lineHeight="30px" color={theme.accent}>
-          {loading ? <Skeleton width="40px" /> : creator}
-        </Text>
-      </Flex>
+      <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
+        {loading ? <Skeleton width="40px" /> : creator}
+      </Text>
       <Box mb="20px" flexGrow={1}>
-        <Text fontSize="20px" lineHeight="20px">
-          {loading ? <Skeleton width="160px" /> : goal}
-        </Text>
+        <Text fontSize="20px">{loading ? <Skeleton width="160px" /> : goal}</Text>
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
