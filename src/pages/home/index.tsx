@@ -59,7 +59,7 @@ export function Home(): ReactElement {
                 )
               })
             : featuredKpiTokens.map((featuredKpiToken) => (
-                <Box key={featuredKpiToken.kpiId} p="8px" width="100%" maxWidth={['100%', '300px']}>
+                <Box key={featuredKpiToken.kpiId} p="8px" width="100%" maxWidth={['100%', '320px']}>
                   <CampaignCard
                     kpiId={featuredKpiToken.kpiId}
                     creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || shortenAddress(featuredKpiToken.creator)}
