@@ -124,6 +124,7 @@ export const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     background-color: ${(props) => props.theme.background};
     color: ${(props) => props.theme.surfaceContent};
+    transition: background-color .2s ease, color .2s ease;
   }
 
   #root {
@@ -173,8 +174,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .Toastify__toast--info {
-      background: ${(props) => props.theme.surface} !important;
+      background-color: ${(props) => props.theme.surface} !important;
       border: solid 1px ${(props) => props.theme.border};
+      transition: background-color 0.2s ease, border .2s ease;
   }
   
   .Toastify__toast-icon {

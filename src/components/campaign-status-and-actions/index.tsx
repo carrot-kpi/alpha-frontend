@@ -47,7 +47,7 @@ export const CampaignStatusAndActions = ({
       <Flex flexDirection="column">
         <Box mb="20px">
           The KPI-related question is currently awaiting an answer on Reality.eth. If you know the answer, click the
-          button below to submit it and receive a reward for your services.
+          button below to submit it.
         </Box>
         <Box>
           <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiToken?.kpiId}`}>

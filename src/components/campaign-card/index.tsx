@@ -33,7 +33,23 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         {loading ? <Skeleton width="40px" /> : creator}
       </Text>
       <Box mb="20px" flexGrow={1}>
-        <Text fontSize="20px">{loading ? <Skeleton width="160px" /> : goal}</Text>
+        <Text fontSize="20px">
+          {loading ? (
+            <Flex flexDirection="column">
+              <Box mb="8px">
+                <Skeleton width="100%" />
+              </Box>
+              <Box mb="8px">
+                <Skeleton width="100%" />
+              </Box>
+              <Box mb="8px">
+                <Skeleton width="100px" />
+              </Box>
+            </Flex>
+          ) : (
+            goal
+          )}
+        </Text>
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>

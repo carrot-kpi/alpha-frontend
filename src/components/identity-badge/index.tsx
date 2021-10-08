@@ -15,6 +15,7 @@ const FlexContainer = styled.div<{ onClick?: any; mobile: boolean }>`
   border-radius: 8px !important;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
   background-color: ${(props) => props.theme.surface};
+  transition: background-color 0.2s ease, border 0.2s ease;
   padding: ${(props) => (props.mobile ? '0px' : '0px 12px 0px 0px')};
   cursor: ${(props) => (props.onClick ? 'pointer' : 'auto')};
 `
@@ -30,6 +31,7 @@ const Blockie = styled(Blockies)<{ mobile: boolean }>`
 const ConnectedDot = styled.div`
   border-radius: 50%;
   border: solid 3px ${(props) => props.theme.background};
+  transition: border 0.2s ease;
   width: 8px;
   height: 8px;
   background-color: ${(props) => props.theme.positive};

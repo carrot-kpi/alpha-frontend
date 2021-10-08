@@ -10,16 +10,18 @@ import { NetworkSwitcherPopover } from '../network-switcher-popover'
 import { NETWORK_DETAIL } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import connectIcon from '../../assets/svgs/connect.svg'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, Moon, Sun } from 'react-feather'
 import { IdentityBadge } from '../identity-badge'
 import { WalletModal } from '../wallet-modal'
 import { useIsMobile } from '../../hooks/useIsMobile'
+import { useIsDarkMode, useToggleDarkMode } from '../../state/user/hooks'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
   z-index: 4;
   background-color: ${(props) => props.theme.background};
   box-shadow: 0px 12px 12px 0px ${(props) => props.theme.background};
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 `
 
 const Logo = styled.img`
@@ -29,12 +31,6 @@ const Logo = styled.img`
 const NetworkIcon = styled.img`
   border-radius: 8px;
   height: 28px;
-`
-
-const Divider = styled(Box)`
-  width: 1px;
-  height: 24px;
-  background-color: ${(props) => props.theme.border};
 `
 
 const WrongNetwork = styled.div`
@@ -70,8 +66,8 @@ export const Header = (): ReactElement => {
   const [showNetworkSwitchPopover, setShowNetworkSwitchPopover] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState(false)
 
-  /* const darkMode = useIsDarkMode()
-  const toggleDarkMode = useToggleDarkMode() */
+  const darkMode = useIsDarkMode()
+  const toggleDarkMode = useToggleDarkMode()
 
   const handleAccountClick = useCallback(() => {
     setWalletModalOpen(true)
@@ -110,7 +106,7 @@ export const Header = (): ReactElement => {
             </Box>
           </Flex>
           <Flex alignItems="center">
-            <Box mr={isMobile ? '12px' : '24px'}>
+            <Box mr="20px">
               {error instanceof UnsupportedChainIdError ? (
                 <WrongNetwork>Invalid network</WrongNetwork>
               ) : !!account ? (
@@ -123,8 +119,7 @@ export const Header = (): ReactElement => {
                 </WalletConnectionPopover>
               )}
             </Box>
-            <Divider mr={isMobile ? '12px' : '24px'} />
-            <Box>
+            <Box mr="12px">
               <NetworkSwitcherPopover show={showNetworkSwitchPopover} onHide={handleNetworkSwitchPopoverHide}>
                 {chainId && NETWORK_DETAIL[chainId]?.icon ? (
                   isMobile ? (
@@ -135,10 +130,10 @@ export const Header = (): ReactElement => {
                         <NetworkIcon src={NETWORK_DETAIL[chainId]?.icon} />
                       </Box>
                       <Flex flexDirection="column" mr="4px">
-                        <Text color={theme.contentSecondary} fontSize="12px">
+                        <Text color={theme.contentSecondary} lineHeight="14px" fontSize="12px">
                           Network
                         </Text>
-                        <Text>{NETWORK_DETAIL[chainId]?.chainName}</Text>
+                        <Text lineHeight="16px">{NETWORK_DETAIL[chainId]?.chainName}</Text>
                       </Flex>
                       <Box>
                         <StyledChevronDown />
@@ -150,13 +145,13 @@ export const Header = (): ReactElement => {
                 )}
               </NetworkSwitcherPopover>
             </Box>
-            {/* <Box ml="20px">
+            <Box display="flex" alignItems="center">
               {darkMode ? (
                 <Sun size="20px" cursor="pointer" onClick={toggleDarkMode} />
               ) : (
                 <Moon size="20px" cursor="pointer" onClick={toggleDarkMode} />
               )}
-            </Box> */}
+            </Box>
           </Flex>
         </Flex>
       </FlexContainer>

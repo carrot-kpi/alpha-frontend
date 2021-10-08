@@ -16,6 +16,7 @@ interface WalletConnectionModalProps {
 
 const RootFlex = styled(Flex)`
   background-color: ${(props) => props.theme.surface};
+  transition: background-color 0.2s ease;
 `
 
 const EllipsizedText = styled(Text)`

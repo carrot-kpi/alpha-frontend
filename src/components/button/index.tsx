@@ -51,7 +51,7 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
   box-shadow: ${(props) =>
     props.primary || props.positive || props.negative || props.disabled ? 'none' : `rgba(0, 0, 0, 0.1) 0px 1px 3px`};
   outline: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, border 0.2s ease;
   :hover:not(:disabled) {
     background-color: ${(props) => {
       let color = props.theme.surfaceInteractive

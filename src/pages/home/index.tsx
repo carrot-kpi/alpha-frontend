@@ -7,6 +7,7 @@ import { CREATORS_NAME_MAP, FEATURED_CAMPAIGNS } from '../../constants'
 import { shortenAddress } from '../../utils'
 import { ChainId } from '@carrot-kpi/sdk'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
+import { transparentize } from 'polished'
 
 const ImagePlaceholderBox = styled(Box)<{ size: string }>`
   width: ${(props) => props.size};
@@ -14,7 +15,14 @@ const ImagePlaceholderBox = styled(Box)<{ size: string }>`
   min-width: ${(props) => props.size} !important;
   min-height: ${(props) => props.size} !important;
   background-color: ${(props) => props.theme.border};
+  transition: background-color 0.2s ease;
   border-radius: 50%;
+`
+
+const FeaturedCampaignsContainer = styled(Flex)`
+  background-color: ${(props) => transparentize(0.9, props.theme.accent)};
+  box-shadow: 0px 12px 12px -6px ${(props) => transparentize(0.9, props.theme.accent)} inset,
+    0px -6px 12px 2px ${(props) => transparentize(0.9, props.theme.accent)} inset;
 `
 
 export function Home(): ReactElement {
@@ -23,8 +31,8 @@ export function Home(): ReactElement {
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
 
   return (
-    <Flex flexDirection="column">
-      <Flex justifyContent="space-between" pt="80px" pb="80px">
+    <Flex flexDirection="column" alignItems="center">
+      <Flex justifyContent="space-between" pt="80px" pb="80px" width={['100%', '80%', '60%', '60%', '40%']}>
         <Flex flexDirection="column" justifyContent="center">
           <Text fontSize="48px" fontWeight="700" lineHeight="50px">
             Incentivize your community.
@@ -38,7 +46,7 @@ export function Home(): ReactElement {
         </Flex>
         <ImagePlaceholderBox size="300px" />
       </Flex>
-      <Flex flexDirection="column" alignItems="center">
+      <FeaturedCampaignsContainer width="100%" mb="60px" py="60px" flexDirection="column" alignItems="center">
         <Text fontSize="28px" fontWeight="700" mb="28px">
           Featured campaigns
         </Text>
@@ -46,14 +54,12 @@ export function Home(): ReactElement {
           flexDirection={['column', 'row']}
           justifyContent={['flex-start', 'center']}
           alignItems={['center', 'stretch']}
-          mb="60px"
-          pb="20px"
           width="100%"
         >
           {loadingFeaturedKpiTokens
             ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.XDAI].length).fill(null).map((_, index) => {
                 return (
-                  <Box key={index} p="8px" width="100%" maxWidth={['100%', '300px']}>
+                  <Box key={index} p="8px" width="100%" maxWidth={['100%', '320px']}>
                     <CampaignCard loading />
                   </Box>
                 )
@@ -70,6 +76,8 @@ export function Home(): ReactElement {
                 </Box>
               ))}
         </Flex>
+      </FeaturedCampaignsContainer>
+      <Flex width={['100%', '80%', '60%', '60%', '40%']} flexDirection="column" alignItems="center">
         <Flex width="80%" mb="80px" justifyContent="stretch" alignItems="center">
           <ImagePlaceholderBox size="200px" mr="40px" />
           <Flex flexDirection="column">

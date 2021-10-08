@@ -32,7 +32,7 @@ export function App() {
         <GlobalStyle />
         <Header />
         <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
-          <Flex flexDirection="column" flex="1" width={['100%', '80%', '60%', '60%', '40%']}>
+          <Flex flexDirection="column" flex="1" width="100%">
             <Box flexGrow={1}>
               <SkeletonTheme color={theme.border} highlightColor={theme.surfaceInteractive}>
                 <Switch>

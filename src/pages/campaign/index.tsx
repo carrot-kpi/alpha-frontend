@@ -51,7 +51,8 @@ const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
 const DividerBox = styled(Box)`
   height: 1px;
   width: 100%;
-  background-color: ${(props) => props.theme.accentContent};
+  background-color: ${(props) => props.theme.border};
+  transition: background-color 0.2s ease;
 `
 
 export function Campaign({
@@ -111,10 +112,10 @@ export function Campaign({
 
   if (!featuredCampaignSpec) return <Redirect to="/" />
   return (
-    <Flex flexDirection="column" alignItems="center" width="100%">
-      <Flex flexDirection="column" mb="60px" width="100%">
-        <Flex mx="8px" flexDirection={['column', 'row']}>
-          <Flex flexGrow={[0, 1]} flexDirection="column" width={['100%', '65%']}>
+    <Flex flexDirection="column" alignItems="center" justifyContent="center" width="100%">
+      <Flex flexDirection="column" mb="60px" width={['100%', '80%', '60%', '60%', '40%']}>
+        <Flex mx="8px" flexDirection={['column', 'row']} width="100%">
+          <Flex flexGrow={[0, 1]} flexDirection="column">
             <Card m="8px" height="fit-content">
               <Text fontSize="20px" fontWeight="700" color={theme.accent} mb="16px">
                 {loadingKpiToken || !kpiToken ? (
@@ -230,7 +231,7 @@ export function Campaign({
               </Card>
             )}
           </Flex>
-          <Flex flexDirection="column" width={['100%', '35%']}>
+          <Flex flexDirection="column" width={['100%', '35%', '50%']}>
             <Card flexDirection="column" m="8px">
               <Title mb="8px">Time left</Title>
               {!kpiToken ? (
