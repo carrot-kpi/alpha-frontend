@@ -16,19 +16,19 @@ export function useKpiTokenBalance(
   const [balance, setBalance] = useState<Amount<Token> | undefined>(undefined)
 
   useEffect(() => {
-    if (!kpiToken || !kpiTokenContract) return
+    if (!account || !kpiToken || !kpiTokenContract) return
     if (wrappedResult.loading) {
       setLoading(true)
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
-      console.error('could not fetch finalization status', wrappedResult.error)
+      console.error('could not fetch balance', wrappedResult.error)
       setLoading(true)
       return
     }
     setLoading(false)
     setBalance(new Amount(kpiToken, wrappedResult.result[0]))
-  }, [kpiToken, kpiTokenContract, wrappedResult.error, wrappedResult.loading, wrappedResult.result])
+  }, [kpiToken, kpiTokenContract, wrappedResult.error, wrappedResult.loading, wrappedResult.result, account])
 
   return { loading, balance }
 }

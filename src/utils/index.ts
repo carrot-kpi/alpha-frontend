@@ -1,6 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { getAddress } from '@ethersproject/address'
 import { NetworkDetails } from '../constants'
+import { ChainId } from '@carrot-kpi/sdk'
+import { gql } from 'graphql-request'
+import { BLOCK_SUBGRAPH_CLIENTS } from '../constants/graphql'
+import { DateTime } from 'luxon'
 
 const ETHERSCAN_PREFIXES: { [chainId in number]: string } = {
   1: '',
@@ -68,4 +72,51 @@ export const switchOrAddNetwork = (networkDetails?: NetworkDetails, account?: st
           console.error('error adding chain with id', networkDetails.chainId, error)
         })
     })
+}
+
+export const getDailyTimestampFromRange = (from: DateTime, to: DateTime): number[] => {
+  let loopedDate = from.endOf('day')
+  const normalizedEndDate = to.startOf('day')
+  let timestamps = []
+  while (loopedDate.toMillis() < normalizedEndDate.toMillis()) {
+    timestamps.push(loopedDate.toMillis())
+    loopedDate = loopedDate.plus({ day: 1 })
+  }
+  return timestamps
+}
+
+export const getBlocksFromTimestamps = async (
+  chainId: ChainId,
+  timestamps: number[]
+): Promise<{ number: number; timestamp: number }[]> => {
+  if (!timestamps || timestamps.length === 0) return []
+
+  const blocksSubgraph = BLOCK_SUBGRAPH_CLIENTS[chainId]
+  if (!blocksSubgraph) return []
+
+  const data = await blocksSubgraph.request<{
+    [timestampString: string]: { number: string }[]
+  }>(gql`
+    query blocks {
+      ${timestamps.map((timestamp) => {
+        return `t${timestamp}: blocks(first: 1, orderBy: number, orderDirection: asc where: { timestamp_gt: ${Math.floor(
+          timestamp / 1000
+        )} }) {
+        number
+      }`
+      })}
+    }
+  `)
+  return Object.entries(data).reduce(
+    (accumulator: { timestamp: number; number: number }[], [timestampString, blocks]) => {
+      if (blocks.length > 0) {
+        accumulator.push({
+          timestamp: parseInt(timestampString.substring(1)),
+          number: parseInt(blocks[0].number),
+        })
+      }
+      return accumulator
+    },
+    []
+  )
 }

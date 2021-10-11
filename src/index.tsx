@@ -10,6 +10,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import Web3ReactManager from './components/web3-manager'
 import { ApplicationStateUpdater } from './state/application/updater'
 import { MulticallStateUpdater } from './state/multicall/updater'
+import { MultiChainLinksUpdater } from './state/multi-chain-links/updater'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NETWORK_CONTEXT_NAME)
 
@@ -17,22 +18,15 @@ function getLibrary(provider: any): Web3Provider {
   return new Web3Provider(provider, 'any')
 }
 
-function Updaters() {
-  return (
-    <>
-      <ApplicationStateUpdater />
-      <MulticallStateUpdater />
-    </>
-  )
-}
-
 ReactDOM.render(
   <StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Provider store={store}>
-          <Updaters />
+          <ApplicationStateUpdater />
+          <MulticallStateUpdater />
           <HashRouter>
+            <MultiChainLinksUpdater />
             <Web3ReactManager>
               <App />
             </Web3ReactManager>

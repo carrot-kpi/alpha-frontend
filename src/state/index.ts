@@ -4,6 +4,7 @@ import { userReducer } from './user/reducer'
 import { multicallReducer } from './multicall/reducer'
 import { transactionsReducer } from './transactions/reducer'
 import { applicationReducer } from './application/reducer'
+import { multiChainLinksReducer } from './multi-chain-links/reducer'
 
 const PERSISTED_KEYS: string[] = ['user']
 
@@ -14,6 +15,7 @@ export const store = configureStore({
     user: userReducer,
     multicall: multicallReducer,
     transactions: transactionsReducer,
+    multiChainLinks: multiChainLinksReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }).concat(save({ states: PERSISTED_KEYS, namespace: persistenceNamespace })),

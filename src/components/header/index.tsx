@@ -1,65 +1,81 @@
 import { ReactElement, useCallback, useState } from 'react'
-import { Box, Flex } from 'rebass'
-import styled from 'styled-components'
-import { shortenAddress } from '../../utils'
-import { ButtonSmall } from '../button'
+import { Box, Flex, Text } from 'rebass'
+import styled, { useTheme } from 'styled-components'
+import { Button } from '../button'
 import logo from '../../assets/logo.svg'
 import { UndecoratedInternalLink } from '../undecorated-link'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectionPopover } from '../wallet-connection-popover'
 import { NetworkSwitcherPopover } from '../network-switcher-popover'
-import { WalletModal } from '../wallet-modal'
 import { NETWORK_DETAIL } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
+import { ChevronDown, Moon, Sun } from 'react-feather'
+import { IdentityBadge } from '../identity-badge'
+import { WalletModal } from '../wallet-modal'
+import { useIsMobile } from '../../hooks/useIsMobile'
+import { useIsDarkMode, useToggleDarkMode } from '../../state/user/hooks'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
+  top: 0;
   z-index: 4;
   background-color: ${(props) => props.theme.background};
-  border-bottom: solid 1px ${(props) => props.theme.divider};
+  box-shadow: 0px 12px 12px 0px ${(props) => props.theme.background};
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 `
 
 const Logo = styled.img`
   height: 20px;
 `
 
-const AddressContainer = styled.div`
-  height: 28px;
-  color: ${(props) => props.theme.primary};
-  border: solid 1.5px ${(props) => props.theme.primary};
-  border-radius: 28px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`
-
 const NetworkIcon = styled.img`
-  border-radius: 50%;
+  border-radius: 8px;
   height: 28px;
-  cursor: pointer;
 `
 
 const WrongNetwork = styled.div`
   height: 28px;
-  background-color: ${(props) => props.theme.error};
-  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.negativeSurface};
+  color: ${(props) => props.theme.negativeSurfaceContent};
   padding: 0 12px;
   border-radius: 14px;
+  line-height: 24px;
   display: flex;
   align-items: center;
   font-size: 12px;
   text-transform: uppercase;
 `
 
+const StyledChevronDown = styled(ChevronDown)`
+  height: 18px;
+  color: ${(props) => props.theme.contentSecondary};
+  padding-top: 8px;
+`
+
+const ClickableFlex = styled(Flex)`
+  cursor: pointer;
+`
+
 export const Header = (): ReactElement => {
   const { chainId, account } = useActiveWeb3React()
   const { error } = useWeb3React()
+  const theme = useTheme()
+  const isMobile = useIsMobile()
+
   const [showWalletConnectionPopover, setShowWalletConnectionPopover] = useState(false)
   const [showNetworkSwitchPopover, setShowNetworkSwitchPopover] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState(false)
-  /* const darkMode = useIsDarkMode()
-  const toggleDarkMode = useToggleDarkMode() */
+
+  const darkMode = useIsDarkMode()
+  const toggleDarkMode = useToggleDarkMode()
+
+  const handleAccountClick = useCallback(() => {
+    setWalletModalOpen(true)
+  }, [])
+
+  const handleWalletModalClose = useCallback(() => {
+    setWalletModalOpen(false)
+  }, [])
 
   const handleConnectWalletClick = useCallback(() => {
     setShowWalletConnectionPopover(true)
@@ -77,14 +93,6 @@ export const Header = (): ReactElement => {
     setShowNetworkSwitchPopover(false)
   }, [])
 
-  const handleAccountClick = useCallback(() => {
-    setWalletModalOpen(true)
-  }, [])
-
-  const handleWalletModalClose = useCallback(() => {
-    setWalletModalOpen(false)
-  }, [])
-
   return (
     <>
       <WalletModal open={walletModalOpen} onDismiss={handleWalletModalClose} />
@@ -98,33 +106,52 @@ export const Header = (): ReactElement => {
             </Box>
           </Flex>
           <Flex alignItems="center">
-            <Box mr="12px">
+            <Box mr="20px">
               {error instanceof UnsupportedChainIdError ? (
                 <WrongNetwork>Invalid network</WrongNetwork>
               ) : !!account ? (
-                <AddressContainer onClick={handleAccountClick}>{shortenAddress(account)}</AddressContainer>
+                <IdentityBadge account={account} onClick={handleAccountClick} />
               ) : (
                 <WalletConnectionPopover show={showWalletConnectionPopover} onHide={handleWalletConnectionPopoverHide}>
-                  <ButtonSmall onClick={handleConnectWalletClick}>Connect wallet</ButtonSmall>
+                  <Button primary onClick={handleConnectWalletClick}>
+                    Connect wallet
+                  </Button>
                 </WalletConnectionPopover>
               )}
             </Box>
-            <Box>
+            <Box mr="12px">
               <NetworkSwitcherPopover show={showNetworkSwitchPopover} onHide={handleNetworkSwitchPopoverHide}>
                 {chainId && NETWORK_DETAIL[chainId]?.icon ? (
-                  <NetworkIcon src={NETWORK_DETAIL[chainId]?.icon} onClick={handleSwitchNetworkClick} />
+                  isMobile ? (
+                    <NetworkIcon src={NETWORK_DETAIL[chainId]?.icon} onClick={handleSwitchNetworkClick} />
+                  ) : (
+                    <ClickableFlex alignItems="center" onClick={handleSwitchNetworkClick}>
+                      <Box mr="8px" display="flex" alignItems="center">
+                        <NetworkIcon src={NETWORK_DETAIL[chainId]?.icon} />
+                      </Box>
+                      <Flex flexDirection="column" mr="4px">
+                        <Text color={theme.contentSecondary} lineHeight="14px" fontSize="12px">
+                          Network
+                        </Text>
+                        <Text lineHeight="16px">{NETWORK_DETAIL[chainId]?.chainName}</Text>
+                      </Flex>
+                      <Box>
+                        <StyledChevronDown />
+                      </Box>
+                    </ClickableFlex>
+                  )
                 ) : (
-                  <ButtonSmall onClick={handleSwitchNetworkClick}>Switch network</ButtonSmall>
+                  <Button onClick={handleSwitchNetworkClick}>Switch network</Button>
                 )}
               </NetworkSwitcherPopover>
             </Box>
-            {/* <Box ml="20px">
+            <Box display="flex" alignItems="center">
               {darkMode ? (
                 <Sun size="20px" cursor="pointer" onClick={toggleDarkMode} />
               ) : (
                 <Moon size="20px" cursor="pointer" onClick={toggleDarkMode} />
               )}
-            </Box> */}
+            </Box>
           </Flex>
         </Flex>
       </FlexContainer>

@@ -1,72 +1,52 @@
-import { Placement } from '@popperjs/core'
-import { transparentize } from 'polished'
-import React, { MutableRefObject, useCallback, useState } from 'react'
+import React, { useRef } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
-import Portal from '@reach/portal'
 import { Card } from '../card'
-import { useInterval } from 'react-use'
+import { useTransition, config, animated } from '@react-spring/web'
+import useClickAway from 'react-use/lib/useClickAway'
 
-const PopoverContainer = styled(Card)<{ show: boolean; style: any }>`
-  z-index: ${(props) => (props.show ? 9999 : 0)};
-  opacity: ${(props) => (props.show ? 1 : 0)};
-  transform: translateY(${(props) => (props.show ? 0 : '1000000000px')});
-  transition: ${(props) => (props.show ? 'opacity 0.2s ease' : 'transform 0.2s ease 0.2s, opacity 0.2s ease')};
-  box-shadow: 0px 0px 8px ${({ theme }) => transparentize(0.84, theme.black)};
-`
-
-const ReferenceElement = styled.div`
-  display: flex;
+const PopoverContainer = styled(Card)`
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 `
 
 export interface PopoverProps {
   content: React.ReactNode
   show: boolean
+  onHide: () => void
   children: React.ReactNode
-  placement?: Placement
-  innerRef?: MutableRefObject<HTMLDivElement | null>
   className?: string
   offsetX?: number
   offsetY?: number
 }
 
-export function Popover({
-  content,
-  show,
-  innerRef,
-  children,
-  placement = 'auto',
-  offsetY = 8,
-  offsetX = 0,
-}: PopoverProps) {
-  const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null)
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
-  const { styles, update, attributes } = usePopper(referenceElement, popperElement, {
-    placement,
-    strategy: 'fixed',
-    modifiers: [
-      { name: 'offset', options: { offset: [offsetX, offsetY] } },
-      {
-        name: 'computeStyles',
-        options: { adaptive: false },
-      },
-    ],
+export function Popover({ content, show, onHide, children }: PopoverProps) {
+  const referenceRef = useRef<HTMLDivElement | null>(null)
+  const popperRef = useRef<HTMLDivElement | null>(null)
+  const { styles, attributes } = usePopper(referenceRef.current, popperRef.current, {
+    placement: 'bottom-end',
+    modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
   })
-  const updateCallback = useCallback(() => {
-    update && update()
-  }, [update])
-  useInterval(updateCallback, show ? 100 : null)
+  const transition = useTransition(show, {
+    from: { opacity: 0, scale: 0.9 },
+    enter: { opacity: 1, scale: 1 },
+    leave: { opacity: 0, scale: 0.9 },
+    config: { ...config.default, duration: 100 },
+  })
+  useClickAway(popperRef, onHide)
 
   return (
     <>
-      <ReferenceElement ref={setReferenceElement as any}>{children}</ReferenceElement>
-      <Portal>
-        <div ref={innerRef}>
-          <PopoverContainer show={show} ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-            {content}
-          </PopoverContainer>
-        </div>
-      </Portal>
+      <div ref={referenceRef}>{children}</div>
+      <div ref={popperRef} {...attributes.popper} style={styles.popper}>
+        {transition(
+          (transitionStyles, item) =>
+            item && (
+              <animated.div style={transitionStyles}>
+                <PopoverContainer clickable={false}>{content}</PopoverContainer>
+              </animated.div>
+            )
+        )}
+      </div>
     </>
   )
 }

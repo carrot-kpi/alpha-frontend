@@ -7,13 +7,14 @@ const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
 
 const RPC_URL: { [chainId in ChainId]: string } = {
   [ChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
+  [ChainId.XDAI]: 'https://rpc.xdaichain.com/',
 }
 
-const SUPPORTED_CHAINS = [ChainId.RINKEBY]
+const SUPPORTED_CHAINS = [ChainId.RINKEBY, ChainId.XDAI]
 
 export const network = new NetworkConnector({
   urls: RPC_URL,
-  defaultChainId: ChainId.RINKEBY,
+  defaultChainId: ChainId.XDAI,
 })
 
 export const injected = new InjectedConnector({

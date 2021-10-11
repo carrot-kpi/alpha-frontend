@@ -1,46 +1,78 @@
-import { darken, lighten } from 'polished'
+import { darken } from 'polished'
 import styled from 'styled-components'
-import { Button as RebassButton } from 'rebass'
+import { Box, Button as RebassButton, ButtonProps as RebassButtonProps, Flex } from 'rebass'
+import { ReactNode } from 'react'
 
-const Base = styled(RebassButton)`
-  text-transform: uppercase;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+interface ButtonProps {
+  medium?: boolean
+  small?: boolean
+  mini?: boolean
+
+  primary?: boolean
+  positive?: boolean
+  negative?: boolean
+  disabled?: boolean
+
+  children?: ReactNode
+}
+
+const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
+  height: ${(props) => {
+    if (props.small) return '32px'
+    if (props.mini) return '25px'
+    return '40px'
+  }};
+  line-height: 24px !important;
   text-decoration: none;
-  font-size: 12px !important;
-  font-weight: 700;
-  padding: 0 12px;
+  font-size: 16px !important;
+  padding: 0 24px;
   cursor: pointer;
-  background-color: ${(props) => props.theme.primary};
-  border: none;
+  background-color: ${(props) => {
+    if (props.primary) return props.theme.accent
+    else if (props.positive) return props.theme.positiveSurface
+    else if (props.negative) return props.theme.negativeSurface
+    else if (props.disabled) return props.theme.disabled
+    else return props.theme.surfaceInteractive
+  }} !important;
+  color: ${(props) => {
+    if (props.primary) return props.theme.accentContent
+    else if (props.positive) return props.theme.positiveSurfaceContent
+    else if (props.negative) return props.theme.negativeSurfaceContent
+    else if (props.disabled) return props.theme.disabledContent
+    else return props.theme.surfaceContent
+  }} !important;
+  border: ${(props) =>
+    props.primary || props.positive || props.negative || props.disabled
+      ? 'none'
+      : `solid 1px ${props.theme.border}`} !important;
+  border-radius: 8px !important;
+  box-shadow: ${(props) =>
+    props.primary || props.positive || props.negative || props.disabled ? 'none' : `rgba(0, 0, 0, 0.1) 0px 1px 3px`};
   outline: none;
-  color: ${(props) => props.theme.white};
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, border 0.2s ease;
   :hover:not(:disabled) {
-    background-color: ${(props) => darken(0.06, props.theme.primary)};
+    background-color: ${(props) => {
+      let color = props.theme.surfaceInteractive
+      if (props.primary) color = props.theme.accent
+      else if (props.positive) color = props.theme.positiveSurface
+      else if (props.negative) color = props.theme.negativeSurface
+      else if (props.disabled) color = props.theme.disabled
+      return darken(0.06, color)
+    }};
     transform: scale(1.02);
   }
-  :active:not(:disabled) {
+  :active:not(:disabled),
+  :focus:not(:disabled) {
     transform: scale(0.98);
   }
-  :disabled {
-    background-color: ${(props) => lighten(0.7, props.theme.black)};
-    cursor: not-allowed;
-  }
 `
 
-export const ButtonSmall = styled(Base)`
-  height: 28px;
-  border-radius: 28px !important;
-`
-
-export const ButtonMedium = styled(Base)`
-  height: 36px;
-  border-radius: 36px !important;
-`
-
-export const ButtonLarge = styled(Base)`
-  height: 40px;
-  border-radius: 40px !important;
-`
+export const Button = ({ children, ...rest }: ButtonProps & RebassButtonProps) => {
+  return (
+    <Root {...rest}>
+      <Flex height="100%" alignItems="center">
+        <Box>{children}</Box>
+      </Flex>
+    </Root>
+  )
+}

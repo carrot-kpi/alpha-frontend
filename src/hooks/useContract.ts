@@ -29,7 +29,7 @@ export function useMulticallContract(): Contract | null {
 export function useRealityContract(withSignerIfPossible = false): Contract | null {
   const { chainId } = useActiveWeb3React()
   // FIXME: use mainnet as the default key
-  return useContract(REALITY_ADDRESS[(chainId as ChainId) || ChainId.RINKEBY], REALITY_ABI, withSignerIfPossible)
+  return useContract(REALITY_ADDRESS[(chainId as ChainId) || ChainId.XDAI], REALITY_ABI, withSignerIfPossible)
 }
 
 export function useKpiTokenContract(address?: string, withSignerIfPossible = false): Contract | null {

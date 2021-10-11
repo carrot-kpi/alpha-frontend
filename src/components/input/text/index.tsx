@@ -11,7 +11,7 @@ const Input = styled.input`
   font-size: 14px;
   outline: none;
   border: none;
-  border-bottom: solid 2px ${(props) => props.theme.divider};
+  border-bottom: solid 2px ${(props) => props.theme.border};
 `
 
 interface InputProps {

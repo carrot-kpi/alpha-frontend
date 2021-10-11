@@ -11,8 +11,9 @@ import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../../theme'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { useEffect } from 'react'
-import { useLocation } from 'react-use'
+import useLocation from 'react-use/lib/useLocation'
 import { TransactionsStateUpdater } from '../../state/transactions/updater'
+import { NetworkWarningModal } from '../../components/network-warning-modal'
 
 export function App() {
   const darkMode = useIsDarkMode()
@@ -31,9 +32,9 @@ export function App() {
         <GlobalStyle />
         <Header />
         <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
-          <Flex flexDirection="column" flex="1" width={['100%', '80%', '60%', '60%', '40%']}>
+          <Flex flexDirection="column" flex="1" width="100%">
             <Box flexGrow={1}>
-              <SkeletonTheme color={theme.skeletonColor} highlightColor={theme.skeletonHighlightColor}>
+              <SkeletonTheme color={theme.border} highlightColor={theme.surfaceInteractive}>
                 <Switch>
                   <Route strict exact path="/" component={Home} />
                   <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
@@ -46,6 +47,7 @@ export function App() {
             <Footer />
           </Box>
         </Flex>
+        <NetworkWarningModal />
       </ThemeProvider>
       <ToastContainer
         className="custom-toast-root"

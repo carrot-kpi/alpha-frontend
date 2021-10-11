@@ -2,7 +2,7 @@ import { Status } from '../../pages/campaign'
 import { ExternalLink } from '../undecorated-link'
 import { Flex, Box } from 'rebass'
 import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
-import { ButtonMedium } from '../button'
+import { Button } from '../button'
 import { useFinalizeKpiTokenCallback } from '../../hooks/useFinalizeKpiTokenCallback'
 import { ZERO_DECIMAL } from '../../constants'
 import { useRedeemKpiTokenCallback } from '../../hooks/useRedeemKpiTokenCallback'
@@ -47,11 +47,11 @@ export const CampaignStatusAndActions = ({
       <Flex flexDirection="column">
         <Box mb="20px">
           The KPI-related question is currently awaiting an answer on Reality.eth. If you know the answer, click the
-          button below to submit it and receive a reward for your services.
+          button below to submit it.
         </Box>
         <Box>
           <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiToken?.kpiId}`}>
-            <ButtonMedium>Submit answer</ButtonMedium>
+            <Button primary>Submit answer</Button>
           </ExternalLink>
         </Box>
       </Flex>
@@ -64,7 +64,9 @@ export const CampaignStatusAndActions = ({
           collateral to be distributed among token holders in relation to their balance.
         </Box>
         <Box>
-          <ButtonMedium onClick={handleFinalize}>Finalize KPI token</ButtonMedium>
+          <Button primary onClick={handleFinalize}>
+            Finalize KPI token
+          </Button>
         </Box>
       </Flex>
     )
@@ -77,7 +79,9 @@ export const CampaignStatusAndActions = ({
           by token holders in realtion to their balance.
         </Box>
         <Box>
-          <ButtonMedium onClick={handleRedeem}>Redeem reward</ButtonMedium>
+          <Button primary onClick={handleRedeem}>
+            Redeem reward
+          </Button>
         </Box>
       </Flex>
     )
@@ -90,7 +94,9 @@ export const CampaignStatusAndActions = ({
             token holders to redeem. Click the button below to redeem your part.
           </Box>
           <Box>
-            <ButtonMedium onClick={handleRedeem}>Redeem reward</ButtonMedium>
+            <Button primary onClick={handleRedeem}>
+              Redeem reward
+            </Button>
           </Box>
         </Flex>
       )
@@ -98,7 +104,9 @@ export const CampaignStatusAndActions = ({
       <Flex flexDirection="column">
         <Box mb="20px">The KPI has not been reached. You can click the button below to burn your KPI tokens.</Box>
         <Box>
-          <ButtonMedium onClick={handleRedeem}>Burn tokens</ButtonMedium>
+          <Button primary onClick={handleRedeem}>
+            Burn tokens
+          </Button>
         </Box>
       </Flex>
     )
