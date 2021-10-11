@@ -114,8 +114,8 @@ export function Campaign({
   return (
     <Flex flexDirection="column" alignItems="center" justifyContent="center" width="100%">
       <Flex flexDirection="column" mb="60px" width={['100%', '80%', '60%', '60%', '40%']}>
-        <Flex mx="8px" flexDirection={['column', 'row']} width="100%">
-          <Flex flexGrow={[0, 1]} flexDirection="column">
+        <Flex flexDirection={['column', 'row']} width="100%">
+          <Flex width={['100%', '55%', '70%']} flexDirection="column">
             <Card m="8px" height="fit-content">
               <Text fontSize="20px" fontWeight="700" color={theme.accent} mb="16px">
                 {loadingKpiToken || !kpiToken ? (
@@ -202,7 +202,7 @@ export function Campaign({
             )}
             <Charts metrics={featuredCampaignSpec?.metrics} />
           </Flex>
-          <Flex flexDirection="column" width={['100%', '35%', '50%']}>
+          <Flex flexDirection="column" width={['100%', '45%', '30%']}>
             <Card flexDirection="column" m="8px">
               <Title mb="8px">Time left</Title>
               {!kpiToken ? (
