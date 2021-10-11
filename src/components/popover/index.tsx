@@ -9,10 +9,6 @@ const PopoverContainer = styled(Card)`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 `
 
-const ReferenceElement = styled.div`
-  display: flex;
-`
-
 export interface PopoverProps {
   content: React.ReactNode
   show: boolean
@@ -27,6 +23,7 @@ export function Popover({ content, show, onHide, children }: PopoverProps) {
   const referenceRef = useRef<HTMLDivElement | null>(null)
   const popperRef = useRef<HTMLDivElement | null>(null)
   const { styles, attributes } = usePopper(referenceRef.current, popperRef.current, {
+    placement: 'bottom-end',
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
   })
   const transition = useTransition(show, {
@@ -39,17 +36,17 @@ export function Popover({ content, show, onHide, children }: PopoverProps) {
 
   return (
     <>
-      <ReferenceElement ref={referenceRef}>{children}</ReferenceElement>
-      {transition(
-        (transitionStyles, item) =>
-          item && (
-            <animated.div style={{ ...styles.popper, ...transitionStyles }} ref={popperRef}>
-              <PopoverContainer {...attributes.popper} clickable={false}>
-                {content}
-              </PopoverContainer>
-            </animated.div>
-          )
-      )}
+      <div ref={referenceRef}>{children}</div>
+      <div ref={popperRef} {...attributes.popper} style={styles.popper}>
+        {transition(
+          (transitionStyles, item) =>
+            item && (
+              <animated.div style={transitionStyles}>
+                <PopoverContainer clickable={false}>{content}</PopoverContainer>
+              </animated.div>
+            )
+        )}
+      </div>
     </>
   )
 }
