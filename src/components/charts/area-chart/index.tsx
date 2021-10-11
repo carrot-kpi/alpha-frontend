@@ -10,11 +10,11 @@ const ChartContainer = styled.div`
   height: 300px;
 `
 
-interface BarChartProps {
+interface AreaChartProps {
   metric: TokenPriceMetric
 }
 
-export const AreaChart = ({ metric }: BarChartProps) => {
+export const AreaChart = ({ metric }: AreaChartProps) => {
   const theme = useTheme()
 
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
@@ -23,7 +23,7 @@ export const AreaChart = ({ metric }: BarChartProps) => {
     let cancelled = false
     const fetchChartData = async () => {
       const data = await metric.chartData()
-      if (!cancelled) setChartData(data)
+      if (!cancelled) setChartData(data.sort((a, b) => a.x - b.x))
     }
     fetchChartData()
     return () => {
@@ -50,10 +50,10 @@ export const AreaChart = ({ metric }: BarChartProps) => {
               tickFormatter={(tick) => DateTime.fromMillis(tick).toFormat('DD')}
               dataKey="x"
               tick={{ fill: theme.surfaceContent }}
-              type={'number'}
+              type="number"
               domain={['dataMin', 'dataMax']}
             />
-            <YAxis type="number" axisLine={false} interval="preserveEnd" yAxisId={0} tick={false} />
+            <YAxis type="number" axisLine={false} interval="preserveEnd" tick={false} />
             <Tooltip
               cursor={{ fill: theme.border }}
               formatter={(val: string) => `$${commify(val)}`}
@@ -66,7 +66,7 @@ export const AreaChart = ({ metric }: BarChartProps) => {
                 color: 'black',
               }}
             />
-            <Area type="natural" dataKey="y" fill="url(#custom-gradient)" yAxisId={0} stroke={theme.accent} />
+            <Area type="monotone" dataKey="y" fill="url(#custom-gradient)" stroke={theme.accent} />
           </RechartsAreaChart>
         </ResponsiveContainer>
       )}

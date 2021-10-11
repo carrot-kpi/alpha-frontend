@@ -99,7 +99,9 @@ export const getBlocksFromTimestamps = async (
   }>(gql`
     query blocks {
       ${timestamps.map((timestamp) => {
-        return `t${timestamp}: blocks(first: 1, where: { timestamp_gt: ${Math.floor(timestamp / 1000)} }) {
+        return `t${timestamp}: blocks(first: 1, orderBy: number, orderDirection: asc where: { timestamp_gt: ${Math.floor(
+          timestamp / 1000
+        )} }) {
         number
       }`
       })}

@@ -23,7 +23,7 @@ export const BarChart = ({ metric }: BarChartProps) => {
     let cancelled = false
     const fetchChartData = async () => {
       const data = await metric.chartData()
-      if (!cancelled) setChartData(data)
+      if (!cancelled) setChartData(data.sort((a, b) => a.x - b.x))
     }
     fetchChartData()
     return () => {
@@ -47,7 +47,7 @@ export const BarChart = ({ metric }: BarChartProps) => {
               type={'number'}
               domain={['dataMin', 'dataMax']}
             />
-            <YAxis type="number" axisLine={false} interval="preserveEnd" yAxisId={0} tick={false} />
+            <YAxis type="number" axisLine={false} interval="preserveEnd" tick={false} />
             <Tooltip
               cursor={{ fill: theme.border }}
               formatter={(val: string) => `$${commify(val)}`}
@@ -60,7 +60,7 @@ export const BarChart = ({ metric }: BarChartProps) => {
                 color: 'black',
               }}
             />
-            <Bar type="monotone" dataKey="y" fill={theme.accent} yAxisId={0} stroke={theme.accent} />
+            <Bar dataKey="y" fill={theme.accent} stroke={theme.accent} />
           </RechartsBarChart>
         </ResponsiveContainer>
       )}
