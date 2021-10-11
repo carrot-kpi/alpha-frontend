@@ -3,12 +3,13 @@ import { Box, Flex, Text } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
-import { CREATORS_NAME_MAP, FEATURED_CAMPAIGNS } from '../../constants'
+import { CREATORS_NAME_MAP } from '../../constants'
 import { shortenAddress } from '../../utils'
 import { ChainId } from '@carrot-kpi/sdk'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
 import { animated, useTrail } from '@react-spring/web'
+import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 
 const ImagePlaceholderBox = styled(Box)<{ size: string }>`
   width: ${(props) => props.size};

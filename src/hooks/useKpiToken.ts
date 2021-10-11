@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
-import { gql, useQuery } from '@apollo/client'
+import { gql } from 'graphql-request'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
@@ -72,56 +72,63 @@ interface CarrotQueryResult {
 export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiToken } {
   const { chainId } = useActiveWeb3React()
   const carrotSubgraphClient = useCarrotSubgraphClient()
-  const { data: kpiTokenData, loading: kpiTokenLoading } = useQuery<CarrotQueryResult>(KPI_TOKEN_QUERY, {
-    variables: { kpiId },
-    client: carrotSubgraphClient,
-  })
 
   const [kpiToken, setKpiToken] = useState<KpiToken | undefined>()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (!chainId) return
-    if (kpiTokenLoading || !kpiTokenData) {
-      setLoading(true)
-      setKpiToken(undefined)
-      return
+    let cancelled = false
+    const fetchData = async () => {
+      if (!chainId) return
+
+      if (!cancelled) setLoading(true)
+      try {
+        const kpiTokenData = await carrotSubgraphClient.request<CarrotQueryResult>(KPI_TOKEN_QUERY, { kpiId })
+        if (!cancelled && (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1)) {
+          setLoading(false)
+          setKpiToken(undefined)
+          return
+        }
+        const rawKpiToken = kpiTokenData.kpiTokens[0]
+        const collateralToken = new Token(
+          chainId,
+          getAddress(rawKpiToken.collateral.token.id),
+          rawKpiToken.collateral.token.decimals,
+          rawKpiToken.collateral.token.symbol,
+          rawKpiToken.collateral.token.name
+        )
+        const kpiToken = new KpiToken(
+          chainId,
+          getAddress(rawKpiToken.id),
+          rawKpiToken.symbol,
+          rawKpiToken.name,
+          rawKpiToken.kpiId,
+          BigNumber.from(rawKpiToken.totalSupply),
+          rawKpiToken.oracle,
+          rawKpiToken.oracleQuestion.text,
+          BigNumber.from(rawKpiToken.lowerBound),
+          BigNumber.from(rawKpiToken.higherBound),
+          BigNumber.from(rawKpiToken.finalProgress),
+          DateTime.fromSeconds(parseInt(rawKpiToken.expiresAt)),
+          rawKpiToken.finalized,
+          rawKpiToken.kpiReached,
+          rawKpiToken.creator,
+          new Amount<Token>(collateralToken, BigNumber.from(rawKpiToken.collateral.amount)),
+          new Amount<Token>(collateralToken, BigNumber.from(rawKpiToken.fee))
+        )
+        if (!cancelled) {
+          setKpiToken(kpiToken)
+          setLoading(false)
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
     }
-    if (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1) {
-      setLoading(false)
-      setKpiToken(undefined)
-      return
+    fetchData()
+    return () => {
+      cancelled = true
     }
-    const rawKpiToken = kpiTokenData.kpiTokens[0]
-    const collateralToken = new Token(
-      chainId,
-      getAddress(rawKpiToken.collateral.token.id),
-      rawKpiToken.collateral.token.decimals,
-      rawKpiToken.collateral.token.symbol,
-      rawKpiToken.collateral.token.name
-    )
-    const kpiToken = new KpiToken(
-      chainId,
-      getAddress(rawKpiToken.id),
-      rawKpiToken.symbol,
-      rawKpiToken.name,
-      rawKpiToken.kpiId,
-      BigNumber.from(rawKpiToken.totalSupply),
-      rawKpiToken.oracle,
-      rawKpiToken.oracleQuestion.text,
-      BigNumber.from(rawKpiToken.lowerBound),
-      BigNumber.from(rawKpiToken.higherBound),
-      BigNumber.from(rawKpiToken.finalProgress),
-      DateTime.fromSeconds(parseInt(rawKpiToken.expiresAt)),
-      rawKpiToken.finalized,
-      rawKpiToken.kpiReached,
-      rawKpiToken.creator,
-      new Amount<Token>(collateralToken, BigNumber.from(rawKpiToken.collateral.amount)),
-      new Amount<Token>(collateralToken, BigNumber.from(rawKpiToken.fee))
-    )
-    setKpiToken(kpiToken)
-    setLoading(false)
-  }, [chainId, kpiTokenData, kpiTokenLoading])
+  }, [carrotSubgraphClient, chainId, kpiId])
 
   return { loading, kpiToken }
 }

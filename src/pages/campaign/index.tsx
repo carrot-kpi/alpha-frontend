@@ -6,10 +6,9 @@ import { useKpiToken } from '../../hooks/useKpiToken'
 import { Card } from '../../components/card'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
-import { CREATORS_NAME_MAP, DexSpecificData, FEATURED_CAMPAIGNS, SpecificPlatform } from '../../constants'
+import { CREATORS_NAME_MAP } from '../../constants'
 import styled, { useTheme } from 'styled-components'
 import { ExternalLink } from '../../components/undecorated-link'
-import { SwaprLiquidityChart } from '../../components/charts/swapr-liquidity-chart'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
@@ -23,7 +22,8 @@ import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
 import Decimal from 'decimal.js-light'
 import { Title } from '../../components/title'
-import { AgaveTvlChart } from '../../components/charts/agave-tvl-chart'
+import { Charts } from '../../components/charts'
+import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -200,36 +200,7 @@ export function Campaign({
                 )}
               </Card>
             )}
-            {featuredCampaignSpec.platform && (
-              <Card m="8px">
-                {featuredCampaignSpec?.platform.specific === SpecificPlatform.SWAPR && (
-                  <>
-                    <Title mb="20px" fontWeight="700">
-                      Swapr{' '}
-                      {!!featuredCampaignSpec.platform.specificData
-                        ? `${(featuredCampaignSpec.platform.specificData as DexSpecificData).token0.symbol}/${
-                            (featuredCampaignSpec.platform.specificData as DexSpecificData).token1.symbol
-                          }`
-                        : 'TVL'}
-                    </Title>
-                    <SwaprLiquidityChart
-                      token0={(featuredCampaignSpec.platform.specificData as DexSpecificData).token0}
-                      token1={(featuredCampaignSpec.platform.specificData as DexSpecificData).token1}
-                      startDate={featuredCampaignSpec.startDate}
-                      endDate={featuredCampaignSpec.endDate}
-                    />
-                  </>
-                )}
-                {featuredCampaignSpec?.platform.specific === SpecificPlatform.AGAVE && (
-                  <>
-                    <Title mb="20px" fontWeight="700">
-                      Agave TVL
-                    </Title>
-                    <AgaveTvlChart startDate={featuredCampaignSpec.startDate} endDate={featuredCampaignSpec.endDate} />
-                  </>
-                )}
-              </Card>
-            )}
+            <Charts metrics={featuredCampaignSpec?.metrics} />
           </Flex>
           <Flex flexDirection="column" width={['100%', '35%', '50%']}>
             <Card flexDirection="column" m="8px">

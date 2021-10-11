@@ -13,8 +13,6 @@ interface ButtonProps {
   negative?: boolean
   disabled?: boolean
 
-  icon?: string
-
   children?: ReactNode
 }
 
@@ -34,7 +32,7 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
     else if (props.positive) return props.theme.positiveSurface
     else if (props.negative) return props.theme.negativeSurface
     else if (props.disabled) return props.theme.disabled
-    else return props.theme.controlSurface
+    else return props.theme.surfaceInteractive
   }} !important;
   color: ${(props) => {
     if (props.primary) return props.theme.accentContent
@@ -69,15 +67,10 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
   }
 `
 
-export const Button = ({ icon, children, ...rest }: ButtonProps & RebassButtonProps) => {
+export const Button = ({ children, ...rest }: ButtonProps & RebassButtonProps) => {
   return (
     <Root {...rest}>
       <Flex height="100%" alignItems="center">
-        {icon && (
-          <Box mr="4px" display="flex" alignItems="center">
-            <img src={icon} alt="Icon" />
-          </Box>
-        )}
         <Box>{children}</Box>
       </Flex>
     </Root>

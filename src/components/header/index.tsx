@@ -9,7 +9,6 @@ import { WalletConnectionPopover } from '../wallet-connection-popover'
 import { NetworkSwitcherPopover } from '../network-switcher-popover'
 import { NETWORK_DETAIL } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import connectIcon from '../../assets/svgs/connect.svg'
 import { ChevronDown, Moon, Sun } from 'react-feather'
 import { IdentityBadge } from '../identity-badge'
 import { WalletModal } from '../wallet-modal'
@@ -18,6 +17,7 @@ import { useIsDarkMode, useToggleDarkMode } from '../../state/user/hooks'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
+  top: 0;
   z-index: 4;
   background-color: ${(props) => props.theme.background};
   box-shadow: 0px 12px 12px 0px ${(props) => props.theme.background};
@@ -113,7 +113,7 @@ export const Header = (): ReactElement => {
                 <IdentityBadge account={account} onClick={handleAccountClick} />
               ) : (
                 <WalletConnectionPopover show={showWalletConnectionPopover} onHide={handleWalletConnectionPopoverHide}>
-                  <Button icon={connectIcon} onClick={handleConnectWalletClick}>
+                  <Button primary onClick={handleConnectWalletClick}>
                     Connect wallet
                   </Button>
                 </WalletConnectionPopover>

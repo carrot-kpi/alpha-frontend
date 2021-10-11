@@ -89,7 +89,7 @@ export function Modal({
       {transition(
         (style, item) =>
           item && (
-            <AnimatedDialogOverlay style={style} onDismiss={onDismiss} initialFocusRef={initialFocusRef}>
+            <AnimatedDialogOverlay style={style} initialFocusRef={initialFocusRef}>
               <div ref={modalRef}>
                 <StyledDialogContent
                   aria-label="dialog content"
