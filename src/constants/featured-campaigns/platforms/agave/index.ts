@@ -2,7 +2,7 @@ import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
 import { ChartDataPoint, TokenPricePlatform, TvlPlatform } from '..'
 import { getBlocksFromTimestamps, getDailyTimestampFromRange } from '../../../../utils'
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-request'
 import { AGAVE_SUBGRAPH_CLIENT } from '../../../graphql'
 import { parseUnits } from '@ethersproject/units'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -37,7 +37,7 @@ export class Agave implements TvlPlatform {
 
     const timestamps = getDailyTimestampFromRange(from, to)
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
-    if(blocks.length === 0) return []
+    if (blocks.length === 0) return []
 
     const agaveTvlData = await subgraph.request<{
       [timestampString: string]: { reserves: Reserve[] }[]
