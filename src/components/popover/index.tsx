@@ -3,7 +3,7 @@ import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 import { Card } from '../card'
 import { useTransition, config, animated } from '@react-spring/web'
-import { useClickAway } from 'react-use'
+import useClickAway from 'react-use/lib/useClickAway'
 
 const PopoverContainer = styled(Card)`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);

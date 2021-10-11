@@ -11,7 +11,7 @@ import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../../theme'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { useEffect } from 'react'
-import { useLocation } from 'react-use'
+import useLocation from 'react-use/lib/useLocation'
 import { TransactionsStateUpdater } from '../../state/transactions/updater'
 import { NetworkWarningModal } from '../../components/network-warning-modal'
 

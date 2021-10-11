@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import { animated, useTransition, config } from '@react-spring/web'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { Card } from '../card'
-import { useClickAway } from 'react-use'
+import useClickAway from 'react-use/lib/useClickAway'
 
 const Overlay = styled.div`
   position: fixed;
