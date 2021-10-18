@@ -68,7 +68,7 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
   return (
     <Popover
       content={
-        <Flex flexWrap="nowrap" alignItems="center">
+        <Flex flexDirection={['column', 'row']} alignItems={['center']}>
           {Object.entries(NETWORK_DETAIL).map(([chainId, networkDetail], index) => {
             return (
               <BackgroundImageCard
@@ -76,7 +76,8 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
                 height="100px"
                 p="12px"
                 clickable
-                ml={index !== 0 ? '8px' : '0'}
+                ml={['0px', index !== 0 ? '8px' : '0px']}
+                mt={[index !== 0 ? '8px' : '0px', '0px']}
                 key={chainId}
                 disabled={isOptionDisabled(Number(chainId))}
                 onClick={() => {

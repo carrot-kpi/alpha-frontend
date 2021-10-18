@@ -25,7 +25,7 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
   line-height: 24px !important;
   text-decoration: none;
   font-size: 16px !important;
-  padding: 0 24px;
+  padding: 0 ${(props) => (props.small ? '16px' : props.mini ? '12px' : '24px')};
   cursor: pointer;
   background-color: ${(props) => {
     if (props.primary) return props.theme.accent

@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { Box, Flex, Text } from 'rebass'
+import { Box, Flex, Text, Image } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
@@ -27,19 +27,48 @@ export function Home(): ReactElement {
 
   return (
     <Flex flexDirection="column" alignItems="center">
-      <Flex justifyContent="space-between" pt="60px" pb="90px" width={['100%', '80%', '60%', '55%', '40%']}>
-        <Flex flexDirection="column" justifyContent="center">
-          <Text key="title-incentivize" fontSize="52px" fontWeight="800" lineHeight="50px">
+      <Flex
+        justifyContent={['flex-start', 'space-between']}
+        alignItems={['center']}
+        flexDirection={['column-reverse', 'row']}
+        pt={['8px', '60px']}
+        pb={['16px', '90px']}
+        width={['100%', '80%', '60%', '55%', '40%']}
+        px="16px"
+      >
+        <Flex flexDirection="column" justifyContent="center" pr={['auto', '24px']}>
+          <Text
+            key="title-incentivize"
+            fontSize={['44px', '52px']}
+            fontWeight="800"
+            lineHeight={['50px', '50px']}
+            textAlign={['center', 'initial']}
+          >
             Reach your goals.
           </Text>
-          <Text key="title-carrot" mb="16px" fontSize="52px" fontWeight="800" lineHeight="64px">
+          <Text
+            key="title-carrot"
+            mb="16px"
+            fontSize={['44px', '52px']}
+            fontWeight="800"
+            lineHeight={['50px', '64px']}
+            textAlign={['center', 'initial']}
+          >
             With a carrot.
           </Text>
-          <Text key="title-more" mb="40px" fontSize="22px" fontWeight="800" lineHeight="24px" color={theme.accent}>
+          <Text
+            key="title-more"
+            mb="40px"
+            fontSize={['20px', '22px']}
+            fontWeight="800"
+            lineHeight="24px"
+            textAlign={['center', 'initial']}
+            color={theme.accent}
+          >
             Increase TVL, volume, price, engagement and more.
           </Text>
         </Flex>
-        <img src={heroImage} alt="Hero image" height="300px" />
+        <Image src={heroImage} alt="Hero image" height={['auto', '300px']} width={['80%', 'auto']} mb={['40px']} />
       </Flex>
       <FeaturedCampaignsContainer width="100%" mb="60px" py="60px" flexDirection="column" alignItems="center">
         <Text fontSize="28px" fontWeight="700" mb="28px">
@@ -73,10 +102,15 @@ export function Home(): ReactElement {
         </Flex>
       </FeaturedCampaignsContainer>
       <Flex width={['100%', '80%', '60%', '60%', '40%']} flexDirection="column" alignItems="center">
-        <Flex width="80%" mb="80px" justifyContent="stretch" alignItems="center">
-          <Box height="200px" mr="40px" minWidth="auto">
-            <img src={measureImage} height="100%" width="auto" />
-          </Box>
+        <Flex width="80%" mb="80px" flexDirection={['column', 'row']} justifyContent="stretch" alignItems="center">
+          <Image
+            src={measureImage}
+            height="200px"
+            mr={['0px', '40px']}
+            mb={['16px', '0px']}
+            width="auto"
+            minWidth="auto"
+          />
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
               Measure what matters
@@ -87,7 +121,13 @@ export function Home(): ReactElement {
             </Box>
           </Flex>
         </Flex>
-        <Flex width="80%" mb="80px" justifyContent="stretch" alignItems="center">
+        <Flex
+          flexDirection={['column-reverse', 'row']}
+          width="80%"
+          mb="80px"
+          justifyContent="stretch"
+          alignItems="center"
+        >
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
               Incentivize your community
@@ -98,14 +138,24 @@ export function Home(): ReactElement {
               rest.
             </Box>
           </Flex>
-          <Box height="200px" ml="40px" minWidth="auto">
-            <img src={incentivizeImage} height="100%" width="auto" />
-          </Box>
+          <Image
+            src={incentivizeImage}
+            height="200px"
+            ml={['0px', '40px']}
+            mb={['16px', '0px']}
+            width="auto"
+            minWidth="auto"
+          />
         </Flex>
-        <Flex width="80%" mb="120px" justifyContent="stretch" alignItems="center">
-          <Box height="200px" mr="40px" minWidth="auto">
-            <img src={rewardImage} height="100%" width="auto" />
-          </Box>
+        <Flex flexDirection={['column', 'row']} width="80%" mb="120px" justifyContent="stretch" alignItems="center">
+          <Image
+            src={rewardImage}
+            height="200px"
+            mr={['0px', '40px']}
+            mb={['16px', '0px']}
+            width="auto"
+            minWidth="auto"
+          />
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
               Reward the community

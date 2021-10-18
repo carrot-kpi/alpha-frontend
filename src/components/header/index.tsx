@@ -113,7 +113,7 @@ export const Header = (): ReactElement => {
                 <IdentityBadge account={account} onClick={handleAccountClick} />
               ) : (
                 <WalletConnectionPopover show={showWalletConnectionPopover} onHide={handleWalletConnectionPopoverHide}>
-                  <Button primary onClick={handleConnectWalletClick}>
+                  <Button primary small onClick={handleConnectWalletClick}>
                     Connect wallet
                   </Button>
                 </WalletConnectionPopover>
