@@ -101,24 +101,23 @@ export function Home(): ReactElement {
           </Box>
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
-              Lorem ipsum dolor sit amet
+              Measure what matters
             </Text>
             <Box>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
+              With Carrot you can define specific goals and targets based on what <strong>your</strong> project really
+              needs. Coordinate your community to reach common goals leveraging strong cryptoeconomic incentives.
             </Box>
           </Flex>
         </Flex>
         <Flex width="80%" mb="80px" justifyContent="stretch" alignItems="center">
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
-              Lorem ipsum dolor sit amet
+              Incentivize your community
             </Text>
             <Box>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
+              Promote positive feedback in your community by rewarding users when important milestones and goals are
+              reached through a collective effort. Just come up with a goal that fits your project and let Carrot do the
+              rest.
             </Box>
           </Flex>
           <Box height="200px" ml="40px" minWidth="auto">
@@ -128,15 +127,14 @@ export function Home(): ReactElement {
         <Flex width="80%" mb="120px" justifyContent="stretch" alignItems="center">
           <Box height="200px" mr="40px" minWidth="auto">
             <img src={rewardImage} height="100%" width="auto" />
-          </Box>{' '}
+          </Box>
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
-              Lorem ipsum dolor sit amet
+              Reward the community
             </Text>
             <Box>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
+              Through the power of KPI tokens, anyone effectively contributing to a goal can receive a reward directly
+              proportional to their impact. Get real value in exchange for real value.
             </Box>
           </Flex>
         </Flex>
