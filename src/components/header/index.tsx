@@ -97,7 +97,7 @@ export const Header = (): ReactElement => {
     <>
       <WalletModal open={walletModalOpen} onDismiss={handleWalletModalClose} />
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px={['16px', '24px']}>
-        <Flex width={['100%', '80%', '60%', '60%', '40%']} justifyContent="space-between" alignItems="center">
+        <Flex width={['100%', '80%', '70%', '55%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
             <Box>
               <UndecoratedInternalLink to="/">

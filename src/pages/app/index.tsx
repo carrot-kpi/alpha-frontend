@@ -43,7 +43,7 @@ export function App() {
               </SkeletonTheme>
             </Box>
           </Flex>
-          <Box width={['100%', '80%', '60%', '60%', '40%']}>
+          <Box width={['100%', '80%', '70%', '55%']}>
             <Footer />
           </Box>
         </Flex>

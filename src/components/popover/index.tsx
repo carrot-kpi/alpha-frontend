@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { cloneElement, useRef } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 import { Card } from '../card'
@@ -13,7 +13,7 @@ export interface PopoverProps {
   content: React.ReactNode
   show: boolean
   onHide: () => void
-  children: React.ReactNode
+  children: any
   className?: string
   offsetX?: number
   offsetY?: number
@@ -36,7 +36,7 @@ export function Popover({ content, show, onHide, children }: PopoverProps) {
 
   return (
     <>
-      <div ref={referenceRef}>{children}</div>
+      {cloneElement(children, { ref: referenceRef, style: { cursor: 'pointer' } })}
       <div ref={popperRef} {...attributes.popper} style={styles.popper}>
         {transition(
           (transitionStyles, item) =>

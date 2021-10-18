@@ -28,21 +28,20 @@ export function Home(): ReactElement {
   return (
     <Flex flexDirection="column" alignItems="center">
       <Flex
-        justifyContent={['flex-start', 'space-between']}
-        alignItems={['center']}
-        flexDirection={['column-reverse', 'row']}
-        pt={['8px', '60px']}
-        pb={['16px', '90px']}
-        width={['100%', '80%', '60%', '55%', '40%']}
-        px="16px"
+        justifyContent={['flex-start', 'flex-start', 'space-between']}
+        alignItems="center"
+        flexDirection={['column-reverse', 'column-reverse', 'row']}
+        pt={['8px', '8px', '60px']}
+        pb={['16px', '16px', '90px']}
+        width={['100%', '80%', '70%', '55%']}
       >
-        <Flex flexDirection="column" justifyContent="center" pr={['auto', '24px']}>
+        <Flex flexDirection="column" justifyContent="center" pr={['auto', 'auto', '24px']}>
           <Text
             key="title-incentivize"
             fontSize={['44px', '52px']}
             fontWeight="800"
             lineHeight={['50px', '50px']}
-            textAlign={['center', 'initial']}
+            textAlign={['center', 'center', 'initial']}
           >
             Reach your goals.
           </Text>
@@ -52,23 +51,30 @@ export function Home(): ReactElement {
             fontSize={['44px', '52px']}
             fontWeight="800"
             lineHeight={['50px', '64px']}
-            textAlign={['center', 'initial']}
+            textAlign={['center', 'center', 'initial']}
           >
             With a carrot.
           </Text>
           <Text
             key="title-more"
-            mb="40px"
+            mb={['40px', '0px']}
             fontSize={['20px', '22px']}
             fontWeight="800"
             lineHeight="24px"
-            textAlign={['center', 'initial']}
+            textAlign={['center', 'center', 'initial']}
             color={theme.accent}
           >
             Increase TVL, volume, price, engagement and more.
           </Text>
         </Flex>
-        <Image src={heroImage} alt="Hero image" height={['auto', '300px']} width={['80%', 'auto']} mb={['40px']} />
+        <Image
+          src={heroImage}
+          alt="Hero image"
+          height={['auto', 'auto', '200px', '360px']}
+          width={['80%', '70%', '200px', '360px']}
+          mb={['40px', '40px', '0px']}
+          minWidth="auto"
+        />
       </Flex>
       <FeaturedCampaignsContainer width="100%" mb="60px" py="60px" flexDirection="column" alignItems="center">
         <Text fontSize="28px" fontWeight="700" mb="28px">
@@ -101,69 +107,102 @@ export function Home(): ReactElement {
               ))}
         </Flex>
       </FeaturedCampaignsContainer>
-      <Flex width={['100%', '80%', '60%', '60%', '40%']} flexDirection="column" alignItems="center">
-        <Flex width="80%" mb="80px" flexDirection={['column', 'row']} justifyContent="stretch" alignItems="center">
+      <Flex width={['100%', '80%', '70%', '55%']} flexDirection="column" alignItems="center">
+        <Flex
+          alignSelf="flex-start"
+          width="80%"
+          mb="80px"
+          flexDirection={['column', 'column', 'row']}
+          justifyContent="stretch"
+          alignItems="center"
+        >
           <Image
             src={measureImage}
             height="200px"
-            mr={['0px', '40px']}
-            mb={['16px', '0px']}
+            mr={['0px', '0px', '32px']}
+            mb={['16px', '16px', '0px']}
             width="auto"
             minWidth="auto"
           />
           <Flex flexDirection="column">
-            <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
+            <Text
+              color={theme.accent}
+              fontSize="28px"
+              fontWeight="600"
+              mb="12px"
+              textAlign={['center', 'center', 'initial']}
+            >
               Measure what matters
             </Text>
-            <Box>
+            <Text textAlign={['center', 'center', 'initial']}>
               With Carrot you can define specific goals and targets based on what <strong>your</strong> project really
               needs. Coordinate your community to reach common goals leveraging strong cryptoeconomic incentives.
-            </Box>
+            </Text>
           </Flex>
         </Flex>
         <Flex
-          flexDirection={['column-reverse', 'row']}
+          alignSelf="flex-end"
+          flexDirection={['column-reverse', 'column-reverse', 'row']}
           width="80%"
           mb="80px"
           justifyContent="stretch"
           alignItems="center"
         >
           <Flex flexDirection="column">
-            <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
+            <Text
+              color={theme.accent}
+              fontSize="28px"
+              fontWeight="600"
+              mb="12px"
+              textAlign={['center', 'center', 'initial']}
+            >
               Incentivize your community
             </Text>
-            <Box>
+            <Text textAlign={['center', 'center', 'initial']}>
               Promote positive feedback in your community by rewarding users when important milestones and goals are
               reached through a collective effort. Just come up with a goal that fits your project and let Carrot do the
               rest.
-            </Box>
+            </Text>
           </Flex>
           <Image
             src={incentivizeImage}
             height="200px"
-            ml={['0px', '40px']}
-            mb={['16px', '0px']}
+            ml={['0px', '0px', '12px']}
+            mb={['16px', '16px', '0px']}
             width="auto"
             minWidth="auto"
           />
         </Flex>
-        <Flex flexDirection={['column', 'row']} width="80%" mb="120px" justifyContent="stretch" alignItems="center">
+        <Flex
+          alignSelf="flex-end"
+          flexDirection={['column', 'column', 'row']}
+          width="80%"
+          mb="120px"
+          justifyContent="stretch"
+          alignItems="center"
+        >
           <Image
             src={rewardImage}
             height="200px"
-            mr={['0px', '40px']}
-            mb={['16px', '0px']}
+            mr={['0px', '0px', '32px']}
+            mb={['16px', '16px', '0px']}
             width="auto"
             minWidth="auto"
           />
           <Flex flexDirection="column">
-            <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
+            <Text
+              color={theme.accent}
+              fontSize="28px"
+              fontWeight="600"
+              mb="12px"
+              textAlign={['center', 'center', 'initial']}
+            >
               Reward the community
             </Text>
-            <Box>
+            <Text textAlign={['center', 'center', 'initial']}>
               Through the power of KPI tokens, anyone effectively contributing to a goal can receive a reward directly
               proportional to their impact. Get real value in exchange for real value.
-            </Box>
+            </Text>
           </Flex>
         </Flex>
       </Flex>
