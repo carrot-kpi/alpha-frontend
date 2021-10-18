@@ -113,7 +113,7 @@ export function Campaign({
   if (!featuredCampaignSpec) return <Redirect to="/" />
   return (
     <Flex flexDirection="column" alignItems="center" justifyContent="center" width="100%">
-      <Flex flexDirection="column" mb="60px" width={['100%', '80%', '60%', '60%', '40%']}>
+      <Flex flexDirection="column" mb="60px" width={['100%', '80%', '70%', '55%']}>
         <Flex flexDirection={['column', 'row']} width="100%">
           <Flex width={['100%', '55%', '70%']} flexDirection="column">
             <Card m="8px" height="fit-content">
