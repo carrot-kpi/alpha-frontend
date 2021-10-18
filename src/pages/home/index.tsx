@@ -37,7 +37,7 @@ export function Home(): ReactElement {
         pb={['16px', '16px', '90px']}
         width={['100%', '80%', '70%', '55%']}
       >
-        <Flex flexDirection="column" justifyContent="center" pr={['auto', 'auto', '24px']}>
+        <Flex flexDirection="column" justifyContent="center" pr={['auto', 'auto', '24px']} px={['12px', 'auto']}>
           <Text
             key="title-incentivize"
             fontSize={['44px', '52px']}
@@ -111,7 +111,7 @@ export function Home(): ReactElement {
       </FeaturedCampaignsContainer>
       <Flex width={['100%', '80%', '70%', '55%']} flexDirection="column" alignItems="center">
         <Flex
-          alignSelf="flex-start"
+          alignSelf={['initial', 'flex-start']}
           width="80%"
           mb="80px"
           flexDirection={['column', 'column', 'row']}
@@ -143,7 +143,7 @@ export function Home(): ReactElement {
           </Flex>
         </Flex>
         <Flex
-          alignSelf="flex-end"
+          alignSelf={['initial', 'flex-end']}
           flexDirection={['column-reverse', 'column-reverse', 'row']}
           width="80%"
           mb="80px"
@@ -176,7 +176,7 @@ export function Home(): ReactElement {
           />
         </Flex>
         <Flex
-          alignSelf="flex-start"
+          alignSelf={['initial', 'flex-start']}
           flexDirection={['column', 'column', 'row']}
           width="80%"
           mb="120px"
