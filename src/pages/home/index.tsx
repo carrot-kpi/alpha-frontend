@@ -10,16 +10,10 @@ import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
 import { animated, useTrail } from '@react-spring/web'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
-
-const ImagePlaceholderBox = styled(Box)<{ size: string }>`
-  width: ${(props) => props.size};
-  height: ${(props) => props.size};
-  min-width: ${(props) => props.size} !important;
-  min-height: ${(props) => props.size} !important;
-  background-color: ${(props) => props.theme.border};
-  transition: background-color 0.2s ease;
-  border-radius: 50%;
-`
+import heroImage from '../../assets/hero.png'
+import measureImage from '../../assets/measure.png'
+import incentivizeImage from '../../assets/incentivize.png'
+import rewardImage from '../../assets/reward.png'
 
 const FeaturedCampaignsContainer = styled(Flex)`
   background-color: ${(props) => transparentize(0.9, props.theme.accent)};
@@ -57,7 +51,7 @@ export function Home(): ReactElement {
 
   return (
     <Flex flexDirection="column" alignItems="center">
-      <Flex justifyContent="space-between" pt="40px" pb="90px" width={['100%', '80%', '60%', '60%', '40%']}>
+      <Flex justifyContent="space-between" pt="60px" pb="90px" width={['100%', '80%', '60%', '60%', '40%']}>
         <Flex flexDirection="column" justifyContent="center">
           {trail.map((style, index) => {
             return (
@@ -67,7 +61,7 @@ export function Home(): ReactElement {
             )
           })}
         </Flex>
-        <ImagePlaceholderBox size="300px" />
+        <img src={heroImage} alt="Hero image" height="300px" />
       </Flex>
       <FeaturedCampaignsContainer width="100%" mb="60px" py="60px" flexDirection="column" alignItems="center">
         <Text fontSize="28px" fontWeight="700" mb="28px">
@@ -102,7 +96,9 @@ export function Home(): ReactElement {
       </FeaturedCampaignsContainer>
       <Flex width={['100%', '80%', '60%', '60%', '40%']} flexDirection="column" alignItems="center">
         <Flex width="80%" mb="80px" justifyContent="stretch" alignItems="center">
-          <ImagePlaceholderBox size="200px" mr="60px" />
+          <Box height="200px" mr="40px" minWidth="auto">
+            <img src={measureImage} height="100%" width="auto" />
+          </Box>
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
               Lorem ipsum dolor sit amet
@@ -125,10 +121,14 @@ export function Home(): ReactElement {
               ea commodo consequat.
             </Box>
           </Flex>
-          <ImagePlaceholderBox size="200px" ml="60px" />
+          <Box height="200px" ml="40px" minWidth="auto">
+            <img src={incentivizeImage} height="100%" width="auto" />
+          </Box>
         </Flex>
         <Flex width="80%" mb="120px" justifyContent="stretch" alignItems="center">
-          <ImagePlaceholderBox size="200px" mr="60px" />
+          <Box height="200px" mr="40px" minWidth="auto">
+            <img src={rewardImage} height="100%" width="auto" />
+          </Box>{' '}
           <Flex flexDirection="column">
             <Text color={theme.accent} fontSize="28px" fontWeight="600" mb="12px">
               Lorem ipsum dolor sit amet
