@@ -1,4 +1,4 @@
-import { ReactElement, useLayoutEffect, useMemo } from 'react'
+import { ReactElement } from 'react'
 import { Box, Flex, Text } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
@@ -8,7 +8,6 @@ import { shortenAddress } from '../../utils'
 import { ChainId } from '@carrot-kpi/sdk'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
-import { animated, useTrail } from '@react-spring/web'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 import heroImage from '../../assets/hero.png'
 import measureImage from '../../assets/measure.png'
@@ -25,41 +24,20 @@ export function Home(): ReactElement {
   const { chainId } = useActiveWeb3React()
   const theme = useTheme()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
-  const titleItems = useMemo(
-    () => [
-      <Text key="title-incentivize" fontSize="52px" fontWeight="800" lineHeight="50px">
-        Reach your goals.
-      </Text>,
-      <Text key="title-carrot" mb="16px" fontSize="52px" fontWeight="800" lineHeight="64px">
-        With a carrot.
-      </Text>,
-      <Text key="title-more" mb="40px" fontSize="22px" fontWeight="800" lineHeight="24px" color={theme.accent}>
-        Increase TVL, volume, price, engagement and more.
-      </Text>,
-    ],
-    [theme.accent]
-  )
-  const [trail, api] = useTrail(titleItems.length, () => ({
-    opacity: 0,
-    x: 24,
-    config: { mass: 1, tension: 200, friction: 200, duration: 200 },
-  }))
-
-  useLayoutEffect(() => {
-    api.start({ opacity: 1, x: 0 })
-  })
 
   return (
     <Flex flexDirection="column" alignItems="center">
       <Flex justifyContent="space-between" pt="60px" pb="90px" width={['100%', '80%', '60%', '55%', '40%']}>
         <Flex flexDirection="column" justifyContent="center">
-          {trail.map((style, index) => {
-            return (
-              <animated.div key={index} style={style}>
-                {titleItems[index]}
-              </animated.div>
-            )
-          })}
+          <Text key="title-incentivize" fontSize="52px" fontWeight="800" lineHeight="50px">
+            Reach your goals.
+          </Text>
+          <Text key="title-carrot" mb="16px" fontSize="52px" fontWeight="800" lineHeight="64px">
+            With a carrot.
+          </Text>
+          <Text key="title-more" mb="40px" fontSize="22px" fontWeight="800" lineHeight="24px" color={theme.accent}>
+            Increase TVL, volume, price, engagement and more.
+          </Text>
         </Flex>
         <img src={heroImage} alt="Hero image" height="300px" />
       </Flex>
