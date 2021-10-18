@@ -91,4 +91,6 @@ export const lightTheme = {
   blue: '#3E7BF6',
   brown: '#876559',
   purple: '#7C80F2',
+
+  twitter: '#1da1f2',
 }

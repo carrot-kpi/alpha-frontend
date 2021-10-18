@@ -8,7 +8,7 @@ import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { CREATORS_NAME_MAP } from '../../constants'
 import styled, { useTheme } from 'styled-components'
-import { ExternalLink } from '../../components/undecorated-link'
+import { ExternalLink, UndecoratedExternalLink } from '../../components/undecorated-link'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
@@ -24,6 +24,8 @@ import Decimal from 'decimal.js-light'
 import { Title } from '../../components/title'
 import { Charts } from '../../components/charts'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
+import { Twitter } from 'react-feather'
+import { Button } from '../../components/button'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -53,6 +55,11 @@ const DividerBox = styled(Box)`
   width: 100%;
   background-color: ${(props) => props.theme.border};
   transition: background-color 0.2s ease;
+`
+
+const TweetButton = styled(Button)`
+  background-color: ${(props) => props.theme.twitter} !important;
+  color: ${(props) => props.theme.accentContent} !important;
 `
 
 export function Campaign({
@@ -117,13 +124,22 @@ export function Campaign({
         <Flex flexDirection={['column', 'row']} width="100%">
           <Flex width={['100%', '55%', '70%']} flexDirection="column">
             <Card m="8px" height="fit-content">
-              <Text fontSize="20px" fontWeight="700" color={theme.accent} mb="16px">
-                {loadingKpiToken || !kpiToken ? (
-                  <Skeleton width="120px" />
-                ) : (
-                  CREATORS_NAME_MAP[kpiToken.creator] || shortenAddress(kpiToken.creator)
+              <Flex justifyContent="space-between" alignItems="center" mb="16px">
+                <Text fontSize="20px" fontWeight="700" color={theme.accent}>
+                  {loadingKpiToken || !kpiToken ? (
+                    <Skeleton width="120px" />
+                  ) : (
+                    CREATORS_NAME_MAP[kpiToken.creator] || shortenAddress(kpiToken.creator)
+                  )}
+                </Text>
+                {chainId && kpiToken?.address && (
+                  <Box>
+                    <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')}>
+                      View on explorer <StyledExternalLinkIcon />
+                    </ExternalLink>
+                  </Box>
                 )}
-              </Text>
+              </Flex>
               <Text fontSize="24px" mb="20px">
                 {loadingKpiToken || !kpiToken ? (
                   <>
@@ -154,13 +170,14 @@ export function Campaign({
                   )}
                 </Text>
               </Flex>
-              {chainId && kpiToken?.address && (
-                <Box>
-                  <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')}>
-                    View on explorer <StyledExternalLinkIcon />
-                  </ExternalLink>
-                </Box>
-              )}
+              <Box>
+                <UndecoratedExternalLink
+                  title="Tweet this"
+                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}`}
+                >
+                  <TweetButton icon={<Twitter size="16px" />}>Tweet about this</TweetButton>
+                </UndecoratedExternalLink>
+              </Box>
             </Card>
             {account && (
               <Card m="8px" flexGrow={1} height="fit-content">

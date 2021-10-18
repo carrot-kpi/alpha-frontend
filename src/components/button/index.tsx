@@ -14,6 +14,7 @@ interface ButtonProps {
   disabled?: boolean
 
   children?: ReactNode
+  icon?: ReactNode
 }
 
 const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
@@ -67,10 +68,15 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
   }
 `
 
-export const Button = ({ children, ...rest }: ButtonProps & RebassButtonProps) => {
+export const Button = ({ children, icon, ...rest }: ButtonProps & RebassButtonProps) => {
   return (
     <Root {...rest}>
       <Flex height="100%" alignItems="center">
+        {icon && (
+          <Box mr="8px" display="flex" alignItems="center">
+            {icon}
+          </Box>
+        )}
         <Box>{children}</Box>
       </Flex>
     </Root>

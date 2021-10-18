@@ -102,6 +102,8 @@ export interface Theme {
   blue: string
   brown: string
   purple: string
+
+  twitter: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
