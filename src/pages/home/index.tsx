@@ -51,7 +51,7 @@ export function Home(): ReactElement {
 
   return (
     <Flex flexDirection="column" alignItems="center">
-      <Flex justifyContent="space-between" pt="60px" pb="90px" width={['100%', '80%', '60%', '60%', '40%']}>
+      <Flex justifyContent="space-between" pt="60px" pb="90px" width={['100%', '80%', '60%', '55%', '40%']}>
         <Flex flexDirection="column" justifyContent="center">
           {trail.map((style, index) => {
             return (
