@@ -80,7 +80,7 @@ export const getDailyTimestampFromRange = (from: DateTime, to: DateTime): number
   let timestamps = []
   while (loopedDate.toMillis() < normalizedEndDate.toMillis()) {
     timestamps.push(loopedDate.toMillis())
-    loopedDate = loopedDate.plus({ day: 1 })
+    loopedDate = loopedDate.plus({ days: 1 })
   }
   return timestamps
 }

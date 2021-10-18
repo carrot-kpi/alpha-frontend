@@ -56,8 +56,12 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
             <YAxis type="number" axisLine={false} interval="preserveEnd" tick={false} />
             <Tooltip
               cursor={{ fill: theme.border }}
-              formatter={(val: string) => `$${commify(val)}`}
-              labelFormatter={(label) => DateTime.fromMillis(label).toFormat('DD')}
+              formatter={(val: string | number | (string | number)[]) =>
+                val instanceof Array ? '' : `$${commify(val)}`
+              }
+              labelFormatter={(label: string | number) =>
+                DateTime.fromMillis(parseInt(label.toString())).toFormat('DD')
+              }
               labelStyle={{ paddingTop: 4 }}
               contentStyle={{
                 padding: '8px 12px',
