@@ -119,13 +119,20 @@ export function Campaign({
             <Card m="8px" height="fit-content">
               <Text fontSize="20px" fontWeight="700" color={theme.accent} mb="16px">
                 {loadingKpiToken || !kpiToken ? (
-                  <Skeleton width="40px" />
+                  <Skeleton width="120px" />
                 ) : (
                   CREATORS_NAME_MAP[kpiToken.creator] || shortenAddress(kpiToken.creator)
                 )}
               </Text>
               <Text fontSize="24px" mb="20px">
-                {loadingKpiToken || !kpiToken ? <Skeleton width="120px" /> : kpiToken.question}
+                {loadingKpiToken || !kpiToken ? (
+                  <>
+                    <Skeleton width="100%" />
+                    <Skeleton width="120px" />
+                  </>
+                ) : (
+                  kpiToken.question
+                )}
               </Text>
               <Flex flexDirection="column" mb="12px">
                 <Title mb="4px">Symbol:</Title>
