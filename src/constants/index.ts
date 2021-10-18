@@ -23,16 +23,18 @@ export interface WalletInfo {
 
 export const SUPPORTED_WALLETS: WalletInfo[] = [
   {
-    connector: injected,
-    name: 'MetaMask',
-    icon: metamaskLogo,
-  },
-  {
     connector: walletConnect,
     name: 'WalletConnect',
     icon: walletConnectLogo,
   },
 ]
+if (window.ethereum) {
+  SUPPORTED_WALLETS.push({
+    connector: injected,
+    name: 'MetaMask',
+    icon: metamaskLogo,
+  })
+}
 
 export interface NetworkDetails {
   chainId: string
