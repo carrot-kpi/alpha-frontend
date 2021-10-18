@@ -7,17 +7,19 @@ import { CREATORS_NAME_MAP } from '../../constants'
 import { shortenAddress } from '../../utils'
 import { ChainId } from '@carrot-kpi/sdk'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { transparentize } from 'polished'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 import heroImage from '../../assets/hero.png'
 import measureImage from '../../assets/measure.png'
 import incentivizeImage from '../../assets/incentivize.png'
 import rewardImage from '../../assets/reward.png'
+import { Card } from '../../components/card'
+import { transparentize } from 'polished'
 
-const FeaturedCampaignsContainer = styled(Flex)`
+const FeaturedCampaignsContainer = styled(Card)`
+  border: none;
+  border-radius: 0px !important;
+  width: 100%;
   background-color: ${(props) => transparentize(0.9, props.theme.accent)};
-  box-shadow: 0px 12px 12px -6px ${(props) => transparentize(0.9, props.theme.accent)} inset,
-    0px -6px 12px 2px ${(props) => transparentize(0.9, props.theme.accent)} inset;
 `
 
 export function Home(): ReactElement {
@@ -76,8 +78,8 @@ export function Home(): ReactElement {
           minWidth="auto"
         />
       </Flex>
-      <FeaturedCampaignsContainer width="100%" mb="60px" py="60px" flexDirection="column" alignItems="center">
-        <Text fontSize="28px" fontWeight="700" mb="28px">
+      <FeaturedCampaignsContainer mb="60px" py="60px" flexDirection="column" alignItems="center">
+        <Text fontSize="28px" fontWeight="700" mb="28px" textAlign="center">
           Featured campaigns
         </Text>
         <Flex
@@ -174,7 +176,7 @@ export function Home(): ReactElement {
           />
         </Flex>
         <Flex
-          alignSelf="flex-end"
+          alignSelf="flex-start"
           flexDirection={['column', 'column', 'row']}
           width="80%"
           mb="120px"
