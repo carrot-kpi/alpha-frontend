@@ -1,8 +1,9 @@
 import { ReactElement, useCallback, useState } from 'react'
-import { Box, Flex, Text } from 'rebass'
+import { Box, Flex, Text, Image } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { Button } from '../button'
-import logo from '../../assets/logo.svg'
+import logoLight from '../../assets/logo-light.png'
+import logoDark from '../../assets/logo-dark.png'
 import { UndecoratedInternalLink } from '../undecorated-link'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectionPopover } from '../wallet-connection-popover'
@@ -22,10 +23,6 @@ const FlexContainer = styled(Flex)`
   background-color: ${(props) => props.theme.background};
   box-shadow: 0px 12px 12px 0px ${(props) => props.theme.background};
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
-`
-
-const Logo = styled.img`
-  height: 20px;
 `
 
 const NetworkIcon = styled.img`
@@ -101,7 +98,7 @@ export const Header = (): ReactElement => {
           <Flex alignItems="center">
             <Box>
               <UndecoratedInternalLink to="/">
-                <Logo src={logo} alt="logo" />
+                <Image display="flex" src={darkMode ? logoLight : logoDark} height="28px" alt="logo" />
               </UndecoratedInternalLink>
             </Box>
           </Flex>
