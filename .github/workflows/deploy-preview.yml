@@ -46,7 +46,7 @@ jobs:
         run: npx dnslink-cloudflare --domain carrot-dev.co --record _dnslink --link /ipfs/${{steps.web3.outputs.cid}}
         env:
           CF_API_TOKEN: ${{secrets.CLOUDFLAREF_TOKEN}}
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/develop'
       - name: Update Deployment Status
         uses: bobheadxi/deployments@v0.6.0
         if: always()
