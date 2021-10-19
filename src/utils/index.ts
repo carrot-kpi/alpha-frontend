@@ -11,19 +11,27 @@ const ETHERSCAN_PREFIXES: { [chainId in number]: string } = {
   4: 'rinkeby.',
 }
 
-const getExplorerPrefix = (chainId: number) => {
+const getExplorerPrefix = (chainId: ChainId) => {
   switch (chainId) {
+    case ChainId.XDAI:
+      return 'https://blockscout.com/xdai/mainnet'
     default:
       return `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}etherscan.io`
   }
 }
 
 export function getExplorerLink(
-  chainId: number,
+  chainId: ChainId,
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
   const prefix = getExplorerPrefix(chainId)
+
+  // exception. blockscout doesn't have a token-specific address
+  if (chainId === ChainId.XDAI && type === 'token') {
+    return `${prefix}/address/${data}`
+  }
+
   switch (type) {
     case 'transaction': {
       return `${prefix}/tx/${data}`
