@@ -1,32 +1,40 @@
 import { ChainId, Token } from '@carrot-kpi/sdk'
-import { ChartDataPoint, DexPlatform, TokenPricePlatform, TvlPlatform } from '../platforms'
+import { ChartDataPoint, DexPlatform, TokenMarketCapPlatform, TokenPricePlatform, TvlPlatform } from '../platforms'
 import { DateTime } from 'luxon'
 
-export interface Metric {
-  chartData(): Promise<ChartDataPoint[]>
+export abstract class Metric {
+  protected readonly from: DateTime
+  protected readonly to: DateTime
+  protected readonly granularity: number
 
-  get name(): string
+  constructor(from: DateTime, to: DateTime, granularity: number) {
+    this.from = from
+    this.to = to
+    this.granularity = granularity
+  }
+
+  abstract chartData(): Promise<ChartDataPoint[]>
+
+  abstract get name(): string
 }
 
-export class TvlMetric implements Metric {
+export class TvlMetric extends Metric {
   private readonly chainId: ChainId
   private readonly pricingPlatform: TokenPricePlatform
   private readonly platform: TvlPlatform
-  private readonly from: DateTime
-  private readonly to: DateTime
 
   constructor(
     chainId: ChainId,
     pricingPlatform: TokenPricePlatform,
     platform: TvlPlatform,
     from: DateTime,
-    to: DateTime
+    to: DateTime,
+    granularity: number
   ) {
+    super(from, to, granularity)
     this.chainId = chainId
     this.pricingPlatform = pricingPlatform
     this.platform = platform
-    this.from = from
-    this.to = to
   }
 
   get name(): string {
@@ -34,21 +42,18 @@ export class TvlMetric implements Metric {
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
-    return this.platform.dailyOverallTvl(this.chainId, this.pricingPlatform, this.from, this.to)
+    return this.platform.dailyOverallTvl(this.chainId, this.pricingPlatform, this.from, this.to, this.granularity)
   }
 }
 
-export class TokenPriceMetric implements Metric {
+export class TokenPriceMetric extends Metric {
   private readonly token: Token
   private readonly platform: TokenPricePlatform
-  private readonly from: DateTime
-  private readonly to: DateTime
 
-  constructor(token: Token, platform: TokenPricePlatform, from: DateTime, to: DateTime) {
+  constructor(token: Token, platform: TokenPricePlatform, from: DateTime, to: DateTime, granularity: number) {
+    super(from, to, granularity)
     this.token = token
     this.platform = platform
-    this.from = from
-    this.to = to
   }
 
   get name(): string {
@@ -56,23 +61,20 @@ export class TokenPriceMetric implements Metric {
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
-    return this.platform.dailyTokenPrice(this.token, this.from, this.to)
+    return this.platform.dailyTokenPrice(this.token, this.from, this.to, this.granularity)
   }
 }
 
-export class PairLiquidityMetric implements Metric {
+export class PairLiquidityMetric extends Metric {
   private readonly tokenA: Token
   private readonly tokenB: Token
   private readonly platform: DexPlatform
-  private readonly from: DateTime
-  private readonly to: DateTime
 
-  constructor(tokenA: Token, tokenB: Token, platform: DexPlatform, from: DateTime, to: DateTime) {
+  constructor(tokenA: Token, tokenB: Token, platform: DexPlatform, from: DateTime, to: DateTime, granularity: number) {
+    super(from, to, granularity)
     this.tokenA = tokenA
     this.tokenB = tokenB
     this.platform = platform
-    this.from = from
-    this.to = to
   }
 
   get name(): string {
@@ -80,6 +82,25 @@ export class PairLiquidityMetric implements Metric {
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
-    return this.platform.pairDailyTvl(this.tokenA, this.tokenB, this.from, this.to)
+    return this.platform.pairDailyTvl(this.tokenA, this.tokenB, this.from, this.to, this.granularity)
+  }
+}
+
+export class TokenMarketCapMetric extends Metric {
+  private readonly token: Token
+  private readonly platform: TokenMarketCapPlatform
+
+  constructor(token: Token, platform: TokenMarketCapPlatform, from: DateTime, to: DateTime, granularity: number) {
+    super(from, to, granularity)
+    this.token = token
+    this.platform = platform
+  }
+
+  get name(): string {
+    return `${this.token.symbol} market cap on ${this.platform.name}`
+  }
+
+  public async chartData(): Promise<ChartDataPoint[]> {
+    return this.platform.dailyTokenMarketCap(this.token, this.from, this.to, this.granularity)
   }
 }

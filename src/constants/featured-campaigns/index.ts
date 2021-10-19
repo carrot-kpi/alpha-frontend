@@ -1,7 +1,7 @@
 import { ChainId } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { AGVE } from '../tokens'
-import { Metric, TokenPriceMetric, TvlMetric } from './metrics'
+import { AGVE, WBTC } from '../tokens'
+import { Metric, TokenMarketCapMetric, TokenPriceMetric, TvlMetric } from './metrics'
 import { Agave } from './platforms/agave'
 import { Honeyswap } from './platforms/honeyswap'
 import { Swapr } from './platforms/swapr'
@@ -27,15 +27,32 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
   [ChainId.RINKEBY]: [
     {
       metrics: [
-        new TvlMetric(ChainId.RINKEBY, swapr, swapr, DateTime.fromSeconds(0), DateTime.fromSeconds(1632960000)),
+        new TvlMetric(
+          ChainId.RINKEBY,
+          swapr,
+          agave,
+          DateTime.fromFormat('19/10/2021', 'dd/MM/yyyy'),
+          DateTime.fromFormat('20/10/2021', 'dd/MM/yyyy'),
+          3600
+        ),
+        // WBTC token mcap price
+        new TokenMarketCapMetric(
+          WBTC,
+          swapr,
+          DateTime.fromFormat('19/10/2021', 'dd/MM/yyyy'),
+          DateTime.fromFormat('20/10/2021', 'dd/MM/yyyy'),
+          3600
+        ),
       ],
-      startDate: DateTime.fromSeconds(0),
-      endDate: DateTime.fromSeconds(1632960000),
-      id: '0x2e56fcdf03224f517ecad56e97469946cebcf713',
-      kpiId: '0xbea91af71aec36944621c30866b22513c56237198c178131be2f094260c2ca68',
+      startDate: DateTime.fromSeconds(1634642288),
+      endDate: DateTime.fromSeconds(1634721488),
+      id: '0x08d40515dc4f407a7ee4a3ec452e1f1134308ff5',
+      kpiId: '0x1c903a9a74aa4a3d5c3da94dcddbc6ebcb5cdb9eecb6fdddf9229d9edaa7f6d1',
     },
     {
-      metrics: [new TvlMetric(ChainId.RINKEBY, swapr, agave, DateTime.now().minus({ days: 10 }), DateTime.now())],
+      metrics: [
+        new TvlMetric(ChainId.RINKEBY, swapr, agave, DateTime.now().minus({ days: 10 }), DateTime.now(), 86400),
+      ],
       startDate: DateTime.now().minus({ days: 10 }),
       endDate: DateTime.now(),
       id: '0xa35ff0288c647f74ca0536dbf0aed820b66d27e4',
@@ -50,14 +67,16 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           honeyswap,
           agave,
           DateTime.fromFormat('20/09/2021', 'dd/MM/yyyy'),
-          DateTime.fromFormat('10/10/2021', 'dd/MM/yyyy')
+          DateTime.fromFormat('10/10/2021', 'dd/MM/yyyy'),
+          86400
         ),
         // AGVE token price
         new TokenPriceMetric(
           AGVE,
           honeyswap,
           DateTime.fromFormat('20/09/2021', 'dd/MM/yyyy'),
-          DateTime.fromFormat('10/10/2021', 'dd/MM/yyyy')
+          DateTime.fromFormat('10/10/2021', 'dd/MM/yyyy'),
+          86400
         ),
       ],
       startDate: DateTime.fromFormat('20/09/2021', 'dd/MM/yyyy'),

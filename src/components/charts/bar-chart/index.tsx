@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
 import { commify } from '@ethersproject/units'
-import { PairLiquidityMetric, TvlMetric } from '../../../constants/featured-campaigns/metrics'
+import { PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from '../../../constants/featured-campaigns/metrics'
 import { ChartDataPoint } from '../../../constants/featured-campaigns/platforms'
 
 const ChartContainer = styled.div`
@@ -11,7 +11,7 @@ const ChartContainer = styled.div`
 `
 
 interface BarChartProps {
-  metric: TvlMetric | PairLiquidityMetric
+  metric: TvlMetric | PairLiquidityMetric | TokenMarketCapMetric
 }
 
 export const BarChart = ({ metric }: BarChartProps) => {
@@ -54,7 +54,7 @@ export const BarChart = ({ metric }: BarChartProps) => {
                 val instanceof Array ? '' : `$${commify(val)}`
               }
               labelFormatter={(label: string | number) =>
-                DateTime.fromMillis(parseInt(label.toString())).toFormat('DD')
+                DateTime.fromMillis(parseInt(label.toString())).toLocaleString(DateTime.DATETIME_MED)
               }
               labelStyle={{ paddingTop: 4 }}
               contentStyle={{

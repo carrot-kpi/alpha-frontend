@@ -60,7 +60,7 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
                 val instanceof Array ? '' : `$${commify(val)}`
               }
               labelFormatter={(label: string | number) =>
-                DateTime.fromMillis(parseInt(label.toString())).toFormat('DD')
+                DateTime.fromMillis(parseInt(label.toString())).toLocaleString(DateTime.DATETIME_MED)
               }
               labelStyle={{ paddingTop: 4 }}
               contentStyle={{

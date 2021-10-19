@@ -1,7 +1,7 @@
 import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
 import { ChartDataPoint, TokenPricePlatform, TvlPlatform } from '..'
-import { getBlocksFromTimestamps, getDailyTimestampFromRange } from '../../../../utils'
+import { getBlocksFromTimestamps, getTimestampsFromRange } from '../../../../utils'
 import { gql } from 'graphql-request'
 import { AGAVE_SUBGRAPH_CLIENT } from '../../../graphql'
 import { parseUnits } from '@ethersproject/units'
@@ -27,7 +27,8 @@ export class Agave implements TvlPlatform {
     chainId: ChainId,
     pricingPlatform: TokenPricePlatform,
     from: DateTime,
-    to: DateTime
+    to: DateTime,
+    granularity: number
   ): Promise<ChartDataPoint[]> {
     if (!this.supportsChain(chainId)) throw new Error('tried to get agave overall daily tvl data on an invalid chain')
     const nativeCurrency = Currency.getNative(chainId)
@@ -35,7 +36,7 @@ export class Agave implements TvlPlatform {
     const subgraph = AGAVE_SUBGRAPH_CLIENT[chainId]
     if (!subgraph) throw new Error('could not get agave subgraph client')
 
-    const timestamps = getDailyTimestampFromRange(from, to)
+    const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
@@ -58,7 +59,12 @@ export class Agave implements TvlPlatform {
           }`
         })} 
       }`)
-    const nativeCurrencyPriceUsd = await pricingPlatform.dailyTokenPrice(Token.getNativeWrapper(chainId), from, to)
+    const nativeCurrencyPriceUsd = await pricingPlatform.dailyTokenPrice(
+      Token.getNativeWrapper(chainId),
+      from,
+      to,
+      granularity
+    )
     const nativeCurrencyPriceUsdLookup = nativeCurrencyPriceUsd.reduce(
       (accumulator: { [timestampString: string]: Amount<Currency> }, item) => {
         accumulator[item.x] = new Amount(

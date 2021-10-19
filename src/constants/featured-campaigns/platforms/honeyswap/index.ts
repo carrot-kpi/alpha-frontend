@@ -1,7 +1,7 @@
 import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
 import { ChartDataPoint, DexPlatform, TokenPricePlatform } from '..'
-import { getBlocksFromTimestamps, getDailyTimestampFromRange } from '../../../../utils'
+import { getBlocksFromTimestamps, getTimestampsFromRange } from '../../../../utils'
 import { gql } from 'graphql-request'
 import { HONEYSWAP_SUBGRAPH_CLIENT } from '../../../graphql'
 import { parseUnits } from '@ethersproject/units'
@@ -12,14 +12,20 @@ export class Honeyswap implements DexPlatform {
     return 'Honeyswap'
   }
 
-  public async pairDailyTvl(tokenA: Token, tokenB: Token, from: DateTime, to: DateTime): Promise<ChartDataPoint[]> {
+  public async pairDailyTvl(
+    tokenA: Token,
+    tokenB: Token,
+    from: DateTime,
+    to: DateTime,
+    granularity: number
+  ): Promise<ChartDataPoint[]> {
     if (tokenA.chainId !== tokenB.chainId || !this.supportsChain(tokenA.chainId))
       throw new Error('tried to get honeyswap pair day tvl data on an invalid chain')
     const chainId = tokenA.chainId
     const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
-    const timestamps = getDailyTimestampFromRange(from, to)
+    const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
@@ -58,13 +64,14 @@ export class Honeyswap implements DexPlatform {
     chainId: ChainId,
     _pricingPlatform: TokenPricePlatform, // ignored
     from: DateTime,
-    to: DateTime
+    to: DateTime,
+    granularity: number
   ): Promise<ChartDataPoint[]> {
     if (!this.supportsChain(chainId)) throw new Error('tried to get honeyswap overall day tvl data on an invalid chain')
     const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
-    const timestamps = getDailyTimestampFromRange(from, to)
+    const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
@@ -92,7 +99,12 @@ export class Honeyswap implements DexPlatform {
     }, [])
   }
 
-  public async dailyTokenPrice(token: Token, from: DateTime, to: DateTime): Promise<ChartDataPoint[]> {
+  public async dailyTokenPrice(
+    token: Token,
+    from: DateTime,
+    to: DateTime,
+    granularity: number
+  ): Promise<ChartDataPoint[]> {
     const chainId = token.chainId
     if (!this.supportsChain(chainId))
       throw new Error('tried to get honeyswap daily token price data on an invalid chain')
@@ -101,7 +113,7 @@ export class Honeyswap implements DexPlatform {
     const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
-    const timestamps = getDailyTimestampFromRange(from, to)
+    const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
@@ -173,6 +185,84 @@ export class Honeyswap implements DexPlatform {
               )
             )
             .toFixed(2),
+        })
+        return accumulator
+      },
+      []
+    )
+  }
+
+  public async dailyTokenMarketCap(
+    token: Token,
+    from: DateTime,
+    to: DateTime,
+    granularity: number
+  ): Promise<ChartDataPoint[]> {
+    const chainId = token.chainId
+    if (!this.supportsChain(chainId))
+      throw new Error('tried to get honeyswap daily token mcap data on an invalid chain')
+    if (Token.getNativeWrapper(chainId).equals(token)) throw new Error('cannot get mcap of native currency')
+    const nativeCurrency = Currency.getNative(chainId)
+    if (!nativeCurrency) throw new Error(`no native currency for chain id ${chainId}`)
+    const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
+    if (!subgraph) throw new Error('could not get honeyswap subgraph client')
+
+    const timestamps = getTimestampsFromRange(from, to, granularity)
+    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    if (blocks.length === 0) return []
+
+    const tokenPriceNativeCurrencyData = await subgraph.request<{
+      [timestampString: string]: { derivedETH: string }
+    }>(gql`
+      query dailyTokenPrice {
+        ${blocks.map((block) => {
+          return `t${block.timestamp}: token(id: "${token.address.toLowerCase()}", block: { number: ${block.number} }) {
+            derivedETH
+          }`
+        })} 
+      }
+    `)
+
+    const nativeCurrencyUsdData = await subgraph.request<{
+      [timestampString: string]: { ethPrice: string }
+    }>(gql`
+      query dailyNativeCurrencyPrice {
+        ${blocks.map((block) => {
+          return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
+            ethPrice
+          }`
+        })} 
+      }
+    `)
+
+    const wrappedTokenTotalSupply = await subgraph.request<{
+      token: { totalSupply: string }
+    }>(
+      gql`
+        query tokenTotalSupply($id: ID!) {
+          token(id: $id) {
+            totalSupply
+          }
+        }
+      `,
+      { id: token.address.toLowerCase() }
+    )
+
+    return Object.entries(tokenPriceNativeCurrencyData).reduce(
+      (accumulator: ChartDataPoint[], [timestampString, token]) => {
+        const { ethPrice } = nativeCurrencyUsdData[timestampString]
+        const usdPrice = new Amount(
+          nativeCurrency,
+          parseUnits(new Decimal(token.derivedETH).toFixed(nativeCurrency.decimals), nativeCurrency.decimals)
+        ).multiply(
+          new Amount(
+            Currency.USD,
+            parseUnits(new Decimal(ethPrice).toFixed(Currency.USD.decimals), Currency.USD.decimals)
+          )
+        )
+        accumulator.push({
+          x: parseInt(timestampString.substring(1)),
+          y: usdPrice.times(wrappedTokenTotalSupply.token.totalSupply).toFixed(2),
         })
         return accumulator
       },

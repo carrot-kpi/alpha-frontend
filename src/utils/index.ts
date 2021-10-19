@@ -74,13 +74,12 @@ export const switchOrAddNetwork = (networkDetails?: NetworkDetails, account?: st
     })
 }
 
-export const getDailyTimestampFromRange = (from: DateTime, to: DateTime): number[] => {
-  let loopedDate = from.endOf('day')
-  const normalizedEndDate = to.startOf('day')
+export const getTimestampsFromRange = (from: DateTime, to: DateTime, granularity: number): number[] => {
+  let loopedDate = from
   let timestamps = []
-  while (loopedDate.toMillis() < normalizedEndDate.toMillis()) {
+  while (loopedDate.toMillis() < to.toMillis()) {
     timestamps.push(loopedDate.toMillis())
-    loopedDate = loopedDate.plus({ days: 1 })
+    loopedDate = loopedDate.plus({ seconds: granularity })
   }
   return timestamps
 }

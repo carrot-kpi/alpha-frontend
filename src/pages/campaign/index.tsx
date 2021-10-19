@@ -173,7 +173,7 @@ export function Campaign({
               <Box>
                 <UndecoratedExternalLink
                   title="Tweet this"
-                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}`}
+                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help me reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}`}
                 >
                   <TweetButton icon={<Twitter size="16px" />}>Tweet about this</TweetButton>
                 </UndecoratedExternalLink>
