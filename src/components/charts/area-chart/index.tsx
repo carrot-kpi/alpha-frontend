@@ -2,11 +2,11 @@ import { XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaCh
 import styled, { useTheme } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
-import { commify } from '@ethersproject/units'
 import { TokenPriceMetric } from '../../../constants/featured-campaigns/metrics'
 import { ChartDataPoint } from '../../../constants/featured-campaigns/platforms'
 import { Box, Flex } from 'rebass'
 import Loader from 'react-spinners/BarLoader'
+import { CustomTooltip } from '../custom-tooltip'
 
 const ChartContainer = styled.div`
   height: 300px;
@@ -72,22 +72,7 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
               domain={['dataMin', 'dataMax']}
             />
             <YAxis type="number" axisLine={false} interval="preserveEnd" tick={false} />
-            <Tooltip
-              cursor={{ fill: theme.border }}
-              formatter={(val: string | number | (string | number)[]) =>
-                val instanceof Array ? '' : `$${commify(val)}`
-              }
-              labelFormatter={(label: string | number) =>
-                DateTime.fromMillis(parseInt(label.toString())).toLocaleString(DateTime.DATETIME_MED)
-              }
-              labelStyle={{ paddingTop: 4 }}
-              contentStyle={{
-                padding: '8px 12px',
-                borderRadius: 8,
-                borderColor: theme.border,
-                color: 'black',
-              }}
-            />
+            <Tooltip cursor={{ fill: theme.border }} content={CustomTooltip} />
             <Area type="monotone" dataKey="y" fill="url(#custom-gradient)" stroke={theme.accent} />
           </RechartsAreaChart>
         </ResponsiveContainer>
