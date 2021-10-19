@@ -162,7 +162,7 @@ export function Campaign({
               </Flex>
               <Flex flexDirection="column" mb="20px">
                 <Title mb="4px">Total supply:</Title>
-                <Text fontSize="18px">
+                <Text fontSize="18px" fontFamily="Overpass Mono">
                   {loadingKpiToken || !kpiToken ? (
                     <Skeleton width="40px" />
                   ) : (
@@ -183,7 +183,7 @@ export function Campaign({
               <Card m="8px" flexGrow={1} height="fit-content">
                 <Flex justifyContent="space-between" alignItems="center" mb="4px">
                   <Text>Your balance:</Text>
-                  <Text fontSize="18px" fontWeight="700">
+                  <Text fontFamily="Overpass Mono" fontWeight="700">
                     {loadingKpiTokenBalance || !kpiToken || !kpiTokenBalance ? (
                       <Skeleton width="80px" />
                     ) : (
@@ -197,7 +197,7 @@ export function Campaign({
                   mb={kpiTokenBalance && !kpiTokenBalance.isZero() ? '20px' : '0px'}
                 >
                   <Text>Reward if KPI is reached:</Text>
-                  <Text fontSize="18px" fontWeight="700">
+                  <Text fontFamily="Overpass Mono" fontWeight="700">
                     {!rewardIfKpiIsReached ? (
                       <Skeleton width="80px" />
                     ) : (
@@ -232,14 +232,16 @@ export function Campaign({
               {!kpiToken ? (
                 <Skeleton width="80px" />
               ) : kpiToken.expiresAt.toJSDate().getTime() < Date.now() ? (
-                <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
+                <KpiExpiredText fontFamily="Overpass Mono" fontWeight="700">
+                  KPI expired
+                </KpiExpiredText>
               ) : (
                 <Countdown to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
               )}
             </Card>
             <Card flexDirection="column" m="8px">
               <Title mb="8px">Rewards</Title>
-              <Text mb="4px">
+              <Text mb="4px" fontFamily="Overpass Mono">
                 {loadingKpiToken || !kpiToken ? (
                   <Skeleton width="80px" />
                 ) : (

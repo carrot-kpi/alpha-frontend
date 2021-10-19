@@ -53,7 +53,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
-        <Text textAlign="center" fontWeight="800">
+        <Text textAlign="center" fontFamily="Overpass Mono" fontWeight="700">
           {loading || !collateral ? (
             <Skeleton width="100px" />
           ) : (
@@ -68,7 +68,9 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         {!expiresAt ? (
           <Skeleton width="80px" />
         ) : expiresAt.toJSDate().getTime() < Date.now() ? (
-          <KpiExpiredText fontWeight="700">KPI expired</KpiExpiredText>
+          <KpiExpiredText fontFamily="Overpass Mono" fontWeight="700">
+            KPI expired
+          </KpiExpiredText>
         ) : (
           <Countdown fontSize="14px" fontWeight="600" to={expiresAt} />
         )}
