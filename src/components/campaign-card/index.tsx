@@ -53,7 +53,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
-        <Text textAlign="center" fontFamily="Overpass Mono" fontWeight="700">
+        <Text textAlign="right" fontFamily="Overpass Mono" fontWeight="700">
           {loading || !collateral ? (
             <Skeleton width="100px" />
           ) : (
