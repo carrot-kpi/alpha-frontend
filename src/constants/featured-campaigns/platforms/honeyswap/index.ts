@@ -6,6 +6,7 @@ import { gql } from 'graphql-request'
 import { HONEYSWAP_SUBGRAPH_CLIENT } from '../../../graphql'
 import { parseUnits } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
+import { TotalSupplyToken } from '../../../tokens'
 
 export class Honeyswap implements DexPlatform {
   get name(): string {
@@ -193,7 +194,7 @@ export class Honeyswap implements DexPlatform {
   }
 
   public async dailyTokenMarketCap(
-    token: Token,
+    token: TotalSupplyToken,
     from: DateTime,
     to: DateTime,
     granularity: number
@@ -235,18 +236,7 @@ export class Honeyswap implements DexPlatform {
       }
     `)
 
-    const wrappedTokenTotalSupply = await subgraph.request<{
-      token: { totalSupply: string }
-    }>(
-      gql`
-        query tokenTotalSupply($id: ID!) {
-          token(id: $id) {
-            totalSupply
-          }
-        }
-      `,
-      { id: token.address.toLowerCase() }
-    )
+    const tokenTotalSupply = await token.totalSupply()
 
     return Object.entries(tokenPriceNativeCurrencyData).reduce(
       (accumulator: ChartDataPoint[], [timestampString, token]) => {
@@ -262,7 +252,7 @@ export class Honeyswap implements DexPlatform {
         )
         accumulator.push({
           x: parseInt(timestampString.substring(1)),
-          y: usdPrice.times(wrappedTokenTotalSupply.token.totalSupply).toFixed(2),
+          y: usdPrice.times(tokenTotalSupply).toFixed(2),
         })
         return accumulator
       },

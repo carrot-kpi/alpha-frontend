@@ -6,6 +6,7 @@ import { gql } from 'graphql-request'
 import { SWAPR_SUBGRAPH_CLIENT } from '../../../graphql'
 import { parseUnits } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
+import { TotalSupplyToken } from '../../../tokens'
 
 export class Swapr implements DexPlatform {
   get name(): string {
@@ -193,7 +194,7 @@ export class Swapr implements DexPlatform {
   }
 
   public async dailyTokenMarketCap(
-    token: Token,
+    token: TotalSupplyToken,
     from: DateTime,
     to: DateTime,
     granularity: number
@@ -231,22 +232,11 @@ export class Swapr implements DexPlatform {
           return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
             nativeCurrencyPrice
           }`
-        })} 
+        })}
       }
     `)
 
-    const wrappedTokenTotalSupply = await subgraph.request<{
-      token: { totalSupply: string }
-    }>(
-      gql`
-        query tokenTotalSupply($id: ID!) {
-          token(id: $id) {
-            totalSupply
-          }
-        }
-      `,
-      { id: token.address.toLowerCase() }
-    )
+    const tokenTotalSupply = await token.totalSupply()
 
     return Object.entries(tokenPriceNativeCurrencyData).reduce(
       (accumulator: ChartDataPoint[], [timestampString, token]) => {
@@ -262,7 +252,7 @@ export class Swapr implements DexPlatform {
         )
         accumulator.push({
           x: parseInt(timestampString.substring(1)),
-          y: usdPrice.times(wrappedTokenTotalSupply.token.totalSupply).toFixed(2),
+          y: usdPrice.times(tokenTotalSupply).toFixed(2),
         })
         return accumulator
       },

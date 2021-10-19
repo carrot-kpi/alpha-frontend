@@ -1,7 +1,7 @@
 import { ChainId } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { AGVE, WBTC } from '../tokens'
-import { Metric, TokenMarketCapMetric, TokenPriceMetric, TvlMetric } from './metrics'
+import { WBTC, STAKE } from '../tokens'
+import { Metric, TokenMarketCapMetric, TvlMetric } from './metrics'
 import { Agave } from './platforms/agave'
 import { Honeyswap } from './platforms/honeyswap'
 import { Swapr } from './platforms/swapr'
@@ -35,7 +35,6 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           DateTime.fromFormat('20/10/2021', 'dd/MM/yyyy'),
           3600
         ),
-        // WBTC token mcap price
         new TokenMarketCapMetric(
           WBTC,
           swapr,
@@ -70,9 +69,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           DateTime.fromFormat('10/10/2021', 'dd/MM/yyyy'),
           86400
         ),
-        // AGVE token price
-        new TokenPriceMetric(
-          AGVE,
+        new TokenMarketCapMetric(
+          STAKE,
           honeyswap,
           DateTime.fromFormat('20/09/2021', 'dd/MM/yyyy'),
           DateTime.fromFormat('10/10/2021', 'dd/MM/yyyy'),

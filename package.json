@@ -5,6 +5,7 @@
   "description": "Frontend for Carrot KPIs.",
   "devDependencies": {
     "@carrot-kpi/sdk": "^0.4.1",
+    "@ethersproject/abi": "^5.4.1",
     "@ethersproject/address": "^5.4.0",
     "@ethersproject/bignumber": "^5.4.2",
     "@ethersproject/constants": "^5.4.0",

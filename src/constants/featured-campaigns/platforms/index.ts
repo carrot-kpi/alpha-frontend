@@ -1,5 +1,6 @@
 import { ChainId, Token } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
+import { TotalSupplyToken } from '../../tokens'
 
 export interface ChartDataPoint {
   x: number
@@ -26,7 +27,12 @@ export interface TokenPricePlatform extends Platform {
 }
 
 export interface TokenMarketCapPlatform extends Platform {
-  dailyTokenMarketCap(token: Token, from: DateTime, to: DateTime, granularity: number): Promise<ChartDataPoint[]>
+  dailyTokenMarketCap(
+    token: TotalSupplyToken,
+    from: DateTime,
+    to: DateTime,
+    granularity: number
+  ): Promise<ChartDataPoint[]>
 }
 
 export interface DexPlatform extends TvlPlatform, TokenPricePlatform, TokenMarketCapPlatform {

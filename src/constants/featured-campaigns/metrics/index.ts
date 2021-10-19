@@ -1,6 +1,7 @@
 import { ChainId, Token } from '@carrot-kpi/sdk'
 import { ChartDataPoint, DexPlatform, TokenMarketCapPlatform, TokenPricePlatform, TvlPlatform } from '../platforms'
 import { DateTime } from 'luxon'
+import { TotalSupplyToken } from '../../tokens'
 
 export abstract class Metric {
   protected readonly from: DateTime
@@ -87,17 +88,23 @@ export class PairLiquidityMetric extends Metric {
 }
 
 export class TokenMarketCapMetric extends Metric {
-  private readonly token: Token
+  private readonly token: TotalSupplyToken
   private readonly platform: TokenMarketCapPlatform
 
-  constructor(token: Token, platform: TokenMarketCapPlatform, from: DateTime, to: DateTime, granularity: number) {
+  constructor(
+    token: TotalSupplyToken,
+    platform: TokenMarketCapPlatform,
+    from: DateTime,
+    to: DateTime,
+    granularity: number
+  ) {
     super(from, to, granularity)
     this.token = token
     this.platform = platform
   }
 
   get name(): string {
-    return `${this.token.symbol} market cap on ${this.platform.name}`
+    return `${this.token.symbol} market cap (price feed from ${this.platform.name})`
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
