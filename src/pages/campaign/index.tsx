@@ -147,11 +147,11 @@ export function Campaign({
               </Text>
               <Flex flexDirection="column" mb="12px">
                 <Title mb="4px">Name:</Title>
-                <Text fontSize="18px">{loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}</Text>
+                <Text>{loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}</Text>
               </Flex>
               <Flex flexDirection="column" mb="20px">
                 <Title mb="4px">Total supply:</Title>
-                <Text fontSize="18px" fontFamily="Overpass Mono">
+                <Text fontFamily="Overpass Mono">
                   {loadingKpiToken || !kpiToken ? (
                     <Skeleton width="40px" />
                   ) : (
