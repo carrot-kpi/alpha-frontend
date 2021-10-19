@@ -62,35 +62,10 @@ export const Countdown = ({ loading, to, fontSize, fontWeight, onEnd }: Countdow
       {loading ? (
         <Skeleton width="80px" />
       ) : (
-        <Flex>
+        <Flex alignItems="center">
           <ClockIcon />
-
           <Text fontFamily="Overpass Mono" mr="1px" fontSize={fontSize} color={theme.content}>
-            {durationParts.days}
-          </Text>
-          <Text mr="4px" color={theme.contentSecondary}>
-            D
-          </Text>
-
-          <Text fontFamily="Overpass Mono" mr="1px" fontSize={fontSize} color={theme.content}>
-            {durationParts.hours}
-          </Text>
-          <Text mr="4px" color={theme.contentSecondary}>
-            H
-          </Text>
-
-          <Text fontFamily="Overpass Mono" mr="1px" fontSize={fontSize} color={theme.content}>
-            {durationParts.minutes}
-          </Text>
-          <Text mr="4px" color={theme.contentSecondary}>
-            M
-          </Text>
-
-          <Text fontFamily="Overpass Mono" mr="1px" fontSize={fontSize} color={theme.content}>
-            {durationParts.seconds}
-          </Text>
-          <Text mr="4px" color={theme.contentSecondary}>
-            S
+            {durationParts.days}D {durationParts.hours}H {durationParts.minutes}M {durationParts.seconds}S
           </Text>
         </Flex>
       )}
