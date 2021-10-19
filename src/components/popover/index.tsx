@@ -36,7 +36,7 @@ export function Popover({ content, show, onHide, children }: PopoverProps) {
 
   return (
     <>
-      {cloneElement(children, { ref: referenceRef, style: { cursor: 'pointer' } })}
+      {cloneElement(children, { ref: referenceRef, innerRef: referenceRef, style: { cursor: 'pointer' } })}
       <div ref={popperRef} {...attributes.popper} style={styles.popper}>
         {transition(
           (transitionStyles, item) =>
