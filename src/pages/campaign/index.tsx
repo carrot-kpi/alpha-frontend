@@ -39,11 +39,6 @@ const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
 `
 
-const EllipsizedText = styled(Text)`
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
-
 const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
   color: ${(props) => props.theme.accent};
   width: 12px;
@@ -151,12 +146,6 @@ export function Campaign({
                 )}
               </Text>
               <Flex flexDirection="column" mb="12px">
-                <Title mb="4px">Symbol:</Title>
-                <EllipsizedText fontSize="18px" overflow="hidden">
-                  {loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.symbol}
-                </EllipsizedText>
-              </Flex>
-              <Flex flexDirection="column" mb="12px">
                 <Title mb="4px">Name:</Title>
                 <Text fontSize="18px">{loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}</Text>
               </Flex>
@@ -166,7 +155,7 @@ export function Campaign({
                   {loadingKpiToken || !kpiToken ? (
                     <Skeleton width="40px" />
                   ) : (
-                    `${commify(kpiToken.totalSupply.toFixed(2))}`
+                    `${commify(kpiToken.totalSupply.toFixed(2))} ${kpiToken.symbol}`
                   )}
                 </Text>
               </Flex>
