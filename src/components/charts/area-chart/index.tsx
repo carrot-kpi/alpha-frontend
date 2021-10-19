@@ -5,6 +5,8 @@ import { DateTime } from 'luxon'
 import { commify } from '@ethersproject/units'
 import { TokenPriceMetric } from '../../../constants/featured-campaigns/metrics'
 import { ChartDataPoint } from '../../../constants/featured-campaigns/platforms'
+import { Box, Flex } from 'rebass'
+import Loader from 'react-spinners/BarLoader'
 
 const ChartContainer = styled.div`
   height: 300px;
@@ -17,13 +19,19 @@ interface AreaChartProps {
 export const AreaChart = ({ metric }: AreaChartProps) => {
   const theme = useTheme()
 
+  const [loading, setLoading] = useState(false)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
 
   useEffect(() => {
     let cancelled = false
     const fetchChartData = async () => {
-      const data = await metric.chartData()
-      if (!cancelled) setChartData(data.sort((a, b) => a.x - b.x))
+      if (!cancelled) setLoading(true)
+      try {
+        const data = await metric.chartData()
+        if (!cancelled) setChartData(data.sort((a, b) => a.x - b.x))
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
     }
     fetchChartData()
     return () => {
@@ -33,7 +41,17 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
 
   return (
     <ChartContainer>
-      {chartData.length > 0 && (
+      {loading ? (
+        <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
+          <Box>
+            <Loader color={theme.accent} loading />
+          </Box>
+        </Flex>
+      ) : chartData.length === 0 ? (
+        <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
+          <Box>No data</Box>
+        </Flex>
+      ) : (
         <ResponsiveContainer>
           <RechartsAreaChart data={chartData}>
             <defs>
