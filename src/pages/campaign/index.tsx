@@ -26,6 +26,7 @@ import { Charts } from '../../components/charts'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 import { Twitter } from 'react-feather'
 import { Button } from '../../components/button'
+import { Oracle } from '../../components/oracle'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -69,6 +70,7 @@ export function Campaign({
     [kpiId, chainId]
   )
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
+
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(kpiId)
@@ -107,6 +109,7 @@ export function Campaign({
     realityQuestionFinalized,
     currentPeriodEnded,
   ])
+
 
   const handleCountdownEnd = useCallback(() => {
     setCurrentPeriodEnded(true)
@@ -242,13 +245,7 @@ export function Campaign({
                 )}
               </Text>
             </Card>
-            <Card flexDirection="column" m="8px">
-              <Title mb="8px">Oracle</Title>
-              <Text>
-                Reality.eth (
-                <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiId}`}>see question</ExternalLink>)
-              </Text>
-            </Card>
+           <Oracle kpi={kpiToken}/>
           </Flex>
         </Flex>
       </Flex>

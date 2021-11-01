@@ -1497,7 +1497,7 @@
     "@emotion/weak-memoize" "^0.2.5"
     stylis "^4.0.10"
 
-"@emotion/core@^10.0.0", "@emotion/core@^10.0.22":
+"@emotion/core@^10.0.0", "@emotion/core@^10.0.14", "@emotion/core@^10.0.22":
   version "10.1.1"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.1.1.tgz#c956c1365f2f2481960064bcb8c4732e5fb612c3"
   integrity sha512-ZMLG6qpXR8x031NXD8HJqugy/AZSkAuMxxqB46pmAR7ze47MhNJ56cdoX243QPZdGctrdfo+s08yZTiwaUcRKA==
@@ -1789,6 +1789,15 @@
     "@ethersproject/logger" "^5.4.0"
     bn.js "^4.11.9"
 
+"@ethersproject/bignumber@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@ethersproject/bignumber/-/bignumber-5.5.0.tgz#875b143f04a216f4f8b96245bde942d42d279527"
+  integrity sha512-6Xytlwvy6Rn3U3gKEc1vP7nR92frHkv6wtVr95LFR3jREXiCPzdWxKQ1cx4JGQBXxcguAwjA8murlYN2TSiEbg==
+  dependencies:
+    "@ethersproject/bytes" "^5.5.0"
+    "@ethersproject/logger" "^5.5.0"
+    bn.js "^4.11.9"
+
 "@ethersproject/bytes@5.4.0", "@ethersproject/bytes@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/bytes/-/bytes-5.4.0.tgz#56fa32ce3bf67153756dbaefda921d1d4774404e"
@@ -1796,12 +1805,26 @@
   dependencies:
     "@ethersproject/logger" "^5.4.0"
 
+"@ethersproject/bytes@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@ethersproject/bytes/-/bytes-5.5.0.tgz#cb11c526de657e7b45d2e0f0246fb3b9d29a601c"
+  integrity sha512-ABvc7BHWhZU9PNM/tANm/Qx4ostPGadAuQzWTr3doklZOhDlmcBqclrQe/ZXUIj3K8wC28oYeuRa+A37tX9kog==
+  dependencies:
+    "@ethersproject/logger" "^5.5.0"
+
 "@ethersproject/constants@5.4.0", "@ethersproject/constants@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/constants/-/constants-5.4.0.tgz#ee0bdcb30bf1b532d2353c977bf2ef1ee117958a"
   integrity sha512-tzjn6S7sj9+DIIeKTJLjK9WGN2Tj0P++Z8ONEIlZjyoTkBuODN+0VfhAyYksKi43l1Sx9tX2VlFfzjfmr5Wl3Q==
   dependencies:
     "@ethersproject/bignumber" "^5.4.0"
+
+"@ethersproject/constants@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@ethersproject/constants/-/constants-5.5.0.tgz#d2a2cd7d94bd1d58377d1d66c4f53c9be4d0a45e"
+  integrity sha512-2MsRRVChkvMWR+GyMGY4N1sAX9Mt3J9KykCsgUFd/1mwS0UH1qw+Bv9k1UJb3X3YJYFco9H20pjSlOIfCG5HYQ==
+  dependencies:
+    "@ethersproject/bignumber" "^5.5.0"
 
 "@ethersproject/contracts@5.4.0":
   version "5.4.0"
@@ -1903,6 +1926,11 @@
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/@ethersproject/logger/-/logger-5.4.1.tgz#503bd33683538b923c578c07d1c2c0dd18672054"
   integrity sha512-DZ+bRinnYLPw1yAC64oRl0QyVZj43QeHIhVKfD/+YwSz4wsv1pfwb5SOFjz+r710YEWzU6LrhuSjpSO+6PeE4A==
+
+"@ethersproject/logger@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@ethersproject/logger/-/logger-5.5.0.tgz#0c2caebeff98e10aefa5aef27d7441c7fd18cf5d"
+  integrity sha512-rIY/6WPm7T8n3qS2vuHTUBPdXHl+rGxWxW5okDfo9J4Z0+gRRZT0msvUdIJkE4/HS29GUMziwGaaKO2bWONBrg==
 
 "@ethersproject/networks@5.4.1":
   version "5.4.1"
@@ -2070,6 +2098,15 @@
     "@ethersproject/bignumber" "^5.4.0"
     "@ethersproject/constants" "^5.4.0"
     "@ethersproject/logger" "^5.4.0"
+
+"@ethersproject/units@^5.0.0-beta.132":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@ethersproject/units/-/units-5.5.0.tgz#104d02db5b5dc42cc672cc4587bafb87a95ee45e"
+  integrity sha512-7+DpjiZk4v6wrikj+TCyWWa9dXLNU73tSTa7n0TSJDxkYbV3Yf1eRh9ToMLlZtuctNYu9RDNNy2USq3AdqSbag==
+  dependencies:
+    "@ethersproject/bignumber" "^5.5.0"
+    "@ethersproject/constants" "^5.5.0"
+    "@ethersproject/logger" "^5.5.0"
 
 "@ethersproject/wallet@5.4.0":
   version "5.4.0"
@@ -4590,6 +4627,13 @@ bfj@^7.0.2:
     check-types "^11.1.1"
     hoopy "^0.1.4"
     tryer "^1.0.1"
+
+big-number-input@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/big-number-input/-/big-number-input-1.0.3.tgz#8d37b8b949572f60476e0a75a3a6a54bcf410e3f"
+  integrity sha512-t0BZ9+t9T8DdMpUYgXk+CxiGGPOMPRuy8iGcOxyTD1R1sw21R4UNyQJWnuhufRhp+imv83Sl0CP2XzQCcqSYYw==
+  dependencies:
+    "@ethersproject/units" "^5.0.0-beta.132"
 
 big.js@^5.2.2:
   version "5.2.2"
@@ -12626,6 +12670,14 @@ react-feather@^2.0.9:
   integrity sha512-yMfCGRkZdXwIs23Zw/zIWCJO3m3tlaUvtHiXlW+3FH7cIT6fiK1iJ7RJWugXq7Fso8ZaQyUm92/GOOHXvkiVUw==
   dependencies:
     prop-types "^15.7.2"
+
+react-input-slider@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-input-slider/-/react-input-slider-6.0.1.tgz#e866993796e9c25366f7960e7f6bd7c1838316ca"
+  integrity sha512-WASm/k0rVw3cXzvfkoUa4wMnF74SbifeuwSmjPC+zanhV4W9KAmPM+H6yXhIZAjJL4TU+sUw/pgyUyAt/txvIw==
+  dependencies:
+    "@babel/runtime" "^7.9.2"
+    "@emotion/core" "^10.0.14"
 
 react-is@^16.10.2, react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
