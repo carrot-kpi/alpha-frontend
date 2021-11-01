@@ -7,7 +7,14 @@ import {Button} from 'rebass'
 import { KpiToken } from '@carrot-kpi/sdk'
 
 import {BigNumberInput} from 'big-number-input'
-
+import { formatEther } from '@ethersproject/units'
+import { numberToByte32 } from '../../utils'
+import { INVALID_ANSWER_ID } from '../../constants'
+enum RealityBinary{
+  YES,
+  NO,
+  INVALID
+}
 
 // const StyledSlider=styled(Slider)`
 // width:177px !important;
@@ -16,9 +23,24 @@ export const Oracle = ({ kpi }: { kpi: KpiToken | undefined}): ReactElement => {
       const [isScalar,setIsScalar]=useState(true)
   // const [slider,setSlider]=useState({x:0})
   const [bigNumberValue,setBigNumberValue]=useState('')
+  const [radioValue,setRadioValue]=useState<RealityBinary>(RealityBinary.YES)
+  console.log(kpi)
+  console.log(kpi && formatEther(kpi?.lowerBound),'lower bound')
+  console.log(kpi && formatEther(kpi?.higherBound),'upper bound')
 
+const handleChange=(value:any)=>{
+        const target=value.target.value
 
-
+  setRadioValue(parseInt(target))
+        // setRadioValue(value)
+}
+const submitAnswer=async (isInvalid:boolean)=>{
+  const answer =
+     isInvalid
+      ? INVALID_ANSWER_ID
+      : numberToByte32(isScalar ?bigNumberValue : radioValue, isScalar)
+  console.log(answer)
+}
 
   return (
       <Card flexDirection="column" m="8px">
@@ -45,17 +67,17 @@ export const Oracle = ({ kpi }: { kpi: KpiToken | undefined}): ReactElement => {
             </>
 
         : <form>
-
             <div className="form-check">
               <label>
                 <input
                   type="radio"
                   name="react-tips"
-                  value="option1"
-                  checked={true}
+                  value={RealityBinary.YES}
+                  checked={radioValue===RealityBinary.YES}
                   className="form-check-input"
+                  onChange={handleChange}
                 />
-                Option 1
+                Reached
               </label>
             </div>
 
@@ -64,33 +86,19 @@ export const Oracle = ({ kpi }: { kpi: KpiToken | undefined}): ReactElement => {
                 <input
                   type="radio"
                   name="react-tips"
-                  value="option2"
+                  value={RealityBinary.NO}
                   className="form-check-input"
+                  checked={radioValue===RealityBinary.NO}
+                  onChange={handleChange}
                 />
-                Option 2
+                Not Reached
               </label>
-            </div>
-
-            <div className="form-check">
-              <label>
-                <input
-                  type="radio"
-                  name="react-tips"
-                  value="option3"
-                  className="form-check-input"
-                />
-                Option 3
-              </label>
-            </div>
-
-            <div className="form-group">
-              <button className="btn btn-primary mt-2" type="submit">
-                Save
-              </button>
             </div>
 
           </form>}
-        <Button onClick={()=>{setIsScalar(!isScalar)}}>Submit Answer</Button>
+        <Button backgroundColor='#d66700' onClick={()=>{submitAnswer(true)}}>Set Invalid</Button>
+        <Button backgroundColor='#d66766' onClick={()=>{submitAnswer(false)}}>Submit Answer</Button>
+        <Button backgroundColor='#d66700' onClick={()=>{setIsScalar(!isScalar)}}>Change Question Type</Button>
       </Card>
 
   )
