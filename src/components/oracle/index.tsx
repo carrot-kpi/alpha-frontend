@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { Card } from '../card'
 import { Title } from '../title'
 // import { ExternalLink } from '../undecorated-link'
@@ -7,9 +7,10 @@ import {Button} from 'rebass'
 import { KpiToken } from '@carrot-kpi/sdk'
 
 import {BigNumberInput} from 'big-number-input'
-import { formatEther } from '@ethersproject/units'
-import { numberToByte32 } from '../../utils'
+import { isScalarQuestion, numberToByte32 } from '../../utils'
 import { INVALID_ANSWER_ID } from '../../constants'
+import { useRealityQuestion } from '../../hooks/useRealityQuestion'
+
 enum RealityBinary{
   YES,
   NO,
@@ -21,12 +22,20 @@ enum RealityBinary{
 // `
 export const Oracle = ({ kpi }: { kpi: KpiToken | undefined}): ReactElement => {
       const [isScalar,setIsScalar]=useState(true)
+  const [loading,setLoader]=useState(true)
+  const {submitAnswer}=useRealityQuestion(kpi?.kpiId)
   // const [slider,setSlider]=useState({x:0})
   const [bigNumberValue,setBigNumberValue]=useState('')
   const [radioValue,setRadioValue]=useState<RealityBinary>(RealityBinary.YES)
-  console.log(kpi)
-  console.log(kpi && formatEther(kpi?.lowerBound),'lower bound')
-  console.log(kpi && formatEther(kpi?.higherBound),'upper bound')
+  // console.log(kpi)
+  // console.log(kpi && formatEther(kpi?.lowerBound),'lower bound')
+  // console.log(kpi && formatEther(kpi?.higherBound),'upper bound')
+  useEffect(()=>{
+    if(!kpi) setLoader(true)
+    else setIsScalar(isScalarQuestion(kpi.lowerBound,kpi.higherBound))
+
+  },[kpi])
+
 
 const handleChange=(value:any)=>{
         const target=value.target.value
@@ -34,12 +43,17 @@ const handleChange=(value:any)=>{
   setRadioValue(parseInt(target))
         // setRadioValue(value)
 }
-const submitAnswer=async (isInvalid:boolean)=>{
+console.log('loader',loading)
+const intiaiteSubmit=async (isInvalid:boolean)=>{
   const answer =
      isInvalid
       ? INVALID_ANSWER_ID
-      : numberToByte32(isScalar ?bigNumberValue : radioValue, isScalar)
-  console.log(answer)
+      : numberToByte32(isScalar ?bigNumberValue : radioValue)
+  const tx=await submitAnswer(answer)
+  console.log(tx)
+
+
+
 }
 
   return (
@@ -96,8 +110,8 @@ const submitAnswer=async (isInvalid:boolean)=>{
             </div>
 
           </form>}
-        <Button backgroundColor='#d66700' onClick={()=>{submitAnswer(true)}}>Set Invalid</Button>
-        <Button backgroundColor='#d66766' onClick={()=>{submitAnswer(false)}}>Submit Answer</Button>
+        <Button backgroundColor='#d66700' onClick={()=>{intiaiteSubmit(true)}}>Set Invalid</Button>
+        <Button backgroundColor='#d66766' onClick={()=>{intiaiteSubmit(false)}}>Submit Answer</Button>
         <Button backgroundColor='#d66700' onClick={()=>{setIsScalar(!isScalar)}}>Change Question Type</Button>
       </Card>
 
