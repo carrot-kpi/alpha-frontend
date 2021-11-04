@@ -70,7 +70,7 @@ export function Campaign({
     [kpiId, chainId]
   )
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
-
+  console.log(kpiToken && kpiToken)
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(kpiId)
