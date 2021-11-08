@@ -10,22 +10,34 @@ import { BigNumber } from '@ethersproject/bignumber'
 export function useRealityQuestion(kpiId: string | undefined): {
   transactionLoader: boolean
   submitAnswer: (answer: string) => Promise<void>
-  currentAnswer: { answer: string; bond: BigNumber }
+  currentQuestionData: { answer: string; bond: BigNumber }
 } {
   const realityContract = useRealityContract(true)
   const callParams = useMemo(() => [kpiId], [kpiId])
   const questionData = useSingleCallResult(realityContract, 'questions', callParams)
   const { library: provider, chainId } = useActiveWeb3React()
   const [transactionLoader, setTransactionLoader] = useState(false)
-  const [currentAnswer, setCurrentAnswer] = useState<{ answer: string; bond: BigNumber }>({ answer: '', bond: Zero })
-
+  const [currentQuestionData, setCurrentQuestionData] = useState<{
+    answer: string
+    bond: BigNumber
+    isArbitrating: boolean
+  }>({
+    answer: '',
+    bond: Zero,
+    isArbitrating: false,
+  })
+  console.log(questionData)
   useEffect(() => {
     if (!kpiId) return
     console.log('data I need', questionData)
-    setCurrentAnswer(
+    setCurrentQuestionData(
       questionData && questionData.result
-        ? { answer: questionData.result['best_answer'], bond: questionData.result.bond }
-        : { answer: '', bond: Zero }
+        ? {
+            answer: questionData.result['best_answer'],
+            bond: questionData.result.bond,
+            isArbitrating: questionData.result.is_pending_arbitration,
+          }
+        : { answer: '', bond: Zero, isArbitrating: false }
     )
   }, [kpiId, questionData])
 
@@ -52,5 +64,5 @@ export function useRealityQuestion(kpiId: string | undefined): {
     }
   }
 
-  return { transactionLoader, submitAnswer, currentAnswer }
+  return { transactionLoader, submitAnswer, currentQuestionData }
 }

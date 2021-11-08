@@ -74,6 +74,7 @@ export function Campaign({
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(kpiId)
+  console.log('realityQuestionFinalized', realityQuestionFinalized)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
   const collateralPriceUSD = useTokenPriceUSD(kpiToken?.collateral.currency)
   // these auto updates at each block, instead of using the static value attached to the kpi token ts instance
@@ -109,7 +110,6 @@ export function Campaign({
     realityQuestionFinalized,
     currentPeriodEnded,
   ])
-
 
   const handleCountdownEnd = useCallback(() => {
     setCurrentPeriodEnded(true)
@@ -245,7 +245,9 @@ export function Campaign({
                 )}
               </Text>
             </Card>
-           <Oracle kpi={kpiToken}/>
+            {!loadingRealityQuestionFinalized && (
+              <Oracle realityQuestionFinalized={realityQuestionFinalized} kpi={kpiToken} />
+            )}
           </Flex>
         </Flex>
       </Flex>

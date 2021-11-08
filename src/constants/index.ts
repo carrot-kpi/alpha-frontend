@@ -7,6 +7,7 @@ import metamaskLogo from '../assets/metamask-logo.webp'
 import walletConnectLogo from '../assets/wallet-connect-logo.png'
 import ethereumLogo from '../assets/ethereum-logo.png'
 import xDaiLogo from '../assets/svgs/xdai-logo.svg'
+import { parseUnits } from '@ethersproject/units'
 
 export const ZERO_USD = new Amount<Currency>(Currency.USD, BigNumber.from(0))
 export const ZERO_DECIMAL = new Decimal(0)
@@ -46,6 +47,7 @@ export interface NetworkDetails {
     symbol: string
     decimals: number
   }
+  defaultBond: BigNumber
   rpcUrls: string[]
   blockExplorerUrls?: string[]
   iconUrls?: string[] // Currently ignored.
@@ -61,6 +63,7 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
       symbol: 'ETH',
       decimals: 18,
     },
+    defaultBond: parseUnits('0.1', 18),
     rpcUrls: ['https://rinkeby.infura.io/v3'],
     blockExplorerUrls: ['https://rinkeby.etherscan.io'],
   },
@@ -73,6 +76,7 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
       symbol: 'xDAI',
       decimals: 18,
     },
+    defaultBond: parseUnits('10', 18),
     rpcUrls: ['https://rpc.xdaichain.com'],
     blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
   },
