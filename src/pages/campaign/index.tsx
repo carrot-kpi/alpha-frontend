@@ -70,11 +70,11 @@ export function Campaign({
     [kpiId, chainId]
   )
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
-  console.log(kpiToken && kpiToken)
+
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(kpiId)
-  console.log('realityQuestionFinalized', realityQuestionFinalized)
+
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
   const collateralPriceUSD = useTokenPriceUSD(kpiToken?.collateral.currency)
   // these auto updates at each block, instead of using the static value attached to the kpi token ts instance

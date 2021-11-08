@@ -26,10 +26,9 @@ export function useRealityQuestion(kpiId: string | undefined): {
     bond: Zero,
     isArbitrating: false,
   })
-  console.log(questionData)
+
   useEffect(() => {
     if (!kpiId) return
-    console.log('data I need', questionData)
     setCurrentQuestionData(
       questionData && questionData.result
         ? {
@@ -45,17 +44,14 @@ export function useRealityQuestion(kpiId: string | undefined): {
     try {
       setTransactionLoader(true)
       if (realityContract && questionData && provider && !questionData.error && chainId) {
-        const currentNetwork = NETWORK_DETAIL[chainId]
-        const initialquestionData =
-          currentNetwork.chainName === 'xDai'
-            ? parseUnits('10', currentNetwork.nativeCurrency.decimals)
-            : parseUnits('0.01', currentNetwork.nativeCurrency.decimals)
         const bond =
-          questionData.result && !questionData.result[6].eq(Zero) ? questionData.result[6].mul(2) : initialquestionData
-        const txRecepir = await realityContract.submitAnswer(kpiId, answer, 0, { value: bond })
-        console.log(txRecepir)
-        await provider.waitForTransaction(txRecepir.hash)
-        console.log(txRecepir)
+          questionData.result && !questionData.result.bond.eq(Zero)
+            ? questionData.result.bond.mul(2)
+            : NETWORK_DETAIL[chainId].defaultBond
+        const txRecepit = await realityContract.submitAnswer(kpiId, answer, 0, { value: bond })
+
+        await provider.waitForTransaction(txRecepit.hash)
+
         setTransactionLoader(false)
       }
     } catch (e) {
