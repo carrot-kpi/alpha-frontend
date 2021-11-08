@@ -95,7 +95,6 @@
     ]
   },
   "dependencies": {
-    "big-number-input": "^1.0.3",
-    "react-input-slider": "^6.0.1"
+    "big-number-input": "^1.0.3"
   }
 }
