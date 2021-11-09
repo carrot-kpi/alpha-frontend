@@ -9,9 +9,21 @@ import { Card } from '../card'
 import { Countdown } from '../countdown'
 import { UndecoratedInternalLink } from '../undecorated-link'
 import { Title } from '../title'
+import { useEffect, useState } from 'react'
+import { remark } from 'remark'
+import strip from 'strip-markdown'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
+`
+
+const GoalText = styled(Text)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 `
 
 interface CampaignCardProps {
@@ -26,6 +38,25 @@ interface CampaignCardProps {
 export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
   const theme = useTheme()
   const collateralPriceUSD = useTokenPriceUSD(collateral?.currency)
+  const [question, setQuestion] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+    const stripMarkdown = async () => {
+      if (!goal) return
+      try {
+        const file = await remark().use(strip).process(goal)
+        const content = file?.toString()
+        if (content && !cancelled) setQuestion(content)
+      } catch (error) {
+        console.error('error stripping markdown', error)
+      }
+    }
+    stripMarkdown()
+    return () => {
+      cancelled = false
+    }
+  }, [goal])
 
   return (
     <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
@@ -33,8 +64,8 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         {loading ? <Skeleton width="40px" /> : creator}
       </Text>
       <Box mb="20px" flexGrow={1}>
-        <Text fontSize="20px">
-          {loading ? (
+        <GoalText fontSize="20px">
+          {loading || !goal ? (
             <Flex flexDirection="column">
               <Box mb="8px">
                 <Skeleton width="100%" />
@@ -47,9 +78,9 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
               </Box>
             </Flex>
           ) : (
-            goal
+            question
           )}
-        </Text>
+        </GoalText>
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>

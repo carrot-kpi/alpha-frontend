@@ -7,6 +7,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
+import { CID } from 'multiformats/cid'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -87,8 +88,9 @@ export function useFeaturedKpiTokens() {
         const featuredKpiTokensData = await carrotSubgraphClient.request<CarrotQueryResult>(FEATURED_KPI_TOKENS_QUERY, {
           ids: chainId && FEATURED_CAMPAIGNS[chainId].map((campaign) => campaign.id),
         })
-
-        const featuredKpiTokens = featuredKpiTokensData.kpiTokens.map((kpiToken) => {
+        const featuredKpiTokens: KpiToken[] = []
+        for (let i = 0; i < featuredKpiTokensData.kpiTokens.length; i++) {
+          const kpiToken = featuredKpiTokensData.kpiTokens[i]
           const collateralToken = new Token(
             chainId,
             getAddress(kpiToken.collateral.token.id),
@@ -96,26 +98,40 @@ export function useFeaturedKpiTokens() {
             kpiToken.collateral.token.symbol,
             kpiToken.collateral.token.name
           )
-          return new KpiToken(
-            chainId,
-            getAddress(kpiToken.id),
-            kpiToken.symbol,
-            kpiToken.name,
-            kpiToken.kpiId,
-            BigNumber.from(kpiToken.totalSupply),
-            kpiToken.oracle,
-            kpiToken.oracleQuestion.text,
-            BigNumber.from(kpiToken.lowerBound),
-            BigNumber.from(kpiToken.higherBound),
-            BigNumber.from(kpiToken.finalProgress),
-            DateTime.fromSeconds(parseInt(kpiToken.expiresAt)),
-            kpiToken.finalized,
-            kpiToken.kpiReached,
-            kpiToken.creator,
-            new Amount<Token>(collateralToken, BigNumber.from(kpiToken.collateral.amount)),
-            new Amount<Token>(collateralToken, BigNumber.from(kpiToken.fee))
+          let question = kpiToken.oracleQuestion.text
+          try {
+            const cid = CID.parse(question)
+            const response = await fetch(`https://ipfs.io/ipfs/${cid.toV0()}`)
+            if (!response.ok) {
+              console.warn('could not load question from ipfs')
+              continue
+            }
+            question = await response.text()
+          } catch (error) {
+            // not a cid
+          }
+          featuredKpiTokens.push(
+            new KpiToken(
+              chainId,
+              getAddress(kpiToken.id),
+              kpiToken.symbol,
+              kpiToken.name,
+              kpiToken.kpiId,
+              BigNumber.from(kpiToken.totalSupply),
+              kpiToken.oracle,
+              question,
+              BigNumber.from(kpiToken.lowerBound),
+              BigNumber.from(kpiToken.higherBound),
+              BigNumber.from(kpiToken.finalProgress),
+              DateTime.fromSeconds(parseInt(kpiToken.expiresAt)),
+              kpiToken.finalized,
+              kpiToken.kpiReached,
+              kpiToken.creator,
+              new Amount<Token>(collateralToken, BigNumber.from(kpiToken.collateral.amount)),
+              new Amount<Token>(collateralToken, BigNumber.from(kpiToken.fee))
+            )
           )
-        })
+        }
         if (!cancelled) {
           setFeaturedKpiTokens(featuredKpiTokens)
           setLoading(false)
