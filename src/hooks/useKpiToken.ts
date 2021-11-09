@@ -84,12 +84,16 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
       if (!cancelled) setLoading(true)
       try {
         const kpiTokenData = await carrotSubgraphClient.request<CarrotQueryResult>(KPI_TOKEN_QUERY, { kpiId })
-        if (!cancelled && (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1)) {
+        if (
+          !cancelled &&
+          (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1 || !kpiTokenData.kpiTokens[0].collateral)
+        ) {
           setLoading(false)
           setKpiToken(undefined)
           return
         }
         const rawKpiToken = kpiTokenData.kpiTokens[0]
+
         const collateralToken = new Token(
           chainId,
           getAddress(rawKpiToken.collateral.token.id),

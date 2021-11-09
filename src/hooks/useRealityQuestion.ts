@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useSingleCallResult } from '../state/multicall/hooks'
 import { useRealityContract } from './useContract'
 import { useActiveWeb3React } from './useActiveWeb3React'
@@ -26,7 +26,7 @@ export function useRealityQuestion(kpiId: string | undefined): {
     isArbitrating: false,
   })
 
-  useEffect(() => {
+  useCallback(() => {
     if (!kpiId) return
     setCurrentQuestionData(
       questionData && questionData.result
