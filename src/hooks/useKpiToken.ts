@@ -84,9 +84,9 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
       if (!cancelled) setLoading(true)
       try {
         const kpiTokenData = await carrotSubgraphClient.request<CarrotQueryResult>(KPI_TOKEN_QUERY, { kpiId })
-        if (!cancelled && (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1)) {
-          setLoading(false)
-          setKpiToken(undefined)
+        if (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1) {
+          if (!cancelled) setLoading(false)
+          if (!cancelled) setKpiToken(undefined)
           return
         }
         const rawKpiToken = kpiTokenData.kpiTokens[0]
