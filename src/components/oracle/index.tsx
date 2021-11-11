@@ -53,7 +53,7 @@ export const Oracle = ({
 }): ReactElement => {
   const [isScalar, setIsScalar] = useState(true)
   const [loader, setLoader] = useState(true)
-  const { submitAnswer, transactionLoader, currentQuestionData } = useRealityQuestion(kpi?.kpiId)
+  const { submitAnswer, transactionLoader, currentQuestionData, getData } = useRealityQuestion(kpi?.kpiId)
   const { chainId } = useActiveWeb3React()
 
   const [bigNumberValue, setBigNumberValue] = useState('')
@@ -62,8 +62,8 @@ export const Oracle = ({
 
   useEffect(() => {
     if (!kpi) setLoader(true)
-    else setIsScalar(isScalarQuestion(kpi.lowerBound, kpi.higherBound)), setLoader(false)
-  }, [kpi])
+    else setIsScalar(isScalarQuestion(kpi.lowerBound, kpi.higherBound)), setLoader(false), getData()
+  }, [kpi, getData])
 
   const handelRadioChange = (value: any) => {
     const target = value.target.value
@@ -81,13 +81,18 @@ export const Oracle = ({
     <Card flexDirection="column" m="8px">
       <Title mb="8px">Oracle</Title>
       {realityQuestionFinalized ? (
-        <Text>
-          Reality.eth (
-          <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpi ? kpi.kpiId : ''}`}>
-            see question
-          </ExternalLink>
-          )
-        </Text>
+        <>
+          <Text>
+            Reality.eth (
+            <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpi ? kpi.kpiId : ''}`}>
+              see question
+            </ExternalLink>
+            )
+          </Text>
+          {currentQuestionData?.answer && (
+            <Text color={'#979797'}>Finalized Answer {formatEther(currentQuestionData?.answer)}</Text>
+          )}
+        </>
       ) : (
         <>
           {isScalar ? (

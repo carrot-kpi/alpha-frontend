@@ -129,7 +129,6 @@ export const getBlocksFromTimestamps = async (
 }
 
 export const numberToByte32 = (num: string | number): string => {
-
   const hex = BigNumber.from(num).toHexString()
 
   const frontZeros = '0'.repeat(66 - hex.length)
@@ -137,8 +136,7 @@ export const numberToByte32 = (num: string | number): string => {
   return `0x${frontZeros}${hex.split('0x')[1]}`
 }
 
-export const isScalarQuestion=(lowerBound:BigNumber ,higherBound:BigNumber):boolean=>{
-
-  if(lowerBound.isZero() && higherBound.eq(BigNumber.from(1))) return false
+export const isScalarQuestion = (lowerBound: BigNumber, higherBound: BigNumber): boolean => {
+  if (lowerBound.isZero() && higherBound.eq(BigNumber.from(1))) return false
   return true
 }

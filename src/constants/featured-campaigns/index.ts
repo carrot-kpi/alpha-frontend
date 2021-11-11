@@ -57,6 +57,15 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       id: '0xa35ff0288c647f74ca0536dbf0aed820b66d27e4',
       kpiId: '0xefa2051e965e72c2776be6a870f8d25fc8bbde8af7b92e9a3e5adbae3f9923a9',
     },
+    // {
+    //   metrics: [
+    //     new TvlMetric(ChainId.RINKEBY, swapr, agave, DateTime.now().minus({ days: 10 }), DateTime.now(), 86400),
+    //   ],
+    //   startDate: DateTime.now().minus({ days: 10 }),
+    //   endDate: DateTime.now(),
+    //   id: '0xf02abdfc4fc8552653c1f589bd413bcdba8a9f73',
+    //   kpiId: '0xaed3a7223003fdb72d8424beb00457732e0173fdde9724c69230a6c7422ebd9a',
+    // },
   ],
   [ChainId.XDAI]: [
     {

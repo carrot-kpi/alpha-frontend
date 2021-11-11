@@ -10,6 +10,7 @@ export function useRealityQuestion(kpiId: string | undefined): {
   transactionLoader: boolean
   submitAnswer: (answer: string) => Promise<void>
   currentQuestionData: { answer: string; bond: BigNumber }
+  getData: () => void
 } {
   const realityContract = useRealityContract(true)
   const callParams = useMemo(() => [kpiId], [kpiId])
@@ -26,8 +27,9 @@ export function useRealityQuestion(kpiId: string | undefined): {
     isArbitrating: false,
   })
 
-  useCallback(() => {
+  const getData = useCallback(() => {
     if (!kpiId) return
+
     setCurrentQuestionData(
       questionData && questionData.result
         ? {
@@ -50,14 +52,13 @@ export function useRealityQuestion(kpiId: string | undefined): {
         const txRecepit = await realityContract.submitAnswer(kpiId, answer, 0, { value: bond })
 
         await provider.waitForTransaction(txRecepit.hash)
-
         setTransactionLoader(false)
+        getData()
       }
     } catch (e) {
-      console.log(e)
       setTransactionLoader(false)
     }
   }
 
-  return { transactionLoader, submitAnswer, currentQuestionData }
+  return { transactionLoader, submitAnswer, currentQuestionData, getData }
 }
