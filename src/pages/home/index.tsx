@@ -78,7 +78,7 @@ export function Home(): ReactElement {
           minWidth="auto"
         />
       </Flex>
-      <FeaturedCampaignsContainer mb="60px" py="60px" flexDirection="column" alignItems="center">
+      <FeaturedCampaignsContainer mb="120px" py="60px" flexDirection="column" alignItems="center">
         <Text fontSize="28px" fontWeight="700" mb="28px" textAlign="center">
           Featured campaigns
         </Text>

@@ -7,8 +7,8 @@ export const CARROT_SUBGRAPH_CLIENT: { [chainId in ChainId]: GraphQLClient } = {
 }
 
 export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: GraphQLClient } = {
-  [ChainId.RINKEBY]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/luzzif/swapr_rinkeby'),
-  [ChainId.XDAI]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai'),
+  [ChainId.RINKEBY]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/luzzif/swapr-rinkeby-new'),
+  [ChainId.XDAI]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai-v2'),
 }
 
 export const HONEYSWAP_SUBGRAPH_CLIENT: { [chainId: number]: GraphQLClient } = {

@@ -6,6 +6,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
+import { CID } from 'multiformats/cid'
 
 const KPI_TOKEN_QUERY = gql`
   query kpiToken($kpiId: ID!) {
@@ -84,12 +85,9 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
       if (!cancelled) setLoading(true)
       try {
         const kpiTokenData = await carrotSubgraphClient.request<CarrotQueryResult>(KPI_TOKEN_QUERY, { kpiId })
-        if (
-          !cancelled &&
-          (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1 || !kpiTokenData.kpiTokens[0].collateral)
-        ) {
-          setLoading(false)
-          setKpiToken(undefined)
+        if (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1) {
+          if (!cancelled) setLoading(false)
+          if (!cancelled) setKpiToken(undefined)
           return
         }
         const rawKpiToken = kpiTokenData.kpiTokens[0]
@@ -101,6 +99,18 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
           rawKpiToken.collateral.token.symbol,
           rawKpiToken.collateral.token.name
         )
+        let question = rawKpiToken.oracleQuestion.text
+        try {
+          const cid = CID.parse(question)
+          const response = await fetch(`https://ipfs.io/ipfs/${cid.toV0()}`)
+          if (!response.ok) {
+            console.warn('could not load question from ipfs')
+            return
+          }
+          question = await response.text()
+        } catch (error) {
+          // not a cid
+        }
         const kpiToken = new KpiToken(
           chainId,
           getAddress(rawKpiToken.id),
@@ -109,7 +119,7 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
           rawKpiToken.kpiId,
           BigNumber.from(rawKpiToken.totalSupply),
           rawKpiToken.oracle,
-          rawKpiToken.oracleQuestion.text,
+          question,
           BigNumber.from(rawKpiToken.lowerBound),
           BigNumber.from(rawKpiToken.higherBound),
           BigNumber.from(rawKpiToken.finalProgress),

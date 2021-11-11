@@ -27,6 +27,8 @@ import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 import { Twitter } from 'react-feather'
 import { Button } from '../../components/button'
 import { Oracle } from '../../components/oracle'
+import { remark } from 'remark'
+import remarkHtml from 'remark-html'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -38,6 +40,17 @@ export enum Status {
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
+`
+
+const MarkdownDiv = styled.div`
+  > h1 {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  > p {
+    font-size: 16px;
+  }
 `
 
 const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
@@ -81,9 +94,28 @@ export function Campaign({
   const { loading: loadingKpiTokenFinalized, finalized: kpiTokenFinalized } = useIsKpiTokenFinalized(kpiToken)
   const { loading: loadingKpiTokenProgress, progress: kpiTokenProgress } = useKpiTokenProgress(kpiToken)
 
+  const [question, setQuestion] = useState('')
   const [status, setStatus] = useState(Status.AWAITING_ANSWER)
   const [currentPeriodEnded, setCurrentPeriodEnded] = useState(false)
   const [kpiProgressPercentage, setKpiProgressPercentage] = useState(new Decimal('0'))
+
+  useEffect(() => {
+    let cancelled = false
+    const markdownToHtml = async () => {
+      if (!kpiToken) return
+      try {
+        const file = await remark().use(remarkHtml, { sanitize: true }).process(kpiToken.question)
+        const content = file?.toString()
+        if (content && !cancelled) setQuestion(content)
+      } catch (error) {
+        console.error('error converting markdown to html', error)
+      }
+    }
+    markdownToHtml()
+    return () => {
+      cancelled = false
+    }
+  }, [kpiToken])
 
   useEffect(() => {
     if (!kpiToken || loadingKpiTokenProgress) return
@@ -145,7 +177,7 @@ export function Campaign({
                     <Skeleton width="120px" />
                   </>
                 ) : (
-                  kpiToken.question
+                  <MarkdownDiv dangerouslySetInnerHTML={{ __html: question }} />
                 )}
               </Text>
               <Flex flexDirection="column" mb="12px">
@@ -165,7 +197,7 @@ export function Campaign({
               <Box>
                 <UndecoratedExternalLink
                   title="Tweet this"
-                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help me reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}`}
+                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help me reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}?chainId=${chainId}`}
                 >
                   <TweetButton icon={<Twitter size="16px" />}>Tweet about this</TweetButton>
                 </UndecoratedExternalLink>
