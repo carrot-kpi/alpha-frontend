@@ -12,6 +12,9 @@ import { Title } from '../title'
 import { useEffect, useState } from 'react'
 import { remark } from 'remark'
 import strip from 'strip-markdown'
+import { useKpiToken } from '../../hooks/useKpiToken'
+import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
+import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
@@ -37,8 +40,11 @@ interface CampaignCardProps {
 
 export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
   const theme = useTheme()
+  const { account } = useActiveWeb3React()
   const collateralPriceUSD = useTokenPriceUSD(collateral?.currency)
   const [question, setQuestion] = useState('')
+  const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId ? kpiId : '')
+  const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
 
   useEffect(() => {
     let cancelled = false
@@ -60,9 +66,21 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
 
   return (
     <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
-      <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
-        {loading ? <Skeleton width="40px" /> : creator}
-      </Text>
+      <Flex justifyContent={'space-between'}>
+        <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
+          {loading ? <Skeleton width="40px" /> : creator}
+        </Text>
+        <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
+          {loadingKpiToken && loadingKpiTokenBalance ? (
+            <Skeleton width="40px" />
+          ) : kpiTokenBalance && !kpiTokenBalance.isZero() ? (
+            `${kpiTokenBalance.toFixed(4)} ${kpiTokenBalance.currency.symbol}`
+          ) : (
+            ''
+          )}
+        </Text>
+      </Flex>
+
       <Box mb="20px" flexGrow={1}>
         <GoalText fontSize="20px">
           {loading || !goal ? (

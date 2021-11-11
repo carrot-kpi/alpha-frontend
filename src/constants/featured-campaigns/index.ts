@@ -61,8 +61,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       metrics: [],
       startDate: DateTime.now().minus({ days: 10 }),
       endDate: DateTime.now().plus({ days: 10 }),
-      id: '0xea4cc46991349387b8881d79001c2ccbec199ffb',
-      kpiId: '0x686d153c12d0f131ea361615dd2c3bf0b6968a9150b5b22c85e3007c9849208a',
+      id: '0xd125e2d213366016adc6f700813213f28706965f',
+      kpiId: '0x1a5e0833de549595bc56b576dba3239db6854f362df5e00c7eb20eab0d8d4193',
     },
   ],
   [ChainId.XDAI]: [
