@@ -9,7 +9,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 export function useRealityQuestion(kpiId: string | undefined): {
   transactionLoader: boolean
   submitAnswer: (answer: string) => Promise<void>
-  currentQuestionData: { answer: string; bond: BigNumber }
+  currentQuestionData: { answer: string; bond: BigNumber; isArbitrating: boolean }
   getData: () => void
 } {
   const realityContract = useRealityContract(true)

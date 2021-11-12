@@ -59,7 +59,7 @@ export const Oracle = ({
   const [bigNumberValue, setBigNumberValue] = useState('')
   const [radioValue, setRadioValue] = useState<RealityBinary>(RealityBinary.YES)
   const { decimals, symbol } = useNativeCurrency()
-
+  console.log(currentQuestionData)
   useEffect(() => {
     if (!kpi) setLoader(true)
     else setIsScalar(isScalarQuestion(kpi.lowerBound, kpi.higherBound)), setLoader(false), getData()
@@ -80,7 +80,7 @@ export const Oracle = ({
   return (
     <Card flexDirection="column" m="8px">
       <Title mb="8px">Oracle</Title>
-      {realityQuestionFinalized ? (
+      {realityQuestionFinalized || currentQuestionData.isArbitrating ? (
         <>
           <Text>
             Reality.eth (
@@ -89,9 +89,13 @@ export const Oracle = ({
             </ExternalLink>
             )
           </Text>
-          {currentQuestionData?.answer && (
-            <Text color={'#979797'}>Finalized Answer {formatEther(currentQuestionData?.answer)}</Text>
-          )}
+          <Text color={'#979797'}>
+            {currentQuestionData.isArbitrating
+              ? `Question is arbitrating`
+              : currentQuestionData?.answer
+              ? `Finalized Answer ${formatEther(currentQuestionData?.answer)}`
+              : ''}
+          </Text>
         </>
       ) : (
         <>
