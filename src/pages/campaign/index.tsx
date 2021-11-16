@@ -26,7 +26,6 @@ import { Charts } from '../../components/charts'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 import { Twitter } from 'react-feather'
 import { Button } from '../../components/button'
-import { Oracle } from '../../components/oracle'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
 
@@ -95,7 +94,7 @@ export function Campaign({
   const { loading: loadingKpiTokenProgress, progress: kpiTokenProgress } = useKpiTokenProgress(kpiToken)
 
   const [question, setQuestion] = useState('')
-  const [status, setStatus] = useState(Status.AWAITING_ANSWER)
+  const [status, setStatus] = useState<Status | null>(null)
   const [currentPeriodEnded, setCurrentPeriodEnded] = useState(false)
   const [kpiProgressPercentage, setKpiProgressPercentage] = useState(new Decimal('0'))
 
@@ -233,19 +232,15 @@ export function Campaign({
                     )}
                   </Text>
                 </Flex>
-                {kpiTokenBalance && !kpiTokenBalance.isZero() && (
-                  <>
-                    <DividerBox mb="20px" />
-                    <Box>
-                      <CampaignStatusAndActions
-                        status={status}
-                        kpiToken={kpiToken}
-                        kpiTokenBalance={kpiTokenBalance}
-                        kpiProgressPercentage={kpiProgressPercentage}
-                      />
-                    </Box>
-                  </>
-                )}
+                <DividerBox my="20px" />
+                <Box>
+                  <CampaignStatusAndActions
+                    status={status}
+                    kpiToken={kpiToken}
+                    kpiTokenBalance={kpiTokenBalance}
+                    kpiProgressPercentage={kpiProgressPercentage}
+                  />
+                </Box>
               </Card>
             )}
             <Charts metrics={featuredCampaignSpec?.metrics} />
@@ -277,9 +272,6 @@ export function Campaign({
                 )}
               </Text>
             </Card>
-            {!loadingRealityQuestionFinalized && (
-              <Oracle realityQuestionFinalized={realityQuestionFinalized} kpi={kpiToken} />
-            )}
           </Flex>
         </Flex>
       </Flex>

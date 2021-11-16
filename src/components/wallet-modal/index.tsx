@@ -42,7 +42,7 @@ export const WalletModal = ({ open, onDismiss }: WalletConnectionModalProps) => 
         {Object.keys(transactions).length > 0 && chainId ? (
           Object.entries(transactions).map(([hash, transaction]) => {
             return (
-              <Box key={hash}>
+              <Box key={hash} mb="8px">
                 <UndecoratedExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
                   <Flex justifyContent="space-between" alignItems="center">
                     <EllipsizedText>{transaction.summary}</EllipsizedText>

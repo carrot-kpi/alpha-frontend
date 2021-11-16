@@ -153,7 +153,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .custom-toast-body {
-      font-family: "Inter";
+      font-family: "Manrope";
   }
 
   .Toastify__toast {

@@ -15,7 +15,9 @@ export const ZERO_DECIMAL = new Decimal(0)
 export const CREATORS_NAME_MAP: { [address: string]: string } = {
   '0xb4124ceb3451635dacedd11767f004d8a28c6ee7': 'Luzzif',
 }
-export const INVALID_ANSWER_ID = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+export const INVALID_REALITY_ANSWER = BigNumber.from(
+  '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+)
 
 export interface WalletInfo {
   connector: AbstractConnector

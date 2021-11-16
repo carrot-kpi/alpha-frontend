@@ -1,224 +1,161 @@
-import { ReactElement, useEffect, useState } from 'react'
-import { Card } from '../card'
-import { Title } from '../title'
-import { Button, Flex, Text } from 'rebass'
-import { ChainId, KpiToken } from '@carrot-kpi/sdk'
+import { ReactElement, useCallback, useMemo, useState } from 'react'
+import { Box, Flex } from 'rebass'
+import { Amount, KpiToken } from '@carrot-kpi/sdk'
 
-import { BigNumberInput } from 'big-number-input'
-import { isScalarQuestion, numberToByte32 } from '../../utils'
-import { INVALID_ANSWER_ID, NETWORK_DETAIL } from '../../constants'
+import { INVALID_REALITY_ANSWER } from '../../constants'
 import { useRealityQuestion } from '../../hooks/useRealityQuestion'
-import Skeleton from 'react-loading-skeleton'
-import { formatEther, formatUnits } from '@ethersproject/units'
+import { formatUnits, parseUnits } from '@ethersproject/units'
 import { Zero } from '@ethersproject/constants'
 import styled from 'styled-components'
 import { useNativeCurrency } from '../../hooks/useNativeCurrency'
+import { Button } from '../button'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { BigNumber } from 'ethers'
-import { ExternalLink } from '../undecorated-link'
+import { useNativeCurrencyBalance } from '../../hooks/useNativeCurrencyBalance'
+import { NumberInput } from '../input/number'
+import { useAnswerRealityQuestionCallback } from '../../hooks/useAnswerRealityQuestionCallback'
+import { numberToByte32 } from '../../utils'
 
 enum RealityBinary {
   YES,
   NO,
   INVALID,
 }
-const ExtraData = styled.div`
-  position: relative;
-  left: 28px;
-  font-weight: 500;
-  color: #979797;
-  font-size: 9px;
-  margin-bottom: 9px;
-`
+
 const StyledLabel = styled.label`
   margin-left: 7px;
 `
-const StyledSubmitButton = styled(Button)`
-  border-radius: 6px !important;
-  font-weight: 700;
-  font-size: 14px;
-`
-const StyledInvalidButton = styled(StyledSubmitButton)`
-  border: 1px solid #ff782d !important;
-`
-const AdditionalScalarData = styled(ExtraData)`
-  margin-top: 5px;
-`
-export const Oracle = ({
-  kpi,
-  realityQuestionFinalized,
-}: {
-  kpi: KpiToken | undefined
-  realityQuestionFinalized: boolean
-}): ReactElement => {
-  const [isScalar, setIsScalar] = useState(true)
-  const [loader, setLoader] = useState(true)
-  const { submitAnswer, transactionLoader, currentQuestionData, getData } = useRealityQuestion(kpi?.kpiId)
-  const { chainId } = useActiveWeb3React()
 
-  const [bigNumberValue, setBigNumberValue] = useState('')
-  const [radioValue, setRadioValue] = useState<RealityBinary>(RealityBinary.YES)
-  const { decimals, symbol } = useNativeCurrency()
-  console.log(currentQuestionData)
-  useEffect(() => {
-    if (!kpi) setLoader(true)
-    else setIsScalar(isScalarQuestion(kpi.lowerBound, kpi.higherBound)), setLoader(false), getData()
-  }, [kpi, getData])
+export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
+  const { account } = useActiveWeb3React()
+  const kpiId = useMemo(() => kpiToken?.kpiId, [kpiToken?.kpiId])
+  const { data: questionData } = useRealityQuestion(kpiId)
+  const nativeCurrency = useNativeCurrency()
+  const { balance: nativeCurrencyBalance } = useNativeCurrencyBalance(account)
+  const currentAnswerInvalid = useMemo(() => {
+    return !questionData.bond.eq(Zero) && questionData.answer.eq(INVALID_REALITY_ANSWER)
+  }, [questionData.answer, questionData.bond])
+  const minimumBond = useMemo(
+    () => new Amount(nativeCurrency, questionData.bond.mul(2)),
+    [nativeCurrency, questionData.bond]
+  )
+  const binary = useMemo(() => kpiToken && kpiToken.lowerBound.eq('0') && kpiToken.higherBound.eq('1'), [kpiToken])
+  const [answerBond, setAnswerBond] = useState('')
+  const [scalarAnswer, setScalarAnswer] = useState('')
+  const [radioValue, setRadioValue] = useState<RealityBinary | null>(null)
+  const [loading, setLoading] = useState(false)
+  const bondButtonDisabled = useMemo(() => {
+    if (loading) return true
+    if (nativeCurrencyBalance.lt(minimumBond)) return true
+    if (binary && !!radioValue && Number(radioValue) !== 0) return true
+    if (!binary && (!scalarAnswer || isNaN(parseFloat(scalarAnswer)))) return true
+    if (minimumBond.eq(0) && (!answerBond || parseUnits(answerBond, nativeCurrency.decimals).eq(0))) return true
+    return false
+  }, [
+    answerBond,
+    binary,
+    minimumBond,
+    nativeCurrency.decimals,
+    nativeCurrencyBalance,
+    radioValue,
+    scalarAnswer,
+    loading,
+  ])
+  const finalAnswer = useMemo(() => {
+    if (binary && !!radioValue) return numberToByte32(radioValue)
+    if (!binary && !!scalarAnswer && !isNaN(parseFloat(scalarAnswer)))
+      return numberToByte32(parseUnits(scalarAnswer, 18).toString())
+    return undefined
+  }, [binary, radioValue, scalarAnswer])
+  const finalBond = useMemo(() => {
+    if (minimumBond.eq(0))
+      return parseUnits(!!answerBond && !answerBond.endsWith('.') ? answerBond : '0', nativeCurrency.decimals)
+    return minimumBond.raw
+  }, [answerBond, minimumBond, nativeCurrency.decimals])
+  const answer = useAnswerRealityQuestionCallback(kpiToken, finalAnswer, finalBond)
 
-  const handelRadioChange = (value: any) => {
-    const target = value.target.value
-    setRadioValue(parseInt(target))
-  }
+  const handleRadioChange = useCallback((value: any) => {
+    setRadioValue(parseInt(value.target.value))
+  }, [])
 
-  const intiaiteSubmit = async (isInvalid = false) => {
-    const answer =
-      isInvalid || radioValue === RealityBinary.INVALID
-        ? INVALID_ANSWER_ID
-        : numberToByte32(isScalar ? bigNumberValue : radioValue)
-    await submitAnswer(answer)
-  }
+  const handleAnswer = useCallback(() => {
+    setLoading(true)
+    setAnswerBond('')
+    setScalarAnswer('')
+    setRadioValue(null)
+    answer().finally(() => {
+      setLoading(false)
+    })
+  }, [answer])
+
   return (
-    <Card flexDirection="column" m="8px">
-      <Title mb="8px">Oracle</Title>
-      {realityQuestionFinalized || currentQuestionData.isArbitrating ? (
+    <Flex flexDirection="column">
+      {binary ? (
         <>
-          <Text>
-            Reality.eth (
-            <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpi ? kpi.kpiId : ''}`}>
-              see question
-            </ExternalLink>
-            )
-          </Text>
-          <Text color={'#979797'}>
-            {currentQuestionData.isArbitrating
-              ? `Question is arbitrating`
-              : currentQuestionData?.answer
-              ? `Finalized Answer ${formatEther(currentQuestionData?.answer)}`
-              : ''}
-          </Text>
+          <Box>
+            <input
+              type="radio"
+              name="react-tips"
+              value={RealityBinary.YES}
+              checked={radioValue === RealityBinary.YES}
+              disabled={questionData.bond.gt(0) && questionData.answer.eq(1)}
+              onChange={handleRadioChange}
+            />
+            <StyledLabel>Goal reached</StyledLabel>
+          </Box>
+          <Box>
+            <input
+              type="radio"
+              name="react-tips"
+              value={RealityBinary.NO}
+              checked={radioValue === RealityBinary.NO}
+              disabled={questionData.bond.gt(0) && questionData.answer.eq(0)}
+              onChange={handleRadioChange}
+            />
+            <StyledLabel>Goal not reached</StyledLabel>
+          </Box>
+          <Box mb="12px">
+            <input
+              type="radio"
+              name="react-tips"
+              value={RealityBinary.INVALID}
+              checked={radioValue === RealityBinary.INVALID}
+              disabled={questionData.bond.gt(0) && questionData.answer.eq(INVALID_REALITY_ANSWER)}
+              onChange={handleRadioChange}
+            />
+            <StyledLabel>Invalid goal</StyledLabel>
+          </Box>
         </>
       ) : (
-        <>
-          {isScalar ? (
-            <>
-              {loader ? (
-                <Skeleton width={'158px'} height={'24px'} />
-              ) : (
-                <>
-                  <BigNumberInput decimals={18} value={bigNumberValue} onChange={setBigNumberValue} />
-                  {!currentQuestionData.bond.eq(Zero) && (
-                    <AdditionalScalarData>
-                      {formatUnits(currentQuestionData.bond, decimals)} {symbol} bonded on{' '}
-                      {currentQuestionData.answer === INVALID_ANSWER_ID
-                        ? 'Invalid'
-                        : formatUnits(currentQuestionData.answer, 18)}
-                    </AdditionalScalarData>
-                  )}
-                </>
-              )}
-            </>
-          ) : (
-            <form>
-              {loader ? (
-                <Flex flexDirection={'column'}>
-                  <Skeleton width={'168px'} height={'35px'} />
-                  <Skeleton width={'168px'} height={'35px'} />
-                  <Skeleton width={'168px'} height={'35px'} />
-                </Flex>
-              ) : (
-                <>
-                  <div>
-                    <input
-                      type="radio"
-                      name="react-tips"
-                      value={RealityBinary.YES}
-                      checked={radioValue === RealityBinary.YES}
-                      onChange={handelRadioChange}
-                    />
-                    <StyledLabel>Reached</StyledLabel>
-
-                    <ExtraData>
-                      {!currentQuestionData.bond.eq(Zero) &&
-                        BigNumber.from(currentQuestionData.answer).isZero() &&
-                        `${formatEther(currentQuestionData.bond)} ${symbol} Bonded`}
-                    </ExtraData>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      name="react-tips"
-                      value={RealityBinary.NO}
-                      checked={radioValue === RealityBinary.NO}
-                      onChange={handelRadioChange}
-                    />
-                    <StyledLabel>Not Reached</StyledLabel>
-
-                    <ExtraData>
-                      {!currentQuestionData.bond.eq(Zero) &&
-                        BigNumber.from(currentQuestionData.answer).eq(BigNumber.from(1)) &&
-                        `${formatEther(currentQuestionData.bond)} ${symbol} Bonded`}
-                    </ExtraData>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      name="react-tips"
-                      value={RealityBinary.INVALID}
-                      checked={radioValue === RealityBinary.INVALID}
-                      onChange={handelRadioChange}
-                    />
-
-                    <StyledLabel>Invalid</StyledLabel>
-
-                    <ExtraData>
-                      {!currentQuestionData.bond.eq(Zero) &&
-                        currentQuestionData.answer === INVALID_ANSWER_ID &&
-                        `${formatEther(currentQuestionData.bond)} ${symbol} Bonded`}
-                    </ExtraData>
-                  </div>
-                </>
-              )}
-            </form>
-          )}
-          {transactionLoader || loader ? (
-            <>
-              <Skeleton width={'139px'} height={'38px'} />
-              {isScalar && <Skeleton width={'152px'} height={'38px'} />}
-            </>
-          ) : (
-            <>
-              <StyledSubmitButton
-                backgroundColor="#FF782D"
-                marginTop={'9px'}
-                disabled={loader}
-                onClick={() => {
-                  intiaiteSubmit()
-                }}
-              >
-                Bond{' '}
-                {currentQuestionData.bond.gt(Zero)
-                  ? `${formatUnits(currentQuestionData.bond.mul(2), decimals)} ${symbol}`
-                  : `${formatEther(NETWORK_DETAIL[chainId ? chainId : ChainId.XDAI].defaultBond)} ${symbol}`}
-              </StyledSubmitButton>
-              {isScalar && (
-                <StyledInvalidButton
-                  color="#FF782D"
-                  marginTop={'9px'}
-                  backgroundColor="white"
-                  onClick={() => {
-                    intiaiteSubmit(true)
-                  }}
-                >
-                  Invalid{' '}
-                  {currentQuestionData.bond.gt(Zero)
-                    ? `${formatUnits(currentQuestionData.bond.mul(2), decimals)} ${symbol}`
-                    : `${formatEther(NETWORK_DETAIL[chainId ? chainId : ChainId.XDAI].defaultBond)} ${symbol}`}
-                </StyledInvalidButton>
-              )}
-            </>
-          )}
-        </>
+        <Box mb="12px" flex="1">
+          <NumberInput placeholder="Answer" value={scalarAnswer} onChange={setScalarAnswer} />
+        </Box>
       )}
-    </Card>
+      <Box mb="24px">
+        {questionData.bond.isZero()
+          ? 'No answer submitted yet'
+          : currentAnswerInvalid
+          ? `Goal currently market as invalid with ${formatUnits(questionData.bond, nativeCurrency.decimals)} ${
+              nativeCurrency.symbol
+            } bonded`
+          : `Currently submitted answer: ${
+              !binary
+                ? formatUnits(questionData.answer, 18)
+                : questionData.answer.eq('1')
+                ? 'goal reached'
+                : 'goal not reached'
+            } (${formatUnits(questionData.bond, nativeCurrency.decimals)} ${nativeCurrency.symbol} bonded)`}
+      </Box>
+      <Flex>
+        {minimumBond.eq('0') && (
+          <Box mr="12px" flex="1">
+            <NumberInput placeholder="Bond" value={answerBond} onChange={setAnswerBond} />
+          </Box>
+        )}
+        <Button primary disabled={bondButtonDisabled} onClick={handleAnswer}>
+          Bond {minimumBond.eq(0) ? answerBond : formatUnits(minimumBond.raw, nativeCurrency.decimals)}{' '}
+          {nativeCurrency.symbol}
+        </Button>
+      </Flex>
+    </Flex>
   )
 }
