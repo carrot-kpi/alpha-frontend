@@ -162,7 +162,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .Toastify__progress-bar--info {
-    background-color: ${(props) => props.theme.accent};
+      background-color: ${(props) => props.theme.accent};
   }
 
   .Toastify__toast-body {
