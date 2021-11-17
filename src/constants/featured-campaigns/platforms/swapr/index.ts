@@ -240,6 +240,7 @@ export class Swapr implements DexPlatform {
 
     return Object.entries(tokenPriceNativeCurrencyData).reduce(
       (accumulator: ChartDataPoint[], [timestampString, token]) => {
+        if (!token) return accumulator
         const { nativeCurrencyPrice } = nativeCurrencyUsdData[timestampString]
         const usdPrice = new Amount(
           nativeCurrency,
