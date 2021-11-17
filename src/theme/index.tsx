@@ -222,9 +222,15 @@ export const GlobalStyle = createGlobalStyle`
     opacity: 1;
   }
   
+  .slick-arrow.slick-disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+  
   .slick-dots { 
     bottom: -32px;
   }
+
 `
 
 declare module 'styled-components' {
