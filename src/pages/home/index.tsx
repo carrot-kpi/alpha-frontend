@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useLayoutEffect, useState } from 'react'
 import { Box, Flex, Text, Image } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
@@ -14,6 +14,9 @@ import incentivizeImage from '../../assets/incentivize.png'
 import rewardImage from '../../assets/reward.png'
 import { Card } from '../../components/card'
 import { transparentize } from 'polished'
+import Slider from 'react-slick'
+import { useIsMobile } from '../../hooks/useIsMobile'
+import useMedia from 'react-use/lib/useMedia'
 
 const FeaturedCampaignsContainer = styled(Card)`
   border: none;
@@ -22,10 +25,23 @@ const FeaturedCampaignsContainer = styled(Card)`
   background-color: ${(props) => transparentize(0.9, props.theme.accent)};
 `
 
+const StyledSlider = styled(Slider)`
+  width: 100%;
+`
+
 export function Home(): ReactElement {
   const { chainId } = useActiveWeb3React()
   const theme = useTheme()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
+  const [slidesToShow, setSlidesToShow] = useState(3)
+  const mobile = useIsMobile()
+  const tablet = useMedia(`(max-width: 1024px)`)
+
+  useLayoutEffect(() => {
+    if (mobile) setSlidesToShow(1)
+    else if (tablet) setSlidesToShow(2)
+    else setSlidesToShow(3)
+  }, [tablet, mobile])
 
   return (
     <Flex flexDirection="column" alignItems="center">
@@ -78,35 +94,36 @@ export function Home(): ReactElement {
           minWidth="auto"
         />
       </Flex>
-      <FeaturedCampaignsContainer mb="120px" py="60px" flexDirection="column" alignItems="center">
+      <FeaturedCampaignsContainer mb="120px" pt="60px" pb="100px" flexDirection="column" alignItems="center">
         <Text fontSize="28px" fontWeight="700" mb="28px" textAlign="center">
           Featured campaigns
         </Text>
-        <Flex
-          flexDirection={['column', 'row']}
-          justifyContent={['flex-start', 'center']}
-          alignItems={['center', 'stretch']}
-          width="100%"
-        >
-          {loadingFeaturedKpiTokens
-            ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.XDAI].length).fill(null).map((_, index) => {
-                return (
-                  <Box key={index} p="8px" width="100%" maxWidth={['100%', '320px']}>
-                    <CampaignCard loading />
-                  </Box>
-                )
-              })
-            : featuredKpiTokens.map((featuredKpiToken) => (
-                <Box key={featuredKpiToken.kpiId} p="8px" width="100%" maxWidth={['100%', '320px']}>
-                  <CampaignCard
-                    kpiId={featuredKpiToken.kpiId}
-                    creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || shortenAddress(featuredKpiToken.creator)}
-                    expiresAt={featuredKpiToken.expiresAt}
-                    goal={featuredKpiToken.question}
-                    collateral={featuredKpiToken.collateral}
-                  />
-                </Box>
-              ))}
+        <Flex width="100%" justifyContent="center">
+          <Box width={['100%', '80%', '70%', '55%']} px="16px">
+            <StyledSlider dots infinite={false} slidesToShow={slidesToShow}>
+              {loadingFeaturedKpiTokens
+                ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.XDAI].length).fill(null).map((_, index) => {
+                    return (
+                      <Box key={index} width="100%" p="8px" maxWidth={['100%', '320px']}>
+                        <CampaignCard loading />
+                      </Box>
+                    )
+                  })
+                : featuredKpiTokens.map((featuredKpiToken) => (
+                    <Box key={featuredKpiToken.kpiId} width="100%" p="8px" maxWidth={['100%', '320px']}>
+                      <CampaignCard
+                        kpiId={featuredKpiToken.kpiId}
+                        creator={
+                          CREATORS_NAME_MAP[featuredKpiToken.creator] || shortenAddress(featuredKpiToken.creator)
+                        }
+                        expiresAt={featuredKpiToken.expiresAt}
+                        goal={featuredKpiToken.question}
+                        collateral={featuredKpiToken.collateral}
+                      />
+                    </Box>
+                  ))}
+            </StyledSlider>
+          </Box>
         </Flex>
       </FeaturedCampaignsContainer>
       <Flex width={['100%', '80%', '70%', '55%']} flexDirection="column" alignItems="center">

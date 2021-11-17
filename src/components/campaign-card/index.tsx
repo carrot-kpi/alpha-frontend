@@ -24,6 +24,7 @@ const GoalText = styled(Text)`
   -webkit-line-clamp: 4;
   line-clamp: 4;
   -webkit-box-orient: vertical;
+  height: 84px;
 `
 
 interface CampaignCardProps {
@@ -59,7 +60,14 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
   }, [goal])
 
   return (
-    <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
+    <Card
+      mx={['16px', '0px']}
+      flexDirection="column"
+      width="100%"
+      maxWidth={['auto', '320px']}
+      height="100%"
+      display="flex"
+    >
       <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
         {loading ? <Skeleton width="40px" /> : creator}
       </Text>
@@ -108,7 +116,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       </Flex>
       <Box>
         <UndecoratedInternalLink to={`/campaigns/${kpiId}`}>
-          <Button primary medium>
+          <Button primary medium disabled={loading}>
             See campaign
           </Button>
         </UndecoratedInternalLink>
