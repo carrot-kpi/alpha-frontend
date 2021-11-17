@@ -15,6 +15,7 @@ import { NumberInput } from '../input/number'
 import { useAnswerRealityQuestionCallback } from '../../hooks/useAnswerRealityQuestionCallback'
 import { getExplorerLink, numberToByte32 } from '../../utils'
 import { ExternalLink } from '../undecorated-link'
+import Skeleton from 'react-loading-skeleton'
 
 enum RealityBinary {
   YES,
@@ -29,7 +30,7 @@ const StyledLabel = styled.label`
 export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   const { chainId, account } = useActiveWeb3React()
   const kpiId = useMemo(() => kpiToken?.kpiId, [kpiToken?.kpiId])
-  const { data: questionData } = useRealityQuestion(kpiId)
+  const { loading: loadingRealityQuestionData, data: questionData } = useRealityQuestion(kpiId)
   const nativeCurrency = useNativeCurrency()
   const { balance: nativeCurrencyBalance } = useNativeCurrencyBalance(account)
   const currentAnswerInvalid = useMemo(() => {
@@ -88,6 +89,9 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
     })
   }, [answer])
 
+  if (loadingRealityQuestionData) {
+    return <Skeleton width="100%" height="16px" />
+  }
   if (questionData.arbitrating) {
     return (
       <>
