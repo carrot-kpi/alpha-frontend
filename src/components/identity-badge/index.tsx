@@ -1,13 +1,13 @@
 import { ReactElement } from 'react'
 import styled from 'styled-components'
 import { shortenAddress } from '../../utils'
-import Blockies from 'react-blockies'
-import { Text } from 'rebass'
+import makeBlockie from 'ethereum-blockies-base64'
+import { Flex, Text } from 'rebass'
 import { useIsMobile } from '../../hooks/useIsMobile'
+import { getAddress } from '@ethersproject/address'
 
-const FlexContainer = styled.div<{ onClick?: any; mobile: boolean }>`
+const FlexContainer = styled(Flex)<{ onClick?: any; mobile: boolean }>`
   position: relative;
-  display: flex;
   align-items: center;
   height: 28px;
   width: fit-content;
@@ -20,12 +20,13 @@ const FlexContainer = styled.div<{ onClick?: any; mobile: boolean }>`
   cursor: ${(props) => (props.onClick ? 'pointer' : 'auto')};
 `
 
-const Blockie = styled(Blockies)<{ mobile: boolean }>`
-  border-radius: 8px;
-  height: 24px !important;
-  width: 24px !important;
+const Blockie = styled.img<{ mobile: boolean }>`
+  height: 26px;
+  width: 28px;
+  border-radius: ${(props) => (props.mobile ? 8 : 0)}px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
   margin-right: ${(props) => (props.mobile ? 0 : '8px')};
-  margin-left: 2px;
 `
 
 const ConnectedDot = styled.div`
@@ -46,7 +47,7 @@ export const IdentityBadge = ({ account, onClick }: { account: string; onClick?:
   return (
     <>
       <FlexContainer mobile={isMobile} onClick={onClick}>
-        <Blockie mobile={isMobile} seed={account} />
+        <Blockie mobile={isMobile} src={makeBlockie(getAddress(account))} />
         {!isMobile && <Text fontFamily="Overpass Mono">{shortenAddress(account)}</Text>}
         {isMobile && <ConnectedDot />}
       </FlexContainer>
