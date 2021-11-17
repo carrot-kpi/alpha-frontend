@@ -1,6 +1,6 @@
 import { ReactElement, useCallback, useMemo, useState } from 'react'
 import { Box, Flex } from 'rebass'
-import { Amount, KpiToken } from '@carrot-kpi/sdk'
+import { Amount, ChainId, KpiToken } from '@carrot-kpi/sdk'
 
 import { INVALID_REALITY_ANSWER } from '../../constants'
 import { useRealityQuestion } from '../../hooks/useRealityQuestion'
@@ -13,7 +13,8 @@ import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useNativeCurrencyBalance } from '../../hooks/useNativeCurrencyBalance'
 import { NumberInput } from '../input/number'
 import { useAnswerRealityQuestionCallback } from '../../hooks/useAnswerRealityQuestionCallback'
-import { numberToByte32 } from '../../utils'
+import { getExplorerLink, numberToByte32 } from '../../utils'
+import { ExternalLink } from '../undecorated-link'
 
 enum RealityBinary {
   YES,
@@ -26,7 +27,7 @@ const StyledLabel = styled.label`
 `
 
 export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
-  const { account } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
   const kpiId = useMemo(() => kpiToken?.kpiId, [kpiToken?.kpiId])
   const { data: questionData } = useRealityQuestion(kpiId)
   const nativeCurrency = useNativeCurrency()
@@ -87,8 +88,27 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
     })
   }, [answer])
 
+  if (questionData.arbitrating) {
+    return (
+      <>
+        The KPI-related question is currently awaiting a final answer from{' '}
+        <ExternalLink href={getExplorerLink(chainId || ChainId.XDAI, questionData.arbitrator, 'address')}>
+          the arbitrator
+        </ExternalLink>
+        , after an arbitration request has been submitted by a user.
+      </>
+    )
+  }
   return (
     <Flex flexDirection="column">
+      <Box mb="12px">
+        The KPI-related question is currently awaiting a final answer. If you know it, check out the form below to
+        submit it.
+      </Box>
+      <Box mb="20px">
+        In case an answer cannot be determined due to how the question was originally asked, you can also mark the KPI
+        token as invalid altogether.
+      </Box>
       {binary ? (
         <>
           <Box>

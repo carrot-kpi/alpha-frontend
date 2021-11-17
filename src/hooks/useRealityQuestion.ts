@@ -6,7 +6,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 
 export function useRealityQuestion(kpiId: string | undefined): {
   loading: boolean
-  data: { answer: BigNumber; bond: BigNumber; arbitrating: boolean }
+  data: { answer: BigNumber; bond: BigNumber; arbitrating: boolean; arbitrator: string }
 } {
   const realityContract = useRealityContract(true)
   const callParams = useMemo(() => [kpiId], [kpiId])
@@ -16,6 +16,7 @@ export function useRealityQuestion(kpiId: string | undefined): {
     answer: BigNumber.from(0),
     bond: Zero,
     arbitrating: false,
+    arbitrator: '',
   })
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export function useRealityQuestion(kpiId: string | undefined): {
       answer: BigNumber.from(wrappedResult.result.best_answer),
       bond: wrappedResult.result.bond,
       arbitrating: !!wrappedResult.result.is_pending_arbitration,
+      arbitrator: wrappedResult.result.arbitrator,
     })
   }, [kpiId, realityContract, wrappedResult.error, wrappedResult.loading, wrappedResult.result])
 

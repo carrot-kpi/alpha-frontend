@@ -14,7 +14,6 @@ import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
-import { ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { getExplorerLink, shortenAddress } from '../../utils'
 import { commify } from '@ethersproject/units'
@@ -50,12 +49,6 @@ const MarkdownDiv = styled.div`
   > p {
     font-size: 16px;
   }
-`
-
-const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
-  color: ${(props) => props.theme.accent};
-  width: 12px;
-  height: 12px;
 `
 
 const DividerBox = styled(Box)`
@@ -164,7 +157,7 @@ export function Campaign({
                 {chainId && kpiToken?.address && (
                   <Box>
                     <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')}>
-                      View on explorer <StyledExternalLinkIcon />
+                      View on explorer
                     </ExternalLink>
                   </Box>
                 )}

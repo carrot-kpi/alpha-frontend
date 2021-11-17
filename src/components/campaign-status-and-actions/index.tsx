@@ -49,22 +49,7 @@ export const CampaignStatusAndActions = ({
         {kpiToken?.expiresAt.toFormat('dd/MM/yyyy hh:ss')} local time.
       </>
     )
-  if (status === Status.AWAITING_ANSWER)
-    return (
-      <Flex flexDirection="column">
-        <Box mb="12px">
-          The KPI-related question is currently awaiting a final answer. If you know it, check out the form below to
-          submit it.
-        </Box>
-        <Box mb="20px">
-          In case an answer cannot be determined due to how the question was originally asked, you can also mark the KPI
-          token as invalid altogether.
-        </Box>
-        <Box>
-          <Oracle kpiToken={kpiToken} />
-        </Box>
-      </Flex>
-    )
+  if (status === Status.AWAITING_ANSWER) return <Oracle kpiToken={kpiToken} />
   if (status === Status.AWAITING_FINALIZATION)
     return (
       <Flex flexDirection="column">
