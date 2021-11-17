@@ -117,7 +117,7 @@ export function TransactionsStateUpdater(): null {
                       {transactions[hash]?.summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
                     </Text>
                     {chainId && (
-                      <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
+                      <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')} showIcon>
                         <Text fontSize="14px">View on block explorer</Text>
                       </ExternalLink>
                     )}

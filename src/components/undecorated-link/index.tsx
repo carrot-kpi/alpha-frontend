@@ -16,7 +16,7 @@ export const UndecoratedExternalLink = styled.a.attrs(() => ({ target: '_blank',
 `
 
 const DecoratedExternalLink = styled.a.attrs(() => ({ target: '_blank', rel: 'noopener noreferrer' }))`
-  width: fit-content;
+  width: auto;
   cursor: pointer;
   color: ${(props) => props.theme.accent};
   :visited {
@@ -33,10 +33,11 @@ const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
 interface ExternalLinkProps {
   children: ReactNode
   href: string
+  showIcon?: boolean
 }
 
-export const ExternalLink = ({ children, href }: ExternalLinkProps) => (
+export const ExternalLink = ({ children, href, showIcon }: ExternalLinkProps) => (
   <DecoratedExternalLink href={href}>
-    {children} <StyledExternalLinkIcon />
+    {children} {showIcon && <StyledExternalLinkIcon />}
   </DecoratedExternalLink>
 )

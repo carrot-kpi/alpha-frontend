@@ -1,9 +1,7 @@
 import { ReactElement, useCallback, useState } from 'react'
-import { Box, Flex, Text, Image } from 'rebass'
+import { Box, Flex, Text } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { Button } from '../button'
-import logoLight from '../../assets/logo-light.png'
-import logoDark from '../../assets/logo-dark.png'
 import { UndecoratedInternalLink } from '../undecorated-link'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectionPopover } from '../wallet-connection-popover'
@@ -15,6 +13,7 @@ import { IdentityBadge } from '../identity-badge'
 import { WalletModal } from '../wallet-modal'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { useIsDarkMode, useToggleDarkMode } from '../../state/user/hooks'
+import { Logo } from '../logo'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
@@ -98,12 +97,12 @@ export const Header = (): ReactElement => {
           <Flex alignItems="center">
             <Box>
               <UndecoratedInternalLink to="/">
-                <Image display="flex" src={darkMode ? logoLight : logoDark} height="28px" alt="logo" />
+                <Logo darkMode={darkMode} />
               </UndecoratedInternalLink>
             </Box>
           </Flex>
           <Flex alignItems="center">
-            <Box mr="20px">
+            <Box mr={['12px', '16px']}>
               {error instanceof UnsupportedChainIdError ? (
                 <WrongNetwork>Invalid network</WrongNetwork>
               ) : !!account ? (

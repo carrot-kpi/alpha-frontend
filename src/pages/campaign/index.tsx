@@ -156,7 +156,7 @@ export function Campaign({
                 </Text>
                 {chainId && kpiToken?.address && (
                   <Box>
-                    <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')}>
+                    <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')} showIcon>
                       View on explorer
                     </ExternalLink>
                   </Box>
