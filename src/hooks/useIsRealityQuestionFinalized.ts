@@ -7,7 +7,7 @@ export function useIsRealityQuestionFinalized(kpiId?: string): { loading: boolea
   const callParams = useMemo(() => [kpiId], [kpiId])
   const wrappedResult = useSingleCallResult(realityContract, 'isFinalized', callParams)
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [finalized, setFinalized] = useState(false)
 
   useEffect(() => {

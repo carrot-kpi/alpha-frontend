@@ -7,7 +7,7 @@ import { useNativeCurrency } from './useNativeCurrency'
 export function useNativeCurrencyBalance(account?: string | null): { loading: boolean; balance: Amount<Currency> } {
   const { library } = useActiveWeb3React()
   const nativeCurrency = useNativeCurrency()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [balance, setBalance] = useState(new Amount(nativeCurrency, BigNumber.from(0)))
 
   useEffect(() => {

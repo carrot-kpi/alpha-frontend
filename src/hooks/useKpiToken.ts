@@ -75,7 +75,7 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
   const carrotSubgraphClient = useCarrotSubgraphClient()
 
   const [kpiToken, setKpiToken] = useState<KpiToken | undefined>()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false

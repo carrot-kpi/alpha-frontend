@@ -8,7 +8,7 @@ export function useIsKpiTokenFinalized(kpiToken?: KpiToken): { loading: boolean;
   const kpiTokenContract = useKpiTokenContract(kpiTokenAddress)
   const wrappedResult = useSingleCallResult(kpiTokenContract, 'finalized')
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [finalized, setFinalized] = useState(false)
 
   useEffect(() => {

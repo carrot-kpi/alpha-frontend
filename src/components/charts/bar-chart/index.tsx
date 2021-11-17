@@ -19,7 +19,7 @@ interface BarChartProps {
 export const BarChart = ({ metric }: BarChartProps) => {
   const theme = useTheme()
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
 
   useEffect(() => {
