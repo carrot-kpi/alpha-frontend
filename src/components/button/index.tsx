@@ -71,7 +71,7 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
 export const Button = ({ children, icon, ...rest }: ButtonProps & RebassButtonProps) => {
   return (
     <Root {...rest}>
-      <Flex height="100%" alignItems="center">
+      <Flex height="100%" justifyContent="center" alignItems="center">
         {icon && (
           <Box mr="8px" display="flex" alignItems="center">
             {icon}
