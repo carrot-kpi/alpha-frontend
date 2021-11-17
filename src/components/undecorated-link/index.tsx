@@ -31,7 +31,7 @@ const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
 `
 
 interface ExternalLinkProps {
-  children: ReactNode
+  children?: ReactNode
   href: string
   showIcon?: boolean
 }

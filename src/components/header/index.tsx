@@ -10,7 +10,7 @@ import { NETWORK_DETAIL } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { ChevronDown, Moon, Sun } from 'react-feather'
 import { IdentityBadge } from '../identity-badge'
-import { WalletModal } from '../wallet-modal'
+import { WalletPopover } from '../wallet-popover'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { useIsDarkMode, useToggleDarkMode } from '../../state/user/hooks'
 import { Logo } from '../logo'
@@ -27,6 +27,7 @@ const FlexContainer = styled(Flex)`
 const NetworkIcon = styled.img`
   border-radius: 8px;
   height: 28px;
+  max-height: 28px;
 `
 
 const WrongNetwork = styled.div`
@@ -60,17 +61,17 @@ export const Header = (): ReactElement => {
 
   const [showWalletConnectionPopover, setShowWalletConnectionPopover] = useState(false)
   const [showNetworkSwitchPopover, setShowNetworkSwitchPopover] = useState(false)
-  const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [walletPopoverOpen, setWalletPopoverOpen] = useState(false)
 
   const darkMode = useIsDarkMode()
   const toggleDarkMode = useToggleDarkMode()
 
   const handleAccountClick = useCallback(() => {
-    setWalletModalOpen(true)
+    setWalletPopoverOpen(true)
   }, [])
 
   const handleWalletModalClose = useCallback(() => {
-    setWalletModalOpen(false)
+    setWalletPopoverOpen(false)
   }, [])
 
   const handleConnectWalletClick = useCallback(() => {
@@ -91,7 +92,6 @@ export const Header = (): ReactElement => {
 
   return (
     <>
-      <WalletModal open={walletModalOpen} onDismiss={handleWalletModalClose} />
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px={['16px', '24px']}>
         <Flex width={['100%', '80%', '70%', '55%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
@@ -102,11 +102,13 @@ export const Header = (): ReactElement => {
             </Box>
           </Flex>
           <Flex alignItems="center">
-            <Box mr={['12px', '16px']}>
+            <Box mr={['12px', '16px']} height="28px">
               {error instanceof UnsupportedChainIdError ? (
                 <WrongNetwork>Invalid network</WrongNetwork>
               ) : !!account ? (
-                <IdentityBadge account={account} onClick={handleAccountClick} />
+                <WalletPopover show={walletPopoverOpen} onHide={handleWalletModalClose}>
+                  <IdentityBadge account={account} onClick={handleAccountClick} />
+                </WalletPopover>
               ) : (
                 <WalletConnectionPopover show={showWalletConnectionPopover} onHide={handleWalletConnectionPopoverHide}>
                   <Button primary small onClick={handleConnectWalletClick}>
@@ -115,7 +117,7 @@ export const Header = (): ReactElement => {
                 </WalletConnectionPopover>
               )}
             </Box>
-            <Box mr="12px">
+            <Box mr="12px" height="28px">
               <NetworkSwitcherPopover show={showNetworkSwitchPopover} onHide={handleNetworkSwitchPopoverHide}>
                 {chainId && NETWORK_DETAIL[chainId]?.icon ? (
                   isMobile ? (
@@ -141,7 +143,7 @@ export const Header = (): ReactElement => {
                 )}
               </NetworkSwitcherPopover>
             </Box>
-            <Box display="flex" alignItems="center">
+            <Box display="flex" alignItems="center" height="28px">
               {darkMode ? (
                 <Sun size="20px" cursor="pointer" onClick={toggleDarkMode} />
               ) : (
