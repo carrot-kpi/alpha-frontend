@@ -24,7 +24,16 @@ export function Popover({ content, show, onHide, children }: PopoverProps) {
   const popperRef = useRef<HTMLDivElement | null>(null)
   const { styles, attributes } = usePopper(referenceRef.current, popperRef.current, {
     placement: 'bottom-end',
-    modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
+    modifiers: [
+      { name: 'offset', options: { offset: [0, 8] } },
+      {
+        name: 'preventOverflow',
+        options: {
+          mainAxis: true,
+          altAxis: true,
+        },
+      },
+    ],
   })
   const transition = useTransition(show, {
     from: { opacity: 0, scale: 0.9 },
