@@ -14,11 +14,13 @@ export function useIsRealityQuestionFinalized(kpiId?: string): { loading: boolea
     if (!kpiId || !realityContract) return
     if (wrappedResult.loading) {
       setLoading(true)
+      setFinalized(false)
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
       console.error('could not fetch reality question finalization status', wrappedResult.error)
       setLoading(true)
+      setFinalized(false)
       return
     }
     setLoading(false)
