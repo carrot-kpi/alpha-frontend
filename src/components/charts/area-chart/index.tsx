@@ -43,9 +43,7 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
     <ChartContainer>
       {loading ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-          <Box>
-            <Loader color={theme.accent} loading />
-          </Box>
+          <Loader css="display: block;" color={theme.accent} loading />
         </Flex>
       ) : chartData.length === 0 ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
