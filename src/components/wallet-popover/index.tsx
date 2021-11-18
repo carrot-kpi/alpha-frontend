@@ -20,6 +20,7 @@ import { ChainId } from '@carrot-kpi/sdk'
 const RootFlex = styled(Flex)`
   background-color: ${(props) => props.theme.surface};
   transition: background-color 0.2s ease;
+  max-width: 360px;
 `
 
 const EllipsizedText = styled(Text)`
@@ -133,7 +134,7 @@ export const WalletPopover = ({ children, show, onHide }: WalletPopoverProps) =>
                         {DateTime.fromMillis(transaction.addedTime).toLocaleString(DateTime.DATETIME_SHORT)}
                       </DateText>
                     </Flex>
-                    <Box>
+                    <Box ml="12px">
                       {!!transaction.receipt ? (
                         <UndecoratedExternalLink
                           title="View on block explorer"
