@@ -26,7 +26,7 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
   line-height: 24px !important;
   text-decoration: none;
   font-size: 16px !important;
-  padding: 0 ${(props) => (props.small ? '16px' : props.mini ? '12px' : '24px')};
+  padding: 0 ${(props) => (props.small ? '8px' : props.mini ? '4px' : '16px')} !important;
   cursor: pointer;
   background-color: ${(props) => {
     if (props.disabled) return props.theme.disabled
@@ -73,7 +73,7 @@ export const Button = ({ children, icon, ...rest }: ButtonProps & RebassButtonPr
     <Root {...rest}>
       <Flex height="100%" justifyContent="center" alignItems="center">
         {icon && (
-          <Box mr="8px" display="flex" alignItems="center">
+          <Box mr={rest.mini ? '4px' : '8px'} display="flex" alignItems="center">
             {icon}
           </Box>
         )}
