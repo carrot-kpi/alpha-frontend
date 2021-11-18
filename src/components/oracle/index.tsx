@@ -1,5 +1,5 @@
-import { ReactElement, useCallback, useMemo, useState } from 'react'
-import { Box, Flex } from 'rebass'
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
+import { Box, Flex, Text } from 'rebass'
 import { Amount, ChainId, KpiToken } from '@carrot-kpi/sdk'
 
 import { INVALID_REALITY_ANSWER } from '../../constants'
@@ -16,6 +16,7 @@ import { useAnswerRealityQuestionCallback } from '../../hooks/useAnswerRealityQu
 import { getExplorerLink, numberToByte32 } from '../../utils'
 import { ExternalLink } from '../undecorated-link'
 import Skeleton from 'react-loading-skeleton'
+import { BigNumber } from '@ethersproject/bignumber'
 
 enum RealityBinary {
   YES,
@@ -45,29 +46,35 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   const [scalarAnswer, setScalarAnswer] = useState('')
   const [radioValue, setRadioValue] = useState<RealityBinary | null>(null)
   const [loading, setLoading] = useState(false)
+  const [finalAnswer, setFinalAnswer] = useState('')
   const bondButtonDisabled = useMemo(() => {
     if (loading) return true
     if (nativeCurrencyBalance.lt(minimumBond)) return true
     if (binary && !!radioValue && Number(radioValue) !== 0) return true
-    if (!binary && (!scalarAnswer || isNaN(parseFloat(scalarAnswer)))) return true
-    if (minimumBond.eq(0) && (!answerBond || parseUnits(answerBond, nativeCurrency.decimals).eq(0))) return true
+    if (
+      !binary &&
+      finalAnswer !== INVALID_REALITY_ANSWER.toHexString() &&
+      (!scalarAnswer || isNaN(parseFloat(scalarAnswer)))
+    )
+      return true
+    const parsedAnswerBond = new Amount(
+      nativeCurrency,
+      answerBond ? parseUnits(answerBond, nativeCurrency.decimals) : BigNumber.from(0)
+    )
+    if (nativeCurrencyBalance.lt(parsedAnswerBond)) return true
+    if (minimumBond.eq(0) && parsedAnswerBond.eq(0)) return true
     return false
   }, [
-    answerBond,
-    binary,
-    minimumBond,
-    nativeCurrency.decimals,
-    nativeCurrencyBalance,
-    radioValue,
-    scalarAnswer,
     loading,
+    nativeCurrencyBalance,
+    minimumBond,
+    binary,
+    radioValue,
+    finalAnswer,
+    scalarAnswer,
+    nativeCurrency,
+    answerBond,
   ])
-  const finalAnswer = useMemo(() => {
-    if (binary && !!radioValue) return numberToByte32(radioValue)
-    if (!binary && !!scalarAnswer && !isNaN(parseFloat(scalarAnswer)))
-      return numberToByte32(parseUnits(scalarAnswer, 18).toString())
-    return undefined
-  }, [binary, radioValue, scalarAnswer])
   const finalBond = useMemo(() => {
     if (minimumBond.eq(0))
       return parseUnits(!!answerBond && !answerBond.endsWith('.') ? answerBond : '0', nativeCurrency.decimals)
@@ -75,19 +82,36 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   }, [answerBond, minimumBond, nativeCurrency.decimals])
   const answer = useAnswerRealityQuestionCallback(kpiToken, finalAnswer, finalBond)
 
+  useEffect(() => {
+    if (binary && !!radioValue) setFinalAnswer(numberToByte32(radioValue))
+    else if (!binary && !!scalarAnswer && !isNaN(parseFloat(scalarAnswer)))
+      setFinalAnswer(numberToByte32(parseUnits(scalarAnswer, 18).toString()))
+    else if (finalAnswer !== INVALID_REALITY_ANSWER.toHexString()) setFinalAnswer('')
+  }, [binary, finalAnswer, radioValue, scalarAnswer])
+
   const handleRadioChange = useCallback((value: any) => {
     setRadioValue(parseInt(value.target.value))
   }, [])
 
   const handleAnswer = useCallback(() => {
     setLoading(true)
-    setAnswerBond('')
-    setScalarAnswer('')
-    setRadioValue(null)
     answer().finally(() => {
       setLoading(false)
+      setAnswerBond('')
+      setScalarAnswer('')
+      setRadioValue(null)
     })
   }, [answer])
+
+  const handleMarkInvalid = useCallback(() => {
+    setScalarAnswer('')
+    setFinalAnswer(numberToByte32(INVALID_REALITY_ANSWER.toString()))
+  }, [])
+
+  const handleMarkValid = useCallback(() => {
+    setScalarAnswer('')
+    setFinalAnswer('')
+  }, [])
 
   if (loadingRealityQuestionData) {
     return <Skeleton width="100%" height="16px" />
@@ -105,7 +129,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   }
   return (
     <Flex flexDirection="column">
-      <Box mb="12px">
+      <Box mb="8px">
         The KPI-related question is currently awaiting a final answer. If you know it, check out the form below to
         submit it.
       </Box>
@@ -150,11 +174,27 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
           </Box>
         </>
       ) : (
-        <Box mb="12px" flex="1">
-          <NumberInput placeholder="Answer" value={scalarAnswer} onChange={setScalarAnswer} />
-        </Box>
+        <Flex mb="8px">
+          <Box flex="1">
+            <NumberInput
+              placeholder={finalAnswer === INVALID_REALITY_ANSWER.toHexString() ? 'Marked as invalid' : 'Answer'}
+              disabled={finalAnswer === INVALID_REALITY_ANSWER.toHexString()}
+              value={scalarAnswer}
+              onChange={setScalarAnswer}
+            />
+          </Box>
+          {!currentAnswerInvalid && (
+            <Button
+              ml="12px"
+              primary
+              onClick={finalAnswer === INVALID_REALITY_ANSWER.toHexString() ? handleMarkValid : handleMarkInvalid}
+            >
+              {finalAnswer === INVALID_REALITY_ANSWER.toHexString() ? 'Mark valid' : 'Mark invalid'}
+            </Button>
+          )}
+        </Flex>
       )}
-      <Box mb="24px">
+      <Text fontSize="12px" mb="24px">
         {questionData.bond.isZero()
           ? 'No answer submitted yet'
           : currentAnswerInvalid
@@ -168,7 +208,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
                 ? 'goal reached'
                 : 'goal not reached'
             } (${formatUnits(questionData.bond, nativeCurrency.decimals)} ${nativeCurrency.symbol} bonded)`}
-      </Box>
+      </Text>
       <Flex>
         {minimumBond.eq('0') && (
           <Box mr="12px" flex="1">
