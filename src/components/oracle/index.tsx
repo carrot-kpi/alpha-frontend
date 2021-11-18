@@ -119,7 +119,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   if (questionData.arbitrating) {
     return (
       <>
-        The KPI-related question is currently awaiting a final answer from{' '}
+        The KPI-related condition is currently awaiting a final answer from{' '}
         <ExternalLink href={getExplorerLink(chainId || ChainId.XDAI, questionData.arbitrator, 'address')} showIcon>
           the arbitrator
         </ExternalLink>
@@ -129,14 +129,21 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   }
   return (
     <Flex flexDirection="column">
-      <Box mb="8px">
-        The KPI-related question is currently awaiting a final answer. If you know it, check out the form below to
+      <Text mb="8px">
+        The KPI-related condition is currently awaiting a final answer. If you know it, check out the form below to
         submit it.
-      </Box>
-      <Box mb="20px">
-        In case an answer cannot be determined due to how the question was originally asked, you can also mark the KPI
-        token as invalid altogether.
-      </Box>
+      </Text>
+      <Text mb="8px">
+        In case an answer cannot be determined/calculated due to how the condition was originally framed or due to
+        missing details, you can also mark the KPI token as invalid altogether.
+      </Text>
+      <Text mb="20px">
+        Reality.eth is used as a crowdsourced oracle. You can check out how Reality.eth works by clicking{' '}
+        <ExternalLink showIcon href="https://reality.eth.link/app/docs/html/index.html">
+          here
+        </ExternalLink>
+        .
+      </Text>
       {binary ? (
         <>
           <Box>
