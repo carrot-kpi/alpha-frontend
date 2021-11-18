@@ -102,7 +102,8 @@ export const CampaignStatusAndActions = ({
     return (
       <Flex flexDirection="column">
         <Box>
-          The KPI has not been reached.{hasBalance ? ' You can click the button below to burn your KPI tokens.' : ''}
+          The KPI has not been reached.
+          {hasBalance ? ' If you want, you can click the button below to burn your KPI tokens.' : ''}
         </Box>
         {hasBalance && (
           <Box mt="20px">
