@@ -50,7 +50,13 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   const bondButtonDisabled = useMemo(() => {
     if (loading) return true
     if (nativeCurrencyBalance.lt(minimumBond)) return true
-    if (binary && !!radioValue && Number(radioValue) !== 0) return true
+    if (
+      binary &&
+      radioValue !== RealityBinary.YES &&
+      radioValue !== RealityBinary.NO &&
+      radioValue !== RealityBinary.INVALID
+    )
+      return true
     if (
       !binary &&
       finalAnswer !== INVALID_REALITY_ANSWER.toHexString() &&
@@ -83,9 +89,9 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   const answer = useAnswerRealityQuestionCallback(kpiToken, finalAnswer, finalBond)
 
   useEffect(() => {
-    if (binary && radioValue == RealityBinary.YES) setFinalAnswer(numberToByte32(1))
-    else if (binary && radioValue == RealityBinary.NO) setFinalAnswer(numberToByte32(0))
-    else if (binary && radioValue == RealityBinary.INVALID) setFinalAnswer(INVALID_REALITY_ANSWER.toHexString())
+    if (binary && radioValue === RealityBinary.YES) setFinalAnswer(numberToByte32(1))
+    else if (binary && radioValue === RealityBinary.NO) setFinalAnswer(numberToByte32(0))
+    else if (binary && radioValue === RealityBinary.INVALID) setFinalAnswer(INVALID_REALITY_ANSWER.toHexString())
     else if (!binary && !!scalarAnswer && !isNaN(parseFloat(scalarAnswer)))
       setFinalAnswer(numberToByte32(parseUnits(scalarAnswer, 18).toString()))
     else if (finalAnswer !== INVALID_REALITY_ANSWER.toHexString()) setFinalAnswer('')
