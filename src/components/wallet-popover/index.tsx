@@ -16,6 +16,7 @@ import { DateTime } from 'luxon'
 import { TransactionDetails } from '../../state/transactions/reducer'
 import Loader from 'react-spinners/BarLoader'
 import { ChainId } from '@carrot-kpi/sdk'
+import { ADXdaoProduct } from '../a-dxdao-product'
 
 const RootFlex = styled(Flex)`
   background-color: ${(props) => props.theme.surface};
@@ -159,11 +160,10 @@ export const WalletPopover = ({ children, show, onHide }: WalletPopoverProps) =>
               </Flex>
             )}
           </Flex>
-          <Box>
-            <Button width="100%" onClick={handleDisconnectWallet}>
-              Disconnect wallet
-            </Button>
-          </Box>
+          <Button mb="12px" width="100%" onClick={handleDisconnectWallet}>
+            Disconnect wallet
+          </Button>
+          <ADXdaoProduct />
         </RootFlex>
       }
       show={!!show}

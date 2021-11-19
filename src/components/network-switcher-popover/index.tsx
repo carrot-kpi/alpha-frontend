@@ -9,6 +9,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { switchOrAddNetwork } from '../../utils'
 import styled from 'styled-components'
+import { ADXdaoProduct } from '../a-dxdao-product'
 
 interface NetworkSwitcherPopoverProps {
   children: ReactNode
@@ -68,32 +69,35 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
   return (
     <Popover
       content={
-        <Flex flexDirection={['column', 'row']} alignItems={['center']}>
-          {Object.entries(NETWORK_DETAIL).map(([chainId, networkDetail], index) => {
-            return (
-              <BackgroundImageCard
-                width="140px"
-                height="100px"
-                p="12px"
-                clickable
-                ml={['0px', index !== 0 ? '8px' : '0px']}
-                mt={[index !== 0 ? '8px' : '0px', '0px']}
-                key={chainId}
-                disabled={isOptionDisabled(Number(chainId))}
-                onClick={() => {
-                  handleNetworkChange(Number(chainId))
-                }}
-                backgroundImage={networkDetail.icon}
-                opacity={isOptionDisabled(Number(chainId)) ? '0.2' : '1'}
-              >
-                <Flex height="100%" alignItems="flex-end">
-                  <NetworkText fontSize="18px" color="#fff">
-                    {networkDetail.chainName}
-                  </NetworkText>
-                </Flex>
-              </BackgroundImageCard>
-            )
-          })}
+        <Flex flexDirection="column" alignItems="center" mb="-8px">
+          <Flex flexDirection={['column', 'row']} alignItems={['center']} mb="12px">
+            {Object.entries(NETWORK_DETAIL).map(([chainId, networkDetail], index) => {
+              return (
+                <BackgroundImageCard
+                  width="140px"
+                  height="100px"
+                  p="12px"
+                  clickable
+                  ml={['0px', index !== 0 ? '8px' : '0px']}
+                  mt={[index !== 0 ? '8px' : '0px', '0px']}
+                  key={chainId}
+                  disabled={isOptionDisabled(Number(chainId))}
+                  onClick={() => {
+                    handleNetworkChange(Number(chainId))
+                  }}
+                  backgroundImage={networkDetail.icon}
+                  opacity={isOptionDisabled(Number(chainId)) ? '0.2' : '1'}
+                >
+                  <Flex height="100%" alignItems="flex-end">
+                    <NetworkText fontSize="18px" color="#fff">
+                      {networkDetail.chainName}
+                    </NetworkText>
+                  </Flex>
+                </BackgroundImageCard>
+              )
+            })}
+          </Flex>
+          <ADXdaoProduct />
         </Flex>
       }
       show={show}
