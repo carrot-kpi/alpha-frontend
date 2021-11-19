@@ -107,7 +107,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         {!expiresAt ? (
           <Skeleton width="80px" />
         ) : expiresAt.toJSDate().getTime() < Date.now() ? (
-          <KpiExpiredText fontFamily="Overpass Mono" fontWeight="700">
+          <KpiExpiredText fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
             KPI expired
           </KpiExpiredText>
         ) : (

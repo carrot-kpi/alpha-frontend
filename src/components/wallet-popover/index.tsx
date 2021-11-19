@@ -20,7 +20,8 @@ import { ChainId } from '@carrot-kpi/sdk'
 const RootFlex = styled(Flex)`
   background-color: ${(props) => props.theme.surface};
   transition: background-color 0.2s ease;
-  max-width: 360px;
+  min-width: 320px;
+  width: 320px;
 `
 
 const EllipsizedText = styled(Text)`

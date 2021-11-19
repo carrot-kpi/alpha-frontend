@@ -28,6 +28,7 @@ const NetworkIcon = styled.img`
   border-radius: 8px;
   height: 28px;
   max-height: 28px;
+  cursor: pointer;
 `
 
 const WrongNetwork = styled.div`

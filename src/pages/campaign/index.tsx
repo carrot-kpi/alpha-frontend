@@ -253,7 +253,7 @@ export function Campaign({
                   KPI expired
                 </KpiExpiredText>
               ) : (
-                <Countdown to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
+                <Countdown textAlign="right" to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
               )}
             </Card>
             <Card flexDirection="column" m="8px">

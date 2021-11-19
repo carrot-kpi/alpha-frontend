@@ -75,7 +75,7 @@ export function Home(): ReactElement {
           </Text>
           <Text
             key="title-more"
-            mb={['40px', '0px']}
+            mb={['40px', '40px', '0px']}
             fontSize={['20px', '22px']}
             fontWeight="800"
             lineHeight="24px"
@@ -128,7 +128,7 @@ export function Home(): ReactElement {
       </FeaturedCampaignsContainer>
       <Flex width={['100%', '80%', '70%', '55%']} flexDirection="column" alignItems="center">
         <Flex
-          alignSelf={['initial', 'flex-start']}
+          alignSelf={['initial', 'initial', 'flex-start']}
           width="80%"
           mb="80px"
           flexDirection={['column', 'column', 'row']}
@@ -160,7 +160,7 @@ export function Home(): ReactElement {
           </Flex>
         </Flex>
         <Flex
-          alignSelf={['initial', 'flex-end']}
+          alignSelf={['initial', 'initial', 'flex-start']}
           flexDirection={['column-reverse', 'column-reverse', 'row']}
           width="80%"
           mb="80px"
@@ -193,7 +193,7 @@ export function Home(): ReactElement {
           />
         </Flex>
         <Flex
-          alignSelf={['initial', 'flex-start']}
+          alignSelf={['initial', 'initial', 'flex-start']}
           flexDirection={['column', 'column', 'row']}
           width="80%"
           mb="120px"
