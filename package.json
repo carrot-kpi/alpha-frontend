@@ -87,7 +87,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
-    "build-test": "http-server build"
+    "build-test": "serve -s build"
   },
   "browserslist": {
     "production": [
