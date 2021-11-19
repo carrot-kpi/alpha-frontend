@@ -56,19 +56,6 @@ export interface NetworkDetails {
 }
 
 export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
-  [ChainId.RINKEBY]: {
-    chainId: `0x${ChainId.RINKEBY.toString(16)}`,
-    chainName: 'Rinkeby',
-    icon: ethereumLogo,
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    defaultBond: parseUnits('0.1', 18),
-    rpcUrls: ['https://rinkeby.infura.io/v3'],
-    blockExplorerUrls: ['https://rinkeby.etherscan.io'],
-  },
   [ChainId.XDAI]: {
     chainId: `0x${Number(100).toString(16)}`,
     chainName: 'xDai',
@@ -82,6 +69,21 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
     rpcUrls: ['https://rpc.xdaichain.com'],
     blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
   },
+}
+if (process.env.NODE_ENV !== 'production') {
+  NETWORK_DETAIL[ChainId.RINKEBY] = {
+    chainId: `0x${ChainId.RINKEBY.toString(16)}`,
+    chainName: 'Rinkeby',
+    icon: ethereumLogo,
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    defaultBond: parseUnits('0.1', 18),
+    rpcUrls: ['https://rinkeby.infura.io/v3'],
+    blockExplorerUrls: ['https://rinkeby.etherscan.io'],
+  }
 }
 
 export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'
