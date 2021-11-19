@@ -61,13 +61,12 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
             <XAxis
               tickLine={false}
               axisLine={false}
-              interval="preserveEnd"
               minTickGap={80}
               tickFormatter={(tick) => DateTime.fromMillis(tick).toFormat('DD')}
               dataKey="x"
               tick={{ fill: theme.surfaceContent }}
               type="number"
-              domain={['dataMin', 'dataMax']}
+              domain={[metric.from.toMillis(), metric.to.toMillis()]}
             />
             <YAxis type="number" axisLine={false} interval="preserveEnd" tick={false} />
             <Tooltip cursor={{ fill: theme.border }} content={CustomTooltip} />
