@@ -67,8 +67,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           DXD,
           XDAI_WETH,
           swapr,
-          DateTime.fromFormat('01/11/2021', 'dd/MM/yyyy'),
-          DateTime.fromFormat('20/11/2021', 'dd/MM/yyyy'),
+          DateTime.fromSeconds(1635724800), // Nov 1st 0000 UTC
+          DateTime.fromSeconds(1637366400), // Nov 20th 0000 UTC
           86400
         ),
       ],
@@ -80,8 +80,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
         new TokenPriceMetric(
           SWPR,
           swapr,
-          DateTime.fromFormat('01/11/2021', 'dd/MM/yyyy'),
-          DateTime.fromFormat('21/11/2021', 'dd/MM/yyyy'),
+          DateTime.fromSeconds(1635724800), // Nov 1st 0000 UTC
+          DateTime.fromSeconds(1637452800), // Nov 21st 0000 UTC
           86400
         ),
       ],
