@@ -24,7 +24,7 @@ const GoalText = styled(Text)`
   -webkit-line-clamp: 4;
   line-clamp: 4;
   -webkit-box-orient: vertical;
-  height: 84px;
+  height: 108px;
 `
 
 interface CampaignCardProps {
