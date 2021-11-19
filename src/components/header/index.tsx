@@ -128,7 +128,7 @@ export const Header = (): ReactElement => {
                       <Box mr="8px" display="flex" alignItems="center">
                         <NetworkIcon src={NETWORK_DETAIL[chainId]?.icon} />
                       </Box>
-                      <Flex flexDirection="column" mr="4px">
+                      <Flex width="60px" flexDirection="column">
                         <Text color={theme.contentSecondary} lineHeight="14px" fontSize="12px">
                           Network
                         </Text>
