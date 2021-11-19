@@ -1,7 +1,7 @@
 import { ChainId } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { WBTC, DXD, XDAI_WETH } from '../tokens'
-import { Metric, PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from './metrics'
+import { WBTC, DXD, XDAI_WETH, SWPR } from '../tokens'
+import { Metric, PairLiquidityMetric, TokenMarketCapMetric, TokenPriceMetric, TvlMetric } from './metrics'
 import { Agave } from './platforms/agave'
 import { Swapr } from './platforms/swapr'
 
@@ -74,6 +74,19 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       ],
       id: '0x902a3f970a2cfe7a667b80181fd5db06e340c7bb',
       kpiId: '0x500ea619e12630897f108a681c94400e65c2a93422cff31bc5a9ccd04d4f00f7',
+    },
+    {
+      metrics: [
+        new TokenPriceMetric(
+          SWPR,
+          swapr,
+          DateTime.fromFormat('01/11/2021', 'dd/MM/yyyy'),
+          DateTime.fromFormat('21/11/2021', 'dd/MM/yyyy'),
+          86400
+        ),
+      ],
+      id: '0x82489cad320e67311b6974315dfa322614afcc6a',
+      kpiId: '0xc1a022649920a409b135931ea1ea89c048517365709a5dbf703459362b5607ab',
     },
   ],
 }

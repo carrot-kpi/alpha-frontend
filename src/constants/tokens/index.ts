@@ -75,3 +75,5 @@ export const XDAI_WETH = new Token(
   'WETH',
   'Wrapped Ether on xDai'
 )
+
+export const SWPR = new Token(ChainId.XDAI, '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b', 18, 'SWPR', 'SWPR on xDai')
