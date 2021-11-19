@@ -42,8 +42,13 @@ const KpiExpiredText = styled(Text)`
 
 const MarkdownDiv = styled.div`
   > h1 {
+    font-weight: 600;
     font-size: 24px;
-    font-weight: 500;
+  }
+
+  > h2 {
+    font-weight: 600;
+    font-size: 20px;
   }
 
   > p {
