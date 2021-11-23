@@ -86,7 +86,9 @@ export function Campaign({
     useIsRealityQuestionFinalized(kpiId)
 
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
-  const collateralPriceUSD = useTokenPriceUSD(kpiToken?.collateral.currency)
+  const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(
+    kpiToken?.collateral.currency
+  )
   // these auto updates at each block, instead of using the static value attached to the kpi token ts instance
   const { loading: loadingKpiTokenFinalized, finalized: kpiTokenFinalized } = useIsKpiTokenFinalized(kpiToken)
   const { loading: loadingKpiTokenProgress, progress: kpiTokenProgress } = useKpiTokenProgress(kpiToken)
@@ -219,7 +221,7 @@ export function Campaign({
                 >
                   <Text>Reward if KPI is reached:</Text>
                   <Text fontFamily="Overpass Mono" fontWeight="700">
-                    {!rewardIfKpiIsReached ? (
+                    {!rewardIfKpiIsReached || loadingCollateralPriceUSD ? (
                       <Skeleton width="80px" />
                     ) : (
                       `${rewardIfKpiIsReached.toFixed(4)} ${kpiToken?.collateral.currency.symbol} ($${
@@ -259,7 +261,7 @@ export function Campaign({
             <Card flexDirection="column" m="8px">
               <Title mb="8px">Rewards</Title>
               <Text mb="4px" fontFamily="Overpass Mono">
-                {loadingKpiToken || !kpiToken ? (
+                {loadingKpiToken || !kpiToken || loadingCollateralPriceUSD ? (
                   <Skeleton width="80px" />
                 ) : (
                   `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.symbol} ($${

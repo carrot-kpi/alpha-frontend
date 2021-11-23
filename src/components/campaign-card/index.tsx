@@ -38,7 +38,7 @@ interface CampaignCardProps {
 
 export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
   const theme = useTheme()
-  const collateralPriceUSD = useTokenPriceUSD(collateral?.currency)
+  const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
   const [question, setQuestion] = useState('')
 
   useEffect(() => {
@@ -93,7 +93,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
         <Text textAlign="right" fontFamily="Overpass Mono" fontWeight="700">
-          {loading || !collateral ? (
+          {loading || !collateral || loadingCollateralPriceUSD ? (
             <Skeleton width="100px" />
           ) : (
             `${collateral?.toFixed(4)} ${collateral?.currency.symbol} ($${

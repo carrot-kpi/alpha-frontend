@@ -1,7 +1,7 @@
 import { ChainId } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { WBTC, DXD, XDAI_WETH, SWPR } from '../tokens'
-import { Metric, PairLiquidityMetric, TokenMarketCapMetric, TokenPriceMetric, TvlMetric } from './metrics'
+import { WBTC, DXD, XDAI_WETH } from '../tokens'
+import { Metric, PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from './metrics'
 import { Agave } from './platforms/agave'
 import { Swapr } from './platforms/swapr'
 
@@ -67,26 +67,13 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           DXD,
           XDAI_WETH,
           swapr,
-          DateTime.fromSeconds(1635724800), // Nov 1st 0000 UTC
-          DateTime.fromSeconds(1637366400), // Nov 20th 0000 UTC
+          DateTime.fromSeconds(1636977600), // Nov 15th 1200 UTC
+          DateTime.fromSeconds(1637841600), // Nov 25th 1200 UTC
           86400
         ),
       ],
-      id: '0x902a3f970a2cfe7a667b80181fd5db06e340c7bb',
-      kpiId: '0x500ea619e12630897f108a681c94400e65c2a93422cff31bc5a9ccd04d4f00f7',
-    },
-    {
-      metrics: [
-        new TokenPriceMetric(
-          SWPR,
-          swapr,
-          DateTime.fromSeconds(1635724800), // Nov 1st 0000 UTC
-          DateTime.fromSeconds(1637452800), // Nov 21st 0000 UTC
-          86400
-        ),
-      ],
-      id: '0x82489cad320e67311b6974315dfa322614afcc6a',
-      kpiId: '0xc1a022649920a409b135931ea1ea89c048517365709a5dbf703459362b5607ab',
+      id: '0xe53aea0d25d14e7bb23f72935f04f01f0c3751f1',
+      kpiId: '0xc9f9e22017837663bb90d01bca41fb0c0718226e6f1808dc07b73940daef021c',
     },
   ],
 }
