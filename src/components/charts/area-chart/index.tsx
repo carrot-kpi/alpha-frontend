@@ -19,7 +19,7 @@ interface AreaChartProps {
 export const AreaChart = ({ metric }: AreaChartProps) => {
   const theme = useTheme()
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
 
   useEffect(() => {
@@ -43,9 +43,7 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
     <ChartContainer>
       {loading ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-          <Box>
-            <Loader color={theme.accent} loading />
-          </Box>
+          <Loader css="display: block;" color={theme.accent} loading />
         </Flex>
       ) : chartData.length === 0 ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
@@ -63,13 +61,12 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
             <XAxis
               tickLine={false}
               axisLine={false}
-              interval="preserveEnd"
               minTickGap={80}
               tickFormatter={(tick) => DateTime.fromMillis(tick).toFormat('DD')}
               dataKey="x"
               tick={{ fill: theme.surfaceContent }}
               type="number"
-              domain={['dataMin', 'dataMax']}
+              domain={[metric.from.toMillis(), metric.to.toMillis()]}
             />
             <YAxis type="number" axisLine={false} interval="preserveEnd" tick={false} />
             <Tooltip cursor={{ fill: theme.border }} content={CustomTooltip} />

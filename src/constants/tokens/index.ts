@@ -66,3 +66,14 @@ export const STAKE = new TotalSupplyToken(
   'STAKE on xDai',
   async (token: Token) => new Amount(token, await MAINNET_STAKE_CONTRACT.totalSupply())
 )
+
+export const DXD = new Token(ChainId.XDAI, '0xb90D6bec20993Be5d72A5ab353343f7a0281f158', 18, 'DXD', 'DXdao on xDai')
+export const XDAI_WETH = new Token(
+  ChainId.XDAI,
+  '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1',
+  18,
+  'WETH',
+  'Wrapped Ether on xDai'
+)
+
+export const SWPR = new Token(ChainId.XDAI, '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b', 18, 'SWPR', 'SWPR on xDai')

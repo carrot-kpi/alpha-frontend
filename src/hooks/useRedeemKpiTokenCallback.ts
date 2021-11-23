@@ -9,19 +9,21 @@ import { useTokenPriceUSD } from './useTokenPriceUSD'
 
 export function useRedeemKpiTokenCallback(kpiToken?: KpiToken) {
   const { account } = useActiveWeb3React()
-  const collateralPriceUSD = useTokenPriceUSD(kpiToken?.collateral.currency)
+  const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(
+    kpiToken?.collateral.currency
+  )
   const { balance } = useKpiTokenBalance(kpiToken, account || undefined)
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, balance)
-  const redeemedCollateral = useMemo(
-    () => rewardIfKpiIsReached?.multiply(collateralPriceUSD),
-    [collateralPriceUSD, rewardIfKpiIsReached]
-  )
+  const redeemedCollateral = useMemo(() => {
+    if (loadingCollateralPriceUSD || !rewardIfKpiIsReached) return undefined
+    return rewardIfKpiIsReached.multiply(collateralPriceUSD)
+  }, [collateralPriceUSD, loadingCollateralPriceUSD, rewardIfKpiIsReached])
 
   const kpiTokenContract = useContract(kpiToken?.address, KPI_TOKEN_ABI, true)
   const addTransaction = useTransactionAdder()
 
   return useCallback(async () => {
-    if (!kpiTokenContract || !kpiToken) return
+    if (!kpiTokenContract || !kpiToken || loadingCollateralPriceUSD) return
     try {
       const tx = await kpiTokenContract.redeem()
       addTransaction(tx, {
@@ -32,5 +34,5 @@ export function useRedeemKpiTokenCallback(kpiToken?: KpiToken) {
     } catch (error) {
       console.error('error redeeming carrot', error)
     }
-  }, [addTransaction, kpiToken, kpiTokenContract, redeemedCollateral, rewardIfKpiIsReached])
+  }, [addTransaction, kpiToken, kpiTokenContract, loadingCollateralPriceUSD, redeemedCollateral, rewardIfKpiIsReached])
 }

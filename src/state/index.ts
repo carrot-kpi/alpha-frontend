@@ -6,7 +6,7 @@ import { transactionsReducer } from './transactions/reducer'
 import { applicationReducer } from './application/reducer'
 import { multiChainLinksReducer } from './multi-chain-links/reducer'
 
-const PERSISTED_KEYS: string[] = ['user']
+const PERSISTED_KEYS: string[] = ['user', 'transactions']
 
 const persistenceNamespace = 'carrot'
 export const store = configureStore({

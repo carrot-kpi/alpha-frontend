@@ -24,6 +24,7 @@ const GoalText = styled(Text)`
   -webkit-line-clamp: 4;
   line-clamp: 4;
   -webkit-box-orient: vertical;
+  height: 108px;
 `
 
 interface CampaignCardProps {
@@ -37,7 +38,7 @@ interface CampaignCardProps {
 
 export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
   const theme = useTheme()
-  const collateralPriceUSD = useTokenPriceUSD(collateral?.currency)
+  const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
   const [question, setQuestion] = useState('')
 
   useEffect(() => {
@@ -59,7 +60,14 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
   }, [goal])
 
   return (
-    <Card mx={['16px', '0px']} flexDirection="column" maxWidth={['auto', '300px']} height="100%" display="flex">
+    <Card
+      mx={['16px', '0px']}
+      flexDirection="column"
+      width="100%"
+      maxWidth={['auto', '320px']}
+      height="100%"
+      display="flex"
+    >
       <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
         {loading ? <Skeleton width="40px" /> : creator}
       </Text>
@@ -85,7 +93,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title>Rewards:</Title>
         <Text textAlign="right" fontFamily="Overpass Mono" fontWeight="700">
-          {loading || !collateral ? (
+          {loading || !collateral || loadingCollateralPriceUSD ? (
             <Skeleton width="100px" />
           ) : (
             `${collateral?.toFixed(4)} ${collateral?.currency.symbol} ($${
@@ -99,7 +107,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         {!expiresAt ? (
           <Skeleton width="80px" />
         ) : expiresAt.toJSDate().getTime() < Date.now() ? (
-          <KpiExpiredText fontFamily="Overpass Mono" fontWeight="700">
+          <KpiExpiredText fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
             KPI expired
           </KpiExpiredText>
         ) : (
@@ -108,7 +116,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       </Flex>
       <Box>
         <UndecoratedInternalLink to={`/campaigns/${kpiId}`}>
-          <Button primary medium>
+          <Button primary medium disabled={loading}>
             See campaign
           </Button>
         </UndecoratedInternalLink>

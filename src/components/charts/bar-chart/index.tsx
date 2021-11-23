@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 import { PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from '../../../constants/featured-campaigns/metrics'
 import { ChartDataPoint } from '../../../constants/featured-campaigns/platforms'
 import { Box, Flex } from 'rebass'
-import Loader from 'react-spinners/ScaleLoader'
+import Loader from 'react-spinners/BarLoader'
 import { CustomTooltip } from '../custom-tooltip'
 
 const ChartContainer = styled.div`
@@ -19,7 +19,7 @@ interface BarChartProps {
 export const BarChart = ({ metric }: BarChartProps) => {
   const theme = useTheme()
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
 
   useEffect(() => {
@@ -43,9 +43,7 @@ export const BarChart = ({ metric }: BarChartProps) => {
     <ChartContainer>
       {loading ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-          <Box width="60px" height="60px">
-            <Loader color={theme.accent} loading />
-          </Box>
+          <Loader css="display: block;" color={theme.accent} loading />
         </Flex>
       ) : chartData.length === 0 ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
@@ -57,13 +55,12 @@ export const BarChart = ({ metric }: BarChartProps) => {
             <XAxis
               tickLine={false}
               axisLine={false}
-              interval="preserveEnd"
               minTickGap={80}
               tickFormatter={(tick) => DateTime.fromMillis(tick).toFormat('DD')}
               dataKey="x"
               tick={{ fill: theme.surfaceContent }}
-              type={'number'}
-              domain={['dataMin', 'dataMax']}
+              type="number"
+              domain={[metric.from.toMillis(), metric.to.toMillis()]}
             />
             <YAxis type="number" axisLine={false} interval="preserveEnd" tick={false} />
             <Tooltip cursor={{ fill: theme.border }} content={CustomTooltip} />

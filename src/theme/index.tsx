@@ -5,6 +5,8 @@ import '@fontsource/manrope/700.css'
 import '@fontsource/manrope/800.css'
 import '@fontsource/overpass-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import { transparentize } from 'polished'
 import { lightTheme } from './light'
 import { darkTheme } from './dark'
@@ -153,7 +155,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .custom-toast-body {
-      font-family: "Inter";
+      font-family: "Manrope";
   }
 
   .Toastify__toast {
@@ -162,7 +164,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .Toastify__progress-bar--info {
-    background-color: ${(props) => props.theme.accent};
+      background-color: ${(props) => props.theme.accent};
   }
 
   .Toastify__toast-body {
@@ -201,7 +203,34 @@ export const GlobalStyle = createGlobalStyle`
     .Toastify__toast-container {
         width: auto !important;
     }
+  } 
+
+  .slick-initialized .slick-slide > div {
+    width: 100%;
+    display: flex;
+    justify-content: center; 
   }
+  
+  .slick-initialized .slick-slide > div > div {
+    display: flex !important;
+    justify-content: center !important; 
+  }
+
+  .slick-arrow.slick-prev::before,
+  .slick-arrow.slick-next::before { 
+    color: ${(props) => props.theme.accent};
+    opacity: 1;
+  }
+  
+  .slick-arrow.slick-disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+  
+  .slick-dots { 
+    bottom: -32px;
+  }
+
 `
 
 declare module 'styled-components' {

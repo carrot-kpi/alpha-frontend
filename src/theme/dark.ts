@@ -92,5 +92,5 @@ export const darkTheme = {
   brown: '#876559',
   purple: '#7C80F2',
 
-  twitter: "#1da1f2"
+  twitter: '#1da1f2',
 }

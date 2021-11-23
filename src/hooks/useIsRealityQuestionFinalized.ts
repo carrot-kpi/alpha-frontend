@@ -7,18 +7,20 @@ export function useIsRealityQuestionFinalized(kpiId?: string): { loading: boolea
   const callParams = useMemo(() => [kpiId], [kpiId])
   const wrappedResult = useSingleCallResult(realityContract, 'isFinalized', callParams)
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [finalized, setFinalized] = useState(false)
 
   useEffect(() => {
     if (!kpiId || !realityContract) return
     if (wrappedResult.loading) {
       setLoading(true)
+      setFinalized(false)
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
       console.error('could not fetch reality question finalization status', wrappedResult.error)
       setLoading(true)
+      setFinalized(false)
       return
     }
     setLoading(false)

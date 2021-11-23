@@ -1,5 +1,4 @@
 import { Status } from '../../pages/campaign'
-import { ExternalLink } from '../undecorated-link'
 import { Flex, Box } from 'rebass'
 import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
 import { Button } from '../button'
@@ -7,8 +6,10 @@ import { useFinalizeKpiTokenCallback } from '../../hooks/useFinalizeKpiTokenCall
 import { ZERO_DECIMAL } from '../../constants'
 import { useRedeemKpiTokenCallback } from '../../hooks/useRedeemKpiTokenCallback'
 import Skeleton from 'react-loading-skeleton'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import Decimal from 'decimal.js-light'
+import { Oracle } from '../oracle'
+import { useBurnKpiTokenCallback } from '../../hooks/useBurnKpiTokenCallback'
 
 interface CampaignStatusAndActionsProps {
   status: Status | null
@@ -25,6 +26,8 @@ export const CampaignStatusAndActions = ({
 }: CampaignStatusAndActionsProps) => {
   const finalize = useFinalizeKpiTokenCallback(kpiToken)
   const redeem = useRedeemKpiTokenCallback(kpiToken)
+  const burn = useBurnKpiTokenCallback(kpiToken)
+  const hasBalance = useMemo(() => kpiTokenBalance && !kpiTokenBalance.isZero(), [kpiTokenBalance])
 
   const handleFinalize = useCallback(() => {
     if (finalize) finalize()
@@ -34,28 +37,19 @@ export const CampaignStatusAndActions = ({
     if (redeem) redeem()
   }, [redeem])
 
+  const handleBurn = useCallback(() => {
+    if (burn) burn()
+  }, [burn])
+
   if (status === null) return <Skeleton width="100%" height="16px" />
   if (status === Status.AWAITING_EXPIRY)
     return (
       <>
         The condition still has to play out. Results will be known only after{' '}
-        {kpiToken?.expiresAt.toFormat('dd/mm/yyyy hh:ss')} local time.
+        {kpiToken?.expiresAt.toFormat('dd/MM/yyyy hh:ss')} local time.
       </>
     )
-  if (status === Status.AWAITING_ANSWER)
-    return (
-      <Flex flexDirection="column">
-        <Box mb="20px">
-          The KPI-related question is currently awaiting an answer on Reality.eth. If you know the answer, click the
-          button below to submit it.
-        </Box>
-        <Box>
-          <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiToken?.kpiId}`}>
-            <Button primary>Submit answer</Button>
-          </ExternalLink>
-        </Box>
-      </Flex>
-    )
+  if (status === Status.AWAITING_ANSWER) return <Oracle kpiToken={kpiToken} />
   if (status === Status.AWAITING_FINALIZATION)
     return (
       <Flex flexDirection="column">
@@ -70,44 +64,54 @@ export const CampaignStatusAndActions = ({
         </Box>
       </Flex>
     )
-  if (status === Status.KPI_REACHED && kpiTokenBalance && !kpiTokenBalance.isZero())
+  if (status === Status.KPI_REACHED)
     return (
       <Flex flexDirection="column">
-        <Box mb="20px">
+        <Box>
           The KPI has been reached with {kpiProgressPercentage.toFixed(2)}% completion rate.{' '}
           {kpiToken?.collateral.toFixed(4)} {kpiToken?.collateral.currency.symbol} have been unlocked and are redeemable
-          by token holders in realtion to their balance.
+          by token holders in relation to their balance.
+          {hasBalance ? ' Click the button below to redeem your part.' : ''}
         </Box>
-        <Box>
-          <Button primary onClick={handleRedeem}>
-            Redeem reward
-          </Button>
-        </Box>
-      </Flex>
-    )
-  if (status === Status.KPI_NOT_REACHED) {
-    if (kpiTokenBalance && !kpiTokenBalance.isZero() && kpiProgressPercentage.greaterThan(ZERO_DECIMAL))
-      return (
-        <Flex flexDirection="column">
-          <Box mb="20px">
-            The KPI has been partly reached. {kpiProgressPercentage.toFixed(2)}% of the collateral has been unlocked for
-            token holders to redeem. Click the button below to redeem your part.
-          </Box>
-          <Box>
+        {hasBalance && (
+          <Box mt="20px">
             <Button primary onClick={handleRedeem}>
               Redeem reward
             </Button>
           </Box>
+        )}
+      </Flex>
+    )
+  if (status === Status.KPI_NOT_REACHED) {
+    if (kpiProgressPercentage.greaterThan(ZERO_DECIMAL))
+      return (
+        <Flex flexDirection="column">
+          <Box>
+            The KPI has been partly reached. {kpiProgressPercentage.toFixed(2)}% of the collateral has been unlocked for
+            token holders to redeem.{hasBalance ? ' Click the button below to redeem your part.' : ''}
+          </Box>
+          {hasBalance && (
+            <Box mt="20px">
+              <Button primary onClick={handleRedeem}>
+                Redeem reward
+              </Button>
+            </Box>
+          )}
         </Flex>
       )
     return (
       <Flex flexDirection="column">
-        <Box mb="20px">The KPI has not been reached. You can click the button below to burn your KPI tokens.</Box>
         <Box>
-          <Button primary onClick={handleRedeem}>
-            Burn tokens
-          </Button>
+          The KPI has not been reached.
+          {hasBalance ? ' If you want, you can click the button below to burn your KPI tokens.' : ''}
         </Box>
+        {hasBalance && (
+          <Box mt="20px">
+            <Button primary onClick={handleBurn}>
+              Burn tokens
+            </Button>
+          </Box>
+        )}
       </Flex>
     )
   }

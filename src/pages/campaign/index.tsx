@@ -14,7 +14,6 @@ import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
-import { ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { getExplorerLink, shortenAddress } from '../../utils'
 import { commify } from '@ethersproject/units'
@@ -43,19 +42,18 @@ const KpiExpiredText = styled(Text)`
 
 const MarkdownDiv = styled.div`
   > h1 {
+    font-weight: 600;
     font-size: 24px;
-    font-weight: 500;
+  }
+
+  > h2 {
+    font-weight: 600;
+    font-size: 20px;
   }
 
   > p {
     font-size: 16px;
   }
-`
-
-const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
-  color: ${(props) => props.theme.accent};
-  width: 12px;
-  height: 12px;
 `
 
 const DividerBox = styled(Box)`
@@ -82,17 +80,21 @@ export function Campaign({
     [kpiId, chainId]
   )
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
+
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(kpiId)
+
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, kpiTokenBalance)
-  const collateralPriceUSD = useTokenPriceUSD(kpiToken?.collateral.currency)
+  const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(
+    kpiToken?.collateral.currency
+  )
   // these auto updates at each block, instead of using the static value attached to the kpi token ts instance
   const { loading: loadingKpiTokenFinalized, finalized: kpiTokenFinalized } = useIsKpiTokenFinalized(kpiToken)
   const { loading: loadingKpiTokenProgress, progress: kpiTokenProgress } = useKpiTokenProgress(kpiToken)
 
   const [question, setQuestion] = useState('')
-  const [status, setStatus] = useState(Status.AWAITING_ANSWER)
+  const [status, setStatus] = useState<Status | null>(null)
   const [currentPeriodEnded, setCurrentPeriodEnded] = useState(false)
   const [kpiProgressPercentage, setKpiProgressPercentage] = useState(new Decimal('0'))
 
@@ -161,8 +163,8 @@ export function Campaign({
                 </Text>
                 {chainId && kpiToken?.address && (
                   <Box>
-                    <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')}>
-                      View on explorer <StyledExternalLinkIcon />
+                    <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')} showIcon>
+                      View on explorer
                     </ExternalLink>
                   </Box>
                 )}
@@ -219,7 +221,7 @@ export function Campaign({
                 >
                   <Text>Reward if KPI is reached:</Text>
                   <Text fontFamily="Overpass Mono" fontWeight="700">
-                    {!rewardIfKpiIsReached ? (
+                    {!rewardIfKpiIsReached || loadingCollateralPriceUSD ? (
                       <Skeleton width="80px" />
                     ) : (
                       `${rewardIfKpiIsReached.toFixed(4)} ${kpiToken?.collateral.currency.symbol} ($${
@@ -230,19 +232,15 @@ export function Campaign({
                     )}
                   </Text>
                 </Flex>
-                {kpiTokenBalance && !kpiTokenBalance.isZero() && (
-                  <>
-                    <DividerBox mb="20px" />
-                    <Box>
-                      <CampaignStatusAndActions
-                        status={status}
-                        kpiToken={kpiToken}
-                        kpiTokenBalance={kpiTokenBalance}
-                        kpiProgressPercentage={kpiProgressPercentage}
-                      />
-                    </Box>
-                  </>
-                )}
+                <DividerBox my="20px" />
+                <Box>
+                  <CampaignStatusAndActions
+                    status={status}
+                    kpiToken={kpiToken}
+                    kpiTokenBalance={kpiTokenBalance}
+                    kpiProgressPercentage={kpiProgressPercentage}
+                  />
+                </Box>
               </Card>
             )}
             <Charts metrics={featuredCampaignSpec?.metrics} />
@@ -257,13 +255,13 @@ export function Campaign({
                   KPI expired
                 </KpiExpiredText>
               ) : (
-                <Countdown to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
+                <Countdown textAlign="right" to={kpiToken.expiresAt} onEnd={handleCountdownEnd} />
               )}
             </Card>
             <Card flexDirection="column" m="8px">
               <Title mb="8px">Rewards</Title>
               <Text mb="4px" fontFamily="Overpass Mono">
-                {loadingKpiToken || !kpiToken ? (
+                {loadingKpiToken || !kpiToken || loadingCollateralPriceUSD ? (
                   <Skeleton width="80px" />
                 ) : (
                   `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.symbol} ($${
@@ -272,13 +270,6 @@ export function Campaign({
                       : commify(kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2))
                   })`
                 )}
-              </Text>
-            </Card>
-            <Card flexDirection="column" m="8px">
-              <Title mb="8px">Oracle</Title>
-              <Text>
-                Reality.eth (
-                <ExternalLink href={`https://reality.eth.link/app/#!/question/${kpiId}`}>see question</ExternalLink>)
               </Text>
             </Card>
           </Flex>
