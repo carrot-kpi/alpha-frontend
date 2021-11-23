@@ -118,7 +118,7 @@ export const WalletPopover = ({ children, show, onHide }: WalletPopoverProps) =>
             )}
           </Flex>
           <Title mb="12px">Latest transactions</Title>
-          <Flex width="100%" height="240px" overflowY="auto" mb="8px" flexDirection="column">
+          <Flex width="100%" height="240px" overflowY="auto" overflowX="hidden" mb="8px" flexDirection="column">
             {filteredSortedTransactions.length > 0 && !!chainId ? (
               filteredSortedTransactions.map((transaction) => {
                 return (
