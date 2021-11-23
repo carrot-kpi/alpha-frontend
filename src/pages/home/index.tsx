@@ -99,7 +99,7 @@ export function Home(): ReactElement {
           Featured campaigns
         </Text>
         <Flex width="100%" justifyContent="center">
-          <Box width={['100%', '80%', '70%', '55%']} px="16px">
+          <Box width={['100%', '80%', '70%', '55%']} px={['16px', '0px']}>
             <StyledSlider dots infinite={false} slidesToShow={slidesToShow}>
               {loadingFeaturedKpiTokens
                 ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.XDAI].length).fill(null).map((_, index) => {

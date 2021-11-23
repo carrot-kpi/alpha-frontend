@@ -63,7 +63,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
     <Card
       mx={['16px', '0px']}
       flexDirection="column"
-      width="100%"
+      minWidth="100%"
       maxWidth={['auto', '320px']}
       height="100%"
       display="flex"
@@ -91,12 +91,12 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         </GoalText>
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
-        <Title>Rewards:</Title>
-        <Text textAlign="right" fontFamily="Overpass Mono" fontWeight="700">
+        <Title mr="16px">Rewards:</Title>
+        <Text fontSize="12px" textAlign="right" fontFamily="Overpass Mono" fontWeight="700">
           {loading || !collateral || loadingCollateralPriceUSD ? (
             <Skeleton width="100px" />
           ) : (
-            `${collateral?.toFixed(4)} ${collateral?.currency.symbol} ($${
+            `${collateral?.toFixed(2)} ${collateral?.currency.symbol} ($${
               collateralPriceUSD.isZero() ? '-' : collateral.multiply(collateralPriceUSD).toFixed(2)
             })`
           )}
@@ -105,13 +105,13 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       <Flex justifyContent="space-between" alignItems="center" mb="24px">
         <Title>Time left:</Title>
         {!expiresAt ? (
-          <Skeleton width="80px" />
+          <Skeleton height="12px" width="80px" />
         ) : expiresAt.toJSDate().getTime() < Date.now() ? (
-          <KpiExpiredText fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
+          <KpiExpiredText fontSize="12px" fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
             KPI expired
           </KpiExpiredText>
         ) : (
-          <Countdown fontSize="14px" fontWeight="600" to={expiresAt} />
+          <Countdown fontSize="12px" fontWeight="600" to={expiresAt} />
         )}
       </Flex>
       <Box>
