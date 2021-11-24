@@ -4,8 +4,8 @@ import { DateTime } from 'luxon'
 import { TotalSupplyToken } from '../../tokens'
 
 export abstract class Metric {
-  protected readonly from: DateTime
-  protected readonly to: DateTime
+  public readonly from: DateTime
+  public readonly to: DateTime
   protected readonly granularity: number
 
   constructor(from: DateTime, to: DateTime, granularity: number) {

@@ -12,7 +12,7 @@ export function useKpiTokenBalance(
   const callParams = useMemo(() => [account || undefined], [account])
   const wrappedResult = useSingleCallResult(kpiTokenContract, 'balanceOf', callParams)
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [balance, setBalance] = useState<Amount<Token> | undefined>(undefined)
 
   useEffect(() => {

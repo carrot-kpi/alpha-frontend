@@ -9,7 +9,7 @@ export function useKpiTokenProgress(kpiToken?: KpiToken): { loading: boolean; pr
   const kpiTokenContract = useKpiTokenContract(kpiTokenAddress)
   const wrappedResult = useSingleCallResult(kpiTokenContract, 'finalKpiProgress')
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(BigNumber.from(0))
 
   useEffect(() => {

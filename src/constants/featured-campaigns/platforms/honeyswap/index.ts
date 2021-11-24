@@ -240,6 +240,7 @@ export class Honeyswap implements DexPlatform {
 
     return Object.entries(tokenPriceNativeCurrencyData).reduce(
       (accumulator: ChartDataPoint[], [timestampString, token]) => {
+        if (!token) return accumulator
         const { ethPrice } = nativeCurrencyUsdData[timestampString]
         const usdPrice = new Amount(
           nativeCurrency,

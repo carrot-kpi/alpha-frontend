@@ -1,4 +1,4 @@
-import React, { cloneElement, useRef } from 'react'
+import React, { useRef } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 import { Card } from '../card'
@@ -24,7 +24,16 @@ export function Popover({ content, show, onHide, children }: PopoverProps) {
   const popperRef = useRef<HTMLDivElement | null>(null)
   const { styles, attributes } = usePopper(referenceRef.current, popperRef.current, {
     placement: 'bottom-end',
-    modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
+    modifiers: [
+      { name: 'offset', options: { offset: [0, 8] } },
+      {
+        name: 'preventOverflow',
+        options: {
+          mainAxis: true,
+          altAxis: true,
+        },
+      },
+    ],
   })
   const transition = useTransition(show, {
     from: { opacity: 0, scale: 0.9 },
@@ -36,7 +45,7 @@ export function Popover({ content, show, onHide, children }: PopoverProps) {
 
   return (
     <>
-      {cloneElement(children, { ref: referenceRef, innerRef: referenceRef, style: { cursor: 'pointer' } })}
+      <div ref={referenceRef}>{children}</div>
       <div ref={popperRef} {...attributes.popper} style={styles.popper}>
         {transition(
           (transitionStyles, item) =>
