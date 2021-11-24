@@ -11,11 +11,11 @@ interface LogoProps {
 export const Logo = ({ darkMode }: LogoProps) => {
   const theme = useTheme()
   return (
-    <Flex alignItems="center">
-      <Box mr="4px">
+    <Flex flexDirection="column" alignItems="flex-end">
+      <Box mb="-4px">
         <Image display="flex" src={darkMode ? logoLight : logoDark} height="28px" alt="logo" />
       </Box>
-      <Text fontSize="12px" fontWeight="700" color={theme.content}>
+      <Text fontSize="8px" fontWeight="700" color={theme.contentSecondary}>
         v{version}
       </Text>
     </Flex>
