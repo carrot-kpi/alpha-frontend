@@ -15,9 +15,19 @@ import strip from 'strip-markdown'
 import { useKpiToken } from '../../hooks/useKpiToken'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
+import { transparentize } from 'polished'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
+`
+
+const HoldingBadge = styled.div`
+  padding: 0 12px;
+  height: 24px;
+  background-color: ${(props) => transparentize(0.85, props.theme.positive)};
+  color: ${(props) => props.theme.positive};
+  border: solid 1px ${(props) => props.theme.positive};
+  border-radius: 20px;
 `
 
 const GoalText = styled(Text)`
@@ -37,9 +47,10 @@ interface CampaignCardProps {
   expiresAt?: DateTime
   goal?: string
   collateral?: Amount<Token>
+  userBalance?: Amount<Token>
 }
 
-export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
+export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral, userBalance }: CampaignCardProps) {
   const theme = useTheme()
   const { account } = useActiveWeb3React()
   const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
@@ -74,18 +85,14 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       height="100%"
       display="flex"
     >
-      <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
-        {loading ? <Skeleton width="40px" /> : creator}
-      </Text>
-      <Text fontSize="16px" mb="8px" fontWeight="700" color={theme.accent}>
-        {loadingKpiToken && loadingKpiTokenBalance ? (
-          <Skeleton width="40px" />
-        ) : kpiTokenBalance && !kpiTokenBalance.isZero() ? (
-          `${kpiTokenBalance.toFixed(4)} ${kpiTokenBalance.currency.symbol}`
-        ) : (
-          ''
-        )}
-      </Text>
+      <Flex width="100%" mb="12px" justifyContent="space-between" alignItems="center">
+        <Text fontSize="16px" fontWeight="700" color={theme.accent}>
+          {loading ? <Skeleton width="40px" /> : creator}
+        </Text>
+        {!loadingKpiToken && !loadingKpiTokenBalance && kpiTokenBalance && !kpiTokenBalance.isZero() ? (
+          <HoldingBadge>Holding</HoldingBadge>
+        ) : null}
+      </Flex>
       <Box mb="20px" flexGrow={1}>
         <GoalText fontSize="20px">
           {loading || !goal ? (
