@@ -18,6 +18,7 @@ interface ButtonProps {
 }
 
 const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
+  white-space: nowrap;
   height: ${(props) => {
     if (props.small) return '32px'
     if (props.mini) return '25px'
