@@ -140,7 +140,9 @@ export const Header = (): ReactElement => {
                     </ClickableFlex>
                   )
                 ) : (
-                  <Button onClick={handleSwitchNetworkClick}>Switch network</Button>
+                  <Button mini onClick={handleSwitchNetworkClick}>
+                    Switch network
+                  </Button>
                 )}
               </NetworkSwitcherPopover>
             </Box>
