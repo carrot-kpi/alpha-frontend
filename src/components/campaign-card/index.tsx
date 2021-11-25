@@ -86,8 +86,8 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       height="100%"
       display="flex"
     >
-      <Flex width="100%" mb="12px" justifyContent="space-between" alignItems="center">
-        <Text fontSize="16px" fontWeight="700" color={theme.accent} title="Creator">
+      <Flex width="100%" mb="8px" justifyContent="space-between" alignItems="center">
+        <Text fontSize="16px" height="20px" fontWeight="700" color={theme.accent} title="Creator">
           {loading ? <Skeleton width="40px" /> : creator}
         </Text>
         {!!account && (loadingKpiToken || loadingKpiTokenBalance) ? (
