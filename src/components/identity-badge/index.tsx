@@ -25,9 +25,7 @@ const FlexContainer = styled(Flex)<{ onClick?: any; mobile: boolean }>`
 const Blockie = styled.img<{ mobile: boolean }>`
   height: 26px;
   width: 28px;
-  border-radius: ${(props) => (props.mobile ? 8 : 0)}px;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-radius: 8px;
   margin-right: ${(props) => (props.mobile ? 0 : '8px')};
 `
 
