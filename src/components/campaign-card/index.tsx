@@ -90,9 +90,9 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         <Text fontSize="16px" fontWeight="700" color={theme.accent} title="Creator">
           {loading ? <Skeleton width="40px" /> : creator}
         </Text>
-        {(loadingKpiToken && loadingKpiTokenBalance) || !kpiTokenBalance ? (
+        {!!account && (loadingKpiToken || loadingKpiTokenBalance) ? (
           <Skeleton height="20px" width="80px" />
-        ) : !kpiTokenBalance.isZero() ? (
+        ) : !!account && !!kpiTokenBalance && !kpiTokenBalance.isZero() ? (
           <HoldingBadge>Holding</HoldingBadge>
         ) : null}
       </Flex>
