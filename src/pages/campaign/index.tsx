@@ -205,8 +205,8 @@ export function Campaign({
             {account && (
               <Card m="8px" flexGrow={1} height="fit-content">
                 <Flex justifyContent="space-between" alignItems="center" mb="4px">
-                  <Text>Your balance:</Text>
-                  <Text fontFamily="Overpass Mono" fontWeight="700">
+                  <Text mr="16px">Your balance:</Text>
+                  <Text fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
                     {loadingKpiTokenBalance || !kpiToken || !kpiTokenBalance ? (
                       <Skeleton width="80px" />
                     ) : (
@@ -219,8 +219,8 @@ export function Campaign({
                   alignItems="center"
                   mb={kpiTokenBalance && !kpiTokenBalance.isZero() ? '20px' : '0px'}
                 >
-                  <Text>Reward if KPI is reached:</Text>
-                  <Text fontFamily="Overpass Mono" fontWeight="700">
+                  <Text mr="16px">Reward if KPI is reached:</Text>
+                  <Text fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
                     {!rewardIfKpiIsReached || loadingCollateralPriceUSD ? (
                       <Skeleton width="80px" />
                     ) : (
