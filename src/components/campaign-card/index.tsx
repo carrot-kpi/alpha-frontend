@@ -24,8 +24,7 @@ const KpiExpiredText = styled(Text)`
 const HoldingBadge = styled.div`
   padding: 0 12px;
   font-size: 12px;
-  height: 16px;
-  line-height: 13.5px;
+  height: 20px;
   background-color: ${(props) => transparentize(0.85, props.theme.positive)};
   color: ${(props) => props.theme.positive};
   border: solid 1px ${(props) => props.theme.positive};
@@ -93,7 +92,9 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         </Text>
         {!loadingKpiToken && !loadingKpiTokenBalance && kpiTokenBalance && !kpiTokenBalance.isZero() ? (
           <HoldingBadge>Holding</HoldingBadge>
-        ) : null}
+        ) : (
+          <Skeleton height="20px" width="80px" />
+        )}
       </Flex>
       <Box mb="20px" flexGrow={1}>
         <GoalText fontSize="20px">
