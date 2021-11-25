@@ -49,8 +49,8 @@ export const BarChart = ({ metric }: BarChartProps) => {
       ) : metric.from.toMillis() > Date.now() ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
           <Text maxWidth={['80%', '70%', '60%']} textAlign="center">
-            Data will be collected and shown in this chart starting from{' '}
-            {metric.from.toLocaleString(DateTime.DATETIME_MED)} local time.
+            Data will be collected and displayed in this chart once the campaign period starts at{' '}
+            {metric.from.toLocaleString(DateTime.DATETIME_MED)} local time
           </Text>
         </Flex>
       ) : chartData.length === 0 ? (
