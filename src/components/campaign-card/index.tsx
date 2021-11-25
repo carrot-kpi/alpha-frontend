@@ -23,7 +23,9 @@ const KpiExpiredText = styled(Text)`
 
 const HoldingBadge = styled.div`
   padding: 0 12px;
-  height: 24px;
+  font-size: 12px;
+  height: 16px;
+  line-height: 13.5px;
   background-color: ${(props) => transparentize(0.85, props.theme.positive)};
   color: ${(props) => props.theme.positive};
   border: solid 1px ${(props) => props.theme.positive};
@@ -34,10 +36,11 @@ const GoalText = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
+  line-height: 28px;
   -webkit-line-clamp: 4;
   line-clamp: 4;
   -webkit-box-orient: vertical;
-  height: 108px;
+  height: 112px;
 `
 
 interface CampaignCardProps {
