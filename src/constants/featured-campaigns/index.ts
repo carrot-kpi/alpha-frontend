@@ -1,8 +1,8 @@
 import { ChainId } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { WBTC, DXD, XDAI_WETH, SWPR } from '../tokens'
-import { Metric, PairLiquidityMetric, TokenMarketCapMetric, TokenPriceMetric, TvlMetric } from './metrics'
-import { Agave } from './platforms/agave'
+import { DXD, XDAI_WETH, SWPR } from '../tokens'
+import { Metric, PairLiquidityMetric, TokenPriceMetric } from './metrics'
+// import { Agave } from './platforms/agave'
 import { Swapr } from './platforms/swapr'
 
 export interface FeaturedCampaign {
@@ -17,40 +17,36 @@ export enum Platform {
 }
 
 const swapr = new Swapr()
-const agave = new Agave()
+// const agave = new Agave()
 
 export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
   [ChainId.RINKEBY]: [
     {
       metrics: [
-        new TvlMetric(
-          ChainId.RINKEBY,
+        new PairLiquidityMetric(
+          DXD,
+          XDAI_WETH,
           swapr,
-          agave,
-          DateTime.fromFormat('19/10/2021', 'dd/MM/yyyy'),
-          DateTime.fromFormat('20/10/2021', 'dd/MM/yyyy'),
-          3600
-        ),
-        new TokenMarketCapMetric(
-          WBTC,
-          swapr,
-          DateTime.fromFormat('19/10/2021', 'dd/MM/yyyy'),
-          DateTime.fromFormat('20/10/2021', 'dd/MM/yyyy'),
-          3600
+          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          86400
         ),
       ],
-      id: '0x08d40515dc4f407a7ee4a3ec452e1f1134308ff5',
-      kpiId: '0x1c903a9a74aa4a3d5c3da94dcddbc6ebcb5cdb9eecb6fdddf9229d9edaa7f6d1',
+      id: '0xf9cec6622e9aba9f84feb6b1e242c02357c62c72',
+      kpiId: '0x2cba9605854882fa57383dd520485e2837caf3bebcc004b50e978d8d81c8ad73',
     },
     {
-      metrics: [],
-      id: '0x4b1363fe97eab90b76745095e508bbfa4783ae3f',
-      kpiId: '0xa8195c2ad209cd6304582fd63bf02d49c8d5d869f14bab309939f6f7bff3311a',
-    },
-    {
-      metrics: [],
-      id: '0x91e60aa7b6d9cee6dc4fa160011a565295f536d9',
-      kpiId: '0x1b6ae875354ff2f5abe915f849ed441785b9e878a431cd5df0b8246fd63785e1',
+      metrics: [
+        new TokenPriceMetric(
+          SWPR,
+          swapr,
+          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          86400
+        ),
+      ],
+      id: '0x5b34994397dee11d2d403e5879bc256c30056120',
+      kpiId: '0xcc12b3e93819f18a34a0e388a0d1a54da253d8ff5e2a25a72a0cd91336f8689c',
     },
   ],
   [ChainId.XDAI]: [
