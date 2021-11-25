@@ -99,13 +99,16 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         <GoalText fontSize="20px">
           {loading || !goal ? (
             <Flex flexDirection="column">
-              <Box mb="8px">
+              <Box>
                 <Skeleton width="100%" />
               </Box>
-              <Box mb="8px">
+              <Box>
                 <Skeleton width="100%" />
               </Box>
-              <Box mb="8px">
+              <Box>
+                <Skeleton width="100%" />
+              </Box>
+              <Box>
                 <Skeleton width="100px" />
               </Box>
             </Flex>
