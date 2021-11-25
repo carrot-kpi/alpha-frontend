@@ -5,8 +5,8 @@ import '@fontsource/manrope/700.css'
 import '@fontsource/manrope/800.css'
 import '@fontsource/overpass-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
+/* import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css' */
 import { transparentize } from 'polished'
 import { lightTheme } from './light'
 import { darkTheme } from './dark'
@@ -205,7 +205,7 @@ export const GlobalStyle = createGlobalStyle`
     }
   } 
 
-  .slick-initialized .slick-slide > div {
+  /* .slick-initialized .slick-slide > div {
     width: 100%;
     display: flex;
     justify-content: center; 
@@ -229,7 +229,7 @@ export const GlobalStyle = createGlobalStyle`
   
   .slick-dots { 
     bottom: -32px;
-  }
+  } */
 
 `
 

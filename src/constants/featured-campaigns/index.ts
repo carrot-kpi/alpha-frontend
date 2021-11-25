@@ -43,13 +43,6 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: '0x1c903a9a74aa4a3d5c3da94dcddbc6ebcb5cdb9eecb6fdddf9229d9edaa7f6d1',
     },
     {
-      metrics: [
-        new TvlMetric(ChainId.RINKEBY, swapr, agave, DateTime.now().minus({ days: 10 }), DateTime.now(), 86400),
-      ],
-      id: '0xa35ff0288c647f74ca0536dbf0aed820b66d27e4',
-      kpiId: '0xefa2051e965e72c2776be6a870f8d25fc8bbde8af7b92e9a3e5adbae3f9923a9',
-    },
-    {
       metrics: [],
       id: '0x4b1363fe97eab90b76745095e508bbfa4783ae3f',
       kpiId: '0xa8195c2ad209cd6304582fd63bf02d49c8d5d869f14bab309939f6f7bff3311a',

@@ -81,10 +81,9 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
 
   return (
     <Card
-      mx={['16px', '0px']}
+      /* mx={['16px', '0px']} */
       flexDirection="column"
-      minWidth="100%"
-      maxWidth={['auto', '320px']}
+      maxWidth="320px"
       height="100%"
       display="flex"
     >
