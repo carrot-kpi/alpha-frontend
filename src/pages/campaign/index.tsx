@@ -154,7 +154,7 @@ export function Campaign({
           <Flex width={['100%', '55%', '70%']} flexDirection="column">
             <Card m="8px" height="fit-content">
               <Flex justifyContent="space-between" alignItems="center" mb="16px">
-                <Text fontSize="20px" fontWeight="700" color={theme.accent}>
+                <Text fontSize="20px" fontWeight="700" color={theme.accent} title="Creator">
                   {loadingKpiToken || !kpiToken ? (
                     <Skeleton width="120px" />
                   ) : (

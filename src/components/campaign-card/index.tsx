@@ -87,14 +87,14 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       display="flex"
     >
       <Flex width="100%" mb="12px" justifyContent="space-between" alignItems="center">
-        <Text fontSize="16px" fontWeight="700" color={theme.accent}>
+        <Text fontSize="16px" fontWeight="700" color={theme.accent} title="Creator">
           {loading ? <Skeleton width="40px" /> : creator}
         </Text>
-        {!loadingKpiToken && !loadingKpiTokenBalance && kpiTokenBalance && !kpiTokenBalance.isZero() ? (
-          <HoldingBadge>Holding</HoldingBadge>
-        ) : (
+        {(loadingKpiToken && loadingKpiTokenBalance) || !kpiTokenBalance ? (
           <Skeleton height="20px" width="80px" />
-        )}
+        ) : !kpiTokenBalance.isZero() ? (
+          <HoldingBadge>Holding</HoldingBadge>
+        ) : null}
       </Flex>
       <Box mb="20px" flexGrow={1}>
         <GoalText fontSize="20px">
