@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
 import { TokenPriceMetric } from '../../../constants/featured-campaigns/metrics'
 import { ChartDataPoint } from '../../../constants/featured-campaigns/platforms'
-import { Box, Flex } from 'rebass'
+import { Flex, Text } from 'rebass'
 import Loader from 'react-spinners/BarLoader'
 import { CustomTooltip } from '../custom-tooltip'
 
@@ -45,9 +45,16 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
           <Loader css="display: block;" color={theme.accent} loading />
         </Flex>
+      ) : metric.from.toMillis() > Date.now() ? (
+        <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
+          <Text maxWidth={['80%', '70%', '60%']} textAlign="center">
+            Data will be collected and shown in this chart starting from{' '}
+            {metric.from.toLocaleString(DateTime.DATETIME_MED)} local time.
+          </Text>
+        </Flex>
       ) : chartData.length === 0 ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-          <Box>No data</Box>
+          <Text textAlign="center">No data</Text>
         </Flex>
       ) : (
         <ResponsiveContainer>
