@@ -7,22 +7,23 @@ export const Footer = () => {
   const darkMode = useIsDarkMode()
 
   return (
-    <Flex mb="40px" px={['16px']} alignItems="center" justifyContent="space-between">
-      <Box mr="16px">
-        <Logo darkMode={darkMode} />
-      </Box>
-      <Flex>
-        <Box mr="16px">
-          <ExternalLink href="https://discord.com/invite/4QXEJQkvHH">
-            <Text fontSize="17px">Discord</Text>
-          </ExternalLink>
+    <Flex mb="40px" px={['16px', '0px']} alignItems="center" justifyContent="center">
+      <Flex mr="12px" alignItems="center">
+        <Box mr="6px">
+          <Logo darkMode={darkMode} />
         </Box>
-        <Box>
-          <ExternalLink href="https://daotalk.org/c/dx-dao/15">
-            <Text fontSize="17px">Forum</Text>
-          </ExternalLink>
-        </Box>
+        <Text fontSize="12px">
+          by <ExternalLink href="https://dxdao.eth.link">DXdao</ExternalLink>
+        </Text>
       </Flex>
+      <Text mr="12px">&middot;</Text>
+      <Box mr="12px">
+        <ExternalLink href="https://discord.com/invite/4QXEJQkvHH">Discord</ExternalLink>
+      </Box>
+      <Text mr="12px">&middot;</Text>
+      <Box>
+        <ExternalLink href="https://twitter.com/CarrotEth">Twitter</ExternalLink>
+      </Box>
     </Flex>
   )
 }
