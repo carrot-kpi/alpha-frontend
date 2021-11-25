@@ -19,12 +19,13 @@ interface AreaChartProps {
 export const AreaChart = ({ metric }: AreaChartProps) => {
   const theme = useTheme()
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
 
   useEffect(() => {
     let cancelled = false
     const fetchChartData = async () => {
+      if (metric.from.toMillis() > Date.now()) return
       if (!cancelled) setLoading(true)
       try {
         const data = await metric.chartData()
