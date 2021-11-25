@@ -3,7 +3,7 @@ import useInterval from 'react-use/lib/useInterval'
 import { Flex, Text } from 'rebass'
 import Skeleton from 'react-loading-skeleton'
 import { DateTime, Duration } from 'luxon'
-import { useTheme } from 'styled-components'
+import styled from 'styled-components'
 
 interface CountdownProps {
   loading?: boolean
@@ -14,9 +14,12 @@ interface CountdownProps {
   onEnd?: () => void
 }
 
-export const Countdown = ({ loading, to, fontSize, fontWeight, textAlign, onEnd }: CountdownProps) => {
-  const theme = useTheme()
+const StyledText = styled(Text)`
+  color: ${(props) => props.theme.content};
+  transition: color 0.2s ease;
+`
 
+export const Countdown = ({ loading, to, fontSize, fontWeight, textAlign, onEnd }: CountdownProps) => {
   const [isRunning, setIsRunning] = useState(false)
   const [duration, setDuration] = useState(Duration.fromMillis(0))
   const [durationParts, setDurationParts] = useState<{ days: string; hours: string; minutes: string; seconds: string }>(
@@ -57,9 +60,9 @@ export const Countdown = ({ loading, to, fontSize, fontWeight, textAlign, onEnd 
         <Skeleton width="80px" />
       ) : (
         <Flex alignItems="center">
-          <Text fontFamily="Overpass Mono" textAlign={textAlign} fontSize={fontSize} color={theme.content}>
+          <StyledText fontFamily="Overpass Mono" textAlign={textAlign} fontSize={fontSize}>
             {durationParts.days}D {durationParts.hours}H {durationParts.minutes}M {durationParts.seconds}S
-          </Text>
+          </StyledText>
         </Flex>
       )}
     </Text>
