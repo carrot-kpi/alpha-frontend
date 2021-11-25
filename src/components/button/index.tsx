@@ -27,7 +27,7 @@ const Root = styled(RebassButton)<ButtonProps & RebassButtonProps>`
   line-height: 24px !important;
   text-decoration: none;
   font-size: 16px !important;
-  padding: 0 ${(props) => (props.small ? '8px' : props.mini ? '4px' : '16px')} !important;
+  padding: 0 ${(props) => (props.small || props.mini ? '8px' : '16px')} !important;
   cursor: pointer;
   background-color: ${(props) => {
     if (props.disabled) return props.theme.disabled
