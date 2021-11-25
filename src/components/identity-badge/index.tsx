@@ -5,6 +5,8 @@ import makeBlockie from 'ethereum-blockies-base64'
 import { Flex, Text } from 'rebass'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { getAddress } from '@ethersproject/address'
+import { useEnsName } from '../../hooks/useEnsName'
+import Skeleton from 'react-loading-skeleton'
 
 const FlexContainer = styled(Flex)<{ onClick?: any; mobile: boolean }>`
   position: relative;
@@ -43,12 +45,18 @@ const ConnectedDot = styled.div`
 
 export const IdentityBadge = ({ account, onClick }: { account: string; onClick?: () => void }): ReactElement => {
   const isMobile = useIsMobile()
+  const { loading: loadingEnsName, name: ensName } = useEnsName(account)
 
   return (
     <>
       <FlexContainer mobile={isMobile} onClick={onClick}>
         <Blockie mobile={isMobile} src={makeBlockie(getAddress(account))} />
-        {!isMobile && <Text fontFamily="Overpass Mono">{shortenAddress(account)}</Text>}
+        {!isMobile &&
+          (loadingEnsName ? (
+            <Skeleton width="140px" />
+          ) : (
+            <Text fontFamily="Overpass Mono">{ensName || shortenAddress(account)}</Text>
+          ))}
         {isMobile && <ConnectedDot />}
       </FlexContainer>
     </>

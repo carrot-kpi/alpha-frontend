@@ -30,23 +30,23 @@ export function App() {
       <ThemeProvider theme={theme}>
         <TransactionsStateUpdater />
         <GlobalStyle />
-        <Header />
-        <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
-          <Flex flexDirection="column" flex="1" width="100%">
-            <Box flexGrow={1}>
-              <SkeletonTheme color={theme.border} highlightColor={theme.surfaceInteractive}>
+        <SkeletonTheme color={theme.border} highlightColor={theme.surfaceInteractive}>
+          <Header />
+          <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
+            <Flex flexDirection="column" flex="1" width="100%">
+              <Box flexGrow={1}>
                 <Switch>
                   <Route strict exact path="/" component={Home} />
                   <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
                   <Redirect to="/" />
                 </Switch>
-              </SkeletonTheme>
+              </Box>
+            </Flex>
+            <Box width={['100%', '80%', '70%', '55%']}>
+              <Footer />
             </Box>
           </Flex>
-          <Box width={['100%', '80%', '70%', '55%']}>
-            <Footer />
-          </Box>
-        </Flex>
+        </SkeletonTheme>
         <NetworkWarningModal />
       </ThemeProvider>
       <ToastContainer
