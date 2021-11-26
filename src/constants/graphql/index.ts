@@ -5,12 +5,10 @@ export const CARROT_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normal
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/carrot-rinkeby',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
   [ChainId.XDAI]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/carrot-xdai',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
 }
 
@@ -18,12 +16,10 @@ export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normali
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-rinkeby-new',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
   [ChainId.XDAI]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai-v2',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
 }
 
@@ -31,7 +27,6 @@ export const HONEYSWAP_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<Normal
   [ChainId.XDAI]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/1hive/honeyswap-v2',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
 }
 
@@ -39,12 +34,10 @@ export const AGAVE_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normali
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/pjcolombo/agave-rinkeby',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
   [ChainId.XDAI]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/agave-dao/agave-xdai',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
 }
 
@@ -52,11 +45,9 @@ export const BLOCK_SUBGRAPH_CLIENTS: { [chainId in ChainId]: ApolloClient<Normal
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/rinkeby-blocks',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
   [ChainId.XDAI]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/1hive/xdai-blocks',
     cache: new InMemoryCache(),
-    connectToDevTools: true,
   }),
 }
