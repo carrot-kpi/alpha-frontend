@@ -12,7 +12,7 @@ export const UndecoratedExternalLink = styled.a.attrs(() => ({ target: '_blank',
   width: fit-content;
   cursor: pointer;
   text-decoration: none;
-  color: ${(props) => props.theme.surfaceContent};
+  color: inherit;
 `
 
 const DecoratedExternalLink = styled.a.attrs(() => ({ target: '_blank', rel: 'noopener noreferrer' }))`

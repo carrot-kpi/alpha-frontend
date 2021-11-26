@@ -3,8 +3,6 @@ import { Box, Flex, Text, Image } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
-import { CREATORS_NAME_MAP } from '../../constants'
-import { shortenAddress } from '../../utils'
 import { ChainId } from '@carrot-kpi/sdk'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
@@ -108,7 +106,7 @@ export function Home(): ReactElement {
         >
           {/* <Box width={['100%', '80%', '70%', '55%']} px={['16px', '0px']}>
             <StyledSlider dots infinite={false} slidesToShow={slidesToShow}> */}
-          {loadingFeaturedKpiTokens
+          {loadingFeaturedKpiTokens || !chainId
             ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.XDAI].length).fill(null).map((_, index) => {
                 return (
                   <Box key={index} width="100%" p="8px" maxWidth={['100%', '320px']}>
@@ -116,17 +114,26 @@ export function Home(): ReactElement {
                   </Box>
                 )
               })
-            : featuredKpiTokens.map((featuredKpiToken) => (
-                <Box key={featuredKpiToken.kpiId} width="100%" p="8px" maxWidth="320px">
-                  <CampaignCard
-                    kpiId={featuredKpiToken.kpiId}
-                    creator={CREATORS_NAME_MAP[featuredKpiToken.creator] || shortenAddress(featuredKpiToken.creator)}
-                    expiresAt={featuredKpiToken.expiresAt}
-                    goal={featuredKpiToken.question}
-                    collateral={featuredKpiToken.collateral}
-                  />
-                </Box>
-              ))}
+            : featuredKpiTokens.map((featuredKpiToken) => {
+                const featuredCampaignSpec = FEATURED_CAMPAIGNS[chainId].find(
+                  (campaign) => campaign.kpiId === featuredKpiToken.kpiId
+                )
+                if (!featuredCampaignSpec) {
+                  console.warn('Could not find featured campaign with KPI id ', featuredKpiToken.kpiId)
+                  return null
+                }
+                return (
+                  <Box key={featuredKpiToken.kpiId} width="100%" p="8px" maxWidth="320px">
+                    <CampaignCard
+                      kpiId={featuredKpiToken.kpiId}
+                      creator={featuredCampaignSpec.creator}
+                      expiresAt={featuredKpiToken.expiresAt}
+                      goal={featuredKpiToken.question}
+                      collateral={featuredKpiToken.collateral}
+                    />
+                  </Box>
+                )
+              })}
           {/* </StyledSlider>
           </Box> */}
         </Flex>

@@ -1,12 +1,11 @@
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Flex, Box, Text } from 'rebass'
+import { Flex, Box, Text, Image } from 'rebass'
 import { RouteComponentProps } from 'react-router-dom'
 import { useKpiToken } from '../../hooks/useKpiToken'
 import { Card } from '../../components/card'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
-import { CREATORS_NAME_MAP } from '../../constants'
 import styled, { useTheme } from 'styled-components'
 import { ExternalLink, UndecoratedExternalLink } from '../../components/undecorated-link'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
@@ -15,7 +14,7 @@ import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { getExplorerLink, shortenAddress } from '../../utils'
+import { getExplorerLink } from '../../utils'
 import { commify } from '@ethersproject/units'
 import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
@@ -154,13 +153,18 @@ export function Campaign({
           <Flex width={['100%', '55%', '70%']} flexDirection="column">
             <Card m="8px" height="fit-content">
               <Flex justifyContent="space-between" alignItems="center" mb="16px">
-                <Text fontSize="20px" fontWeight="700" color={theme.accent} title="Creator">
-                  {loadingKpiToken || !kpiToken ? (
-                    <Skeleton width="120px" />
-                  ) : (
-                    CREATORS_NAME_MAP[kpiToken.creator] || shortenAddress(kpiToken.creator)
-                  )}
-                </Text>
+                <Flex alignItems="center">
+                  <Box mr="8px" width="20px" height="20px">
+                    {loadingKpiToken || !kpiToken ? (
+                      <Skeleton circle width="20px" height="20px" />
+                    ) : (
+                      <Image width="20px" height="20px" src={featuredCampaignSpec.creator.logo} />
+                    )}
+                  </Box>
+                  <Text fontSize="20px" lineHeight="20px" fontWeight="700" color={theme.accent} title="Creator">
+                    {loadingKpiToken || !kpiToken ? <Skeleton width="60px" /> : featuredCampaignSpec.creator.name}
+                  </Text>
+                </Flex>
                 {chainId && kpiToken?.address && (
                   <Box>
                     <ExternalLink href={getExplorerLink(chainId, kpiToken.address, 'address')} showIcon>

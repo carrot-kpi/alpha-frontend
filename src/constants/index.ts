@@ -13,10 +13,6 @@ import { JsonRpcProvider } from '@ethersproject/providers'
 export const ZERO_USD = new Amount<Currency>(Currency.USD, BigNumber.from(0))
 export const ZERO_DECIMAL = new Decimal(0)
 
-export const CREATORS_NAME_MAP: { [address: string]: string } = {
-  '0xb4124ceb3451635dacedd11767f004d8a28c6ee7': 'Luzzif',
-  '0x9467dcfd4519287e3878c018c02f5670465a9003': 'DXdao',
-}
 export const INVALID_REALITY_ANSWER = BigNumber.from(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
 )

@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from 'rebass'
+import { Box, Flex, Image, Text } from 'rebass'
 import { DateTime } from 'luxon'
 import { Button } from '../button'
 import styled, { useTheme } from 'styled-components'
@@ -16,6 +16,7 @@ import { useKpiToken } from '../../hooks/useKpiToken'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
+import { Creator } from '../../constants/creators'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
@@ -45,14 +46,13 @@ const GoalText = styled(Text)`
 interface CampaignCardProps {
   loading?: boolean
   kpiId?: string
-  creator?: string
+  creator?: Creator
   expiresAt?: DateTime
   goal?: string
   collateral?: Amount<Token>
-  userBalance?: Amount<Token>
 }
 
-export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral, userBalance }: CampaignCardProps) {
+export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
   const theme = useTheme()
   const { account } = useActiveWeb3React()
   const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
@@ -87,9 +87,18 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       display="flex"
     >
       <Flex width="100%" mb="8px" justifyContent="space-between" alignItems="center">
-        <Text fontSize="16px" height="20px" fontWeight="700" color={theme.accent} title="Creator">
-          {loading ? <Skeleton width="40px" /> : creator}
-        </Text>
+        <Flex alignItems="center">
+          <Box mr="6px">
+            {loading || loadingKpiToken || !kpiToken || !creator ? (
+              <Skeleton circle width="16px" height="16px" />
+            ) : (
+              <Image width="16px" height="16px" src={creator.logo} />
+            )}
+          </Box>
+          <Text fontSize="16px" height="20px" lineHeight="16px" fontWeight="700" color={theme.accent} title="Creator">
+            {loadingKpiToken || !kpiToken || !creator ? <Skeleton width="60px" /> : creator.name}
+          </Text>
+        </Flex>
         {!!account && (loadingKpiToken || loadingKpiTokenBalance) ? (
           <Skeleton height="20px" width="80px" />
         ) : !!account && !!kpiTokenBalance && !kpiTokenBalance.isZero() ? (
