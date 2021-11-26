@@ -5,7 +5,7 @@ import { commify } from '@ethersproject/units'
 import { Card } from '../../card'
 import Decimal from 'decimal.js-light'
 
-export const CustomTooltip = ({ payload }: TooltipProps) => {
+export const CustomTooltip = ({ payload }: TooltipProps<string, string>) => {
   const unwrappedPayload = payload?.[0]?.payload
 
   return (
