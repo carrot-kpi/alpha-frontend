@@ -91,7 +91,6 @@ export function useFeaturedKpiTokens() {
             ids: chainId && FEATURED_CAMPAIGNS[chainId].map((campaign) => campaign.id),
           },
         })
-        console.log(featuredKpiTokensData)
         const featuredKpiTokens: KpiToken[] = []
         for (let i = 0; i < featuredKpiTokensData.kpiTokens.length; i++) {
           const kpiToken = featuredKpiTokensData.kpiTokens[i]
