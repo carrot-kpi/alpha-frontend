@@ -51,9 +51,10 @@ interface CampaignCardProps {
   expiresAt?: DateTime
   goal?: string
   collateral?: Amount<Token>
+  usdValues?: boolean
 }
 
-export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral }: CampaignCardProps) {
+export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral, usdValues }: CampaignCardProps) {
   const theme = useTheme()
   const { account } = useActiveWeb3React()
   const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
@@ -130,13 +131,17 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       </Box>
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title mr="16px">Rewards:</Title>
-        <Text fontSize="12px" textAlign="right" fontFamily="Overpass Mono" fontWeight="700">
+        <Text textAlign="right" fontSize="14px" fontFamily="Overpass Mono" fontWeight="700">
           {loading || !collateral || loadingCollateralPriceUSD ? (
             <Skeleton width="100px" />
+          ) : usdValues ? (
+            collateralPriceUSD.isZero() ? (
+              '-'
+            ) : (
+              `$${collateral.multiply(collateralPriceUSD).toFixed(2)}`
+            )
           ) : (
-            `${collateral?.toFixed(2)} ${collateral?.currency.symbol} ($${
-              collateralPriceUSD.isZero() ? '-' : collateral.multiply(collateralPriceUSD).toFixed(2)
-            })`
+            `${collateral?.toFixed(2)} ${collateral?.currency.symbol}`
           )}
         </Text>
       </Flex>
@@ -145,11 +150,11 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         {!expiresAt ? (
           <Skeleton height="12px" width="80px" />
         ) : expiresAt.toJSDate().getTime() < Date.now() ? (
-          <KpiExpiredText fontSize="12px" fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
+          <KpiExpiredText fontSize="14px" fontFamily="Overpass Mono" textAlign="right" fontWeight="700">
             KPI expired
           </KpiExpiredText>
         ) : (
-          <Countdown fontSize="12px" fontWeight="600" to={expiresAt} />
+          <Countdown fontSize="14px" fontWeight="600" to={expiresAt} showSeconds={false} />
         )}
       </Flex>
       <Box>

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useCallback, useState } from 'react'
 import { Box, Flex, Text, Image } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
@@ -12,11 +12,14 @@ import incentivizeImage from '../../assets/incentivize.png'
 import rewardImage from '../../assets/reward.png'
 import { Card } from '../../components/card'
 import { transparentize } from 'polished'
+import { Switch } from '../../components/switch'
 // import Slider from 'react-slick'
 // import { useIsMobile } from '../../hooks/useIsMobile'
 // import useMedia from 'react-use/lib/useMedia'
 
 const FeaturedCampaignsContainer = styled(Card)`
+  display: flex;
+  align-items: center;
   border: none;
   padding-top: 40px;
   padding-bottom: 60px;
@@ -33,6 +36,12 @@ export function Home(): ReactElement {
   const { chainId } = useActiveWeb3React()
   const theme = useTheme()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
+  const [showUsdValues, setShowUsdValues] = useState(true)
+
+  const handleSwitchChange = useCallback((newValue: boolean) => {
+    setShowUsdValues(newValue)
+  }, [])
+
   // const [slidesToShow, setSlidesToShow] = useState(3)
   /* const mobile = useIsMobile()
   const tablet = useMedia(`(max-width: 1024px)`) */
@@ -95,9 +104,23 @@ export function Home(): ReactElement {
         />
       </Flex>
       <FeaturedCampaignsContainer mb="120px" flexDirection="column" alignItems="center">
-        <Text fontSize="28px" fontWeight="700" mb="28px" textAlign="center">
-          Featured campaigns
-        </Text>
+        <Flex
+          flexDirection={['column', 'row']}
+          mb="28px"
+          width={['100%', '65%', '55%', '40%']}
+          justifyContent={['initial', 'space-between']}
+          alignItems="center"
+        >
+          <Text fontSize="28px" fontWeight="700" mb={['16px', '0px']} mr={['0px', '24px']}>
+            Featured campaigns
+          </Text>
+          <Flex alignItems="center">
+            <Text mr="8px">USD values</Text>
+            <Box>
+              <Switch checked={showUsdValues} onChange={handleSwitchChange} />
+            </Box>
+          </Flex>
+        </Flex>
         <Flex
           width="100%"
           px={['16px', '0px']}
@@ -132,6 +155,7 @@ export function Home(): ReactElement {
                       expiresAt={featuredKpiToken.expiresAt}
                       goal={featuredKpiToken.question}
                       collateral={featuredKpiToken.collateral}
+                      usdValues={showUsdValues}
                     />
                   </Box>
                 )

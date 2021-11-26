@@ -14,7 +14,6 @@ export const useEnsAvatarUrl = (ensName?: string) => {
       try {
         const response = await fetch(`https://metadata.ens.domains/mainnet/avatar/${ensName}/meta`)
         if (!response.ok) {
-          console.log(response)
           console.error(`error fetching metadata for ens name ${ensName}`)
           return
         }

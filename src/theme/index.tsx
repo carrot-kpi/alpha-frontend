@@ -5,6 +5,7 @@ import '@fontsource/manrope/700.css'
 import '@fontsource/manrope/800.css'
 import '@fontsource/overpass-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
+import 'rc-switch/assets/index.css'
 /* import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css' */
 import { transparentize } from 'polished'
@@ -203,7 +204,21 @@ export const GlobalStyle = createGlobalStyle`
     .Toastify__toast-container {
         width: auto !important;
     }
-  } 
+  }
+
+  .rc-switch:focus {
+    box-shadow: none !important;
+  }
+  
+  .rc-switch {
+    background-color: ${(props) => props.theme.disabledContent} !important;
+    border: solid 1px ${(props) => props.theme.disabledContent} !important;
+  }
+
+  .rc-switch.rc-switch-checked {
+    border: 1px solid ${(props) => props.theme.positive} !important;
+    background-color: ${(props) => props.theme.positive} !important;
+  }
 
   /* .slick-initialized .slick-slide > div {
     width: 100%;

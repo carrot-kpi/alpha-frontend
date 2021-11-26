@@ -12,6 +12,7 @@ interface CountdownProps {
   to: DateTime
   textAlign?: 'right'
   onEnd?: () => void
+  showSeconds?: boolean
 }
 
 const StyledText = styled(Text)`
@@ -19,7 +20,15 @@ const StyledText = styled(Text)`
   transition: color 0.2s ease;
 `
 
-export const Countdown = ({ loading, to, fontSize, fontWeight, textAlign, onEnd }: CountdownProps) => {
+export const Countdown = ({
+  loading,
+  to,
+  fontSize,
+  fontWeight,
+  textAlign,
+  onEnd,
+  showSeconds = true,
+}: CountdownProps) => {
   const [isRunning, setIsRunning] = useState(false)
   const [duration, setDuration] = useState(Duration.fromMillis(0))
   const [durationParts, setDurationParts] = useState<{ days: string; hours: string; minutes: string; seconds: string }>(
@@ -61,7 +70,8 @@ export const Countdown = ({ loading, to, fontSize, fontWeight, textAlign, onEnd 
       ) : (
         <Flex alignItems="center">
           <StyledText fontFamily="Overpass Mono" textAlign={textAlign} fontSize={fontSize}>
-            {durationParts.days}D {durationParts.hours}H {durationParts.minutes}M {durationParts.seconds}S
+            {durationParts.days}D {durationParts.hours}H {durationParts.minutes}M{' '}
+            {showSeconds && `${durationParts.seconds}S`}
           </StyledText>
         </Flex>
       )}
