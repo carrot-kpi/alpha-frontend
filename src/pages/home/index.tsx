@@ -18,6 +18,8 @@ import { transparentize } from 'polished'
 
 const FeaturedCampaignsContainer = styled(Card)`
   border: none;
+  padding-top: 40px;
+  padding-bottom: 60px;
   border-radius: 0px !important;
   width: 100%;
   background-color: ${(props) => transparentize(0.9, props.theme.accent)};
@@ -92,7 +94,7 @@ export function Home(): ReactElement {
           minWidth="auto"
         />
       </Flex>
-      <FeaturedCampaignsContainer mb="120px" pt="60px" pb="80px" flexDirection="column" alignItems="center">
+      <FeaturedCampaignsContainer mb="120px" flexDirection="column" alignItems="center">
         <Text fontSize="28px" fontWeight="700" mb="28px" textAlign="center">
           Featured campaigns
         </Text>
