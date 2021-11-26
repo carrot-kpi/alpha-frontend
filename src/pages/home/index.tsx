@@ -97,8 +97,8 @@ export function Home(): ReactElement {
         <Image
           src={heroImage}
           alt="Hero image"
-          height={['auto', 'auto', '200px', '360px']}
-          width={['80%', '70%', '200px', '360px']}
+          height={['auto', 'auto', '200px', '380px']}
+          width={['80%', '70%', '200px', '380px']}
           mb={['40px', '40px', '0px']}
           minWidth="auto"
         />
