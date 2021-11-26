@@ -2,12 +2,13 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Amount, ChainId, Currency } from '@carrot-kpi/sdk'
 import Decimal from 'decimal.js-light'
 import { BigNumber } from '@ethersproject/bignumber'
-import { injected, walletConnect } from '../connectors'
+import { injected, RPC_URL, walletConnect } from '../connectors'
 import metamaskLogo from '../assets/metamask-logo.webp'
 import walletConnectLogo from '../assets/wallet-connect-logo.png'
 import ethereumLogo from '../assets/ethereum-logo.png'
 import xDaiLogo from '../assets/svgs/xdai-logo.svg'
 import { parseUnits } from '@ethersproject/units'
+import { JsonRpcProvider } from '@ethersproject/providers'
 
 export const ZERO_USD = new Amount<Currency>(Currency.USD, BigNumber.from(0))
 export const ZERO_DECIMAL = new Decimal(0)
@@ -88,3 +89,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'
+
+export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'
+
+export const MAINNET_PROVIDER = new JsonRpcProvider(RPC_URL[1], 'mainnet')

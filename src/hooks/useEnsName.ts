@@ -1,19 +1,17 @@
-import { JsonRpcProvider } from '@ethersproject/providers'
-import { useEffect, useMemo, useState } from 'react'
-import { RPC_URL } from '../connectors'
+import { useEffect, useState } from 'react'
+import { MAINNET_PROVIDER } from '../constants'
 
 export const useEnsName = (account?: string) => {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
-  const mainnetENSProvider = useMemo(() => new JsonRpcProvider(RPC_URL[1], 'mainnet'), [])
 
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (!mainnetENSProvider || !account) return
+      if (!MAINNET_PROVIDER || !account) return
       if (!cancelled) setLoading(true)
       try {
-        if (!cancelled) setName((await mainnetENSProvider.lookupAddress(account)) || '')
+        if (!cancelled) setName((await MAINNET_PROVIDER.lookupAddress(account)) || '')
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -22,7 +20,7 @@ export const useEnsName = (account?: string) => {
     return () => {
       cancelled = true
     }
-  }, [account, mainnetENSProvider])
+  }, [account])
 
   return { loading, name }
 }

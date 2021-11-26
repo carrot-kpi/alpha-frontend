@@ -22,6 +22,7 @@ const BackgroundImageCard = styled(Card)<{ backgroundImage: string }>`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
+  padding: 12px;
 `
 
 const NetworkText = styled(Text)`
@@ -76,7 +77,6 @@ export const NetworkSwitcherPopover = ({ children, show, onHide }: NetworkSwitch
                 <BackgroundImageCard
                   width="140px"
                   height="100px"
-                  p="12px"
                   clickable
                   ml={['0px', index !== 0 ? '8px' : '0px']}
                   mt={[index !== 0 ? '8px' : '0px', '0px']}

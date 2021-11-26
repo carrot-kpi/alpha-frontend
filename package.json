@@ -50,7 +50,7 @@
     "graphql": "^15.6.1",
     "graphql-request": "^3.6.0",
     "luxon": "^2.0.2",
-    "multiformats": "^9.4.10",
+    "multiformats": "^9.4.14",
     "polished": "^4.1.3",
     "prettier": "^2.4.1",
     "qs": "^6.10.1",
