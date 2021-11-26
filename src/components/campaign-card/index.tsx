@@ -30,6 +30,7 @@ const HoldingBadge = styled.div`
   color: ${(props) => props.theme.positive};
   border: solid 1px ${(props) => props.theme.positive};
   border-radius: 20px;
+  line-height: 18px;
 `
 
 const GoalText = styled(Text)`
