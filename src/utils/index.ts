@@ -2,7 +2,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { getAddress } from '@ethersproject/address'
 import { NetworkDetails } from '../constants'
 import { ChainId } from '@carrot-kpi/sdk'
-import { gql } from 'graphql-request'
+import { gql } from '@apollo/client'
 import { BLOCK_SUBGRAPH_CLIENTS } from '../constants/graphql'
 import { DateTime } from 'luxon'
 
@@ -101,19 +101,22 @@ export const getBlocksFromTimestamps = async (
   const blocksSubgraph = BLOCK_SUBGRAPH_CLIENTS[chainId]
   if (!blocksSubgraph) return []
 
-  const data = await blocksSubgraph.request<{
+  const { data } = await blocksSubgraph.query<{
     [timestampString: string]: { number: string }[]
-  }>(gql`
-    query blocks {
-      ${timestamps.map((timestamp) => {
-        return `t${timestamp}: blocks(first: 1, orderBy: number, orderDirection: asc where: { timestamp_gt: ${Math.floor(
-          timestamp / 1000
-        )} }) {
-        number
-      }`
-      })}
-    }
-  `)
+  }>({
+    query: gql`
+      query blocks {
+        ${timestamps.map((timestamp) => {
+          return `t${timestamp}: blocks(first: 1, orderBy: number, orderDirection: asc where: { timestamp_gt: ${Math.floor(
+            timestamp / 1000
+          )} }) {
+          number
+        }`
+        })}
+      }
+    `,
+  })
+
   return Object.entries(data).reduce(
     (accumulator: { timestamp: number; number: number }[], [timestampString, blocks]) => {
       if (blocks.length > 0) {

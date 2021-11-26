@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Amount, Currency, Token } from '@carrot-kpi/sdk'
-import { gql } from 'graphql-request'
+import { gql } from '@apollo/client'
 import { useSwaprSubgraphClient } from './useSwaprSubgraphClient'
 import { ZERO_USD } from '../constants'
 import { Decimal } from 'decimal.js-light'
@@ -33,8 +33,11 @@ export function useSwaprTokenPriceUSD(token?: Token): { loading: boolean; price:
       if (!token) return
       if (!cancelled) setLoading(true)
       try {
-        const response = await swaprSubgraphClient.request<PriceQueryResponse>(PRICE_QUERY, {
-          tokenId: token.address.toLowerCase(),
+        const { data: response } = await swaprSubgraphClient.query<PriceQueryResponse>({
+          query: PRICE_QUERY,
+          variables: {
+            tokenId: token.address.toLowerCase(),
+          },
         })
         if (!response.bundle || !response.token) {
           if (!cancelled) setPrice(ZERO_USD)

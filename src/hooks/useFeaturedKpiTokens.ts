@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FEATURED_CAMPAIGNS } from '../constants/featured-campaigns'
 import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
-import { gql } from 'graphql-request'
+import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
@@ -85,9 +85,13 @@ export function useFeaturedKpiTokens() {
 
       if (!cancelled) setLoading(true)
       try {
-        const featuredKpiTokensData = await carrotSubgraphClient.request<CarrotQueryResult>(FEATURED_KPI_TOKENS_QUERY, {
-          ids: chainId && FEATURED_CAMPAIGNS[chainId].map((campaign) => campaign.id),
+        const { data: featuredKpiTokensData } = await carrotSubgraphClient.query<CarrotQueryResult>({
+          query: FEATURED_KPI_TOKENS_QUERY,
+          variables: {
+            ids: chainId && FEATURED_CAMPAIGNS[chainId].map((campaign) => campaign.id),
+          },
         })
+        console.log(featuredKpiTokensData)
         const featuredKpiTokens: KpiToken[] = []
         for (let i = 0; i < featuredKpiTokensData.kpiTokens.length; i++) {
           const kpiToken = featuredKpiTokensData.kpiTokens[i]

@@ -2,7 +2,7 @@ import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
 import { ChartDataPoint, TokenPricePlatform, TvlPlatform } from '..'
 import { getBlocksFromTimestamps, getTimestampsFromRange } from '../../../../utils'
-import { gql } from 'graphql-request'
+import { gql } from '@apollo/client'
 import { AGAVE_SUBGRAPH_CLIENT } from '../../../graphql'
 import { parseUnits } from '@ethersproject/units'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -40,25 +40,29 @@ export class Agave implements TvlPlatform {
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
-    const agaveTvlData = await subgraph.request<{
+    const { data: agaveTvlData } = await subgraph.query<{
       [timestampString: string]: { reserves: Reserve[] }[]
-    }>(gql`
-      query overallDailyTvl {
-        ${blocks.map((block) => {
-          return `t${block.timestamp}: pools(block: { number: ${block.number} }) {
-            reserves(where: { totalLiquidity_gt: 0 }) {
-              price {
-                priceInEth
+    }>({
+      query: gql`
+        query overallDailyTvl {
+          ${blocks.map((block) => {
+            return `t${block.timestamp}: pools(block: { number: ${block.number} }) {
+              reserves(where: { totalLiquidity_gt: 0 }) {
+                price {
+                  priceInEth
+                }
+                decimals
+                name
+                symbol
+                underlyingAsset
+                totalLiquidity
               }
-              decimals
-              name
-              symbol
-              underlyingAsset
-              totalLiquidity
-            }
-          }`
-        })} 
-      }`)
+            }`
+          })} 
+        }
+      `,
+    })
+    if (!agaveTvlData) return []
     const nativeCurrencyPriceUsd = await pricingPlatform.dailyTokenPrice(
       Token.getNativeWrapper(chainId),
       from,

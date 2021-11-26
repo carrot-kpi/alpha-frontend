@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
-import { gql } from 'graphql-request'
+import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
@@ -84,7 +84,10 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
 
       if (!cancelled) setLoading(true)
       try {
-        const kpiTokenData = await carrotSubgraphClient.request<CarrotQueryResult>(KPI_TOKEN_QUERY, { kpiId })
+        const { data: kpiTokenData } = await carrotSubgraphClient.query<CarrotQueryResult>({
+          query: KPI_TOKEN_QUERY,
+          variables: { kpiId },
+        })
         if (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1) {
           if (!cancelled) setLoading(false)
           if (!cancelled) setKpiToken(undefined)

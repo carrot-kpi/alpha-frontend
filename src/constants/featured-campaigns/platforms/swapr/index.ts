@@ -2,7 +2,7 @@ import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
 import { ChartDataPoint, DexPlatform, TokenPricePlatform } from '..'
 import { getBlocksFromTimestamps, getTimestampsFromRange } from '../../../../utils'
-import { gql } from 'graphql-request'
+import { gql } from '@apollo/client'
 import { SWAPR_SUBGRAPH_CLIENT } from '../../../graphql'
 import { parseUnits } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
@@ -33,21 +33,23 @@ export class Swapr implements DexPlatform {
     const [token0, token1] =
       tokenA.address.toLowerCase() < tokenB.address.toLowerCase() ? [tokenA, tokenB] : [tokenB, tokenA]
 
-    let data = await subgraph.request<{
+    let { data } = await subgraph.query<{
       [timestampString: string]: { reserveUSD: string }[]
-    }>(gql`
-      query pairDailyTvl {
-        ${blocks.map((block) => {
-          return `t${
-            block.timestamp
-          }: pairs(where: { token0: "${token0.address.toLowerCase()}", token1: "${token1.address.toLowerCase()}" }, block: { number: ${
-            block.number
-          } }) {
-              reserveUSD
-          }`
-        })} 
-      }
-    `)
+    }>({
+      query: gql`
+        query pairDailyTvl {
+          ${blocks.map((block) => {
+            return `t${
+              block.timestamp
+            }: pairs(where: { token0: "${token0.address.toLowerCase()}", token1: "${token1.address.toLowerCase()}" }, block: { number: ${
+              block.number
+            } }) {
+                reserveUSD
+            }`
+          })} 
+        }
+      `,
+    })
 
     return Object.entries(data).reduce((accumulator: ChartDataPoint[], [timestampString, pairs]) => {
       if (pairs.length === 1) {
@@ -75,17 +77,19 @@ export class Swapr implements DexPlatform {
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
-    let data = await subgraph.request<{
+    let { data } = await subgraph.query<{
       [timestampString: string]: { totalLiquidityUSD: string }[]
-    }>(gql`
-      query overallDailyTvl {
-        ${blocks.map((block) => {
-          return `t${block.timestamp}: swaprFactories(block: { number: ${block.number} }) {
-            totalLiquidityUSD
-          }`
-        })} 
-      }
-    `)
+    }>({
+      query: gql`
+        query overallDailyTvl {
+          ${blocks.map((block) => {
+            return `t${block.timestamp}: swaprFactories(block: { number: ${block.number} }) {
+              totalLiquidityUSD
+            }`
+          })} 
+        }
+      `,
+    })
 
     return Object.entries(data).reduce((accumulator: ChartDataPoint[], [timestampString, factories]) => {
       if (factories.length === 1) {
@@ -116,17 +120,20 @@ export class Swapr implements DexPlatform {
     if (blocks.length === 0) return []
 
     if (Token.getNativeWrapper(chainId).equals(token)) {
-      let nativeCurrencyUsdData = await subgraph.request<{
+      let { data: nativeCurrencyUsdData } = await subgraph.query<{
         [timestampString: string]: { nativeCurrencyPrice: string }
-      }>(gql`
-        query dailyNativeCurrencyPrice {
-          ${blocks.map((block) => {
-            return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
-              nativeCurrencyPrice
-            }`
-          })} 
-        }
-      `)
+      }>({
+        query: gql`
+          query dailyNativeCurrencyPrice {
+            ${blocks.map((block) => {
+              return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
+                nativeCurrencyPrice
+              }`
+            })} 
+          }
+        `,
+      })
+
       return Object.entries(nativeCurrencyUsdData).reduce(
         (accumulator: ChartDataPoint[], [timestampString, nativeCurrencyData]) => {
           const { nativeCurrencyPrice } = nativeCurrencyData
@@ -143,29 +150,35 @@ export class Swapr implements DexPlatform {
       )
     }
 
-    let tokenPriceNativeCurrencyData = await subgraph.request<{
+    let { data: tokenPriceNativeCurrencyData } = await subgraph.query<{
       [timestampString: string]: { derivedNativeCurrency: string }
-    }>(gql`
-      query dailyTokenPrice {
-        ${blocks.map((block) => {
-          return `t${block.timestamp}: token(id: "${token.address.toLowerCase()}", block: { number: ${block.number} }) {
-            derivedNativeCurrency
-          }`
-        })} 
-      }
-    `)
+    }>({
+      query: gql`
+        query dailyTokenPrice {
+          ${blocks.map((block) => {
+            return `t${block.timestamp}: token(id: "${token.address.toLowerCase()}", block: { number: ${
+              block.number
+            } }) {
+              derivedNativeCurrency
+            }`
+          })} 
+        }
+      `,
+    })
 
-    let nativeCurrencyUsdData = await subgraph.request<{
+    const { data: nativeCurrencyUsdData } = await subgraph.query<{
       [timestampString: string]: { nativeCurrencyPrice: string }
-    }>(gql`
-      query dailyNativeCurrencyPrice {
-        ${blocks.map((block) => {
-          return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
-            nativeCurrencyPrice
-          }`
-        })} 
-      }
-    `)
+    }>({
+      query: gql`
+        query dailyNativeCurrencyPrice {
+          ${blocks.map((block) => {
+            return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
+              nativeCurrencyPrice
+            }`
+          })} 
+        }
+      `,
+    })
 
     return Object.entries(tokenPriceNativeCurrencyData).reduce(
       (accumulator: ChartDataPoint[], [timestampString, token]) => {
@@ -212,29 +225,35 @@ export class Swapr implements DexPlatform {
     const blocks = await getBlocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
-    const tokenPriceNativeCurrencyData = await subgraph.request<{
+    const { data: tokenPriceNativeCurrencyData } = await subgraph.query<{
       [timestampString: string]: { derivedNativeCurrency: string }
-    }>(gql`
-      query dailyTokenPrice {
-        ${blocks.map((block) => {
-          return `t${block.timestamp}: token(id: "${token.address.toLowerCase()}", block: { number: ${block.number} }) {
-            derivedNativeCurrency
-          }`
-        })} 
-      }
-    `)
+    }>({
+      query: gql`
+        query dailyTokenPrice {
+          ${blocks.map((block) => {
+            return `t${block.timestamp}: token(id: "${token.address.toLowerCase()}", block: { number: ${
+              block.number
+            } }) {
+              derivedNativeCurrency
+            }`
+          })} 
+        }
+      `,
+    })
 
-    const nativeCurrencyUsdData = await subgraph.request<{
+    const { data: nativeCurrencyUsdData } = await subgraph.query<{
       [timestampString: string]: { nativeCurrencyPrice: string }
-    }>(gql`
-      query dailyNativeCurrencyPrice {
-        ${blocks.map((block) => {
-          return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
-            nativeCurrencyPrice
-          }`
-        })}
-      }
-    `)
+    }>({
+      query: gql`
+        query dailyNativeCurrencyPrice {
+          ${blocks.map((block) => {
+            return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
+              nativeCurrencyPrice
+            }`
+          })}
+        }
+      `,
+    })
 
     const tokenTotalSupply = await token.totalSupply()
 
