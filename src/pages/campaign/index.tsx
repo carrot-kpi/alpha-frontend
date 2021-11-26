@@ -154,15 +154,9 @@ export function Campaign({
             <Card m="8px" height="fit-content">
               <Flex justifyContent="space-between" alignItems="center" mb="16px">
                 <Flex alignItems="center">
-                  <Box mr="8px" width="20px" height="20px">
-                    {loadingKpiToken || !kpiToken ? (
-                      <Skeleton circle width="20px" height="20px" />
-                    ) : (
-                      <Image width="20px" height="20px" src={featuredCampaignSpec.creator.logo} />
-                    )}
-                  </Box>
+                  <Image width="20px" height="20px" mr="8px" src={featuredCampaignSpec.creator.logo} />
                   <Text fontSize="20px" lineHeight="20px" fontWeight="700" color={theme.accent} title="Creator">
-                    {loadingKpiToken || !kpiToken ? <Skeleton width="60px" /> : featuredCampaignSpec.creator.name}
+                    {featuredCampaignSpec.creator.name}
                   </Text>
                 </Flex>
                 {chainId && kpiToken?.address && (

@@ -91,14 +91,14 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       <Flex width="100%" mb="8px" justifyContent="space-between" alignItems="center">
         <Flex alignItems="center">
           <Box mr="6px">
-            {loading || loadingKpiToken || !kpiToken || !creator ? (
+            {!creator ? (
               <Skeleton circle width="16px" height="16px" />
             ) : (
               <Image width="16px" height="16px" src={creator.logo} />
             )}
           </Box>
           <Text fontSize="16px" height="20px" lineHeight="16px" fontWeight="700" color={theme.accent} title="Creator">
-            {loadingKpiToken || !kpiToken || !creator ? <Skeleton width="60px" /> : creator.name}
+            {!creator ? <Skeleton width="60px" /> : creator.name}
           </Text>
         </Flex>
         {!!account && (loadingKpiToken || loadingKpiTokenBalance) ? (
