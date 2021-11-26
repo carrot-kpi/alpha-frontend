@@ -21,7 +21,7 @@ const FeaturedCampaignsContainer = styled(Card)`
   display: flex;
   align-items: center;
   border: none;
-  padding-top: 40px;
+  padding-top: 60px;
   padding-bottom: 60px;
   border-radius: 0px !important;
   width: 100%;
