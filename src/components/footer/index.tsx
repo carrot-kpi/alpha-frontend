@@ -12,9 +12,10 @@ export const Footer = () => {
         <Box mr="6px">
           <Logo darkMode={darkMode} />
         </Box>
-        <Text fontSize="12px">
-          by <ExternalLink href="https://dxdao.eth.link">DXdao</ExternalLink>
+        <Text mr="6px" fontSize="12px">
+          by
         </Text>
+        <ExternalLink href="https://dxdao.eth.link">DXdao</ExternalLink>
       </Flex>
       <Text mr="12px">&middot;</Text>
       <Box mr="12px">
