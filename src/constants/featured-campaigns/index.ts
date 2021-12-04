@@ -1,9 +1,9 @@
 import { ChainId } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { Creator, DXDAO } from '../creators'
+import { AGAVE, Creator, DXDAO } from '../creators'
 import { DXD, XDAI_WETH, SWPR } from '../tokens'
-import { Metric, PairLiquidityMetric, TokenPriceMetric } from './metrics'
-// import { Agave } from './platforms/agave'
+import { Metric, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from './metrics'
+import { Agave } from './platforms/agave'
 import { Swapr } from './platforms/swapr'
 
 export interface FeaturedCampaign {
@@ -19,7 +19,7 @@ export enum Platform {
 }
 
 const swapr = new Swapr()
-// const agave = new Agave()
+const agave = new Agave()
 
 export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
   [ChainId.RINKEBY]: [
@@ -82,6 +82,21 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       id: '0x8dc2a6919eb14ea6ea1869240965322ec092aada',
       kpiId: '0xbf6d4e50a9142bf3466c7ec687f1ddb403994a28bfe78d457301a5230d07c281',
       creator: DXDAO,
+    },
+    {
+      metrics: [
+        new TvlMetric(
+          ChainId.XDAI,
+          swapr,
+          agave,
+          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          86400
+        ),
+      ],
+      id: '0xfd7e71a6b82c423b3dfc3b9b4dd854e3f1e468d2',
+      kpiId: '0xa196c0e33df7a4b7729a2b3d3d3083d00510f05f932bfadabaa56bf8a8253c55',
+      creator: AGAVE,
     },
   ],
 }

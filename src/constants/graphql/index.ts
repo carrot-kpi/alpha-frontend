@@ -23,6 +23,13 @@ export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normali
   }),
 }
 
+export const SYMMETRIC_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
+  [ChainId.XDAI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai',
+    cache: new InMemoryCache(),
+  }),
+}
+
 export const HONEYSWAP_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.XDAI]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/1hive/honeyswap-v2',
