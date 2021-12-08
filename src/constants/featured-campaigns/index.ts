@@ -89,7 +89,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           ChainId.XDAI,
           swapr,
           agave,
-          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1640433600), // Dec 1st 1200 UTC
           DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
           86400
         ),
