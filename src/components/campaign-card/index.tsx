@@ -132,7 +132,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       <Flex justifyContent="space-between" alignItems="center" mb="4px">
         <Title mr="16px">Rewards:</Title>
         <Text textAlign="right" fontSize="14px" fontFamily="Overpass Mono" fontWeight="700">
-          {loading || !collateral || loadingCollateralPriceUSD ? (
+          {loading || !collateral || (usdValues && loadingCollateralPriceUSD) ? (
             <Skeleton width="100px" />
           ) : usdValues ? (
             collateralPriceUSD.isZero() ? (
