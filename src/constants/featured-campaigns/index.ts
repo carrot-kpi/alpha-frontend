@@ -34,8 +34,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           86400
         ),
       ],
-      id: '0xf9cec6622e9aba9f84feb6b1e242c02357c62c72',
-      kpiId: '0x2cba9605854882fa57383dd520485e2837caf3bebcc004b50e978d8d81c8ad73',
+      id: '0xc94460e20d1c749879d68407718e61b6aed4d5b2',
+      kpiId: '0x7806f9d92282783ee2b23cc7d2fa69861f66c0369c42ed41ac4c185fcc41ca4e',
       creator: DXDAO,
     },
     {
@@ -48,8 +48,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           86400
         ),
       ],
-      id: '0x5b34994397dee11d2d403e5879bc256c30056120',
-      kpiId: '0xcc12b3e93819f18a34a0e388a0d1a54da253d8ff5e2a25a72a0cd91336f8689c',
+      id: '0x4a791d577476ffd1e1fd1543f6fce0f71e1b04ef',
+      kpiId: '0xe7b8d84f1b786de5ee9e3b52db613379aeccaa373ab880229d5adadc6348348c',
       creator: DXDAO,
     },
   ],
