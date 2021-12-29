@@ -2,7 +2,7 @@ import { getTheme } from '../../theme'
 import { useIsDarkMode } from '../../state/user/hooks'
 import { Footer } from '../../components/footer'
 import { Header } from '../../components/header'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { ToastContainer, Slide } from 'react-toastify'
 import { Home } from '../home'
 import { Campaign } from '../campaign'
@@ -35,11 +35,10 @@ export function App() {
           <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
             <Flex flexDirection="column" flex="1" width="100%">
               <Box flexGrow={1}>
-                <Switch>
-                  <Route strict exact path="/" component={Home} />
-                  <Route strict exact path="/campaigns/:kpiId" component={Campaign} />
-                  <Redirect to="/" />
-                </Switch>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/campaigns/:kpiId" element={<Campaign />} />
+                </Routes>
               </Box>
             </Flex>
             <Box width={['100%', '80%', '70%', '55%']}>

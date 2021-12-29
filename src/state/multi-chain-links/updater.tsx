@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useIsSwitchingToCorrectChain, useIsSwitchingToCorrectChainUpdater } from './hooks'
 
 export function MultiChainLinksUpdater(): null {
   const { chainId, connector } = useActiveWeb3React()
   const location = useLocation()
-  const history = useHistory()
+  const navigate = useNavigate()
   const switchingToCorrectChain = useIsSwitchingToCorrectChain()
   const updateSwitchingToCorrectChain = useIsSwitchingToCorrectChainUpdater()
 
@@ -40,9 +40,9 @@ export function MultiChainLinksUpdater(): null {
 
     if (requiredChainId !== stringChainId && !switchingToCorrectChain) {
       searchParams.set('chainId', stringChainId)
-      history.replace({ search: searchParams.toString() })
+      navigate(`${location.pathname}?chainId=${stringChainId}`, { replace: true })
     }
-  }, [chainId, connector, history, location, switchingToCorrectChain, updateSwitchingToCorrectChain])
+  }, [chainId, connector, location, navigate, switchingToCorrectChain, updateSwitchingToCorrectChain])
 
   return null
 }

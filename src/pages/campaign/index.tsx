@@ -1,7 +1,6 @@
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
-import { Redirect } from 'react-router-dom'
 import { Flex, Box, Text, Image } from 'rebass'
-import { RouteComponentProps } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { useKpiToken } from '../../hooks/useKpiToken'
 import { Card } from '../../components/card'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
@@ -67,11 +66,8 @@ const TweetButton = styled(Button)`
   color: ${(props) => props.theme.accentContent} !important;
 `
 
-export function Campaign({
-  match: {
-    params: { kpiId },
-  },
-}: RouteComponentProps<{ kpiId: string }>): ReactElement {
+export function Campaign(): ReactElement {
+  const { kpiId } = useParams()
   const theme = useTheme()
   const { account, chainId } = useActiveWeb3React()
   const featuredCampaignSpec = useMemo(
@@ -145,7 +141,7 @@ export function Campaign({
     setCurrentPeriodEnded(true)
   }, [])
 
-  if (!featuredCampaignSpec) return <Redirect to="/" />
+  if (!featuredCampaignSpec) return <Navigate replace to="/" />
   return (
     <Flex flexDirection="column" alignItems="center" justifyContent="center" width="100%">
       <Flex flexDirection="column" mb="60px" width={['100%', '80%', '70%', '55%']}>

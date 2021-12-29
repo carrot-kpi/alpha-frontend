@@ -70,7 +70,7 @@ interface CarrotQueryResult {
   }[]
 }
 
-export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiToken } {
+export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiToken } {
   const { chainId } = useActiveWeb3React()
   const carrotSubgraphClient = useCarrotSubgraphClient()
 
@@ -80,7 +80,7 @@ export function useKpiToken(kpiId: string): { loading: boolean; kpiToken?: KpiTo
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (!chainId) return
+      if (!chainId || !kpiId) return
 
       if (!cancelled) setLoading(true)
       try {
