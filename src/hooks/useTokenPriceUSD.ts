@@ -28,19 +28,19 @@ export function useTokenPriceUSD(token?: Token): { loading: boolean; price: Amou
   const [price, setPrice] = useState(new Amount(Currency.USD, BigNumber.from('0')))
 
   useEffect(() => {
-    if (loadingSwaprPrice || loadingSymmetricLpTokenPrice) {
-      setLoading(true)
-      return
-    }
     let price
-    if (!swaprPrice.isZero()) price = swaprPrice
-    else if (!symmetricLpTokenPrice.isZero()) price = symmetricLpTokenPrice
+    if (!loadingSwaprPrice && !swaprPrice.isZero()) price = swaprPrice
+    else if (!loadingSymmetricLpTokenPrice && !symmetricLpTokenPrice.isZero()) price = symmetricLpTokenPrice
     else if (coingeckoPrice)
       price = new Amount(
         Currency.USD,
         parseUnits(new Decimal(coingeckoPrice).toFixed(Currency.USD.decimals), Currency.USD.decimals)
       )
-    else price = ZERO_USD
+    else {
+      setLoading(true)
+      setPrice(ZERO_USD)
+      return
+    }
     setLoading(false)
     setPrice(price)
   }, [coingeckoPrice, loadingSwaprPrice, loadingSymmetricLpTokenPrice, swaprPrice, symmetricLpTokenPrice])
