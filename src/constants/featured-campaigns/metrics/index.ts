@@ -43,7 +43,7 @@ export class TvlMetric extends Metric {
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
-    return this.platform.dailyOverallTvl(this.chainId, this.pricingPlatform, this.from, this.to, this.granularity)
+    return this.platform.overallTvl(this.chainId, this.pricingPlatform, this.from, this.to, this.granularity)
   }
 }
 
@@ -62,7 +62,7 @@ export class TokenPriceMetric extends Metric {
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
-    return this.platform.dailyTokenPrice(this.token, this.from, this.to, this.granularity)
+    return this.platform.tokenPrice(this.token, this.from, this.to, this.granularity)
   }
 }
 
@@ -83,7 +83,7 @@ export class PairLiquidityMetric extends Metric {
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
-    return this.platform.pairDailyTvl(this.tokenA, this.tokenB, this.from, this.to, this.granularity)
+    return this.platform.pairTvl(this.tokenA, this.tokenB, this.from, this.to, this.granularity)
   }
 }
 
@@ -108,6 +108,6 @@ export class TokenMarketCapMetric extends Metric {
   }
 
   public async chartData(): Promise<ChartDataPoint[]> {
-    return this.platform.dailyTokenMarketCap(this.token, this.from, this.to, this.granularity)
+    return this.platform.tokenMarketCap(this.token, this.from, this.to, this.granularity)
   }
 }

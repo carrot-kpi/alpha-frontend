@@ -26,7 +26,7 @@ export class TotalSupplyToken extends Token {
 
 const erc20Interface = new Interface(['function totalSupply() view returns (uint256)'])
 
-// RInkeby testnet tokens
+// Rinkeby testnet tokens
 export const WEENUS = new Token(ChainId.RINKEBY, '0xaFF4481D10270F50f203E0763e2597776068CBc5', 18, 'WEENUS', 'Weenus')
 export const XEENUS = new Token(ChainId.RINKEBY, '0x022E292b44B5a146F2e8ee36Ff44D3dd863C915c', 18, 'XEENUS', 'Xeenus')
 export const ZEENUS = new Token(ChainId.RINKEBY, '0x1f9061B953bBa0E36BF50F21876132DcF276fC6e', 18, 'ZEENUS', 'Zeenus')
@@ -77,3 +77,6 @@ export const XDAI_WETH = new Token(
 )
 
 export const SWPR = new Token(ChainId.XDAI, '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b', 18, 'SWPR', 'SWPR on xDai')
+
+// Mainnet tokens
+export const USDM = new Token(ChainId.MAINNET, '0x31d4eb09a216e181ec8a43ce79226a487d6f0ba9', 18, 'USDM', 'USDM')

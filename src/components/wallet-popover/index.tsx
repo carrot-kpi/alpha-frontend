@@ -7,13 +7,12 @@ import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { useAllTransactions } from '../../state/transactions/hooks'
 import { Title } from '../title'
 import { Popover } from '../popover'
-import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useMemo, useState } from 'react'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import metamaskLogo from '../../assets/metamask-logo.webp'
 import walletConnectLogo from '../../assets/wallet-connect-logo.png'
 import { Button } from '../button'
 import { DateTime } from 'luxon'
-import { TransactionDetails } from '../../state/transactions/reducer'
 import Loader from 'react-spinners/BarLoader'
 import { ChainId } from '@carrot-kpi/sdk'
 import { ADXdaoProduct } from '../a-dxdao-product'
@@ -48,27 +47,18 @@ interface WalletPopoverProps {
   onHide: () => void
 }
 
-interface Transaction extends TransactionDetails {
-  hash: string
-}
-
 export const WalletPopover = ({ children, show, onHide }: WalletPopoverProps) => {
   const { account, chainId, connector, deactivate } = useActiveWeb3React()
   const theme = useTheme()
   const transactions = useAllTransactions()
-  const [filteredSortedTransactions, setFilteredSortedTransactions] = useState<Transaction[]>([])
-  const [addressCopiedToClipboard, setAddressCopiedToClipboard] = useState(false)
-
-  useEffect(() => {
-    if (!account) setFilteredSortedTransactions([])
-    else
-      setFilteredSortedTransactions(
-        Object.entries(transactions)
-          .filter(([, transaction]) => transaction.from.toLowerCase() === account.toLowerCase())
-          .sort(([, transactionA], [, transactionB]) => transactionB.addedTime - transactionA.addedTime)
-          .map(([hash, transaction]) => ({ ...transaction, hash }))
-      )
+  const filteredSortedTransactions = useMemo(() => {
+    if (!account) return []
+    return Object.entries(transactions)
+      .filter(([, transaction]) => transaction.from.toLowerCase() === account.toLowerCase())
+      .sort(([, transactionA], [, transactionB]) => transactionB.addedTime - transactionA.addedTime)
+      .map(([hash, transaction]) => ({ ...transaction, hash }))
   }, [account, transactions])
+  const [addressCopiedToClipboard, setAddressCopiedToClipboard] = useState(false)
 
   const handleDisconnectWallet = useCallback(() => {
     deactivate()

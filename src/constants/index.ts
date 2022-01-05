@@ -55,7 +55,7 @@ export interface NetworkDetails {
 
 export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
   [ChainId.XDAI]: {
-    chainId: `0x${Number(100).toString(16)}`,
+    chainId: `0x${ChainId.XDAI.toString(16)}`,
     chainName: 'xDai',
     icon: xDaiLogo,
     nativeCurrency: {
@@ -66,6 +66,19 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
     defaultBond: parseUnits('10', 18),
     rpcUrls: ['https://rpc.xdaichain.com'],
     blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
+  },
+  [ChainId.MAINNET]: {
+    chainId: `0x${ChainId.MAINNET.toString(16)}`,
+    chainName: 'Mainnet',
+    icon: ethereumLogo,
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    defaultBond: parseUnits('0.01', 18),
+    rpcUrls: ['https://mainnet.infura.io/v3'],
+    blockExplorerUrls: ['https://etherscan.io'],
   },
 }
 if (process.env.NODE_ENV !== 'production') {
@@ -88,4 +101,4 @@ export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'
 
 export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'
 
-export const MAINNET_PROVIDER = new JsonRpcProvider(RPC_URL[1], 'mainnet')
+export const MAINNET_PROVIDER = new JsonRpcProvider(RPC_URL[ChainId.MAINNET])

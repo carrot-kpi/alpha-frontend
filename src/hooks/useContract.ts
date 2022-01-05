@@ -1,4 +1,11 @@
-import { REALITY_ABI, REALITY_ADDRESS, ChainId, MULTICALL_ADDRESS, MULTICALL_ABI, KPI_TOKEN_ABI } from '@carrot-kpi/sdk'
+import {
+  REALITY_ABI,
+  REALITY_ADDRESS,
+  ChainId,
+  PERMISSIVE_MULTICALL_ADDRESS,
+  PERMISSIVE_MULTICALL_ABI,
+  KPI_TOKEN_ABI,
+} from '@carrot-kpi/sdk'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from './useActiveWeb3React'
@@ -23,7 +30,7 @@ export function useContract(
 
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId && MULTICALL_ADDRESS[chainId], MULTICALL_ABI)
+  return useContract(chainId && PERMISSIVE_MULTICALL_ADDRESS[chainId], PERMISSIVE_MULTICALL_ABI)
 }
 
 export function useRealityContract(withSignerIfPossible = false): Contract | null {

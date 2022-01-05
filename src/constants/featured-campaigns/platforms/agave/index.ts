@@ -23,14 +23,14 @@ export class Agave implements TvlPlatform {
     return 'Agave'
   }
 
-  public async dailyOverallTvl(
+  public async overallTvl(
     chainId: ChainId,
     pricingPlatform: TokenPricePlatform,
     from: DateTime,
     to: DateTime,
     granularity: number
   ): Promise<ChartDataPoint[]> {
-    if (!this.supportsChain(chainId)) throw new Error('tried to get agave overall daily tvl data on an invalid chain')
+    if (!this.supportsChain(chainId)) throw new Error('tried to get agave overall tvl data on an invalid chain')
     const nativeCurrency = Currency.getNative(chainId)
     if (!nativeCurrency) throw new Error(`cannot find native currency for chain id ${chainId}`)
     const subgraph = AGAVE_SUBGRAPH_CLIENT[chainId]
@@ -44,7 +44,7 @@ export class Agave implements TvlPlatform {
       [timestampString: string]: { reserves: Reserve[] }[]
     }>({
       query: gql`
-        query overallDailyTvl {
+        query overallTvl {
           ${blocks.map((block) => {
             return `t${block.timestamp}: pools(block: { number: ${block.number} }) {
               reserves(where: { totalLiquidity_gt: 0 }) {
@@ -63,7 +63,7 @@ export class Agave implements TvlPlatform {
       `,
     })
     if (!agaveTvlData) return []
-    const nativeCurrencyPriceUsd = await pricingPlatform.dailyTokenPrice(
+    const nativeCurrencyPriceUsd = await pricingPlatform.tokenPrice(
       Token.getNativeWrapper(chainId),
       from,
       to,

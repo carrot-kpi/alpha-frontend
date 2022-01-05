@@ -6,13 +6,13 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
 
 export const RPC_URL: { [chainId: number]: string } = {
-  1: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
+  [ChainId.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
   [ChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
   [ChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
   [ChainId.XDAI]: 'https://rpc.xdaichain.com/',
 }
 
-const SUPPORTED_CHAINS = [ChainId.RINKEBY, ChainId.XDAI]
+const SUPPORTED_CHAINS = [ChainId.MAINNET, ChainId.RINKEBY, ChainId.XDAI]
 
 export const network = new NetworkConnector({
   urls: RPC_URL,

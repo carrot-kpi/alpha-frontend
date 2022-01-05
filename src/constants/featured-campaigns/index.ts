@@ -20,8 +20,10 @@ export enum Platform {
 
 const swapr = new Swapr()
 const agave = new Agave()
+// const mochi = new Mochi()
 
 export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
+  [ChainId.MAINNET]: [],
   [ChainId.RINKEBY]: [
     {
       metrics: [

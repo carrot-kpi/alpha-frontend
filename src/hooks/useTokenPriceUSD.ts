@@ -11,6 +11,7 @@ import { ZERO_USD } from '../constants'
 import { useSymmetricLpTokenPriceUSD } from './useSymmetricLpTokenPriceUSD'
 
 const COINGECKO_PLATFORMS: { [chainId in ChainId]: string } = {
+  [ChainId.MAINNET]: 'ethereum',
   [ChainId.RINKEBY]: 'ethereum',
   [ChainId.XDAI]: 'xdai',
 }

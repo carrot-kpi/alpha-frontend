@@ -13,7 +13,7 @@ export interface Platform {
 }
 
 export interface TvlPlatform extends Platform {
-  dailyOverallTvl(
+  overallTvl(
     chainId: ChainId,
     pricingPlatform: TokenPricePlatform,
     from: DateTime,
@@ -23,24 +23,13 @@ export interface TvlPlatform extends Platform {
 }
 
 export interface TokenPricePlatform extends Platform {
-  dailyTokenPrice(token: Token, from: DateTime, to: DateTime, granularity: number): Promise<ChartDataPoint[]>
+  tokenPrice(token: Token, from: DateTime, to: DateTime, granularity: number): Promise<ChartDataPoint[]>
 }
 
 export interface TokenMarketCapPlatform extends Platform {
-  dailyTokenMarketCap(
-    token: TotalSupplyToken,
-    from: DateTime,
-    to: DateTime,
-    granularity: number
-  ): Promise<ChartDataPoint[]>
+  tokenMarketCap(token: TotalSupplyToken, from: DateTime, to: DateTime, granularity: number): Promise<ChartDataPoint[]>
 }
 
 export interface DexPlatform extends TvlPlatform, TokenPricePlatform, TokenMarketCapPlatform {
-  pairDailyTvl(
-    tokenA: Token,
-    tokenB: Token,
-    from: DateTime,
-    to: DateTime,
-    granularity: number
-  ): Promise<ChartDataPoint[]>
+  pairTvl(tokenA: Token, tokenB: Token, from: DateTime, to: DateTime, granularity: number): Promise<ChartDataPoint[]>
 }

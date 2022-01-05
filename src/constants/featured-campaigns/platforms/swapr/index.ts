@@ -13,7 +13,7 @@ export class Swapr implements DexPlatform {
     return 'Swapr'
   }
 
-  public async pairDailyTvl(
+  public async pairTvl(
     tokenA: Token,
     tokenB: Token,
     from: DateTime,
@@ -37,7 +37,7 @@ export class Swapr implements DexPlatform {
       [timestampString: string]: { reserveUSD: string }[]
     }>({
       query: gql`
-        query pairDailyTvl {
+        query pairTvl {
           ${blocks.map((block) => {
             return `t${
               block.timestamp
@@ -62,7 +62,7 @@ export class Swapr implements DexPlatform {
     }, [])
   }
 
-  public async dailyOverallTvl(
+  public async overallTvl(
     chainId: ChainId,
     _pricingPlatform: TokenPricePlatform, // ignored
     from: DateTime,
@@ -81,7 +81,7 @@ export class Swapr implements DexPlatform {
       [timestampString: string]: { totalLiquidityUSD: string }[]
     }>({
       query: gql`
-        query overallDailyTvl {
+        query overallTvl {
           ${blocks.map((block) => {
             return `t${block.timestamp}: swaprFactories(block: { number: ${block.number} }) {
               totalLiquidityUSD
@@ -102,14 +102,9 @@ export class Swapr implements DexPlatform {
     }, [])
   }
 
-  public async dailyTokenPrice(
-    token: Token,
-    from: DateTime,
-    to: DateTime,
-    granularity: number
-  ): Promise<ChartDataPoint[]> {
+  public async tokenPrice(token: Token, from: DateTime, to: DateTime, granularity: number): Promise<ChartDataPoint[]> {
     const chainId = token.chainId
-    if (!this.supportsChain(chainId)) throw new Error('tried to get swapr daily token price data on an invalid chain')
+    if (!this.supportsChain(chainId)) throw new Error('tried to get swapr token price data on an invalid chain')
     const nativeCurrency = Currency.getNative(chainId)
     if (!nativeCurrency) throw new Error(`no native currency for chain id ${chainId}`)
     const subgraph = SWAPR_SUBGRAPH_CLIENT[chainId]
@@ -124,7 +119,7 @@ export class Swapr implements DexPlatform {
         [timestampString: string]: { nativeCurrencyPrice: string }
       }>({
         query: gql`
-          query dailyNativeCurrencyPrice {
+          query nativeCurrencyPrice {
             ${blocks.map((block) => {
               return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
                 nativeCurrencyPrice
@@ -154,7 +149,7 @@ export class Swapr implements DexPlatform {
       [timestampString: string]: { derivedNativeCurrency: string }
     }>({
       query: gql`
-        query dailyTokenPrice {
+        query tokenPrice {
           ${blocks.map((block) => {
             return `t${block.timestamp}: token(id: "${token.address.toLowerCase()}", block: { number: ${
               block.number
@@ -170,7 +165,7 @@ export class Swapr implements DexPlatform {
       [timestampString: string]: { nativeCurrencyPrice: string }
     }>({
       query: gql`
-        query dailyNativeCurrencyPrice {
+        query nativeCurrencyPrice {
           ${blocks.map((block) => {
             return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
               nativeCurrencyPrice
@@ -206,15 +201,14 @@ export class Swapr implements DexPlatform {
     )
   }
 
-  public async dailyTokenMarketCap(
+  public async tokenMarketCap(
     token: TotalSupplyToken,
     from: DateTime,
     to: DateTime,
     granularity: number
   ): Promise<ChartDataPoint[]> {
     const chainId = token.chainId
-    if (!this.supportsChain(chainId))
-      throw new Error('tried to get honeyswap daily token mcap data on an invalid chain')
+    if (!this.supportsChain(chainId)) throw new Error('tried to get honeyswap token mcap data on an invalid chain')
     if (Token.getNativeWrapper(chainId).equals(token)) throw new Error('cannot get mcap of native currency')
     const nativeCurrency = Currency.getNative(chainId)
     if (!nativeCurrency) throw new Error(`no native currency for chain id ${chainId}`)
@@ -229,7 +223,7 @@ export class Swapr implements DexPlatform {
       [timestampString: string]: { derivedNativeCurrency: string }
     }>({
       query: gql`
-        query dailyTokenPrice {
+        query tokenPrice {
           ${blocks.map((block) => {
             return `t${block.timestamp}: token(id: "${token.address.toLowerCase()}", block: { number: ${
               block.number
@@ -245,7 +239,7 @@ export class Swapr implements DexPlatform {
       [timestampString: string]: { nativeCurrencyPrice: string }
     }>({
       query: gql`
-        query dailyNativeCurrencyPrice {
+        query nativeCurrencyPrice {
           ${blocks.map((block) => {
             return `t${block.timestamp}: bundle(id: "1", block: { number: ${block.number} }) {
               nativeCurrencyPrice
