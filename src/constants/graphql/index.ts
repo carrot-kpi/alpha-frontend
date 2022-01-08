@@ -52,7 +52,7 @@ export const AGAVE_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<Normalized
   }),
 }
 
-export const USDM_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
+export const MOCHI_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.MAINNET]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/usdm-data',
     cache: new InMemoryCache(),
