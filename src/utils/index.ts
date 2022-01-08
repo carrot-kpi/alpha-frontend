@@ -92,6 +92,7 @@ export const getTimestampsFromRange = (from: DateTime, to: DateTime, granularity
   return timestamps
 }
 
+const BLOCKS_FROM_TIMESTAMP_BATCH_SIZE = 10
 export const getBlocksFromTimestamps = async (
   chainId: ChainId,
   timestamps: number[]
@@ -101,23 +102,29 @@ export const getBlocksFromTimestamps = async (
   const blocksSubgraph = BLOCK_SUBGRAPH_CLIENTS[chainId]
   if (!blocksSubgraph) return []
 
-  const { data } = await blocksSubgraph.query<{
-    [timestampString: string]: { number: string }[]
-  }>({
-    query: gql`
-      query blocks {
-        ${timestamps.map((timestamp) => {
-          return `t${timestamp}: blocks(first: 1, orderBy: number, orderDirection: asc where: { timestamp_gt: ${Math.floor(
-            timestamp / 1000
-          )} }) {
-          number
-        }`
-        })}
-      }
-    `,
-  })
+  let blocksFromSubgraph: { [timestampString: string]: { number: string }[] } = {}
+  for (let i = 0; i < Math.ceil(timestamps.length / BLOCKS_FROM_TIMESTAMP_BATCH_SIZE); i++) {
+    const sliceStart = i * BLOCKS_FROM_TIMESTAMP_BATCH_SIZE
+    const slice = timestamps.slice(sliceStart, sliceStart + BLOCKS_FROM_TIMESTAMP_BATCH_SIZE)
+    const { data } = await blocksSubgraph.query<{
+      [timestampString: string]: { number: string }[]
+    }>({
+      query: gql`
+        query blocks {
+          ${slice.map((timestamp) => {
+            return `t${timestamp}: blocks(first: 1, orderBy: number, orderDirection: asc where: { timestamp_gt: ${Math.floor(
+              timestamp / 1000
+            )} }) {
+            number
+          }`
+          })}
+        }
+      `,
+    })
+    blocksFromSubgraph = { ...blocksFromSubgraph, ...data }
+  }
 
-  return Object.entries(data).reduce(
+  return Object.entries(blocksFromSubgraph).reduce(
     (accumulator: { timestamp: number; number: number }[], [timestampString, blocks]) => {
       if (blocks.length > 0) {
         accumulator.push({
