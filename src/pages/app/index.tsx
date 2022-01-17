@@ -30,7 +30,7 @@ export function App() {
       <ThemeProvider theme={theme}>
         <TransactionsStateUpdater />
         <GlobalStyle />
-        <SkeletonTheme color={theme.border} highlightColor={theme.surfaceInteractive}>
+        <SkeletonTheme baseColor={theme.border} highlightColor={theme.surfaceInteractive}>
           <Header />
           <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
             <Flex flexDirection="column" flex="1" width="100%">

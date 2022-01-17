@@ -1,21 +1,13 @@
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId, Metric, Swapr, Agave, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
 import { AGAVE, Creator, DXDAO } from '../creators'
 import { DXD, XDAI_WETH, SWPR } from '../tokens'
-import { Metric, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from './metrics'
-import { Agave } from './platforms/agave'
-import { Swapr } from './platforms/swapr'
 
 export interface FeaturedCampaign {
   metrics: Metric[]
   id: string
   kpiId: string
   creator: Creator
-}
-
-export enum Platform {
-  SWAPR,
-  AGAVE,
 }
 
 const swapr = new Swapr()

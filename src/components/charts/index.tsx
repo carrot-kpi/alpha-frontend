@@ -5,7 +5,7 @@ import {
   TokenMarketCapMetric,
   TokenPriceMetric,
   TvlMetric,
-} from '../../constants/featured-campaigns/metrics'
+} from '@carrot-kpi/sdk'
 import { Card } from '../card'
 import { Title } from '../title'
 import { BarChart } from './bar-chart'

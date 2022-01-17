@@ -6,6 +6,7 @@ import '@fontsource/manrope/800.css'
 import '@fontsource/overpass-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'rc-switch/assets/index.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 /* import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css' */
 import { transparentize } from 'polished'
