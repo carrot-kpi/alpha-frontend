@@ -18,7 +18,7 @@ export function useIsRealityQuestionFinalized(kpiId?: string): { loading: boolea
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
-      console.error('could not fetch reality question finalization status', wrappedResult.error)
+      console.error('could not fetch reality question finalization status')
       setLoading(true)
       setFinalized(false)
       return

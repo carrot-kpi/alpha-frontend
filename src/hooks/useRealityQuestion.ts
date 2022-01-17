@@ -26,7 +26,7 @@ export function useRealityQuestion(kpiId: string | undefined): {
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
-      console.error('could not fetch reality question finalization status', wrappedResult.error)
+      console.error('could not fetch reality question finalization status')
       setLoading(true) // indefinitely load
       return
     }

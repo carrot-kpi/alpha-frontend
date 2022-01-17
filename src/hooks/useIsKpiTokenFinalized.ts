@@ -18,7 +18,7 @@ export function useIsKpiTokenFinalized(kpiToken?: KpiToken): { loading: boolean;
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
-      console.error('could not fetch kpi token finalization status', wrappedResult.error)
+      console.error('could not fetch kpi token finalization status')
       setLoading(true)
       return
     }

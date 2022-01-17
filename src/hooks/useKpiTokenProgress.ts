@@ -19,7 +19,7 @@ export function useKpiTokenProgress(kpiToken?: KpiToken): { loading: boolean; pr
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
-      console.error('could not fetch final kpi progress', wrappedResult.error)
+      console.error('could not fetch final kpi progress')
       setLoading(true)
       return
     }

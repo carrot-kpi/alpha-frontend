@@ -22,7 +22,7 @@ export function useKpiTokenBalance(
       return
     }
     if (wrappedResult.error || !wrappedResult.result || wrappedResult.result.length === 0) {
-      console.error('could not fetch balance', wrappedResult.error)
+      console.error('could not fetch balance')
       setLoading(true)
       return
     }
