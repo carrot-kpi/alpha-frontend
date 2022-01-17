@@ -4,12 +4,12 @@ import { Popover } from '../popover'
 import { ChainId } from '@carrot-kpi/sdk'
 import { Flex, Text } from 'rebass'
 import { Card } from '../card'
-import { NetworkConnector } from '@web3-react/network-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { switchOrAddNetwork } from '../../utils'
 import styled from 'styled-components'
 import { ADXdaoProduct } from '../a-dxdao-product'
+import { NetworkConnector } from '../../connectors/custom-network'
 
 interface NetworkSwitcherPopoverProps {
   children: ReactNode
