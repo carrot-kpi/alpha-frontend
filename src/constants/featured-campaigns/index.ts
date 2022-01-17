@@ -1,7 +1,8 @@
-import { ChainId, Metric, Swapr, Agave, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
+import { ChainId, Metric, Swapr, Agave, Mochi, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
+import { AddressZero } from '@ethersproject/constants'
 import { DateTime } from 'luxon'
-import { AGAVE, Creator, DXDAO } from '../creators'
-import { DXD, XDAI_WETH, SWPR } from '../tokens'
+import { AGAVE, Creator, DXDAO, MOCHI } from '../creators'
+import { DXD, XDAI_WETH, SWPR, USDM, MOCHI_TEST_KPI_TOKEN } from '../tokens'
 
 export interface FeaturedCampaign {
   metrics: Metric[]
@@ -12,10 +13,34 @@ export interface FeaturedCampaign {
 
 const swapr = new Swapr()
 const agave = new Agave()
-// const mochi = new Mochi()
+const mochi = new Mochi()
 
 export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
-  [ChainId.MAINNET]: [],
+  [ChainId.MAINNET]: [
+    // TODO: remove this, it's for test purposes!
+    {
+      metrics: [
+        new TokenPriceMetric(
+          USDM,
+          mochi,
+          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          86400
+        ),
+        new TvlMetric(
+          ChainId.MAINNET,
+          mochi, // ignored
+          mochi,
+          DateTime.fromSeconds(1635771600), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1638280800), // Dec 31th 1200 UTC
+          86400
+        ),
+      ],
+      id: AddressZero,
+      kpiId: MOCHI_TEST_KPI_TOKEN.kpiId,
+      creator: MOCHI,
+    },
+  ],
   [ChainId.RINKEBY]: [
     {
       metrics: [

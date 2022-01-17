@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FEATURED_CAMPAIGNS } from '../constants/featured-campaigns'
-import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
+import { KpiToken, Amount, Token, ChainId } from '@carrot-kpi/sdk'
 import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -8,6 +8,7 @@ import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
 import { CID } from 'multiformats/cid'
+import { MOCHI_TEST_KPI_TOKEN } from '../constants/tokens'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -82,9 +83,15 @@ export function useFeaturedKpiTokens() {
     let cancelled = false
     const fetchData = async () => {
       if (!chainId) return
-
+      
       if (!cancelled) setLoading(true)
       try {
+        // TODO: this is for test purposes, remove
+        if (chainId === ChainId.MAINNET) {
+          setFeaturedKpiTokens([MOCHI_TEST_KPI_TOKEN])
+          return
+        }
+
         const { data: featuredKpiTokensData } = await carrotSubgraphClient.query<CarrotQueryResult>({
           query: FEATURED_KPI_TOKENS_QUERY,
           variables: {

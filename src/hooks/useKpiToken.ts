@@ -7,6 +7,7 @@ import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
 import { CID } from 'multiformats/cid'
+import { MOCHI_TEST_KPI_TOKEN } from '../constants/tokens'
 
 const KPI_TOKEN_QUERY = gql`
   query kpiToken($kpiId: ID!) {
@@ -84,6 +85,11 @@ export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiT
 
       if (!cancelled) setLoading(true)
       try {
+        // TODO: remove this, as it is for test purposes only!
+        if (kpiId === MOCHI_TEST_KPI_TOKEN.kpiId) {
+          setKpiToken(MOCHI_TEST_KPI_TOKEN)
+          return
+        }
         const { data: kpiTokenData } = await carrotSubgraphClient.query<CarrotQueryResult>({
           query: KPI_TOKEN_QUERY,
           variables: { kpiId },

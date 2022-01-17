@@ -1,8 +1,13 @@
-import { ChainId, Token, Amount } from '@carrot-kpi/sdk'
+import { ChainId, Token, Amount, KpiToken } from '@carrot-kpi/sdk'
 import { Interface } from '@ethersproject/abi'
 import { Contract } from '@ethersproject/contracts'
+import { BigNumber } from '@ethersproject/bignumber'
+import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcProvider } from '@ethersproject/providers'
+import { formatBytes32String } from '@ethersproject/strings'
 import { RPC_URL } from '../../connectors'
+import { DateTime } from 'luxon'
+import { parseUnits } from '@ethersproject/units'
 
 export class TotalSupplyToken extends Token {
   private readonly totalSupplyGetterLogic: (token: Token) => Promise<Amount<Token>>
@@ -80,3 +85,25 @@ export const SWPR = new Token(ChainId.XDAI, '0x532801ED6f82FFfD2DAB70A19fC2d7B27
 
 // Mainnet tokens
 export const USDM = new Token(ChainId.MAINNET, '0x31d4eb09a216e181ec8a43ce79226a487d6f0ba9', 18, 'USDM', 'USDM')
+export const MOCHI = new Token(ChainId.MAINNET, '0x60ef10edff6d600cd91caeca04caed2a2e605fe5', 18, 'MOCHI', 'Mochi Inu')
+
+// Test KPI tokens
+export const MOCHI_TEST_KPI_TOKEN = new KpiToken(
+  ChainId.MAINNET,
+  AddressZero,
+  'MTEST',
+  'Mochi test',
+  formatBytes32String('1234-test'),
+  parseUnits('100000', 18),
+  AddressZero,
+  'Mochi test?',
+  BigNumber.from(0),
+  BigNumber.from(1),
+  BigNumber.from(0),
+  DateTime.fromSeconds(Math.floor(Date.now() / 1000) + 3600),
+  false,
+  false,
+  AddressZero,
+  new Amount<Token>(MOCHI, parseUnits('100000000', MOCHI.decimals)),
+  new Amount<Token>(MOCHI, parseUnits('3000', MOCHI.decimals))
+)
