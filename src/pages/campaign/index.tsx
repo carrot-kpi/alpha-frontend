@@ -258,7 +258,7 @@ export function Campaign(): ReactElement {
                 {loadingKpiToken || !kpiToken || loadingCollateralPriceUSD ? (
                   <Skeleton width="80px" />
                 ) : (
-                  `${kpiToken.collateral.toFixed(4)} ${kpiToken.collateral.currency.symbol} ($${
+                  `${commify(kpiToken.collateral.toFixed(4))} ${kpiToken.collateral.currency.symbol} ($${
                     collateralPriceUSD.isZero()
                       ? '-'
                       : commify(kpiToken.collateral.multiply(collateralPriceUSD).toFixed(2))
