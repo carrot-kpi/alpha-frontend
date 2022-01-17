@@ -17,6 +17,7 @@ import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
 import { Creator } from '../../constants/creators'
+import { commify } from '@ethersproject/units'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
@@ -138,10 +139,10 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
             collateralPriceUSD.isZero() ? (
               '-'
             ) : (
-              `$${collateral.multiply(collateralPriceUSD).toFixed(2)}`
+              `$${commify(collateral.multiply(collateralPriceUSD).toFixed(2))}`
             )
           ) : (
-            `${collateral?.toFixed(2)} ${collateral?.currency.symbol}`
+            `${commify(collateral.toFixed(2))} ${collateral.currency.symbol}`
           )}
         </Text>
       </Flex>
