@@ -12,7 +12,7 @@ export const RPC_URL: { [chainId: number]: string } = {
   [ChainId.XDAI]: `https://poa-xdai.gateway.pokt.network/v1/lb/${POCKET_ID}`,
 }
 
-const SUPPORTED_CHAINS = [ChainId.MAINNET, ChainId.RINKEBY, ChainId.XDAI]
+const SUPPORTED_CHAINS = [/* ChainId.MAINNET, */ ChainId.RINKEBY, ChainId.XDAI]
 
 export const network = new NetworkConnector({
   urls: RPC_URL,

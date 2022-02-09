@@ -67,7 +67,7 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
     rpcUrls: ['https://rpc.xdaichain.com'],
     blockExplorerUrls: ['https://blockscout.com/xdai/mainnet'],
   },
-  [ChainId.MAINNET]: {
+  /* [ChainId.MAINNET]: {
     chainId: `0x${ChainId.MAINNET.toString(16)}`,
     chainName: 'Mainnet',
     icon: ethereumLogo,
@@ -79,7 +79,7 @@ export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
     defaultBond: parseUnits('0.01', 18),
     rpcUrls: ['https://mainnet.infura.io/v3'],
     blockExplorerUrls: ['https://etherscan.io'],
-  },
+  }, */
 }
 if (process.env.NODE_ENV !== 'production') {
   NETWORK_DETAIL[ChainId.RINKEBY] = {
