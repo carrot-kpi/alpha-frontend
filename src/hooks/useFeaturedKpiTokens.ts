@@ -8,7 +8,14 @@ import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
 import { CID } from 'multiformats/cid'
-import { MOCHI_TEST_KPI_TOKEN } from '../constants/tokens'
+import {
+  /* MOCHI_TEST_KPI_TOKEN, */
+  SWAPR_GNO_TEST_KPI_TOKEN,
+  SWAPR_SWPR_TEST_KPI_TOKEN,
+  HOPR_TEST_KPI_TOKEN,
+} from '../constants/tokens'
+import { AddressZero } from '@ethersproject/constants'
+import { IPFS_GATEWAY } from '../constants'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -83,12 +90,12 @@ export function useFeaturedKpiTokens() {
     let cancelled = false
     const fetchData = async () => {
       if (!chainId) return
-      
+
       if (!cancelled) setLoading(true)
       try {
         // TODO: this is for test purposes, remove
-        if (chainId === ChainId.MAINNET) {
-          setFeaturedKpiTokens([MOCHI_TEST_KPI_TOKEN])
+        if (chainId === ChainId.XDAI) {
+          setFeaturedKpiTokens([SWAPR_GNO_TEST_KPI_TOKEN, SWAPR_SWPR_TEST_KPI_TOKEN, HOPR_TEST_KPI_TOKEN])
           return
         }
 
@@ -111,7 +118,7 @@ export function useFeaturedKpiTokens() {
           let question = kpiToken.oracleQuestion.text
           try {
             const cid = CID.parse(question)
-            const response = await fetch(`https://ipfs.io/ipfs/${cid.toV0()}`)
+            const response = await fetch(`${IPFS_GATEWAY}${cid.toV0()}`)
             if (!response.ok) {
               console.warn('could not load question from ipfs')
               continue

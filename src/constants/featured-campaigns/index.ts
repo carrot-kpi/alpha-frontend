@@ -1,8 +1,16 @@
-import { ChainId, Metric, Swapr, Mochi, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
-import { AddressZero } from '@ethersproject/constants'
+import { ChainId, Metric, Swapr, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
 import { DateTime } from 'luxon'
-import { Creator, DXDAO, MOCHI } from '../creators'
-import { DXD, XDAI_WETH, SWPR, USDM, MOCHI_TEST_KPI_TOKEN } from '../tokens'
+import { Creator, DXDAO, HOPR as HOPR_CREATOR } from '../creators'
+import {
+  DXD,
+  XDAI_WETH,
+  SWPR,
+  SWAPR_GNO_TEST_KPI_TOKEN,
+  SWAPR_SWPR_TEST_KPI_TOKEN,
+  HOPR,
+  HOPR_TEST_KPI_TOKEN,
+  WXDAI,
+} from '../tokens'
 
 export interface FeaturedCampaign {
   metrics: Metric[]
@@ -12,12 +20,12 @@ export interface FeaturedCampaign {
 }
 
 const swapr = new Swapr()
-const mochi = new Mochi()
+// const mochi = new Mochi()
 
 export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
-  [ChainId.MAINNET]: [
-    // TODO: remove this, it's for test purposes!
-    {
+  // TODO: remove this, it's for test purposes!
+  [ChainId.MAINNET]: [],
+  /* {
       metrics: [
         new TokenPriceMetric(
           USDM,
@@ -39,7 +47,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: MOCHI_TEST_KPI_TOKEN.kpiId,
       creator: MOCHI,
     },
-  ],
+  ], */
   [ChainId.RINKEBY]: [
     {
       metrics: [
@@ -74,32 +82,48 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
   [ChainId.XDAI]: [
     {
       metrics: [
-        new PairLiquidityMetric(
-          DXD,
-          XDAI_WETH,
+        new TvlMetric(
+          ChainId.XDAI,
           swapr,
-          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
-          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          swapr,
+          DateTime.fromSeconds(1638360000), // Feb 17th 1500 UTC
+          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
           86400
         ),
       ],
-      id: '0x81bfbf1ed75b5d725c6bb60817ca0a5e30589907',
-      kpiId: '0xb14fbca57adf524a30a517eaaf012cafc1227782aea1e900fbba1fb7c8ba5993',
+      id: SWAPR_GNO_TEST_KPI_TOKEN.address,
+      kpiId: SWAPR_GNO_TEST_KPI_TOKEN.kpiId,
       creator: DXDAO,
     },
     {
       metrics: [
-        new TokenPriceMetric(
-          SWPR,
+        new TvlMetric(
+          ChainId.XDAI,
           swapr,
-          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
-          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          swapr,
+          DateTime.fromSeconds(1638360000), // Feb 17th 1500 UTC
+          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
           86400
         ),
       ],
-      id: '0x8dc2a6919eb14ea6ea1869240965322ec092aada',
-      kpiId: '0xbf6d4e50a9142bf3466c7ec687f1ddb403994a28bfe78d457301a5230d07c281',
+      id: SWAPR_SWPR_TEST_KPI_TOKEN.address,
+      kpiId: SWAPR_SWPR_TEST_KPI_TOKEN.kpiId,
       creator: DXDAO,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          WXDAI,
+          HOPR,
+          swapr,
+          DateTime.fromSeconds(1638360000), // Feb 17th 1500 UTC
+          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
+          86400
+        ),
+      ],
+      id: HOPR_TEST_KPI_TOKEN.address,
+      kpiId: HOPR_TEST_KPI_TOKEN.kpiId,
+      creator: HOPR_CREATOR,
     },
     {
       metrics: [],

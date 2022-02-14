@@ -68,20 +68,44 @@ export const STAKE = new TotalSupplyToken(
   '0xb7D311E2Eb55F2f68a9440da38e7989210b9A05e',
   18,
   'STAKE',
-  'STAKE on xDai',
+  'STAKE from Ethereum',
   async (token: Token) => new Amount(token, await MAINNET_STAKE_CONTRACT.totalSupply())
 )
 
-export const DXD = new Token(ChainId.XDAI, '0xb90D6bec20993Be5d72A5ab353343f7a0281f158', 18, 'DXD', 'DXdao on xDai')
+export const DXD = new Token(
+  ChainId.XDAI,
+  '0xb90D6bec20993Be5d72A5ab353343f7a0281f158',
+  18,
+  'DXD',
+  'DXdao from Ethereum'
+)
 export const XDAI_WETH = new Token(
   ChainId.XDAI,
   '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1',
   18,
   'WETH',
-  'Wrapped Ether on xDai'
+  'Wrapped Ether from Ethereum'
 )
 
-export const SWPR = new Token(ChainId.XDAI, '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b', 18, 'SWPR', 'SWPR on xDai')
+export const SWPR = new Token(
+  ChainId.XDAI,
+  '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b',
+  18,
+  'SWPR',
+  'SWPR from Ethereum'
+)
+
+export const GNO = new Token(ChainId.XDAI, '0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb', 18, 'GNO', 'GNO from Ethereum')
+
+export const HOPR = new Token(
+  ChainId.XDAI,
+  '0xD057604A14982FE8D88c5fC25Aac3267eA142a08',
+  18,
+  'HOPR',
+  'HOPR from Ethereum'
+)
+
+export const WXDAI = new Token(ChainId.XDAI, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped XDAI')
 
 // Mainnet tokens
 export const USDM = new Token(ChainId.MAINNET, '0x31d4eb09a216e181ec8a43ce79226a487d6f0ba9', 18, 'USDM', 'USDM')
@@ -106,4 +130,82 @@ export const MOCHI_TEST_KPI_TOKEN = new KpiToken(
   AddressZero,
   new Amount<Token>(MOCHI, parseUnits('100000000', MOCHI.decimals)),
   new Amount<Token>(MOCHI, parseUnits('3000', MOCHI.decimals))
+)
+
+export const SWAPR_GNO_TEST_KPI_TOKEN = new KpiToken(
+  ChainId.XDAI,
+  AddressZero,
+  'GNOxSWAPRTVL-0317',
+  'GNO Swapr GC TVL 03-17',
+  formatBytes32String('12345-test'),
+  parseUnits('72.5', 18),
+  AddressZero,
+  `# What will the average TVL for Swapr on Gnosis Chain be from Feb 17th 15:00 UTC to Mar 17th 15:00 UTC?
+
+  ## Details
+  This campaign will pay out in the range of 10M USD to 30M USD, with no payout when the result is below 10M USD and increasing linear payout over the range with a full collateral payout when the result is 30M USD or higher.
+  
+  ## Calculating the final answer
+  The dedicated chart on the official carrot.eth frontend will show daily TVL of the pool in the specified date range. Each bar represents a TVL reading taken each day at 15:00 UTC. To calculate the final result, use the data for each bar and calculate the average between all the charted values.`,
+  parseUnits('10000000', 18),
+  parseUnits('30000000', 18),
+  BigNumber.from(0),
+  DateTime.fromSeconds(1647529200),
+  false,
+  false,
+  AddressZero,
+  new Amount<Token>(GNO, parseUnits('72.5', GNO.decimals)),
+  new Amount<Token>(GNO, parseUnits('0', GNO.decimals))
+)
+
+export const SWAPR_SWPR_TEST_KPI_TOKEN = new KpiToken(
+  ChainId.XDAI,
+  AddressZero,
+  'SWPRxSWAPRTVL-0317',
+  'SWPR Swapr GC TVL 03-17',
+  formatBytes32String('123456-test'),
+  parseUnits('68600', 18),
+  AddressZero,
+  `# What will the average TVL for Swapr on Gnosis Chain be from Feb 17th 15:00 UTC to Mar 17th 15:00 UTC?
+
+  ## Details
+  This campaign will pay out in the range of 10M USD to 30M USD, with no payout when the result is below 10M USD and increasing linear payout over the range with a full collateral payout when the result is 30M USD or higher.
+  
+  ## Calculating the final answer
+  The dedicated chart on the official carrot.eth frontend will show daily TVL of the pool in the specified date range. Each bar represents a TVL reading taken each day at 15:00 UTC. To calculate the final result, use the data for each bar and calculate the average between all the charted values.`,
+  parseUnits('10000000', 18),
+  parseUnits('30000000', 18),
+  BigNumber.from(0),
+  DateTime.fromSeconds(1647529200),
+  false,
+  false,
+  AddressZero,
+  new Amount<Token>(SWPR, parseUnits('68600', SWPR.decimals)),
+  new Amount<Token>(SWPR, parseUnits('0', SWPR.decimals))
+)
+
+export const HOPR_TEST_KPI_TOKEN = new KpiToken(
+  ChainId.XDAI,
+  AddressZero,
+  'Swapr GC HOPRXDAI TVL 03-17',
+  'xHOPRXDAITVL-0317',
+  formatBytes32String('1234567-test'),
+  parseUnits('64714', 18),
+  AddressZero,
+  `# What will the average TVL for the Swapr Gnosis Chain HOPR-XDAI pair be from Feb 17th 15:00 UTC to May 17th 15:00 UTC?
+
+  ## Details
+  This campaign will pay out in the range of 100K USD to 200k USD, with no payout when the result is below 100K USD and increasing linear payout over the range with a full collateral payout when the result is 200k USD or higher.
+  
+  ## Calculating the final answer
+  The dedicated chart on the official carrot.eth frontend will show daily TVL of the pool in the specified date range. Each bar represents a TVL reading taken each day at 15:00 UTC. To calculate the final result, use the data for each bar and calculate the average between all the charted values.`,
+  parseUnits('100000', 18),
+  parseUnits('200000', 18),
+  BigNumber.from(0),
+  DateTime.fromSeconds(1647529200),
+  false,
+  false,
+  AddressZero,
+  new Amount<Token>(HOPR, parseUnits('64714', HOPR.decimals)),
+  new Amount<Token>(HOPR, parseUnits('0', HOPR.decimals))
 )
