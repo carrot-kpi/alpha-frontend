@@ -1,6 +1,7 @@
 import dxdaoLogo from '../../assets/svgs/dxdao-logo.svg'
 import agaveLogo from '../../assets/svgs/agave-logo.svg'
 import mochiLogo from '../../assets/mochi-logo.png'
+import hoprLogo from '../../assets/hopr-logo.png'
 
 export interface Creator {
   name: string
@@ -20,4 +21,9 @@ export const AGAVE: Creator = {
 export const MOCHI: Creator = {
   name: 'Mochi',
   logo: mochiLogo,
+}
+
+export const HOPR: Creator = {
+  name: 'Hopr',
+  logo: hoprLogo,
 }
