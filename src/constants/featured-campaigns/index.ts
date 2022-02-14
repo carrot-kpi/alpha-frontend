@@ -125,11 +125,11 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: HOPR_TEST_KPI_TOKEN.kpiId,
       creator: HOPR_CREATOR,
     },
-    {
+    /* {
       metrics: [],
       id: '0x50b95f4cd35db87c9ee36b5a653e1ad397e93927',
       kpiId: '0xc32b79923358551009f7fade6f91d119911eebe0e4030fbce798d799aae7afdb',
       creator: DXDAO,
-    },
+    }, */
   ],
 }
