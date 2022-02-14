@@ -14,7 +14,6 @@ import {
   SWAPR_SWPR_TEST_KPI_TOKEN,
   HOPR_TEST_KPI_TOKEN,
 } from '../constants/tokens'
-import { AddressZero } from '@ethersproject/constants'
 import { IPFS_GATEWAY } from '../constants'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
