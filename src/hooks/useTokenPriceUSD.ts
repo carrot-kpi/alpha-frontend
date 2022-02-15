@@ -9,6 +9,7 @@ import { useActiveWeb3React } from './useActiveWeb3React'
 import { useSwaprTokenPriceUSD } from './useSwaprTokenPriceUSD'
 import { ZERO_USD } from '../constants'
 import { useSymmetricLpTokenPriceUSD } from './useSymmetricLpTokenPriceUSD'
+import { useHoneyswapTokenPriceUSD } from './useHoneyswapTokenPriceUSD'
 
 const COINGECKO_PLATFORMS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'ethereum',
@@ -19,6 +20,7 @@ const COINGECKO_PLATFORMS: { [chainId in ChainId]: string } = {
 export function useTokenPriceUSD(token?: Token): { loading: boolean; price: Amount<Currency> } {
   const { chainId } = useActiveWeb3React()
   const { loading: loadingSwaprPrice, price: swaprPrice } = useSwaprTokenPriceUSD(token)
+  const { loading: loadingHoneyswapPrice, price: honeyswapPrice } = useHoneyswapTokenPriceUSD(token)
   const { loading: loadingSymmetricLpTokenPrice, price: symmetricLpTokenPrice } = useSymmetricLpTokenPriceUSD(token)
   const coingeckoPrice = useCoingeckoTokenPrice(
     token?.address || AddressZero,
@@ -31,6 +33,7 @@ export function useTokenPriceUSD(token?: Token): { loading: boolean; price: Amou
   useEffect(() => {
     let price
     if (!loadingSwaprPrice && !swaprPrice.isZero()) price = swaprPrice
+    else if (!loadingHoneyswapPrice && !honeyswapPrice.isZero()) price = honeyswapPrice
     else if (!loadingSymmetricLpTokenPrice && !symmetricLpTokenPrice.isZero()) price = symmetricLpTokenPrice
     else if (coingeckoPrice)
       price = new Amount(
@@ -44,7 +47,15 @@ export function useTokenPriceUSD(token?: Token): { loading: boolean; price: Amou
     }
     setLoading(false)
     setPrice(price)
-  }, [coingeckoPrice, loadingSwaprPrice, loadingSymmetricLpTokenPrice, swaprPrice, symmetricLpTokenPrice])
+  }, [
+    coingeckoPrice,
+    honeyswapPrice,
+    loadingHoneyswapPrice,
+    loadingSwaprPrice,
+    loadingSymmetricLpTokenPrice,
+    swaprPrice,
+    symmetricLpTokenPrice,
+  ])
 
   return { loading, price }
 }
