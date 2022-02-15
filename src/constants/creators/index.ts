@@ -2,6 +2,7 @@ import dxdaoLogo from '../../assets/svgs/dxdao-logo.svg'
 import agaveLogo from '../../assets/svgs/agave-logo.svg'
 import mochiLogo from '../../assets/mochi-logo.png'
 import hoprLogo from '../../assets/hopr-logo.png'
+import dappNodeLogo from '../../assets/dappnode-logo.webp'
 
 export interface Creator {
   name: string
@@ -26,4 +27,9 @@ export const MOCHI: Creator = {
 export const HOPR: Creator = {
   name: 'Hopr',
   logo: hoprLogo,
+}
+
+export const DAPPNODE: Creator = {
+  name: 'DAppNode',
+  logo: dappNodeLogo,
 }
