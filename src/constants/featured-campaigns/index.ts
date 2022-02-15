@@ -1,6 +1,17 @@
-import { ChainId, Metric, Swapr, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
+import {
+  ChainId,
+  Metric,
+  Swapr,
+  Mochi,
+  PairLiquidityMetric,
+  TokenPriceMetric,
+  TvlMetric,
+  UniswapV2,
+  Honeyswap,
+} from '@carrot-kpi/sdk'
+import { AddressZero } from '@ethersproject/constants'
 import { DateTime } from 'luxon'
-import { Creator, DXDAO, HOPR as HOPR_CREATOR } from '../creators'
+import { Creator, DAPPNODE, DXDAO, HOPR as HOPR_CREATOR, MOCHI } from '../creators'
 import {
   DXD,
   XDAI_WETH,
@@ -10,6 +21,14 @@ import {
   HOPR,
   HOPR_TEST_KPI_TOKEN,
   WXDAI,
+  USDM,
+  MOCHI_TEST_KPI_TOKEN,
+  DAPPNODE_TEST_KPI_TOKEN_1,
+  XDAI_NODE,
+  DAPPNODE_TEST_KPI_TOKEN_2,
+  MAINNET_NODE,
+  DAPPNODE_TEST_KPI_TOKEN_3,
+  MAINNET_WETH,
 } from '../tokens'
 
 export interface FeaturedCampaign {
@@ -20,12 +39,14 @@ export interface FeaturedCampaign {
 }
 
 const swapr = new Swapr()
-// const mochi = new Mochi()
+const mochi = new Mochi()
+const uniswapV2 = new UniswapV2()
+const honeyswap = new Honeyswap()
 
 export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
   // TODO: remove this, it's for test purposes!
-  [ChainId.MAINNET]: [],
-  /* {
+  [ChainId.MAINNET]: [
+    {
       metrics: [
         new TokenPriceMetric(
           USDM,
@@ -47,7 +68,22 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: MOCHI_TEST_KPI_TOKEN.kpiId,
       creator: MOCHI,
     },
-  ], */
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          MAINNET_NODE,
+          MAINNET_WETH,
+          uniswapV2,
+          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          86400
+        ),
+      ],
+      id: AddressZero,
+      kpiId: DAPPNODE_TEST_KPI_TOKEN_2.kpiId,
+      creator: DAPPNODE,
+    },
+  ],
   [ChainId.RINKEBY]: [
     {
       metrics: [
@@ -124,6 +160,35 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       id: HOPR_TEST_KPI_TOKEN.address,
       kpiId: HOPR_TEST_KPI_TOKEN.kpiId,
       creator: HOPR_CREATOR,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          XDAI_NODE,
+          XDAI_WETH,
+          swapr,
+          DateTime.fromSeconds(1644494400), // Feb 17th 1500 UTC
+          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
+          86400
+        ),
+      ],
+      id: AddressZero,
+      kpiId: DAPPNODE_TEST_KPI_TOKEN_1.kpiId,
+      creator: DAPPNODE,
+    },
+    {
+      metrics: [
+        new TokenPriceMetric(
+          XDAI_NODE,
+          honeyswap,
+          DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
+          DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
+          86400
+        ),
+      ],
+      id: AddressZero,
+      kpiId: DAPPNODE_TEST_KPI_TOKEN_3.kpiId,
+      creator: DAPPNODE,
     },
     /* {
       metrics: [],

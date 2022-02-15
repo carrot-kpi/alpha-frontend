@@ -12,6 +12,9 @@ import {
   SWAPR_GNO_TEST_KPI_TOKEN,
   SWAPR_SWPR_TEST_KPI_TOKEN,
   HOPR_TEST_KPI_TOKEN,
+  DAPPNODE_TEST_KPI_TOKEN_1,
+  DAPPNODE_TEST_KPI_TOKEN_2,
+  DAPPNODE_TEST_KPI_TOKEN_3,
 } from '../constants/tokens'
 
 const KPI_TOKEN_QUERY = gql`
@@ -105,6 +108,18 @@ export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiT
         }
         if (kpiId === HOPR_TEST_KPI_TOKEN.kpiId) {
           setKpiToken(HOPR_TEST_KPI_TOKEN)
+          return
+        }
+        if (kpiId === DAPPNODE_TEST_KPI_TOKEN_1.kpiId) {
+          setKpiToken(DAPPNODE_TEST_KPI_TOKEN_1)
+          return
+        }
+        if (kpiId === DAPPNODE_TEST_KPI_TOKEN_2.kpiId) {
+          setKpiToken(DAPPNODE_TEST_KPI_TOKEN_2)
+          return
+        }
+        if (kpiId === DAPPNODE_TEST_KPI_TOKEN_3.kpiId) {
+          setKpiToken(DAPPNODE_TEST_KPI_TOKEN_3)
           return
         }
 

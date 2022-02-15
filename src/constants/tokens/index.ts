@@ -55,6 +55,14 @@ export const WETH = new Token(
   'Wrapped Ether'
 )
 
+export const MAINNET_WETH = new Token(
+  ChainId.MAINNET,
+  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  18,
+  'WETH',
+  'Wrapped Ether'
+)
+
 // xDai tokens
 export const AGVE = new Token(ChainId.XDAI, '0x3a97704a1b25F08aa230ae53B352e2e72ef52843', 18, 'AGVE', 'Agave Token')
 
@@ -106,6 +114,22 @@ export const HOPR = new Token(
 )
 
 export const WXDAI = new Token(ChainId.XDAI, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped XDAI')
+
+export const XDAI_NODE = new Token(
+  ChainId.XDAI,
+  '0xc60e38C6352875c051B481Cbe79Dd0383AdB7817',
+  18,
+  'NODE',
+  'DAppNode DAO token from Ethereum'
+)
+
+export const MAINNET_NODE = new Token(
+  ChainId.MAINNET,
+  '0xda007777d86ac6d989cc9f79a73261b3fc5e0da0',
+  18,
+  'NODE',
+  'DAppNode DAO token'
+)
 
 // Mainnet tokens
 export const USDM = new Token(ChainId.MAINNET, '0x31d4eb09a216e181ec8a43ce79226a487d6f0ba9', 18, 'USDM', 'USDM')
@@ -187,8 +211,8 @@ export const SWAPR_SWPR_TEST_KPI_TOKEN = new KpiToken(
 export const HOPR_TEST_KPI_TOKEN = new KpiToken(
   ChainId.XDAI,
   AddressZero,
-  'Swapr GC HOPRXDAI TVL 03-17',
   'xHOPRXDAITVL-0317',
+  'Swapr GC HOPRXDAI TVL 03-17',
   formatBytes32String('1234567-test'),
   parseUnits('64714', 18),
   AddressZero,
@@ -208,4 +232,82 @@ export const HOPR_TEST_KPI_TOKEN = new KpiToken(
   AddressZero,
   new Amount<Token>(HOPR, parseUnits('64714', HOPR.decimals)),
   new Amount<Token>(HOPR, parseUnits('0', HOPR.decimals))
+)
+
+export const DAPPNODE_TEST_KPI_TOKEN_1 = new KpiToken(
+  ChainId.XDAI,
+  AddressZero,
+  'xNODEWETHTVL-0413',
+  'Swapr GC NODEWETH TVL 04-13',
+  formatBytes32String('12345678-test'),
+  parseUnits('100000', 18),
+  AddressZero,
+  `# What will the average TVL for the Swapr Gnosis Chain NODE-WETH pair be from 16th Feb to 13th April?
+  
+  ## Details
+  This campaign will pay out in the range of 250K USD to 1M USD, with no payout when the result is below 250K USD and increasing linear payout over the range with a full collateral payout when the result is 1M USD or higher.
+  
+  ## Calculating the final answer
+  The dedicated chart on the official carrot.eth frontend will show daily TVL of the pool in the specified date range. Each bar represents a TVL reading taken each day at 12:00 UTC. To calculate the final result, use the data for each bar and calculate the average between all the charted values.`,
+  parseUnits('100000', 18),
+  parseUnits('200000', 18),
+  BigNumber.from(0),
+  DateTime.fromSeconds(1649851200),
+  false,
+  false,
+  AddressZero,
+  new Amount<Token>(XDAI_NODE, parseUnits('100000', XDAI_NODE.decimals)),
+  new Amount<Token>(XDAI_NODE, parseUnits('0', XDAI_NODE.decimals))
+)
+
+export const DAPPNODE_TEST_KPI_TOKEN_2 = new KpiToken(
+  ChainId.MAINNET,
+  AddressZero,
+  'mNODEWETHTVL-0413',
+  'Uniswap v2 mainnet NODEWETH TVL 04-13',
+  formatBytes32String('123456789-test'),
+  parseUnits('100000', 18),
+  AddressZero,
+  `# What will the average TVL for the Uniswap v2 mainnet NODE-WETH pair be from 16th Feb to 13th April?
+  
+  ## Details
+  This campaign will pay out in the range of 250K USD to 1M USD, with no payout when the result is below 250K USD and increasing linear payout over the range with a full collateral payout when the result is 1M USD or higher.
+  
+  ## Calculating the final answer
+  The dedicated chart on the official carrot.eth frontend will show daily TVL of the pool in the specified date range. Each bar represents a TVL reading taken each day at 12:00 UTC. To calculate the final result, use the data for each bar and calculate the average between all the charted values.`,
+  parseUnits('250000', 18),
+  parseUnits('1000000', 18),
+  BigNumber.from(0),
+  DateTime.fromSeconds(1649851200),
+  false,
+  false,
+  AddressZero,
+  new Amount<Token>(MAINNET_NODE, parseUnits('100000', MAINNET_NODE.decimals)),
+  new Amount<Token>(MAINNET_NODE, parseUnits('0', MAINNET_NODE.decimals))
+)
+
+export const DAPPNODE_TEST_KPI_TOKEN_3 = new KpiToken(
+  ChainId.MAINNET,
+  AddressZero,
+  'NODEPRICE-0502',
+  'NODE price 05-02',
+  formatBytes32String('1234567890-test'),
+  parseUnits('100000', 18),
+  AddressZero,
+  `# Will the average price of NODE from Feb 23rd to May 2nd be above 0.4 USD to 1 USD?
+  
+  ## Details
+  This campaign will pay out in the range of 0.4 USD to 1 USD, with no payout when the result is below 0.4 USD and increasing linear payout over the range with a full collateral payout when the result is 1 USD or higher.
+  
+  ## Calculating the final answer
+  The dedicated chart on the official carrot.eth frontend will show price data for NODE in the specified date range. Each data point represents a price reading taken each day at 12:00 UTC. To calculate the final result, use the data for each data point and calculate the average between all the charted values.`,
+  parseUnits('0.4', 18),
+  parseUnits('1', 18),
+  BigNumber.from(0),
+  DateTime.fromSeconds(1651492800),
+  false,
+  false,
+  AddressZero,
+  new Amount<Token>(MAINNET_NODE, parseUnits('100000', MAINNET_NODE.decimals)),
+  new Amount<Token>(MAINNET_NODE, parseUnits('0', MAINNET_NODE.decimals))
 )

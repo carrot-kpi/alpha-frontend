@@ -13,6 +13,9 @@ import {
   SWAPR_GNO_TEST_KPI_TOKEN,
   SWAPR_SWPR_TEST_KPI_TOKEN,
   HOPR_TEST_KPI_TOKEN,
+  DAPPNODE_TEST_KPI_TOKEN_1,
+  DAPPNODE_TEST_KPI_TOKEN_2,
+  DAPPNODE_TEST_KPI_TOKEN_3,
 } from '../constants/tokens'
 import { IPFS_GATEWAY } from '../constants'
 
@@ -94,7 +97,16 @@ export function useFeaturedKpiTokens() {
       try {
         // TODO: this is for test purposes, remove
         if (chainId === ChainId.XDAI) {
-          setFeaturedKpiTokens([SWAPR_GNO_TEST_KPI_TOKEN, SWAPR_SWPR_TEST_KPI_TOKEN, HOPR_TEST_KPI_TOKEN])
+          setFeaturedKpiTokens([
+            SWAPR_GNO_TEST_KPI_TOKEN,
+            SWAPR_SWPR_TEST_KPI_TOKEN,
+            HOPR_TEST_KPI_TOKEN,
+            DAPPNODE_TEST_KPI_TOKEN_1,
+          ])
+          return
+        }
+        if (chainId === ChainId.MAINNET) {
+          setFeaturedKpiTokens([DAPPNODE_TEST_KPI_TOKEN_2, DAPPNODE_TEST_KPI_TOKEN_3])
           return
         }
 
