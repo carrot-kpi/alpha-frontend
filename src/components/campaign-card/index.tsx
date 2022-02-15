@@ -70,14 +70,14 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       try {
         const file = await remark().use(strip).process(goal)
         const content = file?.toString()
-        if (content && !cancelled) setQuestion(content)
+        if (content) if (!cancelled) setQuestion(content)
       } catch (error) {
         console.error('error stripping markdown', error)
       }
     }
     stripMarkdown()
     return () => {
-      cancelled = false
+      cancelled = true
     }
   }, [goal])
 
