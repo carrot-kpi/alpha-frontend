@@ -2,30 +2,30 @@ import {
   ChainId,
   Metric,
   Swapr,
-  Mochi,
+  // Mochi,
   PairLiquidityMetric,
   TokenPriceMetric,
   TvlMetric,
-  UniswapV2,
+  // UniswapV2,
   // Honeyswap,
 } from '@carrot-kpi/sdk'
-import { AddressZero } from '@ethersproject/constants'
+// import { AddressZero } from '@ethersproject/constants'
 import { DateTime } from 'luxon'
-import { Creator, DAPPNODE, DXDAO, HOPR as HOPR_CREATOR, MOCHI } from '../creators'
+import { Creator, /* DAPPNODE, */ DXDAO, HOPR as HOPR_CREATOR /* MOCHI */ } from '../creators'
 import {
   DXD,
   XDAI_WETH,
   SWPR,
   HOPR,
   WXDAI,
-  USDM,
-  MOCHI_TEST_KPI_TOKEN,
+  /* USDM,
+  MOCHI_TEST_KPI_TOKEN, */
   /* DAPPNODE_TEST_KPI_TOKEN_1,
   XDAI_NODE,
   DAPPNODE_TEST_KPI_TOKEN_3, */
-  DAPPNODE_TEST_KPI_TOKEN_2,
+  /* DAPPNODE_TEST_KPI_TOKEN_2,
   MAINNET_NODE,
-  MAINNET_WETH,
+  MAINNET_WETH, */
 } from '../tokens'
 
 export interface FeaturedCampaign {
@@ -36,14 +36,14 @@ export interface FeaturedCampaign {
 }
 
 const swapr = new Swapr()
-const mochi = new Mochi()
-const uniswapV2 = new UniswapV2()
+// const mochi = new Mochi()
+// const uniswapV2 = new UniswapV2()
 // const honeyswap = new Honeyswap()
 
 export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = {
   // TODO: remove this, it's for test purposes!
   [ChainId.MAINNET]: [
-    {
+    /* {
       metrics: [
         new TokenPriceMetric(
           USDM,
@@ -79,7 +79,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       id: AddressZero,
       kpiId: DAPPNODE_TEST_KPI_TOKEN_2.kpiId,
       creator: DAPPNODE,
-    },
+    }, */
   ],
   [ChainId.RINKEBY]: [
     {
