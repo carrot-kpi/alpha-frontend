@@ -128,7 +128,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
     return (
       <>
         The KPI-related condition is currently awaiting a final answer from{' '}
-        <ExternalLink href={getExplorerLink(chainId || ChainId.XDAI, questionData.arbitrator, 'address')} showIcon>
+        <ExternalLink href={getExplorerLink(chainId || ChainId.GNOSIS, questionData.arbitrator, 'address')} showIcon>
           the arbitrator
         </ExternalLink>
         , after an arbitration request has been submitted by a user.

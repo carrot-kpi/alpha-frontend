@@ -63,8 +63,8 @@ export const MAINNET_WETH = new Token(
   'Wrapped Ether'
 )
 
-// xDai tokens
-export const AGVE = new Token(ChainId.XDAI, '0x3a97704a1b25F08aa230ae53B352e2e72ef52843', 18, 'AGVE', 'Agave Token')
+// Gnosis tokens
+export const AGVE = new Token(ChainId.GNOSIS, '0x3a97704a1b25F08aa230ae53B352e2e72ef52843', 18, 'AGVE', 'Agave Token')
 
 const MAINNET_STAKE_CONTRACT = new Contract(
   '0x0Ae055097C6d159879521C384F1D2123D1f195e6',
@@ -72,7 +72,7 @@ const MAINNET_STAKE_CONTRACT = new Contract(
   new JsonRpcProvider(RPC_URL[1])
 )
 export const STAKE = new TotalSupplyToken(
-  ChainId.XDAI,
+  ChainId.GNOSIS,
   '0xb7D311E2Eb55F2f68a9440da38e7989210b9A05e',
   18,
   'STAKE',
@@ -81,14 +81,14 @@ export const STAKE = new TotalSupplyToken(
 )
 
 export const DXD = new Token(
-  ChainId.XDAI,
+  ChainId.GNOSIS,
   '0xb90D6bec20993Be5d72A5ab353343f7a0281f158',
   18,
   'DXD',
   'DXdao from Ethereum'
 )
-export const XDAI_WETH = new Token(
-  ChainId.XDAI,
+export const GNOSIS_WETH = new Token(
+  ChainId.GNOSIS,
   '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1',
   18,
   'WETH',
@@ -96,27 +96,27 @@ export const XDAI_WETH = new Token(
 )
 
 export const SWPR = new Token(
-  ChainId.XDAI,
+  ChainId.GNOSIS,
   '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b',
   18,
   'SWPR',
   'SWPR from Ethereum'
 )
 
-export const GNO = new Token(ChainId.XDAI, '0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb', 18, 'GNO', 'GNO from Ethereum')
+export const GNO = new Token(ChainId.GNOSIS, '0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb', 18, 'GNO', 'GNO from Ethereum')
 
 export const HOPR = new Token(
-  ChainId.XDAI,
+  ChainId.GNOSIS,
   '0xD057604A14982FE8D88c5fC25Aac3267eA142a08',
   18,
   'HOPR',
   'HOPR from Ethereum'
 )
 
-export const WXDAI = new Token(ChainId.XDAI, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped XDAI')
+export const WXDAI = new Token(ChainId.GNOSIS, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped XDAI')
 
-export const XDAI_NODE = new Token(
-  ChainId.XDAI,
+export const GNOSIS_NODE = new Token(
+  ChainId.GNOSIS,
   '0xc60e38C6352875c051B481Cbe79Dd0383AdB7817',
   18,
   'NODE',
@@ -157,7 +157,7 @@ export const MOCHI_TEST_KPI_TOKEN = new KpiToken(
 )
 
 export const DAPPNODE_TEST_KPI_TOKEN_1 = new KpiToken(
-  ChainId.XDAI,
+  ChainId.GNOSIS,
   AddressZero,
   'xNODEWETHTVL-0413',
   'Swapr GC NODEWETH TVL 04-13',
@@ -178,8 +178,8 @@ export const DAPPNODE_TEST_KPI_TOKEN_1 = new KpiToken(
   false,
   false,
   AddressZero,
-  new Amount<Token>(XDAI_NODE, parseUnits('100000', XDAI_NODE.decimals)),
-  new Amount<Token>(XDAI_NODE, parseUnits('0', XDAI_NODE.decimals))
+  new Amount<Token>(GNOSIS_NODE, parseUnits('100000', GNOSIS_NODE.decimals)),
+  new Amount<Token>(GNOSIS_NODE, parseUnits('0', GNOSIS_NODE.decimals))
 )
 
 export const DAPPNODE_TEST_KPI_TOKEN_2 = new KpiToken(

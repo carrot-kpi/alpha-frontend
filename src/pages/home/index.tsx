@@ -132,7 +132,7 @@ export function Home(): ReactElement {
           {/* <Box width={['100%', '80%', '70%', '55%']} px={['16px', '0px']}>
             <StyledSlider dots infinite={false} slidesToShow={slidesToShow}> */}
           {loadingFeaturedKpiTokens || !chainId
-            ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.XDAI].length).fill(null).map((_, index) => {
+            ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.GNOSIS].length).fill(null).map((_, index) => {
                 return (
                   <Box key={index} width="100%" p="8px" maxWidth={['100%', '320px']}>
                     <CampaignCard loading />

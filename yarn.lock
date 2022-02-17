@@ -1842,10 +1842,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@carrot-kpi/sdk@^1.0.0-alpha.6":
-  version "1.0.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-1.0.0-alpha.6.tgz#25e41d12578efa9e31b643a393d722788193ecb0"
-  integrity sha512-yt82DKj4dN7N5GROuP5P7ibnMHI23eOfBVzVT3OiL6Wl97FNijHKnD+ygWT9BX0C4N+kCoZW30GKkvD5jMxA0w==
+"@carrot-kpi/sdk@^1.0.0-alpha.7":
+  version "1.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-1.0.0-alpha.7.tgz#40614497ed43ce9d360e23d80a93a78adf783d67"
+  integrity sha512-HTUvH5YXPpbeFgQN5qYPAUAi2Nm10gUHP4y5O5EmIAEwWMd2KfkiEI3iFOkrAmDYTjlLjQL0um+B8tT66QeM6g==
   dependencies:
     decimal.js-light "^2.5.1"
     tiny-invariant "^1.2.0"

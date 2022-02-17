@@ -93,7 +93,7 @@ export function useFeaturedKpiTokens() {
       if (!cancelled) setLoading(true)
       try {
         // TODO: this is for test purposes, remove
-        /* if (chainId === ChainId.XDAI) {
+        /* if (chainId === ChainId.GNOSIS) {
           setFeaturedKpiTokens([DAPPNODE_TEST_KPI_TOKEN_1])
           return
         }

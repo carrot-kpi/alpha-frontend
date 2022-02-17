@@ -130,7 +130,7 @@ export const WalletPopover = ({ children, show, onHide }: WalletPopoverProps) =>
                       {!!transaction.receipt ? (
                         <UndecoratedExternalLink
                           title="View on block explorer"
-                          href={getExplorerLink(chainId || ChainId.XDAI, transaction.hash, 'transaction')}
+                          href={getExplorerLink(chainId || ChainId.GNOSIS, transaction.hash, 'transaction')}
                         >
                           <StyledArrowUpRight size="20px" />
                         </UndecoratedExternalLink>

@@ -14,7 +14,7 @@ import { DateTime } from 'luxon'
 import { Creator, /* DAPPNODE, */ DXDAO, HOPR as HOPR_CREATOR /* MOCHI */ } from '../creators'
 import {
   DXD,
-  XDAI_WETH,
+  GNOSIS_WETH,
   SWPR,
   HOPR,
   WXDAI,
@@ -86,7 +86,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       metrics: [
         new PairLiquidityMetric(
           DXD,
-          XDAI_WETH,
+          GNOSIS_WETH,
           swapr,
           DateTime.fromSeconds(1638360000), // Dec 1st 1200 UTC
           DateTime.fromSeconds(1640952000), // Dec 31th 1200 UTC
@@ -112,11 +112,11 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       creator: DXDAO,
     },
   ],
-  [ChainId.XDAI]: [
+  [ChainId.GNOSIS]: [
     {
       metrics: [
         new TvlMetric(
-          ChainId.XDAI,
+          ChainId.GNOSIS,
           swapr,
           swapr,
           DateTime.fromSeconds(1645110000), // Feb 17th 1500 UTC
@@ -131,7 +131,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
     {
       metrics: [
         new TvlMetric(
-          ChainId.XDAI,
+          ChainId.GNOSIS,
           swapr,
           swapr,
           DateTime.fromSeconds(1645110000), // Feb 17th 1500 UTC

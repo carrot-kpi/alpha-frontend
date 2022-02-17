@@ -6,5 +6,5 @@ import { useActiveWeb3React } from './useActiveWeb3React'
 export function useSymmetricSubgraphClient(): ApolloClient<NormalizedCacheObject> {
   const { chainId } = useActiveWeb3React()
 
-  return SYMMETRIC_SUBGRAPH_CLIENT[(chainId as ChainId) || ChainId.XDAI] // FIXME: might want to change the default value to mainnet
+  return SYMMETRIC_SUBGRAPH_CLIENT[(chainId as ChainId) || ChainId.GNOSIS] // FIXME: might want to change the default value to mainnet
 }

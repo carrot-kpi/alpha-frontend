@@ -44,7 +44,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = { n: 1, minWait: 0, maxWait: 0 }
 const RETRY_OPTIONS_BY_CHAIN_ID: { [chainId in ChainId]: RetryOptions } = {
   [ChainId.MAINNET]: DEFAULT_RETRY_OPTIONS,
   [ChainId.RINKEBY]: DEFAULT_RETRY_OPTIONS,
-  [ChainId.XDAI]: DEFAULT_RETRY_OPTIONS,
+  [ChainId.GNOSIS]: DEFAULT_RETRY_OPTIONS,
 }
 
 export function TransactionsStateUpdater(): null {

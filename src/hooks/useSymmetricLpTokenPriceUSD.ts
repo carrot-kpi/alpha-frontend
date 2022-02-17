@@ -45,7 +45,7 @@ export function useSymmetricLpTokenPriceUSD(token?: Token): { loading: boolean; 
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (!token || chainId !== ChainId.XDAI) return
+      if (!token || chainId !== ChainId.GNOSIS) return
       if (!cancelled) setLoading(true)
       try {
         const { data: infoResponse } = await symmetricSubgraphClient.query<InfoQueryResponse>({

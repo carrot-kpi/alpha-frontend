@@ -14,7 +14,7 @@ import { useHoneyswapTokenPriceUSD } from './useHoneyswapTokenPriceUSD'
 const COINGECKO_PLATFORMS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'ethereum',
   [ChainId.RINKEBY]: 'ethereum',
-  [ChainId.XDAI]: 'xdai',
+  [ChainId.GNOSIS]: 'xdai',
 }
 
 export function useTokenPriceUSD(token?: Token): { loading: boolean; price: Amount<Currency> } {

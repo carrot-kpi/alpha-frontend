@@ -6,7 +6,7 @@ import { injected, RPC_URL, walletConnect } from '../connectors'
 import metamaskLogo from '../assets/metamask-logo.webp'
 import walletConnectLogo from '../assets/wallet-connect-logo.png'
 import ethereumLogo from '../assets/ethereum-logo.png'
-import xDaiLogo from '../assets/svgs/xdai-logo.svg'
+import gnosisLogo from '../assets/svgs/gnosis-logo.svg'
 import { parseUnits } from '@ethersproject/units'
 import { JsonRpcProvider } from '@ethersproject/providers'
 
@@ -54,10 +54,10 @@ export interface NetworkDetails {
 }
 
 export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
-  [ChainId.XDAI]: {
-    chainId: `0x${ChainId.XDAI.toString(16)}`,
-    chainName: 'xDai',
-    icon: xDaiLogo,
+  [ChainId.GNOSIS]: {
+    chainId: `0x${ChainId.GNOSIS.toString(16)}`,
+    chainName: 'Gnosis',
+    icon: gnosisLogo,
     nativeCurrency: {
       name: 'xDai',
       symbol: 'xDAI',
