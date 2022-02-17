@@ -158,6 +158,12 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: '0x4aabf5bb8662f4538bf9ab883b2eafa7e1a61211bdf8edbc2c9dc1ed24053418',
       creator: HOPR_CREATOR,
     },
+    {
+      metrics: [],
+      id: '0x50b95f4cd35db87c9ee36b5a653e1ad397e93927',
+      kpiId: '0xc32b79923358551009f7fade6f91d119911eebe0e4030fbce798d799aae7afdb',
+      creator: DXDAO,
+    },
     /* {
       metrics: [
         new PairLiquidityMetric(
@@ -186,12 +192,6 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       id: AddressZero,
       kpiId: DAPPNODE_TEST_KPI_TOKEN_3.kpiId,
       creator: DAPPNODE,
-    }, */
-    /* {
-      metrics: [],
-      id: '0x50b95f4cd35db87c9ee36b5a653e1ad397e93927',
-      kpiId: '0xc32b79923358551009f7fade6f91d119911eebe0e4030fbce798d799aae7afdb',
-      creator: DXDAO,
     }, */
   ],
 }
