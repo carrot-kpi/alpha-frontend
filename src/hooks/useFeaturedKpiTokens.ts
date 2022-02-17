@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FEATURED_CAMPAIGNS } from '../constants/featured-campaigns'
-import { KpiToken, Amount, Token, ChainId } from '@carrot-kpi/sdk'
+import { KpiToken, Amount, Token /* ChainId */ } from '@carrot-kpi/sdk'
 import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -8,15 +8,12 @@ import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
 import { CID } from 'multiformats/cid'
-import {
-  /* MOCHI_TEST_KPI_TOKEN, */
-  SWAPR_GNO_TEST_KPI_TOKEN,
-  SWAPR_SWPR_TEST_KPI_TOKEN,
-  HOPR_TEST_KPI_TOKEN,
+/* import {
+  MOCHI_TEST_KPI_TOKEN,
   DAPPNODE_TEST_KPI_TOKEN_1,
   DAPPNODE_TEST_KPI_TOKEN_2,
   DAPPNODE_TEST_KPI_TOKEN_3,
-} from '../constants/tokens'
+} from '../constants/tokens' */
 import { IPFS_GATEWAY } from '../constants'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
@@ -96,19 +93,14 @@ export function useFeaturedKpiTokens() {
       if (!cancelled) setLoading(true)
       try {
         // TODO: this is for test purposes, remove
-        if (chainId === ChainId.XDAI) {
-          setFeaturedKpiTokens([
-            SWAPR_GNO_TEST_KPI_TOKEN,
-            SWAPR_SWPR_TEST_KPI_TOKEN,
-            HOPR_TEST_KPI_TOKEN,
-            DAPPNODE_TEST_KPI_TOKEN_1,
-          ])
+        /* if (chainId === ChainId.XDAI) {
+          setFeaturedKpiTokens([DAPPNODE_TEST_KPI_TOKEN_1])
           return
         }
         if (chainId === ChainId.MAINNET) {
           setFeaturedKpiTokens([DAPPNODE_TEST_KPI_TOKEN_2, DAPPNODE_TEST_KPI_TOKEN_3])
           return
-        }
+        } */
 
         const { data: featuredKpiTokensData } = await carrotSubgraphClient.query<CarrotQueryResult>({
           query: FEATURED_KPI_TOKENS_QUERY,
