@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FEATURED_CAMPAIGNS } from '../constants/featured-campaigns'
-import { KpiToken, Amount, Token /* ChainId */ } from '@carrot-kpi/sdk'
+import { KpiToken, Amount, Token /* ChainId */, ChainId } from '@carrot-kpi/sdk'
 import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -15,6 +15,12 @@ import { CID } from 'multiformats/cid'
   DAPPNODE_TEST_KPI_TOKEN_3,
 } from '../constants/tokens' */
 import { IPFS_GATEWAY } from '../constants'
+import {
+  HND_TEST_KPI_TOKEN,
+  HOPR_TEST_KPI_TOKEN,
+  SWAPR_GNO_TEST_KPI_TOKEN,
+  SWAPR_SWPR_TEST_KPI_TOKEN,
+} from '../constants/tokens'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -109,6 +115,15 @@ export function useFeaturedKpiTokens() {
           },
         })
         const featuredKpiTokens: KpiToken[] = []
+
+        // TODO: this is for test purposes, remove
+        if (chainId === ChainId.GNOSIS) {
+          featuredKpiTokens.push(SWAPR_GNO_TEST_KPI_TOKEN)
+          featuredKpiTokens.push(SWAPR_SWPR_TEST_KPI_TOKEN)
+          featuredKpiTokens.push(HOPR_TEST_KPI_TOKEN)
+          featuredKpiTokens.push(HND_TEST_KPI_TOKEN)
+        }
+
         for (let i = 0; i < featuredKpiTokensData.kpiTokens.length; i++) {
           const kpiToken = featuredKpiTokensData.kpiTokens[i]
           const collateralToken = new Token(

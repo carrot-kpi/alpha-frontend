@@ -11,13 +11,18 @@ import {
 } from '@carrot-kpi/sdk'
 // import { AddressZero } from '@ethersproject/constants'
 import { DateTime } from 'luxon'
-import { Creator, /* DAPPNODE, */ DXDAO, HOPR as HOPR_CREATOR /* MOCHI */ } from '../creators'
+import { Creator, /* DAPPNODE, */ DXDAO, HOPR as HOPR_CREATOR /* MOCHI */, HUNDRED_FINANCE } from '../creators'
 import {
   DXD,
   GNOSIS_WETH,
   SWPR,
   HOPR,
   WXDAI,
+  HOPR_TEST_KPI_TOKEN,
+  SWAPR_GNO_TEST_KPI_TOKEN,
+  SWAPR_SWPR_TEST_KPI_TOKEN,
+  HND_TEST_KPI_TOKEN,
+  HND,
   /* USDM,
   MOCHI_TEST_KPI_TOKEN, */
   /* DAPPNODE_TEST_KPI_TOKEN_1,
@@ -164,6 +169,69 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: '0xc32b79923358551009f7fade6f91d119911eebe0e4030fbce798d799aae7afdb',
       creator: DXDAO,
     },
+
+    // FIXME: delete these mocks
+    {
+      metrics: [
+        new TvlMetric(
+          ChainId.GNOSIS,
+          swapr,
+          swapr,
+          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
+          DateTime.fromSeconds(1649948400), // Apr 14th 1500 UTC
+          86400
+        ),
+      ],
+      id: SWAPR_SWPR_TEST_KPI_TOKEN.address,
+      kpiId: SWAPR_SWPR_TEST_KPI_TOKEN.kpiId,
+      creator: DXDAO,
+    },
+    {
+      metrics: [
+        new TvlMetric(
+          ChainId.GNOSIS,
+          swapr,
+          swapr,
+          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
+          DateTime.fromSeconds(1649948400), // Apr 14th 1500 UTC
+          86400
+        ),
+      ],
+      id: SWAPR_GNO_TEST_KPI_TOKEN.address,
+      kpiId: SWAPR_GNO_TEST_KPI_TOKEN.kpiId,
+      creator: DXDAO,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          WXDAI,
+          HOPR,
+          swapr,
+          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
+          DateTime.fromSeconds(1649948400), // Apr 14th 1500 UTC
+          86400
+        ),
+      ],
+      id: HOPR_TEST_KPI_TOKEN.address,
+      kpiId: HOPR_TEST_KPI_TOKEN.kpiId,
+      creator: HOPR_CREATOR,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          WXDAI,
+          HND,
+          swapr,
+          DateTime.fromSeconds(1650726000), // Mar 23rd 1500 UTC
+          DateTime.fromSeconds(1649948400), // Apr 14th 1500 UTC
+          86400
+        ),
+      ],
+      id: HND_TEST_KPI_TOKEN.address,
+      kpiId: HND_TEST_KPI_TOKEN.kpiId,
+      creator: HUNDRED_FINANCE,
+    },
+
     /* {
       metrics: [
         new PairLiquidityMetric(
