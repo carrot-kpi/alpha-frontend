@@ -1,5 +1,6 @@
 import dxdaoLogo from '../../assets/svgs/dxdao-logo.svg'
 import agaveLogo from '../../assets/svgs/agave-logo.svg'
+import hundredFinanceLogo from '../../assets/svgs/hundred-finance-logo.svg'
 import mochiLogo from '../../assets/mochi-logo.png'
 import hoprLogo from '../../assets/hopr-logo.png'
 import dappNodeLogo from '../../assets/dappnode-logo.webp'
@@ -32,4 +33,9 @@ export const HOPR: Creator = {
 export const DAPPNODE: Creator = {
   name: 'DAppNode',
   logo: dappNodeLogo,
+}
+
+export const HUNDRED_FINANCE: Creator = {
+  name: 'Hundred finance',
+  logo: hundredFinanceLogo,
 }
