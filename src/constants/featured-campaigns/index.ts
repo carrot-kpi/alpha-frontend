@@ -18,10 +18,6 @@ import {
   SWPR,
   HOPR,
   WXDAI,
-  HOPR_TEST_KPI_TOKEN,
-  SWAPR_GNO_TEST_KPI_TOKEN,
-  SWAPR_SWPR_TEST_KPI_TOKEN,
-  HND_TEST_KPI_TOKEN,
   HND,
   /* USDM,
   MOCHI_TEST_KPI_TOKEN, */
@@ -182,8 +178,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           86400
         ),
       ],
-      id: SWAPR_SWPR_TEST_KPI_TOKEN.address,
-      kpiId: SWAPR_SWPR_TEST_KPI_TOKEN.kpiId,
+      id: '0xb56db053585850306d55971e8b9c1396429e33a1',
+      kpiId: '0x50c2c3036a31d508a41836cd0d64c806deca223da7d5166562b4d89537aebcae',
       creator: DXDAO,
     },
     {
@@ -197,8 +193,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           86400
         ),
       ],
-      id: SWAPR_GNO_TEST_KPI_TOKEN.address,
-      kpiId: SWAPR_GNO_TEST_KPI_TOKEN.kpiId,
+      id: '0x6a175ba204123d08f91d9e20d34fceac7a4ab43d',
+      kpiId: '0xda924e9cd6e1a6ce3220db202ef8e188cae5440b27e6e70a3defd18abe5772c7',
       creator: DXDAO,
     },
     {
@@ -212,8 +208,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           86400
         ),
       ],
-      id: HOPR_TEST_KPI_TOKEN.address,
-      kpiId: HOPR_TEST_KPI_TOKEN.kpiId,
+      id: '0x51c975e56a96c434b9a1b843cbf10bc37b56632e',
+      kpiId: '0xe3899be8de3fe5f82e47a1474a30fd7fd262f9bbb61ccc32d0da6aab7e0616c6',
       creator: HOPR_CREATOR,
     },
     {
@@ -227,8 +223,8 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           86400
         ),
       ],
-      id: HND_TEST_KPI_TOKEN.address,
-      kpiId: HND_TEST_KPI_TOKEN.kpiId,
+      id: '0xf859bab2889e22e4e5a612780abaf71a8f226a0d',
+      kpiId: '0xd415b798f6f5e2af57fca69aba19bb8ae6615b74cf917021593d42f3960eda7a',
       creator: HUNDRED_FINANCE,
     },
 

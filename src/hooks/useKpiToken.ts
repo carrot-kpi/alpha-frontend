@@ -7,12 +7,6 @@ import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
 import { CID } from 'multiformats/cid'
-import {
-  HND_TEST_KPI_TOKEN,
-  HOPR_TEST_KPI_TOKEN,
-  SWAPR_GNO_TEST_KPI_TOKEN,
-  SWAPR_SWPR_TEST_KPI_TOKEN,
-} from '../constants/tokens'
 /* import {
   MOCHI_TEST_KPI_TOKEN,
   SWAPR_GNO_TEST_KPI_TOKEN,
@@ -128,24 +122,6 @@ export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiT
           setKpiToken(DAPPNODE_TEST_KPI_TOKEN_3)
           return
         } */
-
-        // TODO: remove this once live
-        if (kpiId === SWAPR_GNO_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(SWAPR_GNO_TEST_KPI_TOKEN)
-          return
-        }
-        if (kpiId === SWAPR_SWPR_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(SWAPR_SWPR_TEST_KPI_TOKEN)
-          return
-        }
-        if (kpiId === HOPR_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(HOPR_TEST_KPI_TOKEN)
-          return
-        }
-        if (kpiId === HND_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(HND_TEST_KPI_TOKEN)
-          return
-        }
 
         const { data: kpiTokenData } = await carrotSubgraphClient.query<CarrotQueryResult>({
           query: KPI_TOKEN_QUERY,
