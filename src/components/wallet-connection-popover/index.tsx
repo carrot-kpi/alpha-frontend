@@ -30,7 +30,7 @@ export const WalletConnectionPopover = ({ children, show, onHide }: ConnectWalle
                   clickable
                   onClick={() => {
                     onHide()
-                    if (supportedWallet.connector !== connector) activate(supportedWallet.connector)
+                    if (supportedWallet.connector !== connector) activate(supportedWallet.connector, console.error)
                   }}
                 >
                   <Flex flexDirection="column" alignItems="center">
