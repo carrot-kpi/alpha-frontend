@@ -165,8 +165,6 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       kpiId: '0xc32b79923358551009f7fade6f91d119911eebe0e4030fbce798d799aae7afdb',
       creator: DXDAO,
     },
-
-    // FIXME: delete these mocks
     {
       metrics: [
         new TvlMetric(
@@ -218,7 +216,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           WXDAI,
           HND,
           swapr,
-          DateTime.fromSeconds(1650726000), // Mar 23rd 1500 UTC
+          DateTime.fromSeconds(1647993600), // Mar 23rd 1500 UTC
           DateTime.fromSeconds(1649948400), // Apr 14th 1500 UTC
           86400
         ),
