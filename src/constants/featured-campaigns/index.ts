@@ -19,6 +19,7 @@ import {
   HOPR,
   WXDAI,
   HND,
+  COW
   /* USDM,
   MOCHI_TEST_KPI_TOKEN, */
   /* DAPPNODE_TEST_KPI_TOKEN_1,
@@ -224,6 +225,21 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       id: '0xf859bab2889e22e4e5a612780abaf71a8f226a0d',
       kpiId: '0xd415b798f6f5e2af57fca69aba19bb8ae6615b74cf917021593d42f3960eda7a',
       creator: HUNDRED_FINANCE,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          GNOSIS_WETH,
+          COW,
+          swapr,
+          DateTime.fromSeconds(1648566000), // Mar 29th 1500 UTC
+          DateTime.fromSeconds(1649948400), // Apr 14th 1500 UTC
+          86400
+        ),
+      ],
+      id: '0x2569db67431b30f027083345208e77232f470e7f',
+      kpiId: '0x8d96b649698862bb79638b5e6a249dfee4bf9c2e0e153033da7c5a84a94d94e9',
+      creator: DXDAO,
     },
 
     /* {

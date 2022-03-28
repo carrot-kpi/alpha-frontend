@@ -129,6 +129,14 @@ export const WXDAI = new Token(
 
 export const HND = new Token(ChainId.GNOSIS, '0x10010078a54396f62c96df8532dc2b4847d47ed3', 18, 'HND', 'Hundred finance')
 
+export const COW = new Token(
+  ChainId.GNOSIS,
+  '0x177127622c4A00F3d409B75571e12cB3c8973d3c',
+  18,
+  'COW',
+  'CoW Protocol Token'
+)
+
 export const GNOSIS_NODE = new Token(
   ChainId.GNOSIS,
   '0xc60e38C6352875c051B481Cbe79Dd0383AdB7817',
