@@ -4,6 +4,7 @@ import hundredFinanceLogo from '../../assets/svgs/hundred-finance-logo.svg'
 import mochiLogo from '../../assets/mochi-logo.png'
 import hoprLogo from '../../assets/hopr-logo.png'
 import dappNodeLogo from '../../assets/dappnode-logo.webp'
+import cowLogo from '../../assets/cow.png'
 
 export interface Creator {
   name: string
@@ -38,4 +39,9 @@ export const DAPPNODE: Creator = {
 export const HUNDRED_FINANCE: Creator = {
   name: 'Hundred finance',
   logo: hundredFinanceLogo,
+}
+
+export const COW: Creator = {
+  name: 'COW protocol',
+  logo: cowLogo,
 }

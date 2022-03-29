@@ -11,7 +11,13 @@ import {
 } from '@carrot-kpi/sdk'
 // import { AddressZero } from '@ethersproject/constants'
 import { DateTime } from 'luxon'
-import { Creator, /* DAPPNODE, */ DXDAO, HOPR as HOPR_CREATOR /* MOCHI */, HUNDRED_FINANCE } from '../creators'
+import {
+  Creator,
+  /* DAPPNODE, */ DXDAO,
+  HOPR as HOPR_CREATOR /* MOCHI */,
+  HUNDRED_FINANCE,
+  COW as COW_CREATOR,
+} from '../creators'
 import {
   DXD,
   GNOSIS_WETH,
@@ -19,7 +25,7 @@ import {
   HOPR,
   WXDAI,
   HND,
-  COW
+  COW,
   /* USDM,
   MOCHI_TEST_KPI_TOKEN, */
   /* DAPPNODE_TEST_KPI_TOKEN_1,
@@ -239,7 +245,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       ],
       id: '0x2569db67431b30f027083345208e77232f470e7f',
       kpiId: '0x8d96b649698862bb79638b5e6a249dfee4bf9c2e0e153033da7c5a84a94d94e9',
-      creator: DXDAO,
+      creator: COW_CREATOR,
     },
 
     /* {
