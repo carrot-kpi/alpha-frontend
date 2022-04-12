@@ -16,8 +16,9 @@ import { useKpiToken } from '../../hooks/useKpiToken'
 import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
-import { Creator } from '../../constants/creators'
 import { commify } from '@ethersproject/units'
+import { Creator } from '../../constants/creators'
+import { shortenAddress } from '../../utils'
 
 const KpiExpiredText = styled(Text)`
   color: ${(props) => props.theme.negativeSurfaceContent};
@@ -48,7 +49,7 @@ const GoalText = styled(Text)`
 interface CampaignCardProps {
   loading?: boolean
   kpiId?: string
-  creator?: Creator
+  creator?: Creator | string
   expiresAt?: DateTime
   goal?: string
   collateral?: Amount<Token>
@@ -86,20 +87,27 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
       /* mx={['16px', '0px']} */
       flexDirection="column"
       maxWidth="320px"
-      height="100%"
+      height="323px"
       display="flex"
     >
       <Flex width="100%" mb="8px" justifyContent="space-between" alignItems="center">
         <Flex alignItems="center">
           <Box mr="6px">
-            {!creator ? (
-              <Skeleton circle width="16px" height="16px" />
-            ) : (
-              <Image width="16px" height="16px" src={creator.logo} />
-            )}
+            {typeof creator !== 'string' &&
+              (!creator ? (
+                <Skeleton circle width="16px" height="16px" />
+              ) : (
+                creator.logo && <Image width="16px" height="16px" src={creator.logo} />
+              ))}
           </Box>
           <Text fontSize="16px" height="20px" lineHeight="16px" fontWeight="700" color={theme.accent} title="Creator">
-            {!creator ? <Skeleton width="60px" /> : creator.name}
+            {!creator ? (
+              <Skeleton width="60px" />
+            ) : typeof creator === 'string' ? (
+              shortenAddress(creator)
+            ) : (
+              creator.name
+            )}
           </Text>
         </Flex>
         {!!account && (loadingKpiToken || loadingKpiTokenBalance) ? (

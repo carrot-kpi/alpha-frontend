@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import useLocation from 'react-use/lib/useLocation'
 import { TransactionsStateUpdater } from '../../state/transactions/updater'
 import { NetworkWarningModal } from '../../components/network-warning-modal'
+import { Campaigns } from '../campaigns'
 
 export function App() {
   const darkMode = useIsDarkMode()
@@ -37,6 +38,7 @@ export function App() {
               <Box flexGrow={1}>
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/campaigns" element={<Campaigns />} />
                   <Route path="/campaigns/:kpiId" element={<Campaign />} />
                 </Routes>
               </Box>

@@ -221,6 +221,73 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.positive} !important;
   }
 
+  .swapr-pagination {
+    list-style: none;
+    padding: 0;
+  }
+
+  .swapr-pagination ul {
+    display: inline-flex;
+  }
+
+  .swapr-pagination li {
+    display: inline-block;
+    min-width: 28px;
+    height: 22px;
+    margin-right: 8px;
+    vertical-align: middle;
+    list-style: none;
+    outline: 0;
+    cursor: pointer;
+    user-select: none;
+    border: solid 1px ${(props) => props.theme.surface};
+    transition: border 0.3s ease, color 0.3s ease;
+    font-size: 14px;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 20px;
+    color: ${(props) => props.theme.contentSecondary};
+  }
+
+  .swapr-pagination li:last-child {
+    margin-right: 0;
+  }
+
+  .swapr-pagination li.rc-pagination-item-active {
+    border: solid 1px ${(props) => props.theme.surfaceContent};
+  }
+
+  .swapr-pagination li.rc-pagination-prev,
+  .swapr-pagination li.rc-pagination-next {
+    color: ${(props) => props.theme.accent};
+    padding-top: 2px;
+  }
+
+  .swapr-pagination li.rc-pagination-options {
+    display: none;
+  }
+
+  .swapr-pagination li.rc-pagination-disabled {
+    color: ${(props) => props.theme.disabled};
+  }
+
+  .rc-pagination-simple-pager {
+    padding: 0 16px;
+  }
+
+  .rc-pagination-slash {
+    margin: 0 10px 0 7px;
+  }
+
+  .rc-pagination-simple-pager > input {
+    padding: 0;
+    max-width: 20px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: ${(props) => props.theme.content};
+  }
+
   /* .slick-initialized .slick-slide > div {
     width: 100%;
     display: flex;

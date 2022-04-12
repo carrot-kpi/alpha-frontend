@@ -127,57 +127,6 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
           ChainId.GNOSIS,
           swapr,
           swapr,
-          DateTime.fromSeconds(1645110000), // Feb 17th 1500 UTC
-          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
-          86400
-        ),
-      ],
-      id: '0x17e0106ec9aa44b4a659b144fb93ae481f06c74d',
-      kpiId: '0xff160f93b0ab8e4470176218e7963f1290277a4cfdb67d509a38419ee6f39488',
-      creator: DXDAO,
-    },
-    {
-      metrics: [
-        new TvlMetric(
-          ChainId.GNOSIS,
-          swapr,
-          swapr,
-          DateTime.fromSeconds(1645110000), // Feb 17th 1500 UTC
-          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
-          86400
-        ),
-      ],
-      id: '0x3ee29f26cd964c03572443730a5f503da8fe0004',
-      kpiId: '0xa5bb8d05a96adc31880b740e61efacd4213bd8f7ab9ce5f44f37193cff17439a',
-      creator: DXDAO,
-    },
-    {
-      metrics: [
-        new PairLiquidityMetric(
-          WXDAI,
-          HOPR,
-          swapr,
-          DateTime.fromSeconds(1645110000), // Feb 17th 1500 UTC
-          DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
-          86400
-        ),
-      ],
-      id: '0x715e1bb4948253050cd41d11f282c366a5564477',
-      kpiId: '0x4aabf5bb8662f4538bf9ab883b2eafa7e1a61211bdf8edbc2c9dc1ed24053418',
-      creator: HOPR_CREATOR,
-    },
-    {
-      metrics: [],
-      id: '0x50b95f4cd35db87c9ee36b5a653e1ad397e93927',
-      kpiId: '0xc32b79923358551009f7fade6f91d119911eebe0e4030fbce798d799aae7afdb',
-      creator: DXDAO,
-    },
-    {
-      metrics: [
-        new TvlMetric(
-          ChainId.GNOSIS,
-          swapr,
-          swapr,
           DateTime.fromSeconds(1647529200), // Mar 17th 1500 UTC
           DateTime.fromSeconds(1649948400), // Apr 14th 1500 UTC
           86400

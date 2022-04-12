@@ -54,6 +54,7 @@
     "polished": "^4.1.4",
     "prettier": "^2.6.1",
     "qs": "^6.10.3",
+    "rc-pagination": "^3.1.15",
     "rc-switch": "^3.2.2",
     "react": "^17.0.2",
     "react-app-rewired": "^2.2.1",
