@@ -66,7 +66,7 @@ export function Campaigns(): ReactElement {
                     return (
                       <Box key={kpiToken.address} width="100%" p="8px" maxWidth="320px">
                         <CampaignCard
-                          creator={kpiToken.address}
+                          creator={kpiToken.creator}
                           expiresAt={kpiToken.expiresAt}
                           goal={kpiToken.question}
                           collateral={kpiToken.collateral}
