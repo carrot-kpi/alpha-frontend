@@ -1,6 +1,6 @@
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { Flex, Box, Text, Image } from 'rebass'
-import { Navigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useKpiToken } from '../../hooks/useKpiToken'
 import { Card } from '../../components/card'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
@@ -13,7 +13,7 @@ import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { getExplorerLink } from '../../utils'
+import { getExplorerLink, shortenAddress } from '../../utils'
 import { commify } from '@ethersproject/units'
 import { useIsKpiTokenFinalized } from '../../hooks/useIsKpiTokenFinalized'
 import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
@@ -141,7 +141,6 @@ export function Campaign(): ReactElement {
     setCurrentPeriodEnded(true)
   }, [])
 
-  if (!featuredCampaignSpec) return <Navigate replace to="/" />
   return (
     <Flex flexDirection="column" alignItems="center" justifyContent="center" width="100%">
       <Flex flexDirection="column" mb="60px" width={['100%', '80%', '70%', '55%']}>
@@ -150,9 +149,17 @@ export function Campaign(): ReactElement {
             <Card m="8px" height="fit-content">
               <Flex justifyContent="space-between" alignItems="center" mb="16px">
                 <Flex alignItems="center">
-                  <Image width="20px" height="20px" mr="8px" src={featuredCampaignSpec.creator.logo} />
+                  {featuredCampaignSpec && (
+                    <Image width="20px" height="20px" mr="8px" src={featuredCampaignSpec.creator.logo} />
+                  )}
                   <Text fontSize="20px" lineHeight="20px" fontWeight="700" color={theme.accent} title="Creator">
-                    {featuredCampaignSpec.creator.name}
+                    {featuredCampaignSpec ? (
+                      featuredCampaignSpec.creator.name
+                    ) : !kpiToken ? (
+                      <Skeleton width="80px" />
+                    ) : (
+                      shortenAddress(kpiToken?.creator)
+                    )}
                   </Text>
                 </Flex>
                 {chainId && kpiToken?.address && (
@@ -237,7 +244,7 @@ export function Campaign(): ReactElement {
                 </Box>
               </Card>
             )}
-            <Charts metrics={featuredCampaignSpec?.metrics} />
+            {featuredCampaignSpec && <Charts metrics={featuredCampaignSpec?.metrics} />}
           </Flex>
           <Flex flexDirection="column" width={['100%', '45%', '30%']}>
             <Card flexDirection="column" m="8px">
