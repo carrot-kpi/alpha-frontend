@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - feat/v1-contracts
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
