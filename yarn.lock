@@ -1114,10 +1114,10 @@
     tiny-invariant "^1.2.0"
     tiny-warning "^1.0.3"
 
-"@carrot-kpi/decoder@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/decoder/-/decoder-0.1.0.tgz#dcb385d68eb4a2c02365a6d0fa6b57b9a9c8846b"
-  integrity sha512-JX+dD1Y6Q7iD4h46FIpkWAiflPh79HDVpyQXz1ZvyLM5if1625F2qf1aDcBeUELh4CJXlrAnM88KFK/KcfTbnQ==
+"@carrot-kpi/decoder@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/decoder/-/decoder-0.2.0.tgz#1f8a12bcbe695c64c3b242a4d357cf957178daf0"
+  integrity sha512-x1N52/Sz2GqB62vLrc44P/MHHEQrxdR8xZceVKJ4p7EjqYd2ViS3R5vnCb8XtodDnbTn5WWAPQjERJ6XdvEJuA==
 
 "@carrot-kpi/sdk-core@^1.0.0":
   version "1.0.0"
@@ -1128,10 +1128,10 @@
     tiny-invariant "^1.2.0"
     tiny-warning "^1.0.3"
 
-"@carrot-kpi/v1-sdk@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/v1-sdk/-/v1-sdk-0.1.1.tgz#bc592fb29687e5b07aad4e15ad7f77053f059fb5"
-  integrity sha512-FQV/jcr7Tj9NG0UMzX61/EA+/j2WbaHfmXfsHJJft2Djpi3vN3ap0ei7ktXV88cNwxctqQabHuELOM1ovC/8MA==
+"@carrot-kpi/v1-sdk@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/v1-sdk/-/v1-sdk-0.2.0.tgz#8716200389ae23c293c25a1bee8d1c66494236c5"
+  integrity sha512-DQ47w0ktTm+jmbRZm9P7xFThhjNVVdPi4hv6ansqoNaVD+PwZrqDld9w9g05A5AOuAQeTl7M/zXj5x3JJ8SDWw==
   dependencies:
     decimal.js-light "^2.5.1"
     tiny-invariant "^1.2.0"
