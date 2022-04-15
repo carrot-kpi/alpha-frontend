@@ -22,9 +22,9 @@ import { Title } from '../../components/title'
 import { Charts } from '../../components/charts'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 import { Twitter } from 'react-feather'
-import { Button } from '../../components/button'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
+import { TweetButton } from '../../components/tweet-button'
 
 export enum Status {
   AWAITING_EXPIRY,
@@ -61,20 +61,19 @@ const DividerBox = styled(Box)`
   transition: background-color 0.2s ease;
 `
 
-const TweetButton = styled(Button)`
-  background-color: ${(props) => props.theme.twitter} !important;
-  color: ${(props) => props.theme.accentContent} !important;
-`
-
 export function Campaign(): ReactElement {
-  const { kpiId } = useParams()
+  const { address } = useParams()
   const theme = useTheme()
   const { account, chainId } = useActiveWeb3React()
   const featuredCampaignSpec = useMemo(
-    () => (chainId ? FEATURED_CAMPAIGNS[chainId].find((campaign) => campaign.kpiId === kpiId) : undefined),
-    [kpiId, chainId]
+    () =>
+      chainId && address
+        ? FEATURED_CAMPAIGNS[chainId].find((campaign) => campaign.id.toLowerCase() === address.toLowerCase())
+        : undefined,
+    [address, chainId]
   )
-  const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
+  const { kpiToken, loading: loadingKpiToken } = useKpiToken(address)
+  const kpiId = useMemo(() => kpiToken?.kpiId, [kpiToken?.kpiId])
 
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
@@ -190,7 +189,7 @@ export function Campaign(): ReactElement {
               <Box>
                 <UndecoratedExternalLink
                   title="Tweet this"
-                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help me reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}?chainId=${chainId}`}
+                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help me reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.address}?chainId=${chainId}`}
                 >
                   <TweetButton icon={<Twitter size="16px" />}>Tweet about this</TweetButton>
                 </UndecoratedExternalLink>

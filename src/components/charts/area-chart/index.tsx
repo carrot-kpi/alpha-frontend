@@ -2,7 +2,7 @@ import { XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaCh
 import styled, { useTheme } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
-import { ChartDataPoint, TokenPriceMetric } from '@carrot-kpi/sdk'
+import { ChartDataPoint, TokenPriceMetric } from '@carrot-kpi/sdk-core'
 import { Flex, Text } from 'rebass'
 import Loader from 'react-spinners/BarLoader'
 import { CustomTooltip } from '../custom-tooltip'

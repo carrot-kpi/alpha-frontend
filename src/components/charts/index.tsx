@@ -1,11 +1,5 @@
 import { Flex } from 'rebass'
-import {
-  Metric,
-  PairLiquidityMetric,
-  TokenMarketCapMetric,
-  TokenPriceMetric,
-  TvlMetric,
-} from '@carrot-kpi/sdk'
+import { Metric, PairLiquidityMetric, TokenMarketCapMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk-core'
 import { Card } from '../card'
 import { Title } from '../title'
 import { BarChart } from './bar-chart'

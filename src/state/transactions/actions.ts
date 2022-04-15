@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 
 export interface SerializableTransactionReceipt {
   to: string

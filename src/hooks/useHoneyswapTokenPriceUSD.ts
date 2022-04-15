@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Amount, Currency, Token } from '@carrot-kpi/sdk'
+import { Amount, Currency, Token } from '@carrot-kpi/sdk-core'
 import { gql } from '@apollo/client'
 import { useHoneyswapSubgraphClient } from './useHoneyswapSubgraphClient'
 import { ZERO_USD } from '../constants'
@@ -30,7 +30,7 @@ export function useHoneyswapTokenPriceUSD(token?: Token): { loading: boolean; pr
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (!token) return
+      if (!token || !honeyswapSubgraphClient) return
       if (!cancelled) setLoading(true)
       try {
         const { data: response } = await honeyswapSubgraphClient.query<PriceQueryResponse>({

@@ -54,6 +54,10 @@ const ClickableFlex = styled(Flex)`
   cursor: pointer;
 `
 
+const MenuLink = styled(UndecoratedInternalLink)`
+  color: inherit;
+`
+
 export const Header = (): ReactElement => {
   const { chainId, account } = useActiveWeb3React()
   const { error } = useWeb3React()
@@ -96,11 +100,14 @@ export const Header = (): ReactElement => {
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px={['16px', '24px']}>
         <Flex width={['100%', '80%', '70%', '55%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
-            <Box>
+            <Box mr="24px">
               <UndecoratedInternalLink to="/">
                 <Logo darkMode={darkMode} />
               </UndecoratedInternalLink>
             </Box>
+            <Text>
+              <MenuLink to="/campaigns">Campaigns</MenuLink>
+            </Text>
           </Flex>
           <Flex alignItems="center">
             <Box mr={['12px', '16px']} height="28px">

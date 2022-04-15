@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FEATURED_CAMPAIGNS } from '../constants/featured-campaigns'
-import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
+import { Amount, Token } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'

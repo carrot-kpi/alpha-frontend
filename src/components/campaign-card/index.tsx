@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text } from 'rebass'
 import { DateTime } from 'luxon'
 import { Button } from '../button'
 import styled, { useTheme } from 'styled-components'
-import { Amount, Token } from '@carrot-kpi/sdk'
+import { Amount, Token } from '@carrot-kpi/sdk-core'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { Card } from '../card'
@@ -47,7 +47,7 @@ const GoalText = styled(Text)`
 
 interface CampaignCardProps {
   loading?: boolean
-  kpiId?: string
+  address?: string
   creator?: Creator
   expiresAt?: DateTime
   goal?: string
@@ -55,12 +55,12 @@ interface CampaignCardProps {
   usdValues?: boolean
 }
 
-export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral, usdValues }: CampaignCardProps) {
+export function CampaignCard({ loading, address, creator, expiresAt, goal, collateral, usdValues }: CampaignCardProps) {
   const theme = useTheme()
   const { account } = useActiveWeb3React()
   const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
   const [question, setQuestion] = useState('')
-  const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId ? kpiId : '')
+  const { kpiToken, loading: loadingKpiToken } = useKpiToken(address)
   const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
         )}
       </Flex>
       <Box>
-        <UndecoratedInternalLink to={`/campaigns/${kpiId}`}>
+        <UndecoratedInternalLink to={`/campaigns/${address}`}>
           <Button primary medium disabled={loading}>
             See campaign
           </Button>

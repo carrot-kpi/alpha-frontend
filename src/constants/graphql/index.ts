@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 
 export const CARROT_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.RINKEBY]: new ApolloClient({

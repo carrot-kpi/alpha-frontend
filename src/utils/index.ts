@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { getAddress } from '@ethersproject/address'
 import { NetworkDetails } from '../constants'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 
 const ETHERSCAN_PREFIXES: { [chainId in number]: string } = {
   1: '',

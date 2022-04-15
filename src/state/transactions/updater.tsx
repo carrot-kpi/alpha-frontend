@@ -1,4 +1,4 @@
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { useCallback, useEffect, useMemo } from 'react'
 import { AlertCircle, CheckCircle } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'

@@ -1,4 +1,4 @@
-import { KPI_TOKEN_ABI, KpiToken } from '@carrot-kpi/sdk'
+import { KPI_TOKEN_ABI, KpiToken } from '@carrot-kpi/alpha-sdk'
 import { useCallback, useMemo } from 'react'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActiveWeb3React } from './useActiveWeb3React'

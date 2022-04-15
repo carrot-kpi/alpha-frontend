@@ -2,7 +2,7 @@ import { XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart as RechartsBarChar
 import styled, { useTheme } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
-import { ChartDataPoint, PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from '@carrot-kpi/sdk'
+import { ChartDataPoint, PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from '@carrot-kpi/sdk-core'
 import { Box, Flex, Text } from 'rebass'
 import Loader from 'react-spinners/BarLoader'
 import { CustomTooltip } from '../custom-tooltip'

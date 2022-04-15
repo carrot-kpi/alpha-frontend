@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
-import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
+import { useEffect, useMemo, useState } from 'react'
+import { Amount, Token } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -7,19 +8,10 @@ import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
 import { CID } from 'multiformats/cid'
-/* import {
-  MOCHI_TEST_KPI_TOKEN,
-  SWAPR_GNO_TEST_KPI_TOKEN,
-  SWAPR_SWPR_TEST_KPI_TOKEN,
-  HOPR_TEST_KPI_TOKEN,
-  DAPPNODE_TEST_KPI_TOKEN_1,
-  DAPPNODE_TEST_KPI_TOKEN_2,
-  DAPPNODE_TEST_KPI_TOKEN_3,
-} from '../constants/tokens' */
 
 const KPI_TOKEN_QUERY = gql`
-  query kpiToken($kpiId: ID!) {
-    kpiTokens(where: { kpiId: $kpiId }) {
+  query kpiToken($address: ID!) {
+    kpiToken(id: $address) {
       id
       fee
       symbol
@@ -51,7 +43,7 @@ const KPI_TOKEN_QUERY = gql`
 `
 
 interface CarrotQueryResult {
-  kpiTokens: {
+  kpiToken: {
     id: string
     fee: string
     symbol: string
@@ -76,63 +68,34 @@ interface CarrotQueryResult {
       }
       amount: string
     }
-  }[]
+  }
 }
 
-export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiToken } {
+export function useKpiToken(address?: string): { loading: boolean; kpiToken?: KpiToken } {
   const { chainId } = useActiveWeb3React()
   const carrotSubgraphClient = useCarrotSubgraphClient()
 
   const [kpiToken, setKpiToken] = useState<KpiToken | undefined>()
   const [loading, setLoading] = useState(true)
+  const lowercaseAddress = useMemo(() => address?.toLowerCase(), [address])
 
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (!chainId || !kpiId) return
+      if (!chainId || !lowercaseAddress) return
 
       if (!cancelled) setLoading(true)
       try {
-        // TODO: remove this, as it is for test purposes only!
-        /* if (kpiId === MOCHI_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(MOCHI_TEST_KPI_TOKEN)
-          return
-        }
-        if (kpiId === SWAPR_SWPR_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(SWAPR_SWPR_TEST_KPI_TOKEN)
-          return
-        }
-        if (kpiId === SWAPR_GNO_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(SWAPR_GNO_TEST_KPI_TOKEN)
-          return
-        }
-        if (kpiId === HOPR_TEST_KPI_TOKEN.kpiId) {
-          setKpiToken(HOPR_TEST_KPI_TOKEN)
-          return
-        }
-        if (kpiId === DAPPNODE_TEST_KPI_TOKEN_1.kpiId) {
-          setKpiToken(DAPPNODE_TEST_KPI_TOKEN_1)
-          return
-        }
-        if (kpiId === DAPPNODE_TEST_KPI_TOKEN_2.kpiId) {
-          setKpiToken(DAPPNODE_TEST_KPI_TOKEN_2)
-          return
-        }
-        if (kpiId === DAPPNODE_TEST_KPI_TOKEN_3.kpiId) {
-          setKpiToken(DAPPNODE_TEST_KPI_TOKEN_3)
-          return
-        } */
-
         const { data: kpiTokenData } = await carrotSubgraphClient.query<CarrotQueryResult>({
           query: KPI_TOKEN_QUERY,
-          variables: { kpiId },
+          variables: { address: lowercaseAddress },
         })
-        if (!kpiTokenData.kpiTokens || kpiTokenData.kpiTokens.length !== 1) {
+        if (!kpiTokenData.kpiToken) {
           if (!cancelled) setLoading(false)
           if (!cancelled) setKpiToken(undefined)
           return
         }
-        const rawKpiToken = kpiTokenData.kpiTokens[0]
+        const rawKpiToken = kpiTokenData.kpiToken
 
         const collateralToken = new Token(
           chainId,
@@ -155,7 +118,7 @@ export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiT
         }
         const kpiToken = new KpiToken(
           chainId,
-          getAddress(rawKpiToken.id),
+          getAddress(lowercaseAddress),
           rawKpiToken.symbol,
           rawKpiToken.name,
           rawKpiToken.kpiId,
@@ -184,7 +147,7 @@ export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiT
     return () => {
       cancelled = true
     }
-  }, [carrotSubgraphClient, chainId, kpiId])
+  }, [carrotSubgraphClient, chainId, lowercaseAddress])
 
   return { loading, kpiToken }
 }

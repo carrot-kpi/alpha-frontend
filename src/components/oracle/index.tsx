@@ -1,6 +1,7 @@
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Flex, Text } from 'rebass'
-import { Amount, ChainId, KpiToken } from '@carrot-kpi/sdk'
+import { Amount, ChainId } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 
 import { INVALID_REALITY_ANSWER } from '../../constants'
 import { useRealityQuestion } from '../../hooks/useRealityQuestion'
@@ -86,7 +87,8 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
       return parseUnits(!!answerBond && !answerBond.endsWith('.') ? answerBond : '0', nativeCurrency.decimals)
     return minimumBond.raw
   }, [answerBond, minimumBond, nativeCurrency.decimals])
-  const answer = useAnswerRealityQuestionCallback(kpiToken, finalAnswer, finalBond)
+  const questionId = useMemo(() => kpiToken?.kpiId, [kpiToken?.kpiId])
+  const answer = useAnswerRealityQuestionCallback(questionId, finalAnswer, finalBond)
 
   useEffect(() => {
     if (binary && radioValue === RealityBinary.YES) setFinalAnswer(numberToByte32(1))

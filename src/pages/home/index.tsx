@@ -3,7 +3,7 @@ import { Box, Flex, Text, Image } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
 import heroImage from '../../assets/hero.png'
@@ -13,6 +13,8 @@ import rewardImage from '../../assets/reward.png'
 import { Card } from '../../components/card'
 import { transparentize } from 'polished'
 import { Switch } from '../../components/switch'
+import { Link } from 'react-router-dom'
+import { Button } from '../../components/button'
 // import Slider from 'react-slick'
 // import { useIsMobile } from '../../hooks/useIsMobile'
 // import useMedia from 'react-use/lib/useMedia'
@@ -84,7 +86,7 @@ export function Home(): ReactElement {
           </Text>
           <Text
             key="title-more"
-            mb={['40px', '40px', '0px']}
+            mb={['40px', '40px', '24px']}
             fontSize={['20px', '22px']}
             fontWeight="800"
             lineHeight="24px"
@@ -93,6 +95,9 @@ export function Home(): ReactElement {
           >
             Increase TVL, volume, price, engagement and more.
           </Text>
+          <Link to="/campaigns">
+            <Button primary>Check out the campaigns</Button>
+          </Link>
         </Flex>
         <Image
           src={heroImage}
@@ -150,7 +155,7 @@ export function Home(): ReactElement {
                 return (
                   <Box key={featuredKpiToken.kpiId} width="100%" p="8px" maxWidth="320px">
                     <CampaignCard
-                      kpiId={featuredKpiToken.kpiId}
+                      address={featuredKpiToken.address}
                       creator={featuredCampaignSpec.creator}
                       expiresAt={featuredKpiToken.expiresAt}
                       goal={featuredKpiToken.question}

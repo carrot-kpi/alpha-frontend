@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { KpiToken } from '@carrot-kpi/sdk'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 import { useKpiTokenContract } from './useContract'
 import { useSingleCallResult } from '../state/multicall/hooks'
 import { BigNumber } from '@ethersproject/bignumber'

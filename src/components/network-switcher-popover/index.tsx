@@ -1,7 +1,7 @@
 import { ReactNode, useCallback } from 'react'
 import { NETWORK_CONTEXT_NAME, NETWORK_DETAIL } from '../../constants'
 import { Popover } from '../popover'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { Flex, Text } from 'rebass'
 import { Card } from '../card'
 import { InjectedConnector } from '@web3-react/injected-connector'

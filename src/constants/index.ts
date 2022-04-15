@@ -1,5 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { Amount, ChainId, Currency } from '@carrot-kpi/sdk'
+import { Amount, ChainId, Currency } from '@carrot-kpi/sdk-core'
 import Decimal from 'decimal.js-light'
 import { BigNumber } from '@ethersproject/bignumber'
 import { injected, RPC_URL, walletConnect } from '../connectors'

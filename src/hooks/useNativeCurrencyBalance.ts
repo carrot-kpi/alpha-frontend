@@ -1,4 +1,4 @@
-import { Currency, Amount } from '@carrot-kpi/sdk'
+import { Currency, Amount } from '@carrot-kpi/sdk-core'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useEffect, useState } from 'react'
 import { useActiveWeb3React } from './useActiveWeb3React'

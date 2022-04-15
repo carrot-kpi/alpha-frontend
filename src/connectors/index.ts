@@ -1,4 +1,4 @@
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { NetworkConnector } from './custom-network'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'

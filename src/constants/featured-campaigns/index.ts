@@ -8,7 +8,7 @@ import {
   TvlMetric,
   // UniswapV2,
   // Honeyswap,
-} from '@carrot-kpi/sdk'
+} from '@carrot-kpi/sdk-core'
 // import { AddressZero } from '@ethersproject/constants'
 import { DateTime } from 'luxon'
 import {

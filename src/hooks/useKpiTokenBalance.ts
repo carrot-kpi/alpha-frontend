@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { KpiToken, Token, Amount } from '@carrot-kpi/sdk'
+import { Token, Amount } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 import { useKpiTokenContract } from './useContract'
 import { useSingleCallResult } from '../state/multicall/hooks'
 

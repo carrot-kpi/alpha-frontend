@@ -1,5 +1,5 @@
 import { SYMMETRIC_SUBGRAPH_CLIENT } from '../constants/graphql'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { useActiveWeb3React } from './useActiveWeb3React'
 

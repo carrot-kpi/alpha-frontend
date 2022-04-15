@@ -1,11 +1,5 @@
-import {
-  REALITY_ABI,
-  REALITY_ADDRESS,
-  ChainId,
-  PERMISSIVE_MULTICALL_ADDRESS,
-  PERMISSIVE_MULTICALL_ABI,
-  KPI_TOKEN_ABI,
-} from '@carrot-kpi/sdk'
+import { ChainId, PERMISSIVE_MULTICALL_ADDRESS, PERMISSIVE_MULTICALL_ABI, ERC20_ABI } from '@carrot-kpi/sdk-core'
+import { REALITY_ABI, REALITY_ADDRESS, KPI_TOKEN_ABI } from '@carrot-kpi/alpha-sdk'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from './useActiveWeb3React'
@@ -41,4 +35,8 @@ export function useRealityContract(withSignerIfPossible = false): Contract | nul
 
 export function useKpiTokenContract(address?: string, withSignerIfPossible = false): Contract | null {
   return useContract(address, KPI_TOKEN_ABI, withSignerIfPossible)
+}
+
+export function useErc20TokenContract(address?: string, withSignerIfPossible = false): Contract | null {
+  return useContract(address, ERC20_ABI, withSignerIfPossible)
 }

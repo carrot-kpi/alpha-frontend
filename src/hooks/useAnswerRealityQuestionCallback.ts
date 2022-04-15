@@ -4,10 +4,9 @@ import { useActiveWeb3React } from './useActiveWeb3React'
 import { NETWORK_DETAIL } from '../constants'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useTransactionAdder } from '../state/transactions/hooks'
-import { KpiToken } from '@carrot-kpi/sdk'
 
 export function useAnswerRealityQuestionCallback(
-  kpiToken?: KpiToken,
+  questionId?: string,
   answer?: string,
   bond?: BigNumber
 ): () => Promise<void> {
@@ -16,15 +15,15 @@ export function useAnswerRealityQuestionCallback(
   const addTransaction = useTransactionAdder()
 
   return useCallback(async () => {
-    if (!chainId || !kpiToken || !realityContract || !answer) return
+    if (!chainId || !questionId || !realityContract || !answer) return
     try {
       const value = bond || BigNumber.from(NETWORK_DETAIL[chainId].defaultBond)
-      const tx = await realityContract.submitAnswer(kpiToken.kpiId, answer, 0, {
+      const tx = await realityContract.submitAnswer(questionId, answer, 0, {
         value,
       })
-      addTransaction(tx, { summary: `Answer ${kpiToken.symbol}` })
+      addTransaction(tx, { summary: `Answer` })
     } catch (error) {
       console.error('error answering reality.eth question', error)
     }
-  }, [addTransaction, answer, bond, chainId, kpiToken, realityContract])
+  }, [addTransaction, answer, bond, chainId, questionId, realityContract])
 }
