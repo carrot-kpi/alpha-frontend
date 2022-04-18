@@ -5,10 +5,10 @@ const ManifestPlugin = require('webpack-manifest-plugin')
 
 // Used to make the build reproducible between different machines (IPFS-related)
 module.exports = (config, env) => {
-  // if (env !== 'production') {
+  if (env !== 'production') {
     return config
-  // }
-  /* const gitRevisionPlugin = new GitRevisionPlugin()
+  }
+  const gitRevisionPlugin = new GitRevisionPlugin()
   const shortCommitHash = gitRevisionPlugin.commithash().substring(0, 8)
   config.output.filename = `static/js/[name].${shortCommitHash}.js`
   config.output.chunkFilename = `static/js/[name].${shortCommitHash}.chunk.js`
@@ -31,5 +31,5 @@ module.exports = (config, env) => {
   config.module.rules[1].oneOf.find((rule) => rule.loader === require.resolve('url-loader')).options.name =
     'static/media/[name].[ext]'
   config.optimization.moduleIds = 'hashed'
-  return config */
+  return config
 }
