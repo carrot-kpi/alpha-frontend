@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import { ToastContainer, Slide } from 'react-toastify'
 import { Home } from '../home'
 import { Campaign } from '../campaign'
+import { AmsterdamCampaign } from '../amsterdam-campaign'
 import { Flex, Box } from 'rebass'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../../theme'
@@ -38,6 +39,7 @@ export function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/campaigns/:kpiId" element={<Campaign />} />
+                  <Route path="/amsterdam" element={<AmsterdamCampaign />} />
                 </Routes>
               </Box>
             </Flex>
