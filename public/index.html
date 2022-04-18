@@ -23,9 +23,13 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <script>
       ;(function () {
-        const { pathname, hostname, protocol } = window.location
+        const { pathname, hostname, protocol, origin } = window.location
         if (protocol === 'http:' && hostname !== 'localhost') {
           window.location.protocol = 'https'
+        }
+        // TODO: remove this once the Amsterdam inititive is done
+        if (pathname === '/amsterdam' || pathname === '/amsterdam/') {
+          window.location.href = 'https://bafybeidiuwfehkbmvopteccr63qd2sidjtgchc4m3enj2o4a3nyluepzvm.ipfs.dweb.link/'
           return
         }
       })()
