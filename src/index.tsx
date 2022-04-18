@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { App } from './pages/app'
 import { store } from './state'
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
@@ -25,12 +25,12 @@ ReactDOM.render(
         <Provider store={store}>
           <ApplicationStateUpdater />
           <MulticallStateUpdater />
-          <HashRouter>
+          <BrowserRouter>
             <MultiChainLinksUpdater />
             <Web3ReactManager>
               <App />
             </Web3ReactManager>
-          </HashRouter>
+          </BrowserRouter>
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
