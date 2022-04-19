@@ -28,6 +28,11 @@
           window.location.protocol = 'https'
           return
         }
+        // TODO: remove this once the Amsterdam inititive is done
+        if (pathname === '/amsterdam' || pathname === '/amsterdam/') {
+          window.location.href = 'https://bafybeidiuwfehkbmvopteccr63qd2sidjtgchc4m3enj2o4a3nyluepzvm.ipfs.dweb.link/'
+          return
+        }
       })()
     </script>
     <title>Carrot</title>
