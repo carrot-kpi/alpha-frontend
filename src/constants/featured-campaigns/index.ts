@@ -16,6 +16,7 @@ import {
   /* DAPPNODE, */ DXDAO,
   HOPR as HOPR_CREATOR /* MOCHI */,
   HUNDRED_FINANCE,
+  AUGMENTED_FINANCE,
   COW as COW_CREATOR,
 } from '../creators'
 import {
@@ -26,6 +27,7 @@ import {
   WXDAI,
   HND,
   COW,
+  AGF,
   /* USDM,
   MOCHI_TEST_KPI_TOKEN, */
   /* DAPPNODE_TEST_KPI_TOKEN_1,
@@ -246,6 +248,36 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       id: '0x2569db67431b30f027083345208e77232f470e7f',
       kpiId: '0x8d96b649698862bb79638b5e6a249dfee4bf9c2e0e153033da7c5a84a94d94e9',
       creator: COW_CREATOR,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          HND,
+          WXDAI,
+          swapr,
+          DateTime.fromSeconds(1650466800), // Apr 20th 1500 UTC
+          DateTime.fromSeconds(1652367600), // May 12th 1500 UTC
+          86400
+        ),
+      ],
+      id: '0x97f7b8405654b1bf6592b5353487d94c58f9470a',
+      kpiId: '0x921c18a1b7e39ca00b4324602792e67f6b8aee60af96a9450f28429baba6ab7c',
+      creator: HUNDRED_FINANCE,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          AGF,
+          GNOSIS_WETH,
+          swapr,
+          DateTime.fromSeconds(1650466800), // Apr 20th 1500 UTC
+          DateTime.fromSeconds(1652367600), // May 12th 1500 UTC
+          86400
+        ),
+      ],
+      id: '0xb02dfcd4fd2ef513c307656e85b1cfca6eba79e6',
+      kpiId: '0xffd71e580450d7c7e350a78cd1990d37b61422bb9775d7094b33109d1907bd97',
+      creator: AUGMENTED_FINANCE,
     },
 
     /* {
