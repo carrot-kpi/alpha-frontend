@@ -1,9 +1,9 @@
-import { KPI_TOKEN_ABI, KpiToken } from '@carrot-kpi/sdk'
+import { KPI_TOKEN_ABI, KpiToken } from '@carrot-kpi/alpha-sdk'
 import { useCallback, useMemo } from 'react'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { useContract } from './useContract'
-import { useKpiTokenBalance } from './useKpiTokenBalance'
+import { useKpiTokenBalances } from './useKpiTokenBalances'
 import { useRewardIfKpiIsReached } from './useRewardIfKpiIsReached'
 import { useTokenPriceUSD } from './useTokenPriceUSD'
 
@@ -12,7 +12,9 @@ export function useRedeemKpiTokenCallback(kpiToken?: KpiToken) {
   const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(
     kpiToken?.collateral.currency
   )
-  const { balance } = useKpiTokenBalance(kpiToken, account || undefined)
+  const kpiTokens = useMemo(() => (kpiToken ? [kpiToken] : []), [kpiToken])
+  const { balances } = useKpiTokenBalances(kpiTokens, account || undefined)
+  const balance = useMemo(() => (kpiToken ? balances[kpiToken.address] : undefined), [balances, kpiToken])
   const rewardIfKpiIsReached = useRewardIfKpiIsReached(kpiToken, balance)
   const redeemedCollateral = useMemo(() => {
     if (loadingCollateralPriceUSD || !rewardIfKpiIsReached) return undefined

@@ -14,7 +14,7 @@ import walletConnectLogo from '../../assets/wallet-connect-logo.png'
 import { Button } from '../button'
 import { DateTime } from 'luxon'
 import Loader from 'react-spinners/BarLoader'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { ADXdaoProduct } from '../a-dxdao-product'
 
 const RootFlex = styled(Flex)`

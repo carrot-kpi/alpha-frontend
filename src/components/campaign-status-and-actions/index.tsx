@@ -1,6 +1,7 @@
 import { Status } from '../../pages/campaign'
 import { Flex, Box } from 'rebass'
-import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
+import { Amount, Token } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 import { Button } from '../button'
 import { useFinalizeKpiTokenCallback } from '../../hooks/useFinalizeKpiTokenCallback'
 import { ZERO_DECIMAL } from '../../constants'

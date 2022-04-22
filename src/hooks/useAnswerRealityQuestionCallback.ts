@@ -4,7 +4,7 @@ import { useActiveWeb3React } from './useActiveWeb3React'
 import { NETWORK_DETAIL } from '../constants'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useTransactionAdder } from '../state/transactions/hooks'
-import { KpiToken } from '@carrot-kpi/sdk'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 
 export function useAnswerRealityQuestionCallback(
   kpiToken?: KpiToken,

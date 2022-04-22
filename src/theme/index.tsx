@@ -6,9 +6,8 @@ import '@fontsource/manrope/800.css'
 import '@fontsource/overpass-mono/400.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'rc-switch/assets/index.css'
+import 'rc-pagination/assets/index.css'
 import 'react-loading-skeleton/dist/skeleton.css'
-/* import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css' */
 import { transparentize } from 'polished'
 import { lightTheme } from './light'
 import { darkTheme } from './dark'
@@ -221,31 +220,62 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.positive} !important;
   }
 
-  /* .slick-initialized .slick-slide > div {
-    width: 100%;
-    display: flex;
-    justify-content: center; 
-  }
-  
-  .slick-initialized .slick-slide > div > div {
-    display: flex !important;
-    justify-content: center !important; 
+  .carrot-pagination {
+    list-style: none;
+    padding: 0;
   }
 
-  .slick-arrow.slick-prev::before,
-  .slick-arrow.slick-next::before { 
-    color: ${(props) => props.theme.accent};
-    opacity: 1;
+  .carrot-pagination ul {
+    display: inline-flex;
   }
-  
-  .slick-arrow.slick-disabled {
-    opacity: 0.2;
+
+  .carrot-pagination li {
+    display: inline-block;
+    min-width: 28px;
+    height: 22px;
+    margin-right: 8px;
+    vertical-align: middle;
+    list-style: none;
+    outline: 0;
+    cursor: pointer;
+    user-select: none;
+    border: solid 1px ${(props) => props.theme.accent};
+    transition: border 0.3s ease, color 0.3s ease;
+    font-size: 14px;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 20px;
+    color: ${(props) => props.theme.accent};
+
+  }
+  .carrot-pagination li:last-child {
+    margin-right: 0;
+  }
+
+  .carrot-pagination li.rc-pagination-item-active {
+    border: solid 1px ${(props) => props.theme.accent};
+  }
+
+  .carrot-pagination li.rc-pagination-prev,
+  .carrot-pagination li.rc-pagination-next {
+    transition: border 0.3s ease;
+    color: ${(props) => props.theme.accent};
+    padding-top: 2px;
+  }
+
+  .carrot-pagination li.rc-pagination-options {
+    display: none;
+  }
+
+  .carrot-pagination li.rc-pagination-disabled {
+    border: solid 1px ${(props) => props.theme.border};
+    color: ${(props) => props.theme.border};
     cursor: not-allowed;
   }
-  
-  .slick-dots { 
-    bottom: -32px;
-  } */
+
+  .carrot-pagination .rc-pagination-simple-pager {
+    border: none;
+  }
 
 `
 

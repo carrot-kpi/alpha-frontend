@@ -14,6 +14,7 @@ import { WalletPopover } from '../wallet-popover'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { useIsDarkMode, useToggleDarkMode } from '../../state/user/hooks'
 import { Logo } from '../logo'
+import { useLocation } from 'react-router-dom'
 
 const FlexContainer = styled(Flex)`
   position: fixed;
@@ -50,6 +51,18 @@ const StyledChevronDown = styled(ChevronDown)`
   padding-top: 8px;
 `
 
+const MenuItem = styled(Text)<{ active?: boolean }>`
+  color: ${(props) => (props.active ? props.theme.accent : 'initial')};
+  font-weight: 600;
+  transition: font-weight 0.3s ease;
+`
+
+const VerticalDivider = styled(Box)`
+  height: 28px;
+  width: 1px;
+  background-color: ${(props) => props.theme.border};
+`
+
 const ClickableFlex = styled(Flex)`
   cursor: pointer;
 `
@@ -59,6 +72,7 @@ export const Header = (): ReactElement => {
   const { error } = useWeb3React()
   const theme = useTheme()
   const isMobile = useIsMobile()
+  const { pathname } = useLocation()
 
   const [showWalletConnectionPopover, setShowWalletConnectionPopover] = useState(false)
   const [showNetworkSwitchPopover, setShowNetworkSwitchPopover] = useState(false)
@@ -94,11 +108,17 @@ export const Header = (): ReactElement => {
   return (
     <>
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px={['16px', '24px']}>
-        <Flex width={['100%', '80%', '70%', '55%']} justifyContent="space-between" alignItems="center">
+        <Flex width={['100%', '85%', '75%', '60%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
             <Box>
               <UndecoratedInternalLink to="/">
                 <Logo darkMode={darkMode} />
+              </UndecoratedInternalLink>
+            </Box>
+            <VerticalDivider ml="32px" display={['none', 'none', 'block']} />
+            <Box ml="28px">
+              <UndecoratedInternalLink to="/campaigns">
+                <MenuItem active={pathname.includes('campaigns')}>Campaigns</MenuItem>
               </UndecoratedInternalLink>
             </Box>
           </Flex>

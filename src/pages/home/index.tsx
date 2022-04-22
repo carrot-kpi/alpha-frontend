@@ -3,9 +3,9 @@ import { Box, Flex, Text, Image } from 'rebass'
 import styled, { useTheme } from 'styled-components'
 import { CampaignCard } from '../../components/campaign-card'
 import { useFeaturedKpiTokens } from '../../hooks/useFeaturedKpiTokens'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
+import { CAMPAIGNS } from '../../constants/campaigns'
 import heroImage from '../../assets/hero.png'
 import measureImage from '../../assets/measure.png'
 import incentivizeImage from '../../assets/incentivize.png'
@@ -13,9 +13,9 @@ import rewardImage from '../../assets/reward.png'
 import { Card } from '../../components/card'
 import { transparentize } from 'polished'
 import { Switch } from '../../components/switch'
-// import Slider from 'react-slick'
-// import { useIsMobile } from '../../hooks/useIsMobile'
-// import useMedia from 'react-use/lib/useMedia'
+import { useKpiTokenBalances } from '../../hooks/useKpiTokenBalances'
+import { Button } from '../../components/button'
+import { UndecoratedInternalLink } from '../../components/undecorated-link'
 
 const FeaturedCampaignsContainer = styled(Card)`
   display: flex;
@@ -28,29 +28,16 @@ const FeaturedCampaignsContainer = styled(Card)`
   background-color: ${(props) => transparentize(0.9, props.theme.accent)};
 `
 
-/* const StyledSlider = styled(Slider)`
-  width: 100%;
-` */
-
 export function Home(): ReactElement {
   const { chainId } = useActiveWeb3React()
   const theme = useTheme()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()
+  const { balances, loading: loadingBalances } = useKpiTokenBalances(featuredKpiTokens)
   const [showUsdValues, setShowUsdValues] = useState(true)
 
   const handleSwitchChange = useCallback((newValue: boolean) => {
     setShowUsdValues(newValue)
   }, [])
-
-  // const [slidesToShow, setSlidesToShow] = useState(3)
-  /* const mobile = useIsMobile()
-  const tablet = useMedia(`(max-width: 1024px)`) */
-
-  /* useLayoutEffect(() => {
-    if (mobile) setSlidesToShow(1)
-    else if (tablet) setSlidesToShow(2)
-    else setSlidesToShow(3)
-  }, [tablet, mobile]) */
 
   return (
     <Flex flexDirection="column" alignItems="center">
@@ -62,7 +49,13 @@ export function Home(): ReactElement {
         pb={['16px', '16px', '90px']}
         width={['100%', '80%', '70%', '55%']}
       >
-        <Flex flexDirection="column" justifyContent="center" pr={['auto', 'auto', '24px']} px={['12px', 'auto']}>
+        <Flex
+          flexDirection="column"
+          justifyContent="center"
+          alignItems={['center', 'flex-start']}
+          pr={['auto', 'auto', '24px']}
+          px={['12px', 'auto']}
+        >
           <Text
             key="title-incentivize"
             fontSize={['44px', '52px']}
@@ -84,7 +77,7 @@ export function Home(): ReactElement {
           </Text>
           <Text
             key="title-more"
-            mb={['40px', '40px', '0px']}
+            mb="40px"
             fontSize={['20px', '22px']}
             fontWeight="800"
             lineHeight="24px"
@@ -93,6 +86,11 @@ export function Home(): ReactElement {
           >
             Increase TVL, volume, price, engagement and more.
           </Text>
+          <Box mb="40px">
+            <UndecoratedInternalLink to="/campaigns">
+              <Button primary>Check out the campaigns</Button>
+            </UndecoratedInternalLink>
+          </Box>
         </Flex>
         <Image
           src={heroImage}
@@ -129,10 +127,8 @@ export function Home(): ReactElement {
           justifyContent="center"
           flexWrap="wrap"
         >
-          {/* <Box width={['100%', '80%', '70%', '55%']} px={['16px', '0px']}>
-            <StyledSlider dots infinite={false} slidesToShow={slidesToShow}> */}
-          {loadingFeaturedKpiTokens || !chainId
-            ? new Array(FEATURED_CAMPAIGNS[chainId || ChainId.GNOSIS].length).fill(null).map((_, index) => {
+          {loadingFeaturedKpiTokens || loadingBalances || !chainId
+            ? new Array(CAMPAIGNS[chainId || ChainId.GNOSIS].length).fill(null).map((_, index) => {
                 return (
                   <Box key={index} width="100%" p="8px" maxWidth={['100%', '320px']}>
                     <CampaignCard loading />
@@ -140,13 +136,14 @@ export function Home(): ReactElement {
                 )
               })
             : featuredKpiTokens.map((featuredKpiToken) => {
-                const featuredCampaignSpec = FEATURED_CAMPAIGNS[chainId].find(
+                const featuredCampaignSpec = CAMPAIGNS[chainId].find(
                   (campaign) => campaign.kpiId === featuredKpiToken.kpiId
                 )
                 if (!featuredCampaignSpec) {
                   console.warn('Could not find featured campaign with KPI id ', featuredKpiToken.kpiId)
                   return null
                 }
+                const holding = balances[featuredKpiToken.address] && !balances[featuredKpiToken.address].isZero()
                 return (
                   <Box key={featuredKpiToken.kpiId} width="100%" p="8px" maxWidth="320px">
                     <CampaignCard
@@ -155,13 +152,12 @@ export function Home(): ReactElement {
                       expiresAt={featuredKpiToken.expiresAt}
                       goal={featuredKpiToken.question}
                       collateral={featuredKpiToken.collateral}
+                      holding={holding}
                       usdValues={showUsdValues}
                     />
                   </Box>
                 )
               })}
-          {/* </StyledSlider>
-          </Box> */}
         </Flex>
       </FeaturedCampaignsContainer>
       <Flex width={['100%', '80%', '70%', '55%']} flexDirection="column" alignItems="center">

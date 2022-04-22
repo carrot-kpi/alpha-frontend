@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
+import { Amount, Token } from '@carrot-kpi/sdk-core'
+import { KpiToken, Fetcher } from '@carrot-kpi/alpha-sdk'
 import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
-import { CID } from 'multiformats/cid'
 /* import {
   MOCHI_TEST_KPI_TOKEN,
   SWAPR_GNO_TEST_KPI_TOKEN,
@@ -141,15 +141,14 @@ export function useKpiToken(kpiId?: string): { loading: boolean; kpiToken?: KpiT
           rawKpiToken.collateral.token.symbol,
           rawKpiToken.collateral.token.name
         )
-        let question = rawKpiToken.oracleQuestion.text
+        let question = ''
         try {
-          const cid = CID.parse(question)
-          const response = await fetch(`https://ipfs.io/ipfs/${cid.toV0()}`)
-          if (!response.ok) {
-            console.warn('could not load question from ipfs')
+          const cid = rawKpiToken.oracleQuestion.text
+          question = (await Fetcher.fetchKpiTokenQuestions([cid]))[cid]
+          if (!question) {
+            console.warn(`could not fetch kpi token question with cid ${cid}`)
             return
           }
-          question = await response.text()
         } catch (error) {
           // not a cid
         }

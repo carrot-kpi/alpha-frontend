@@ -1,5 +1,5 @@
 import { CARROT_SUBGRAPH_CLIENT } from '../constants/graphql'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 

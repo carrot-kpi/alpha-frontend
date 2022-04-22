@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk'
+import { Amount, ChainId, Currency, Token } from '@carrot-kpi/sdk-core'
 import { parseUnits } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
 import { useCoingeckoTokenPrice } from '@usedapp/coingecko'

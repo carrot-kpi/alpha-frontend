@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton'
 import styled, { useTheme } from 'styled-components'
 import { ExternalLink, UndecoratedExternalLink } from '../../components/undecorated-link'
 import { CampaignStatusAndActions } from '../../components/campaign-status-and-actions'
-import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
+import { useKpiTokenBalances } from '../../hooks/useKpiTokenBalances'
 import { useRewardIfKpiIsReached } from '../../hooks/useRewardIfKpiIsReached'
 import { Countdown } from '../../components/countdown'
 import { useIsRealityQuestionFinalized } from '../../hooks/useIsRealityQuestionFinalized'
@@ -20,7 +20,7 @@ import { useKpiTokenProgress } from '../../hooks/useKpiTokenProgress'
 import Decimal from 'decimal.js-light'
 import { Title } from '../../components/title'
 import { Charts } from '../../components/charts'
-import { FEATURED_CAMPAIGNS } from '../../constants/featured-campaigns'
+import { CAMPAIGNS } from '../../constants/campaigns'
 import { Twitter } from 'react-feather'
 import { Button } from '../../components/button'
 import { remark } from 'remark'
@@ -71,12 +71,17 @@ export function Campaign(): ReactElement {
   const theme = useTheme()
   const { account, chainId } = useActiveWeb3React()
   const featuredCampaignSpec = useMemo(
-    () => (chainId ? FEATURED_CAMPAIGNS[chainId].find((campaign) => campaign.kpiId === kpiId) : undefined),
+    () => (chainId ? CAMPAIGNS[chainId].find((campaign) => campaign.kpiId === kpiId) : undefined),
     [kpiId, chainId]
   )
   const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId)
 
-  const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
+  const kpiTokens = useMemo(() => (kpiToken ? [kpiToken] : []), [kpiToken])
+  const { balances: kpiTokenBalances, loading: loadingKpiTokenBalance } = useKpiTokenBalances(kpiTokens, account)
+  const kpiTokenBalance = useMemo(
+    () => (kpiToken ? kpiTokenBalances[kpiToken.address] : undefined),
+    [kpiToken, kpiTokenBalances]
+  )
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(kpiId)
 
@@ -107,7 +112,7 @@ export function Campaign(): ReactElement {
     }
     markdownToHtml()
     return () => {
-      cancelled = false
+      cancelled = true
     }
   }, [kpiToken])
 

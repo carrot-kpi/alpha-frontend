@@ -1,6 +1,7 @@
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Flex, Text } from 'rebass'
-import { Amount, ChainId, KpiToken } from '@carrot-kpi/sdk'
+import { Amount, ChainId } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 
 import { INVALID_REALITY_ANSWER } from '../../constants'
 import { useRealityQuestion } from '../../hooks/useRealityQuestion'

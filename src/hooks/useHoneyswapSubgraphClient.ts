@@ -1,4 +1,4 @@
-import { ChainId, HONEYSWAP_SUBGRAPH_CLIENT } from '@carrot-kpi/sdk'
+import { ChainId, HONEYSWAP_SUBGRAPH_CLIENT } from '@carrot-kpi/sdk-core'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { useActiveWeb3React } from './useActiveWeb3React'
 

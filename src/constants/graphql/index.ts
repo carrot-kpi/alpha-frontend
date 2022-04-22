@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 
 export const CARROT_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.RINKEBY]: new ApolloClient({
@@ -33,7 +33,6 @@ export const SYMMETRIC_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<Normal
     cache: new InMemoryCache(),
   }),
 }
-
 
 export const BLOCK_SUBGRAPH_CLIENTS: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.MAINNET]: new ApolloClient({

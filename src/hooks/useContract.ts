@@ -1,11 +1,5 @@
-import {
-  REALITY_ABI,
-  REALITY_ADDRESS,
-  ChainId,
-  PERMISSIVE_MULTICALL_ADDRESS,
-  PERMISSIVE_MULTICALL_ABI,
-  KPI_TOKEN_ABI,
-} from '@carrot-kpi/sdk'
+import { ChainId, PERMISSIVE_MULTICALL_ADDRESS, PERMISSIVE_MULTICALL_ABI } from '@carrot-kpi/sdk-core'
+import { KPI_TOKEN_ABI, REALITY_ABI, REALITY_ADDRESS } from '@carrot-kpi/alpha-sdk'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from './useActiveWeb3React'

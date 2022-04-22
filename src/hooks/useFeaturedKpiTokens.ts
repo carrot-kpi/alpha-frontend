@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react'
-import { FEATURED_CAMPAIGNS } from '../constants/featured-campaigns'
-import { KpiToken, Amount, Token } from '@carrot-kpi/sdk'
+import { CAMPAIGNS } from '../constants/campaigns'
+import { Amount, Token } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 import { gql } from '@apollo/client'
 import { useCarrotSubgraphClient } from './useCarrotSubgraphClient'
 import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { getAddress } from '@ethersproject/address'
-import { CID } from 'multiformats/cid'
-/* import {
-  MOCHI_TEST_KPI_TOKEN,
-  DAPPNODE_TEST_KPI_TOKEN_1,
-  DAPPNODE_TEST_KPI_TOKEN_2,
-  DAPPNODE_TEST_KPI_TOKEN_3,
-} from '../constants/tokens' */
-import { IPFS_GATEWAY } from '../constants'
+import { Fetcher } from '@carrot-kpi/alpha-sdk'
 
 const FEATURED_KPI_TOKENS_QUERY = gql`
   query kpiTokens($ids: [ID!]!) {
@@ -105,10 +99,24 @@ export function useFeaturedKpiTokens() {
         const { data: featuredKpiTokensData } = await carrotSubgraphClient.query<CarrotQueryResult>({
           query: FEATURED_KPI_TOKENS_QUERY,
           variables: {
-            ids: chainId && FEATURED_CAMPAIGNS[chainId].map((campaign) => campaign.id),
+            ids: chainId && CAMPAIGNS[chainId].filter((campaign) => campaign.featured).map((campaign) => campaign.id),
           },
         })
         const featuredKpiTokens: KpiToken[] = []
+
+        // fetch all questions from IPFS/cache at once to boost performance
+        const questionCids = featuredKpiTokensData.kpiTokens.map((kpiToken) => {
+          return kpiToken.oracleQuestion.text
+        })
+        let questions
+        try {
+          questions = await Fetcher.fetchKpiTokenQuestions(questionCids)
+        } catch (error) {
+          console.error('could not fetch questions', error)
+          if (!cancelled) setFeaturedKpiTokens([])
+          if (!cancelled) setLoading(false)
+          return
+        }
 
         for (let i = 0; i < featuredKpiTokensData.kpiTokens.length; i++) {
           const kpiToken = featuredKpiTokensData.kpiTokens[i]
@@ -119,17 +127,11 @@ export function useFeaturedKpiTokens() {
             kpiToken.collateral.token.symbol,
             kpiToken.collateral.token.name
           )
-          let question = kpiToken.oracleQuestion.text
-          try {
-            const cid = CID.parse(question)
-            const response = await fetch(`${IPFS_GATEWAY}${cid.toV0()}`)
-            if (!response.ok) {
-              console.warn('could not load question from ipfs')
-              continue
-            }
-            question = await response.text()
-          } catch (error) {
-            // not a cid
+          const cid = kpiToken.oracleQuestion.text
+          const question = questions[cid]
+          if (!question) {
+            console.warn(`could not fetch kpi token question with cid ${cid}`)
+            return
           }
           featuredKpiTokens.push(
             new KpiToken(
@@ -153,10 +155,9 @@ export function useFeaturedKpiTokens() {
             )
           )
         }
-        if (!cancelled) {
-          setFeaturedKpiTokens(featuredKpiTokens)
-          setLoading(false)
-        }
+
+        if (!cancelled) setFeaturedKpiTokens(featuredKpiTokens)
+        if (!cancelled) setLoading(false)
       } finally {
         if (!cancelled) setLoading(false)
       }

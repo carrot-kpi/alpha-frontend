@@ -1,4 +1,4 @@
-import { Currency } from '@carrot-kpi/sdk'
+import { Currency } from '@carrot-kpi/sdk-core'
 import { useActiveWeb3React } from './useActiveWeb3React'
 
 export function useNativeCurrency(): Currency {

@@ -2,7 +2,7 @@ import { XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart as RechartsBarChar
 import styled, { useTheme } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
-import { ChartDataPoint, PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from '@carrot-kpi/sdk'
+import { ChartDataPoint, PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from '@carrot-kpi/sdk-core'
 import { Box, Flex, Text } from 'rebass'
 import Loader from 'react-spinners/BarLoader'
 import { CustomTooltip } from '../custom-tooltip'
@@ -28,14 +28,15 @@ export const BarChart = ({ metric }: BarChartProps) => {
       if (!cancelled) setLoading(true)
       try {
         const data = await metric.chartData()
-        if (!cancelled) setChartData(data.sort((a, b) => a.x - b.x))
+        const sortedData = data.sort((a, b) => a.x - b.x)
+        if (!cancelled) setChartData(sortedData)
       } finally {
         if (!cancelled) setLoading(false)
       }
     }
     fetchChartData()
     return () => {
-      cancelled = false
+      cancelled = true
     }
   }, [metric])
 

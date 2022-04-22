@@ -1,4 +1,4 @@
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { useParsedQueryString } from './useParsedQueryString'
 
 export function useTargetedChainIdFromUrl(): ChainId | undefined {

@@ -1,4 +1,5 @@
-import { ChainId, Token, Amount, KpiToken } from '@carrot-kpi/sdk'
+import { ChainId, Token, Amount } from '@carrot-kpi/sdk-core'
+import { KpiToken } from '@carrot-kpi/alpha-sdk'
 import { Interface } from '@ethersproject/abi'
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber } from '@ethersproject/bignumber'

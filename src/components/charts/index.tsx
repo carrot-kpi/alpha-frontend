@@ -5,7 +5,8 @@ import {
   TokenMarketCapMetric,
   TokenPriceMetric,
   TvlMetric,
-} from '@carrot-kpi/sdk'
+  EmptyMetric,
+} from '@carrot-kpi/sdk-core'
 import { Card } from '../card'
 import { Title } from '../title'
 import { BarChart } from './bar-chart'
@@ -19,6 +20,7 @@ export const Charts = ({ metrics }: ChartsProps) => {
   return (
     <Flex flexDirection="column">
       {metrics.map((metric, index) => {
+        if (metric instanceof EmptyMetric) return
         return (
           <Card m="8px" key={index}>
             {(metric instanceof TvlMetric ||

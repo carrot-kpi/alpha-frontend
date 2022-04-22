@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text } from 'rebass'
 import { DateTime } from 'luxon'
 import { Button } from '../button'
 import styled, { useTheme } from 'styled-components'
-import { Amount, Token } from '@carrot-kpi/sdk'
+import { Amount, Token } from '@carrot-kpi/sdk-core'
 import { useTokenPriceUSD } from '../../hooks/useTokenPriceUSD'
 import Skeleton from 'react-loading-skeleton'
 import { Card } from '../card'
@@ -12,8 +12,6 @@ import { Title } from '../title'
 import { useEffect, useState } from 'react'
 import { remark } from 'remark'
 import strip from 'strip-markdown'
-import { useKpiToken } from '../../hooks/useKpiToken'
-import { useKpiTokenBalance } from '../../hooks/useKpiTokenBalance'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
 import { transparentize } from 'polished'
 import { Creator } from '../../constants/creators'
@@ -52,16 +50,24 @@ interface CampaignCardProps {
   expiresAt?: DateTime
   goal?: string
   collateral?: Amount<Token>
+  holding?: boolean
   usdValues?: boolean
 }
 
-export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collateral, usdValues }: CampaignCardProps) {
+export function CampaignCard({
+  loading,
+  kpiId,
+  creator,
+  expiresAt,
+  goal,
+  collateral,
+  holding,
+  usdValues,
+}: CampaignCardProps) {
   const theme = useTheme()
   const { account } = useActiveWeb3React()
   const { loading: loadingCollateralPriceUSD, price: collateralPriceUSD } = useTokenPriceUSD(collateral?.currency)
   const [question, setQuestion] = useState('')
-  const { kpiToken, loading: loadingKpiToken } = useKpiToken(kpiId ? kpiId : '')
-  const { balance: kpiTokenBalance, loading: loadingKpiTokenBalance } = useKpiTokenBalance(kpiToken, account)
 
   useEffect(() => {
     let cancelled = false
@@ -102,9 +108,9 @@ export function CampaignCard({ loading, kpiId, creator, expiresAt, goal, collate
             {!creator ? <Skeleton width="60px" /> : creator.name}
           </Text>
         </Flex>
-        {!!account && (loadingKpiToken || loadingKpiTokenBalance) ? (
+        {!!account && loading ? (
           <Skeleton height="20px" width="80px" />
-        ) : !!account && !!kpiTokenBalance && !kpiTokenBalance.isZero() ? (
+        ) : !!account && holding ? (
           <HoldingBadge>Holding</HoldingBadge>
         ) : null}
       </Flex>

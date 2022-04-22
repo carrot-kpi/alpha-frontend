@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Amount, Currency, Token } from '@carrot-kpi/sdk'
+import { Amount, Currency, Token } from '@carrot-kpi/sdk-core'
 import { gql } from '@apollo/client'
 import { useHoneyswapSubgraphClient } from './useHoneyswapSubgraphClient'
 import { ZERO_USD } from '../constants'
