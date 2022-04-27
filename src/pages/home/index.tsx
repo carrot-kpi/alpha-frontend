@@ -88,7 +88,7 @@ export function Home(): ReactElement {
           </Text>
           <Box mb="40px">
             <UndecoratedInternalLink to="/campaigns">
-              <Button primary>Check out the campaigns</Button>
+              <Button primary>View all campaigns</Button>
             </UndecoratedInternalLink>
           </Box>
         </Flex>
@@ -120,7 +120,7 @@ export function Home(): ReactElement {
           </Flex>
         </Flex>
         <Flex
-          width="100%"
+          width={['100%', '100%', '75%']}
           px={['16px', '0px']}
           flexDirection={['column', 'row']}
           alignItems="center"
@@ -128,13 +128,13 @@ export function Home(): ReactElement {
           flexWrap="wrap"
         >
           {loadingFeaturedKpiTokens || loadingBalances || !chainId
-            ? new Array(CAMPAIGNS[chainId || ChainId.GNOSIS].length).fill(null).map((_, index) => {
-                return (
+            ? CAMPAIGNS[chainId || ChainId.GNOSIS]
+                .filter((campaign) => campaign.featured)
+                .map((_, index) => (
                   <Box key={index} width="100%" p="8px" maxWidth={['100%', '320px']}>
                     <CampaignCard loading />
                   </Box>
-                )
-              })
+                ))
             : featuredKpiTokens.map((featuredKpiToken) => {
                 const featuredCampaignSpec = CAMPAIGNS[chainId].find(
                   (campaign) => campaign.kpiId === featuredKpiToken.kpiId
@@ -145,7 +145,14 @@ export function Home(): ReactElement {
                 }
                 const holding = balances[featuredKpiToken.address] && !balances[featuredKpiToken.address].isZero()
                 return (
-                  <Box key={featuredKpiToken.kpiId} width="100%" p="8px" maxWidth="320px">
+                  <Box
+                    key={featuredKpiToken.kpiId}
+                    width="100%"
+                    p="8px"
+                    maxWidth={['100%', '320px']}
+                    display="flex"
+                    justifyContent="center"
+                  >
                     <CampaignCard
                       kpiId={featuredKpiToken.kpiId}
                       creator={featuredCampaignSpec.creator}
