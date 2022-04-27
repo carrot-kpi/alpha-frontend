@@ -70,11 +70,12 @@ export function Campaigns(): ReactElement {
           </Box>
         </Flex>
       </Flex>
-      <Flex flexDirection="column" mb="60px" width={['100%', '80%', '70%', '55%']}>
+      <Flex flexDirection="column" mb="60px" width={['100%', '65%', '55%', '50%']}>
         <Flex
+          minHeight="672px"
           flexDirection={['column', 'row']}
-          alignItems="center"
-          justifyContent="center"
+          alignItems={['center', 'flex-start']}
+          justifyContent={['center', 'center', 'center', 'flex-start']}
           width="100%"
           flexWrap="wrap"
           mb="40px"
@@ -82,7 +83,7 @@ export function Campaigns(): ReactElement {
           {loadingKpiTokens || loadingKpiTokenBalances || !chainId
             ? new Array(6).fill(null).map((_, index) => {
                 return (
-                  <Box width={['100%', 1 / 2, 1 / 3]} key={index} p="8px" maxWidth={['100%', '320px']}>
+                  <Box width={['100%', 1 / 2, 1 / 2, 1 / 3]} key={index} p="8px" maxWidth="320px">
                     <CampaignCard loading />
                   </Box>
                 )
@@ -97,7 +98,7 @@ export function Campaigns(): ReactElement {
                 }
                 const holding = kpiTokenBalances[kpiToken.address] && !kpiTokenBalances[kpiToken.address].isZero()
                 return (
-                  <Box width={['100%', 1 / 2, 1 / 3]} key={kpiToken.kpiId} p="8px" maxWidth="320px">
+                  <Box width={['100%', 1 / 2, 1 / 2, 1 / 3]} key={kpiToken.kpiId} p="8px" maxWidth="320px">
                     <CampaignCard
                       kpiId={kpiToken.kpiId}
                       creator={campaignSpec.creator}
