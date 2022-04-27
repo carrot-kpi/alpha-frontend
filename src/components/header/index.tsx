@@ -8,7 +8,7 @@ import { WalletConnectionPopover } from '../wallet-connection-popover'
 import { NetworkSwitcherPopover } from '../network-switcher-popover'
 import { NETWORK_DETAIL } from '../../constants'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { ChevronDown, Moon, Sun } from 'react-feather'
+import { ChevronDown, Menu, Moon, Sun } from 'react-feather'
 import { IdentityBadge } from '../identity-badge'
 import { WalletPopover } from '../wallet-popover'
 import { useIsMobile } from '../../hooks/useIsMobile'
@@ -27,8 +27,8 @@ const FlexContainer = styled(Flex)`
 
 const NetworkIcon = styled.img`
   border-radius: 8px;
-  height: 28px;
-  max-height: 28px;
+  height: 32px;
+  max-height: 32px;
   cursor: pointer;
 `
 
@@ -67,6 +67,32 @@ const ClickableFlex = styled(Flex)`
   cursor: pointer;
 `
 
+const MobileMenu = styled(Flex)<{ show: boolean }>`
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  bottom: ${(props) => (props.show ? 0 : '-100%')};
+  transition: bottom 0.3s ease;
+  background-color: ${(props) => props.theme.surface};
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0px 5px 20px 4px rgba(0, 0, 0, 0.44);
+`
+
+const MobileMenuOverlay = styled.div<{ show: boolean }>`
+  position: fixed;
+  z-index: 8;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
+  transition: opacity 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.4);
+`
+
 export const Header = (): ReactElement => {
   const { chainId, account } = useActiveWeb3React()
   const { error } = useWeb3React()
@@ -77,6 +103,7 @@ export const Header = (): ReactElement => {
   const [showWalletConnectionPopover, setShowWalletConnectionPopover] = useState(false)
   const [showNetworkSwitchPopover, setShowNetworkSwitchPopover] = useState(false)
   const [walletPopoverOpen, setWalletPopoverOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const darkMode = useIsDarkMode()
   const toggleDarkMode = useToggleDarkMode()
@@ -105,8 +132,24 @@ export const Header = (): ReactElement => {
     setShowNetworkSwitchPopover(false)
   }, [])
 
+  const handleShowMobileMenu = useCallback(() => {
+    setMobileMenuOpen(true)
+  }, [])
+
+  const handleHideMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false)
+  }, [])
+
   return (
     <>
+      <MobileMenuOverlay show={mobileMenuOpen} onClick={handleHideMobileMenu} />
+      <MobileMenu show={mobileMenuOpen} flexDirection="column">
+        <Box>
+          <UndecoratedInternalLink to="/campaigns" onClick={handleHideMobileMenu}>
+            <MenuItem active={pathname.includes('campaigns')}>Campaigns</MenuItem>
+          </UndecoratedInternalLink>
+        </Box>
+      </MobileMenu>
       <FlexContainer width="100%" height="70px" justifyContent="center" alignItems="center" px={['16px', '24px']}>
         <Flex width={['100%', '85%', '75%', '60%']} justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
@@ -116,14 +159,14 @@ export const Header = (): ReactElement => {
               </UndecoratedInternalLink>
             </Box>
             <VerticalDivider ml="32px" display={['none', 'none', 'block']} />
-            <Box ml="28px">
+            <Box display={['none', 'block']} ml="28px">
               <UndecoratedInternalLink to="/campaigns">
                 <MenuItem active={pathname.includes('campaigns')}>Campaigns</MenuItem>
               </UndecoratedInternalLink>
             </Box>
           </Flex>
           <Flex alignItems="center">
-            <Box mr={['12px', '16px']} height="28px">
+            <Box mr={['12px', '16px']} height="32px">
               {error instanceof UnsupportedChainIdError ? (
                 <WrongNetwork>Invalid network</WrongNetwork>
               ) : !!account ? (
@@ -138,7 +181,7 @@ export const Header = (): ReactElement => {
                 </WalletConnectionPopover>
               )}
             </Box>
-            <Box mr="12px" height="28px">
+            <Box mr="12px" height="32px">
               <NetworkSwitcherPopover show={showNetworkSwitchPopover} onHide={handleNetworkSwitchPopoverHide}>
                 {chainId && NETWORK_DETAIL[chainId]?.icon ? (
                   isMobile ? (
@@ -166,12 +209,15 @@ export const Header = (): ReactElement => {
                 )}
               </NetworkSwitcherPopover>
             </Box>
-            <Box display="flex" alignItems="center" height="28px">
+            <Box mr="12px" display="flex" alignItems="center" height="28px">
               {darkMode ? (
                 <Sun size="20px" cursor="pointer" onClick={toggleDarkMode} />
               ) : (
                 <Moon size="20px" cursor="pointer" onClick={toggleDarkMode} />
               )}
+            </Box>
+            <Box display={['flex', 'flex', 'none']} alignItems="center" height="28px">
+              <Menu size="20px" cursor="pointer" onClick={handleShowMobileMenu} />
             </Box>
           </Flex>
         </Flex>
