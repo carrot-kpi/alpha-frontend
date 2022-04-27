@@ -61,7 +61,7 @@ export function Campaigns(): ReactElement {
         alignItems="center"
       >
         <Text fontSize="28px" fontWeight="700" mb={['16px', '0px']} mr={['0px', '24px']}>
-          Featured campaigns
+          All campaigns
         </Text>
         <Flex alignItems="center">
           <Text mr="8px">USD values</Text>

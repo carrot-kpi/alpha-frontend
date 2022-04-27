@@ -167,7 +167,7 @@ export function CampaignCard({
       <Box>
         <UndecoratedInternalLink to={`/campaigns/${kpiId}`}>
           <Button primary medium disabled={loading}>
-            See campaign
+            View campaign
           </Button>
         </UndecoratedInternalLink>
       </Box>
