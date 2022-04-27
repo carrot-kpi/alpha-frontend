@@ -92,7 +92,7 @@ export function CampaignCard({
       /* mx={['16px', '0px']} */
       flexDirection="column"
       maxWidth="320px"
-      height="100%"
+      minHeight="320px"
       display="flex"
     >
       <Flex width="100%" mb="8px" justifyContent="space-between" alignItems="center">
