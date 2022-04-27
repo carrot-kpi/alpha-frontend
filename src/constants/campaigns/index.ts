@@ -161,7 +161,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x3ee29f26cd964c03572443730a5f503da8fe0004',
       kpiId: '0xa5bb8d05a96adc31880b740e61efacd4213bd8f7ab9ce5f44f37193cff17439a',
       creator: DXDAO,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -248,7 +248,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xf859bab2889e22e4e5a612780abaf71a8f226a0d',
       kpiId: '0xd415b798f6f5e2af57fca69aba19bb8ae6615b74cf917021593d42f3960eda7a',
       creator: HUNDRED_FINANCE,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -264,7 +264,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x2569db67431b30f027083345208e77232f470e7f',
       kpiId: '0x8d96b649698862bb79638b5e6a249dfee4bf9c2e0e153033da7c5a84a94d94e9',
       creator: COW_CREATOR,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -312,7 +312,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x539b99985f7d977c2073c8fb79259fec0c4b59f7',
       kpiId: '0x77f6cfbd16b87692f1953daa1abd6a1fd3b2e4e8df43c7d914c3243336cf1d65',
       creator: COW_CREATOR,
-      featured: false,
+      featured: true,
     },
 
     {
@@ -329,7 +329,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x8086cda2e9a218bf8c6858a3bf30f7fab7833365',
       kpiId: '0xcc29766288f2ec988e760add4c30c5b22bca88c81a8170d98a0704211ad289ea',
       creator: DXDAO,
-      featured: false,
+      featured: true,
     },
 
     {
@@ -379,7 +379,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xbb148a7d482517c83632e051707c830ec4ec217b',
       kpiId: '0x2c78cb63725a89689babcc4470cab507d45b2e9eda91da0b2a7b78211b0cb05d',
       creator: HOPR_CREATOR,
-      featured: false,
+      featured: true,
     },
 
     {
@@ -396,7 +396,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xc1d84d359cccbdaa2b29f80dbc72f935dfacb3e4',
       kpiId: '0x00a35f4d71a3aa545ec4c6ab4ad0ec2a5ec36819424d9c7637122a7523c8aa46',
       creator: DXDAO,
-      featured: false,
+      featured: true,
     },
 
     {
@@ -404,7 +404,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xdf1364e289d9c4a60bd5f4f731811b77d2f0d1c8',
       kpiId: '0x7b102433b1f83fb8ac8d9eaa0ef925886254e95bada654a52282bbd0a241442b',
       creator: DXDAO,
-      featured: true,
+      featured: false,
     },
 
     {
