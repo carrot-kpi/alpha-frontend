@@ -58,7 +58,7 @@ export const WETH = new Token(
 
 export const MAINNET_WETH = new Token(
   ChainId.MAINNET,
-  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
   18,
   'WETH',
   'Wrapped Ether'
@@ -128,7 +128,7 @@ export const WXDAI = new Token(
   'Wrapped XDAI'
 )
 
-export const HND = new Token(ChainId.GNOSIS, '0x10010078a54396f62c96df8532dc2b4847d47ed3', 18, 'HND', 'Hundred finance')
+export const HND = new Token(ChainId.GNOSIS, '0x10010078a54396F62c96dF8532dc2B4847d47ED3', 18, 'HND', 'Hundred finance')
 
 export const AGF = new Token(
   ChainId.GNOSIS,
@@ -156,15 +156,15 @@ export const GNOSIS_NODE = new Token(
 
 export const MAINNET_NODE = new Token(
   ChainId.MAINNET,
-  '0xda007777d86ac6d989cc9f79a73261b3fc5e0da0',
+  '0xDa007777D86AC6d989cC9f79A73261b3fC5e0DA0',
   18,
   'NODE',
   'DAppNode DAO token'
 )
 
 // Mainnet tokens
-export const USDM = new Token(ChainId.MAINNET, '0x31d4eb09a216e181ec8a43ce79226a487d6f0ba9', 18, 'USDM', 'USDM')
-export const MOCHI = new Token(ChainId.MAINNET, '0x60ef10edff6d600cd91caeca04caed2a2e605fe5', 18, 'MOCHI', 'Mochi Inu')
+export const USDM = new Token(ChainId.MAINNET, '0x31d4Eb09a216e181eC8a43ce79226A487D6F0BA9', 18, 'USDM', 'USDM')
+export const MOCHI = new Token(ChainId.MAINNET, '0x60EF10EDfF6D600cD91caeCA04caED2a2e605Fe5', 18, 'MOCHI', 'Mochi Inu')
 
 // Test KPI tokens
 export const MOCHI_TEST_KPI_TOKEN = new KpiToken(
