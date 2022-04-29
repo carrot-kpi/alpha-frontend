@@ -1121,10 +1121,10 @@
     tiny-invariant "^1.2.0"
     tiny-warning "^1.0.3"
 
-"@carrot-kpi/sdk-core@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk-core/-/sdk-core-1.1.0.tgz#bc3528d0945930b9e84c82748de8989ffd1ff8c8"
-  integrity sha512-M/h9060oZbTqlMwYfJNzxWOEykpvX55PzKVKVcKQmt5pdTnLUYu/gySW/FK24I1Q4HgaXp2ZMDf2UfsEaAmq6w==
+"@carrot-kpi/sdk-core@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk-core/-/sdk-core-1.1.1.tgz#a6f44538d0b7ee8ad4e3c5b29fe1d311f863052c"
+  integrity sha512-uJ5sorJWylc5AdHfPVq7ibEW4NpJxO4qdaGG3tV0+kU0MGGNyBKR9fX3taQHk1iJFnh/iufdb9Cw6MiPCQBfxw==
   dependencies:
     decimal.js-light "^2.5.1"
     tiny-invariant "^1.2.0"
