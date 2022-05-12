@@ -1112,19 +1112,19 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@carrot-kpi/alpha-sdk@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/alpha-sdk/-/alpha-sdk-1.1.1.tgz#454b468368289e0d0581c93bd79c57e0dbe5165b"
-  integrity sha512-eusNc+vr8JhxA8CLKGf2t/t95V2lWi7McVKpvwQqw1Ip5g7o/ATLItT2Vvx1c2t0HTU+/MF/8nbSgTaTo+Y6DA==
+"@carrot-kpi/alpha-sdk@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/alpha-sdk/-/alpha-sdk-1.1.2.tgz#70de44d3c70469b271c0d6aae6d18c976eef906a"
+  integrity sha512-ityIC0dVl0X5rWkoAvjlBJdDON/2h95N4bgTDkOFuSK8q7aVFuZO5lt17HtB9y8oxGoSBd/Gb5ukbVt3t9d9sg==
   dependencies:
     decimal.js-light "^2.5.1"
     tiny-invariant "^1.2.0"
     tiny-warning "^1.0.3"
 
-"@carrot-kpi/sdk-core@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk-core/-/sdk-core-1.1.1.tgz#a6f44538d0b7ee8ad4e3c5b29fe1d311f863052c"
-  integrity sha512-uJ5sorJWylc5AdHfPVq7ibEW4NpJxO4qdaGG3tV0+kU0MGGNyBKR9fX3taQHk1iJFnh/iufdb9Cw6MiPCQBfxw==
+"@carrot-kpi/sdk-core@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk-core/-/sdk-core-1.1.2.tgz#4509af35aec784099e34fc3d6fc7ff8ca08ee64b"
+  integrity sha512-a+ir+rZl2iem8XNBeymoWEn0nHRMzOKgsyPc0LQP91KfoLo+q6Bistvirwg7NCVO/QB6pxOGJoGQEYka7fuIWw==
   dependencies:
     decimal.js-light "^2.5.1"
     tiny-invariant "^1.2.0"
