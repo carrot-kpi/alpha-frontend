@@ -47,7 +47,7 @@ export const CampaignStatusAndActions = ({
     return (
       <>
         The condition still has to play out. Results will be known only after{' '}
-        {kpiToken?.expiresAt.toFormat('dd/MM/yyyy hh:ss')} local time.
+        {kpiToken?.expiresAt.toFormat('dd/MM/yyyy HH:ss')} local time.
       </>
     )
   if (status === Status.AWAITING_ANSWER) return <Oracle kpiToken={kpiToken} />
