@@ -14,7 +14,7 @@ export const CARROT_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<Normalize
 
 export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.MAINNET]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-mainnet-v2',
+    uri: 'https://api.thegraph.com/subgraphs/name/dxgraphs/swapr-mainnet-v2',
     cache: new InMemoryCache(),
   }),
   [ChainId.RINKEBY]: new ApolloClient({
@@ -22,7 +22,7 @@ export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normali
     cache: new InMemoryCache(),
   }),
   [ChainId.GNOSIS]: new ApolloClient({
-    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai-v2',
+    uri: 'https://api.thegraph.com/subgraphs/name/dxgraphs/swapr-xdai-v2',
     cache: new InMemoryCache(),
   }),
 }
