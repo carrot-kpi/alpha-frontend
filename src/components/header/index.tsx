@@ -52,7 +52,7 @@ const StyledChevronDown = styled(ChevronDown)`
 `
 
 const MenuItem = styled(Text)<{ active?: boolean }>`
-  color: ${(props) => (props.active ? props.theme.accent : 'initial')};
+  color: ${(props) => (props.active ? props.theme.accent : props.theme.content)};
   font-weight: 600;
   transition: font-weight 0.3s ease;
 `
@@ -146,7 +146,7 @@ export const Header = (): ReactElement => {
       <MobileMenu show={mobileMenuOpen} flexDirection="column">
         <Box>
           <UndecoratedInternalLink to="/campaigns" onClick={handleHideMobileMenu}>
-            <MenuItem active={pathname.includes('campaigns')}>Campaigns</MenuItem>
+            <MenuItem active={pathname.endsWith('campaigns')}>Campaigns</MenuItem>
           </UndecoratedInternalLink>
         </Box>
       </MobileMenu>
@@ -161,7 +161,7 @@ export const Header = (): ReactElement => {
             <VerticalDivider ml="32px" display={['none', 'none', 'block']} />
             <Box display={['none', 'block']} ml="28px">
               <UndecoratedInternalLink to="/campaigns">
-                <MenuItem active={pathname.includes('campaigns')}>Campaigns</MenuItem>
+                <MenuItem active={pathname.endsWith('campaigns')}>Campaigns</MenuItem>
               </UndecoratedInternalLink>
             </Box>
           </Flex>
