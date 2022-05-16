@@ -1,5 +1,5 @@
 import { ChainId, PERMISSIVE_MULTICALL_ADDRESS, PERMISSIVE_MULTICALL_ABI } from '@carrot-kpi/sdk-core'
-import { KPI_TOKEN_ABI, REALITY_ABI, REALITY_ADDRESS } from '@carrot-kpi/alpha-sdk'
+import { KPI_TOKEN_ABI, REALITY_ABI, REALITY_ADDRESS, REALITY_ARBITRATOR_ABI } from '@carrot-kpi/alpha-sdk'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from './useActiveWeb3React'
@@ -31,6 +31,10 @@ export function useRealityContract(withSignerIfPossible = false): Contract | nul
   const { chainId } = useActiveWeb3React()
   // FIXME: use mainnet as the default key
   return useContract(REALITY_ADDRESS[(chainId as ChainId) || ChainId.GNOSIS], REALITY_ABI, withSignerIfPossible)
+}
+
+export function useRealityArbitratorContract(address?: string, withSignerIfPossible = false): Contract | null {
+  return useContract(address, REALITY_ARBITRATOR_ABI, withSignerIfPossible)
 }
 
 export function useKpiTokenContract(address?: string, withSignerIfPossible = false): Contract | null {

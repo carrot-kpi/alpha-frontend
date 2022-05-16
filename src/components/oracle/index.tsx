@@ -18,6 +18,8 @@ import { getExplorerLink, numberToByte32 } from '../../utils'
 import { ExternalLink } from '../undecorated-link'
 import Skeleton from 'react-loading-skeleton'
 import { BigNumber } from '@ethersproject/bignumber'
+import { useArbitratorDisputeFee } from '../../hooks/useArbitratorDisputeFee'
+import { useArbitrateRealityQuestionCallback } from '../../hooks/useArbitrateRealityQuestionCallback'
 
 enum RealityBinary {
   YES,
@@ -33,6 +35,8 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
   const { chainId, account } = useActiveWeb3React()
   const kpiId = useMemo(() => kpiToken?.kpiId, [kpiToken?.kpiId])
   const { loading: loadingRealityQuestionData, data: questionData } = useRealityQuestion(kpiId)
+  const arbitrator = useMemo(() => (questionData ? questionData.arbitrator : ''), [questionData])
+  const { loading: loadingDisputeFee, fee: disputeFee } = useArbitratorDisputeFee(arbitrator, kpiId)
   const nativeCurrency = useNativeCurrency()
   const { balance: nativeCurrencyBalance } = useNativeCurrencyBalance(account)
   const currentAnswerInvalid = useMemo(() => {
@@ -88,6 +92,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
     return minimumBond.raw
   }, [answerBond, minimumBond, nativeCurrency.decimals])
   const answer = useAnswerRealityQuestionCallback(kpiToken, finalAnswer, finalBond)
+  const arbitrate = useArbitrateRealityQuestionCallback(arbitrator, kpiToken, disputeFee?.raw)
 
   useEffect(() => {
     if (binary && radioValue === RealityBinary.YES) setFinalAnswer(numberToByte32(1))
@@ -112,6 +117,16 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
     })
   }, [answer])
 
+  const handleArbitrationRequest = useCallback(() => {
+    setLoading(true)
+    arbitrate().finally(() => {
+      setLoading(false)
+      setAnswerBond('')
+      setScalarAnswer('')
+      setRadioValue(null)
+    })
+  }, [arbitrate])
+
   const handleMarkInvalid = useCallback(() => {
     setScalarAnswer('')
     setFinalAnswer(numberToByte32(INVALID_REALITY_ANSWER.toString()))
@@ -122,7 +137,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
     setFinalAnswer('')
   }, [])
 
-  if (loadingRealityQuestionData) {
+  if (loadingRealityQuestionData || loadingDisputeFee) {
     return <Skeleton width="100%" height="16px" />
   }
   if (questionData.arbitrating) {
@@ -144,7 +159,8 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
       </Text>
       <Text mb="8px">
         In case an answer cannot be determined/calculated due to how the condition was originally framed or due to
-        missing details, you can also mark the KPI token as invalid altogether.
+        missing details, you can also mark the KPI token as invalid altogether using the &ldquo;mark invalid&rdquo;
+        button.
       </Text>
       <Text mb="20px">
         Reality.eth is used as a crowdsourced oracle. You can check out how Reality.eth works by clicking{' '}
@@ -225,7 +241,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
                 : 'goal not reached'
             } (${formatUnits(questionData.bond, nativeCurrency.decimals)} ${nativeCurrency.symbol} bonded)`}
       </Text>
-      <Flex>
+      <Flex mb="12px">
         {minimumBond.eq('0') && (
           <Box mr="12px" flex="1">
             <NumberInput placeholder="Bond" value={answerBond} onChange={setAnswerBond} />
@@ -234,6 +250,11 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
         <Button primary disabled={bondButtonDisabled} onClick={handleAnswer}>
           Bond {minimumBond.eq(0) ? answerBond : formatUnits(minimumBond.raw, nativeCurrency.decimals)}{' '}
           {nativeCurrency.symbol}
+        </Button>
+      </Flex>
+      <Flex>
+        <Button primary disabled={questionData.arbitrating} onClick={handleArbitrationRequest}>
+          Apply for arbitration ({disputeFee?.toFixed(2)} {disputeFee?.currency.symbol})
         </Button>
       </Flex>
     </Flex>
