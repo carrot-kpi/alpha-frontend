@@ -35,7 +35,7 @@ export enum Status {
 }
 
 const KpiExpiredText = styled(Text)`
-  color: ${(props) => props.theme.negativeSurfaceContent};
+  color: ${(props) => props.theme.negative};
 `
 
 const MarkdownDiv = styled.div`
@@ -52,6 +52,11 @@ const MarkdownDiv = styled.div`
   > p {
     font-size: 16px;
   }
+`
+
+const ErrorText = styled(Text)`
+  color: ${(props) => props.theme.negative};
+  font-weight: 700; ;
 `
 
 const DividerBox = styled(Box)`
@@ -182,7 +187,7 @@ export function Campaign(): ReactElement {
                 <Title mb="4px">Name:</Title>
                 <Text>{loadingKpiToken || !kpiToken ? <Skeleton width="40px" /> : kpiToken.name}</Text>
               </Flex>
-              <Flex flexDirection="column" mb="20px">
+              <Flex flexDirection="column" mb="12px">
                 <Title mb="4px">Total supply:</Title>
                 <Text fontFamily="Overpass Mono">
                   {loadingKpiToken || !kpiToken ? (
@@ -192,10 +197,26 @@ export function Campaign(): ReactElement {
                   )}
                 </Text>
               </Flex>
+              <Flex flexDirection="column" mb="20px">
+                <Title mb="4px">Oracle:</Title>
+                <Text fontFamily="Overpass Mono" mb="12px">
+                  Reality.eth
+                </Text>
+                <ErrorText mb="12px">Please pay attention to the following information:</ErrorText>
+                <Text>
+                  Reality.eth is a crowdsourced oracle where answers have to be submitted manually once the KPI campaign
+                  expires. Please ensure a safe settlement of the condition occurs by reading how Reality.eth works{' '}
+                  <ExternalLink showIcon href="https://reality.eth.limo/app/docs/html/index.html">
+                    here
+                  </ExternalLink>{' '}
+                  and by actively participating in the settlement process. Arbitration is also possible in case a new
+                  answer cannot be safely submitted due to high collateral requirements.
+                </Text>
+              </Flex>
               <Box>
                 <UndecoratedExternalLink
                   title="Tweet this"
-                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help me reach the goal!&url=https%3A%2F%2Fcarrot.eth.link%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}?chainId=${chainId}`}
+                  href={`https://twitter.com/intent/tweet?text=Check out this Carrot campaign and help me reach the goal!&url=https%3A%2F%2Fcarrot.eth.limo%2F%23%2Fcampaigns%2F${kpiToken?.kpiId}?chainId=${chainId}`}
                 >
                   <TweetButton icon={<Twitter size="16px" />}>Tweet about this</TweetButton>
                 </UndecoratedExternalLink>

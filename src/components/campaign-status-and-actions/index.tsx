@@ -11,6 +11,12 @@ import { useCallback, useMemo } from 'react'
 import Decimal from 'decimal.js-light'
 import { Oracle } from '../oracle'
 import { useBurnKpiTokenCallback } from '../../hooks/useBurnKpiTokenCallback'
+import { ExternalLink } from '../undecorated-link'
+import styled from 'styled-components'
+
+const ErrorText = styled.span`
+  color: ${(props) => props.theme.red};
+`
 
 interface CampaignStatusAndActionsProps {
   status: Status | null
@@ -47,7 +53,14 @@ export const CampaignStatusAndActions = ({
     return (
       <>
         The condition still has to play out. Results will be known only after{' '}
-        {kpiToken?.expiresAt.toFormat('dd/MM/yyyy HH:ss')} local time.
+        {kpiToken?.expiresAt.toFormat('dd/MM/yyyy HH:ss')} local time. After that, the Reality.eth question linked to
+        the KPI token will become officially answerable. Reality.eth is a <ErrorText>manually</ErrorText> crowdsourced
+        oracle supporting arbitration, so answers have to be submitted <ErrorText>manually</ErrorText>. Read more about
+        Reality.eth in the{' '}
+        <ExternalLink showIcon href="https://reality.eth.limo/app/docs/html/index.html">
+          official docs
+        </ExternalLink>
+        .
       </>
     )
   if (status === Status.AWAITING_ANSWER) return <Oracle kpiToken={kpiToken} />
