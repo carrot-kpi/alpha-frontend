@@ -15,7 +15,7 @@ export const Footer = () => {
         <Text mr="6px" fontSize="12px">
           by
         </Text>
-        <ExternalLink href="https://dxdao.eth.link">DXdao</ExternalLink>
+        <ExternalLink href="https://dxdao.eth.limo">DXdao</ExternalLink>
       </Flex>
       <Text mr="12px">&middot;</Text>
       <Box mr="12px">

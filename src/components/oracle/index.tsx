@@ -148,7 +148,7 @@ export const Oracle = ({ kpiToken }: { kpiToken?: KpiToken }): ReactElement => {
       </Text>
       <Text mb="20px">
         Reality.eth is used as a crowdsourced oracle. You can check out how Reality.eth works by clicking{' '}
-        <ExternalLink showIcon href="https://reality.eth.link/app/docs/html/index.html">
+        <ExternalLink showIcon href="https://reality.eth.limo/app/docs/html/index.html">
           here
         </ExternalLink>
         .
