@@ -112,7 +112,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xc94460e20d1c749879d68407718e61b6aed4d5b2',
       kpiId: '0x7806f9d92282783ee2b23cc7d2fa69861f66c0369c42ed41ac4c185fcc41ca4e',
       creator: DXDAO,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -127,7 +127,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x4a791d577476ffd1e1fd1543f6fce0f71e1b04ef',
       kpiId: '0xe7b8d84f1b786de5ee9e3b52db613379aeccaa373ab880229d5adadc6348348c',
       creator: DXDAO,
-      featured: true,
+      featured: false,
     },
   ],
   [ChainId.GNOSIS]: [
@@ -280,7 +280,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x97f7b8405654b1bf6592b5353487d94c58f9470a',
       kpiId: '0x921c18a1b7e39ca00b4324602792e67f6b8aee60af96a9450f28429baba6ab7c',
       creator: HUNDRED_FINANCE,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -296,7 +296,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xb02dfcd4fd2ef513c307656e85b1cfca6eba79e6',
       kpiId: '0xffd71e580450d7c7e350a78cd1990d37b61422bb9775d7094b33109d1907bd97',
       creator: AUGMENTED_FINANCE,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -312,7 +312,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x539b99985f7d977c2073c8fb79259fec0c4b59f7',
       kpiId: '0x77f6cfbd16b87692f1953daa1abd6a1fd3b2e4e8df43c7d914c3243336cf1d65',
       creator: COW_CREATOR,
-      featured: true,
+      featured: false,
     },
 
     {
@@ -329,7 +329,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0x8086cda2e9a218bf8c6858a3bf30f7fab7833365',
       kpiId: '0xcc29766288f2ec988e760add4c30c5b22bca88c81a8170d98a0704211ad289ea',
       creator: DXDAO,
-      featured: true,
+      featured: false,
     },
 
     {
@@ -379,7 +379,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xbb148a7d482517c83632e051707c830ec4ec217b',
       kpiId: '0x2c78cb63725a89689babcc4470cab507d45b2e9eda91da0b2a7b78211b0cb05d',
       creator: HOPR_CREATOR,
-      featured: true,
+      featured: false,
     },
 
     {
@@ -396,7 +396,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xc1d84d359cccbdaa2b29f80dbc72f935dfacb3e4',
       kpiId: '0x00a35f4d71a3aa545ec4c6ab4ad0ec2a5ec36819424d9c7637122a7523c8aa46',
       creator: DXDAO,
-      featured: true,
+      featured: false,
     },
 
     {
@@ -406,7 +406,6 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       creator: DXDAO,
       featured: false,
     },
-
     {
       metrics: [
         new TvlMetric(
@@ -422,6 +421,54 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       kpiId: '0xa196c0e33df7a4b7729a2b3d3d3083d00510f05f932bfadabaa56bf8a8253c55',
       creator: AGAVE,
       featured: false,
+    },
+    {
+      metrics: [
+        new TvlMetric(
+          ChainId.GNOSIS,
+          swapr,
+          swapr,
+          DateTime.fromSeconds(1652367600),
+          DateTime.fromSeconds(1654786800),
+          86400
+        ),
+      ],
+      id: '0x5330e615f81c51e23295d9c18521e641b8e23dd1',
+      kpiId: '0xa6561935c0a7fa7616087946ac3c73ee15544dad44949f1c6d44d88697c940d4',
+      creator: DXDAO,
+      featured: true,
+    },
+    {
+      metrics: [
+        new TvlMetric(
+          ChainId.GNOSIS,
+          swapr,
+          swapr,
+          DateTime.fromSeconds(1652367600),
+          DateTime.fromSeconds(1654786800),
+          86400
+        ),
+      ],
+      id: '0xda68d9d1457ee2f930e3bac36d29ad8ea973dd2a',
+      kpiId: '0x925e74163e29142fcafccc16f560364797b7906c3c6d02cec63509a8746a7387',
+      creator: DXDAO,
+      featured: true,
+    },
+    {
+      metrics: [
+        new PairLiquidityMetric(
+          COW,
+          GNOSIS_WETH,
+          swapr,
+          DateTime.fromSeconds(1652367600),
+          DateTime.fromSeconds(1654786800),
+          86400
+        ),
+      ],
+      id: '0xeb5d329c7c035adb18cc0b95ffe618ec1b1f2f1a',
+      kpiId: '0xa5ef4e3ce9343a764a6c8b54226817802a54519f07583d1f90a34c4b016b4ddc',
+      creator: COW_CREATOR,
+      featured: true,
     },
   ],
 }

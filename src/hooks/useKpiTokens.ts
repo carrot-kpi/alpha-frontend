@@ -120,7 +120,7 @@ export function useKpiTokens(): { loading: boolean; kpiTokens: KpiToken[] } {
               let question = ''
               try {
                 const cid = rawKpiToken.oracleQuestion.text
-                question = questions[cid]
+                question = questions[cid] || rawKpiToken.oracleQuestion.text
                 if (!question) {
                   console.warn(`could not fetch kpi token question with cid ${cid}`)
                   return
