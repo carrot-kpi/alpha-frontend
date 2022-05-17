@@ -30,7 +30,7 @@ export function useHoneyswapTokenPriceUSD(token?: Token): { loading: boolean; pr
   useEffect(() => {
     let cancelled = false
     const fetchData = async () => {
-      if (!token) return
+      if (!token || !honeyswapSubgraphClient) return
       if (!cancelled) setLoading(true)
       try {
         const { data: response } = await honeyswapSubgraphClient.query<PriceQueryResponse>({
