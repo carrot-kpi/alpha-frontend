@@ -129,6 +129,13 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       creator: DXDAO,
       featured: true,
     },
+    {
+      metrics: [],
+      id: '0x4de5e087961a09400a763971e4f5ae737335188f',
+      kpiId: '0xf36b098c0e595e9bc8609a0a701328e7861bf6fea46779110d7c1e859ff9fcf5',
+      creator: DXDAO,
+      featured: true,
+    },
   ],
   [ChainId.GNOSIS]: [
     {
