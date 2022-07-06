@@ -43,7 +43,7 @@ export const AreaChart = ({ metric }: AreaChartProps) => {
     <ChartContainer>
       {loading ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-          <Loader css="display: block;" color={theme.accent} loading />
+          <Loader cssOverride={{ display: 'block' }} color={theme.accent} loading />
         </Flex>
       ) : metric.from.toMillis() > Date.now() ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">

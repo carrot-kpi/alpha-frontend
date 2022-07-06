@@ -135,7 +135,13 @@ export const WalletPopover = ({ children, show, onHide }: WalletPopoverProps) =>
                           <StyledArrowUpRight size="20px" />
                         </UndecoratedExternalLink>
                       ) : (
-                        <Loader color={theme.accent} loading css="display: block;" width="20px" height="4px" />
+                        <Loader
+                          color={theme.accent}
+                          loading
+                          cssOverride={{ display: 'block' }}
+                          width="20px"
+                          height="4px"
+                        />
                       )}
                     </Box>
                   </Flex>

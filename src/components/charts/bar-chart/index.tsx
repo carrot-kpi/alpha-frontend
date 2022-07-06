@@ -2,7 +2,13 @@ import { XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart as RechartsBarChar
 import styled, { useTheme } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
-import { ChartDataPoint, PairLiquidityMetric, TokenMarketCapMetric, TvlMetric } from '@carrot-kpi/sdk-core'
+import {
+  ChartDataPoint,
+  TokenLiquidityMetric,
+  PairLiquidityMetric,
+  TokenMarketCapMetric,
+  TvlMetric,
+} from '@carrot-kpi/sdk-core'
 import { Box, Flex, Text } from 'rebass'
 import Loader from 'react-spinners/BarLoader'
 import { CustomTooltip } from '../custom-tooltip'
@@ -12,7 +18,7 @@ const ChartContainer = styled.div`
 `
 
 interface BarChartProps {
-  metric: TvlMetric | PairLiquidityMetric | TokenMarketCapMetric
+  metric: TvlMetric | TokenLiquidityMetric | PairLiquidityMetric | TokenMarketCapMetric
 }
 
 export const BarChart = ({ metric }: BarChartProps) => {
@@ -44,7 +50,7 @@ export const BarChart = ({ metric }: BarChartProps) => {
     <ChartContainer>
       {loading ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-          <Loader css="display: block;" color={theme.accent} loading />
+          <Loader cssOverride={{ display: 'block' }} color={theme.accent} loading />
         </Flex>
       ) : metric.from.toMillis() > Date.now() ? (
         <Flex width="100%" height="100%" justifyContent="center" alignItems="center">

@@ -1,6 +1,7 @@
 import { Flex } from 'rebass'
 import {
   Metric,
+  TokenLiquidityMetric,
   PairLiquidityMetric,
   TokenMarketCapMetric,
   TokenPriceMetric,
@@ -25,6 +26,7 @@ export const Charts = ({ metrics }: ChartsProps) => {
           <Card m="8px" key={index}>
             {(metric instanceof TvlMetric ||
               metric instanceof PairLiquidityMetric ||
+              metric instanceof TokenLiquidityMetric ||
               metric instanceof TokenMarketCapMetric) && (
               <>
                 <Title mb="20px" fontWeight="700">
