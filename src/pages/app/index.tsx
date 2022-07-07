@@ -8,7 +8,7 @@ import { Flex, Box } from 'rebass'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../../theme'
 import { SkeletonTheme } from 'react-loading-skeleton'
-import { lazy, useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import useLocation from 'react-use/lib/useLocation'
 import { TransactionsStateUpdater } from '../../state/transactions/updater'
 import { NetworkWarningModal } from '../../components/network-warning-modal'
@@ -37,11 +37,13 @@ export function App() {
           <Flex alignItems="center" flexDirection="column" pt="94px" height="100%">
             <Flex flexDirection="column" flex="1" width="100%">
               <Box flexGrow={1}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/campaigns" element={<Campaigns />} />
-                  <Route path="/campaigns/:kpiId" element={<Campaign />} />
-                </Routes>
+                <Suspense fallback={<div />}>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/campaigns" element={<Campaigns />} />
+                    <Route path="/campaigns/:kpiId" element={<Campaign />} />
+                  </Routes>
+                </Suspense>
               </Box>
             </Flex>
             <Box width={['100%', '85%', '75%', '60%']}>
