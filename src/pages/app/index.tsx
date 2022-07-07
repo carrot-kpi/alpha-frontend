@@ -4,22 +4,23 @@ import { Footer } from '../../components/footer'
 import { Header } from '../../components/header'
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer, Slide } from 'react-toastify'
-import { Home } from '../home'
-import { Campaign } from '../campaign'
 import { Flex, Box } from 'rebass'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../../theme'
 import { SkeletonTheme } from 'react-loading-skeleton'
-import { useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import useLocation from 'react-use/lib/useLocation'
 import { TransactionsStateUpdater } from '../../state/transactions/updater'
 import { NetworkWarningModal } from '../../components/network-warning-modal'
-import { Campaigns } from '../campaigns'
 
 export function App() {
   const darkMode = useIsDarkMode()
   const theme = getTheme(darkMode)
   const location = useLocation()
+
+  const Home = lazy(() => import('../home'))
+  const Campaign = lazy(() => import('../campaign'))
+  const Campaigns = lazy(() => import('../campaigns'))
 
   // resets scroll on body after every change of route
   useEffect(() => {

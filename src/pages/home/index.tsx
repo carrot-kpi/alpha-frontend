@@ -28,7 +28,7 @@ const FeaturedCampaignsContainer = styled(Card)`
   background-color: ${(props) => transparentize(0.9, props.theme.accent)};
 `
 
-export function Home(): ReactElement {
+export default function Home(): ReactElement {
   const { chainId } = useActiveWeb3React()
   const theme = useTheme()
   const { featuredKpiTokens, loading: loadingFeaturedKpiTokens } = useFeaturedKpiTokens()

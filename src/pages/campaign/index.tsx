@@ -71,7 +71,7 @@ const TweetButton = styled(Button)`
   color: ${(props) => props.theme.accentContent} !important;
 `
 
-export function Campaign(): ReactElement {
+export default function Campaign(): ReactElement {
   const { kpiId } = useParams()
   const theme = useTheme()
   const { account, chainId } = useActiveWeb3React()

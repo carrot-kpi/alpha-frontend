@@ -9,7 +9,7 @@ import { usePage } from '../../hooks/usePage'
 import { Pagination } from '../../components/pagination'
 import { Switch } from '../../components/switch'
 
-export function Campaigns(): ReactElement {
+export default function Campaigns(): ReactElement {
   const { account, chainId } = useActiveWeb3React()
 
   const { kpiTokens, loading: loadingKpiTokens } = useKpiTokens()
