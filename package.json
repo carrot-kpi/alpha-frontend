@@ -36,6 +36,7 @@
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/network-connector": "^6.2.9",
     "@web3-react/walletconnect-connector": "^7.0.2-alpha.0",
+    "buffer": "^6.0.3",
     "cross-env": "^7.0.2",
     "decimal.js-light": "^2.5.1",
     "dnslink-cloudflare": "^3.0.0",

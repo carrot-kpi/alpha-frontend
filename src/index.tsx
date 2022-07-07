@@ -1,5 +1,6 @@
+import './polyfills'
 import { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { App } from './pages/app'
@@ -18,7 +19,9 @@ function getLibrary(provider: any): Web3Provider {
   return new Web3Provider(provider, 'any')
 }
 
-ReactDOM.render(
+const container = document.getElementById('root')
+const root = createRoot(container!)
+root.render(
   <StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
       <Web3ProviderNetwork getLibrary={getLibrary}>
@@ -34,6 +37,5 @@ ReactDOM.render(
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 )
