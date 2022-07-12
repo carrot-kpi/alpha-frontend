@@ -16,7 +16,7 @@ const SUPPORTED_CHAINS = [ChainId.MAINNET, ChainId.RINKEBY, ChainId.GNOSIS]
 
 export const network = new NetworkConnector({
   urls: RPC_URL,
-  defaultChainId: ChainId.GNOSIS,
+  defaultChainId: ChainId.RINKEBY,
 })
 
 export const injected = new InjectedConnector({

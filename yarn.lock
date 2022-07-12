@@ -1090,11 +1090,6 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@carrot-kpi/decoder@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/decoder/-/decoder-0.4.0.tgz#000bdea4f39b0feed0967d3ac90eccfad3c24ffc"
-  integrity sha512-8IBECoT9+f66n2quaXUUy2AqGkmbOVqTE3WUvO2WJGPhTTtLz3PNw9s5u12Hsqh+8iAx8bk2AC0xUgsrfa9u1Q==
-
 "@carrot-kpi/sdk-core@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk-core/-/sdk-core-1.2.1.tgz#b309656c366c161748ad7bef503035a1dd070df7"
@@ -1104,10 +1099,10 @@
     tiny-invariant "^1.2.0"
     tiny-warning "^1.0.3"
 
-"@carrot-kpi/v1-sdk@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/v1-sdk/-/v1-sdk-0.3.0.tgz#930106b0ccd55b09ae4b370179969dd645fb8530"
-  integrity sha512-T4xeuxZGqcRdKKGRugWqb0SutZPrN4Fku1SgzhVJZAY7z5QTguKS0+Lgs2srJv5nDl4ok45QfkQKnEaSjsvD4w==
+"@carrot-kpi/v1-sdk@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/v1-sdk/-/v1-sdk-0.4.0.tgz#47ad634fec1038f85b3ceaa694a344c78c9d73a7"
+  integrity sha512-jIQCVTRCpUpRqObQ/qo0JZFXHd9BFEm+3dlwijX258YVNWbXWjVJbmpQCg7c7HVnZiK0DtOS7DmvNkDAl1EPBw==
   dependencies:
     decimal.js-light "^2.5.1"
     tiny-invariant "^1.2.0"
@@ -7821,10 +7816,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-luxon@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.0.1.tgz#6901111d10ad06fd267ad4e4128a84bef8a77299"
-  integrity sha512-hF3kv0e5gwHQZKz4wtm4c+inDtyc7elkanAsBq+fundaCdUBNJB1dHEGUZIM6SfSBUlbVFduPwEtNjFK8wLtcw==
+luxon@^2.3.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.5.0.tgz#098090f67d690b247e83c090267a60b1aa8ea96c"
+  integrity sha512-IDkEPB80Rb6gCAU+FEib0t4FeJ4uVOuX1CQ9GsvU3O+JAGIgu0J7sf1OarXKaKDygTZIoJyU6YdZzTFRu+YR0A==
 
 magic-string@^0.25.0, magic-string@^0.25.7:
   version "0.25.9"
