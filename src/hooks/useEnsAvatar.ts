@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { IPFS_GATEWAY, MAINNET_PROVIDER } from '../constants'
+import { MAINNET_PROVIDER } from '../constants'
+import { IPFS_GATEWAY } from '@carrot-kpi/sdk-core'
 import { CID } from 'multiformats'
 
 export const useEnsAvatarUrl = (ensName?: string) => {

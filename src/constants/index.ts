@@ -1,5 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { Amount, ChainId, Currency } from '@carrot-kpi/sdk'
+import { Amount, ChainId, Currency } from '@carrot-kpi/sdk-core'
 import Decimal from 'decimal.js-light'
 import { BigNumber } from '@ethersproject/bignumber'
 import { injected, RPC_URL, walletConnect } from '../connectors'
@@ -54,8 +54,8 @@ export interface NetworkDetails {
 }
 
 export const NETWORK_DETAIL: { [chainId: number]: NetworkDetails } = {
-  [ChainId.XDAI]: {
-    chainId: `0x${ChainId.XDAI.toString(16)}`,
+  [ChainId.GNOSIS]: {
+    chainId: `0x${ChainId.GNOSIS.toString(16)}`,
     chainName: 'xDai',
     icon: xDaiLogo,
     nativeCurrency: {
@@ -98,7 +98,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'
-
-export const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'
 
 export const MAINNET_PROVIDER = new JsonRpcProvider(RPC_URL[ChainId.MAINNET])

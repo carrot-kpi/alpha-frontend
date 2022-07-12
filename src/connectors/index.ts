@@ -1,4 +1,4 @@
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { NetworkConnector } from './custom-network'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
@@ -9,14 +9,14 @@ const POCKET_ID = '61d8970ca065f5003a112e86'
 export const RPC_URL: { [chainId: number]: string } = {
   [ChainId.MAINNET]: `https://eth-mainnet.gateway.pokt.network/v1/lb/${POCKET_ID}`,
   [ChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
-  [ChainId.XDAI]: `https://poa-xdai.gateway.pokt.network/v1/lb/${POCKET_ID}`,
+  [ChainId.GNOSIS]: `https://poa-xdai.gateway.pokt.network/v1/lb/${POCKET_ID}`,
 }
 
-const SUPPORTED_CHAINS = [ChainId.MAINNET, ChainId.RINKEBY, ChainId.XDAI]
+const SUPPORTED_CHAINS = [ChainId.MAINNET, ChainId.RINKEBY, ChainId.GNOSIS]
 
 export const network = new NetworkConnector({
   urls: RPC_URL,
-  defaultChainId: ChainId.XDAI,
+  defaultChainId: ChainId.GNOSIS,
 })
 
 export const injected = new InjectedConnector({

@@ -1,13 +1,11 @@
-import { ChainId } from '@carrot-kpi/sdk'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { useCallback, useEffect, useMemo } from 'react'
 import { AlertCircle, CheckCircle } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { Box, Flex, Text } from 'rebass'
 import { useTheme } from 'styled-components'
-import { ExternalLink } from '../../components/undecorated-link'
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React'
-import { getExplorerLink } from '../../utils'
 import { retry, RetryableError, RetryOptions } from '../../utils/retry'
 import { updateBlockNumber } from '../application/actions'
 import { useBlockNumber } from '../application/hooks'
@@ -44,7 +42,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = { n: 1, minWait: 0, maxWait: 0 }
 const RETRY_OPTIONS_BY_CHAIN_ID: { [chainId in ChainId]: RetryOptions } = {
   [ChainId.MAINNET]: DEFAULT_RETRY_OPTIONS,
   [ChainId.RINKEBY]: DEFAULT_RETRY_OPTIONS,
-  [ChainId.XDAI]: DEFAULT_RETRY_OPTIONS,
+  [ChainId.GNOSIS]: DEFAULT_RETRY_OPTIONS,
 }
 
 export function TransactionsStateUpdater(): null {
@@ -117,11 +115,6 @@ export function TransactionsStateUpdater(): null {
                     <Text mb="4px" color={theme.surfaceContent}>
                       {transactions[hash]?.summary ?? 'Hash: ' + hash.slice(0, 8) + '...' + hash.slice(58, 65)}
                     </Text>
-                    {chainId && (
-                      <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')} showIcon>
-                        <Text fontSize="14px">View on block explorer</Text>
-                      </ExternalLink>
-                    )}
                   </Flex>
                 </Flex>
               )

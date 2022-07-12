@@ -2,22 +2,22 @@ import { useEffect, useState } from 'react'
 import { KpiToken, Fetcher } from '@carrot-kpi/v1-sdk'
 import { useActiveWeb3React } from './useActiveWeb3React'
 
-export function useKpiToken(kpiTokenAddress?: string): { loading: boolean; kpiToken?: KpiToken } {
+export function useKpiTokens(): { loading: boolean; kpiTokens?: KpiToken[] } {
   const { chainId, library } = useActiveWeb3React()
 
-  const [kpiToken, setKpiToken] = useState<KpiToken | undefined>()
+  const [kpiTokens, setKpiTokens] = useState<KpiToken[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false
     async function fetchData() {
-      if (!chainId || !library || !kpiTokenAddress) return
+      if (!chainId || !library) return
       setLoading(true)
       try {
-        const kpiToken = await Fetcher.fetchKpiToken(chainId, kpiTokenAddress, library)
-        if (!cancelled) setKpiToken(kpiToken)
+        const kpiTokens = await Fetcher.fetchKpiTokens(chainId, library)
+        if (!cancelled) setKpiTokens(kpiTokens)
       } catch (error) {
-        console.error(`error fetching kpi token at address ${kpiTokenAddress}`, error)
+        console.error('error fetching kpi tokens', error)
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -26,7 +26,7 @@ export function useKpiToken(kpiTokenAddress?: string): { loading: boolean; kpiTo
     return () => {
       cancelled = true
     }
-  }, [chainId, kpiTokenAddress, library])
+  }, [chainId, library])
 
-  return { loading, kpiToken }
+  return { loading, kpiTokens }
 }

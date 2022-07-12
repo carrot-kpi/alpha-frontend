@@ -1,4 +1,4 @@
-import { ChainId, Metric, Swapr, Agave, Mochi, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
+/* import { ChainId, Metric, Swapr, Agave, Mochi, PairLiquidityMetric, TokenPriceMetric, TvlMetric } from '@carrot-kpi/sdk'
 import { AddressZero } from '@ethersproject/constants'
 import { DateTime } from 'luxon'
 import { AGAVE, Creator, DXDAO, MOCHI } from '../creators'
@@ -72,7 +72,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
       creator: DXDAO,
     },
   ],
-  [ChainId.XDAI]: [
+  [ChainId.GNOSIS]: [
     {
       metrics: [
         new PairLiquidityMetric(
@@ -105,7 +105,7 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
     {
       metrics: [
         new TvlMetric(
-          ChainId.XDAI,
+          ChainId.GNOSIS,
           swapr,
           agave,
           DateTime.fromSeconds(1640433600), // Dec 25th 1200 UTC
@@ -119,3 +119,4 @@ export const FEATURED_CAMPAIGNS: { [chainId in ChainId]: FeaturedCampaign[] } = 
     },
   ],
 }
+ */

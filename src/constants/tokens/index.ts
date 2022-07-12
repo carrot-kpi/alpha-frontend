@@ -1,4 +1,4 @@
-import { ChainId, Token, Amount, KpiToken } from '@carrot-kpi/sdk'
+/* import { ChainId, Token, Amount, KpiToken } from '@carrot-kpi/sdk'
 import { Interface } from '@ethersproject/abi'
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -56,7 +56,7 @@ export const WETH = new Token(
 )
 
 // xDai tokens
-export const AGVE = new Token(ChainId.XDAI, '0x3a97704a1b25F08aa230ae53B352e2e72ef52843', 18, 'AGVE', 'Agave Token')
+export const AGVE = new Token(ChainId.GNOSIS, '0x3a97704a1b25F08aa230ae53B352e2e72ef52843', 18, 'AGVE', 'Agave Token')
 
 const MAINNET_STAKE_CONTRACT = new Contract(
   '0x0Ae055097C6d159879521C384F1D2123D1f195e6',
@@ -64,7 +64,7 @@ const MAINNET_STAKE_CONTRACT = new Contract(
   new JsonRpcProvider(RPC_URL[1])
 )
 export const STAKE = new TotalSupplyToken(
-  ChainId.XDAI,
+  ChainId.GNOSIS,
   '0xb7D311E2Eb55F2f68a9440da38e7989210b9A05e',
   18,
   'STAKE',
@@ -72,16 +72,16 @@ export const STAKE = new TotalSupplyToken(
   async (token: Token) => new Amount(token, await MAINNET_STAKE_CONTRACT.totalSupply())
 )
 
-export const DXD = new Token(ChainId.XDAI, '0xb90D6bec20993Be5d72A5ab353343f7a0281f158', 18, 'DXD', 'DXdao on xDai')
+export const DXD = new Token(ChainId.GNOSIS, '0xb90D6bec20993Be5d72A5ab353343f7a0281f158', 18, 'DXD', 'DXdao on xDai')
 export const XDAI_WETH = new Token(
-  ChainId.XDAI,
+  ChainId.GNOSIS,
   '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1',
   18,
   'WETH',
   'Wrapped Ether on xDai'
 )
 
-export const SWPR = new Token(ChainId.XDAI, '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b', 18, 'SWPR', 'SWPR on xDai')
+export const SWPR = new Token(ChainId.GNOSIS, '0x532801ED6f82FFfD2DAB70A19fC2d7B2772C4f4b', 18, 'SWPR', 'SWPR on xDai')
 
 // Mainnet tokens
 export const USDM = new Token(ChainId.MAINNET, '0x31d4eb09a216e181ec8a43ce79226a487d6f0ba9', 18, 'USDM', 'USDM')
@@ -107,3 +107,4 @@ export const MOCHI_TEST_KPI_TOKEN = new KpiToken(
   new Amount<Token>(MOCHI, parseUnits('100000000', MOCHI.decimals)),
   new Amount<Token>(MOCHI, parseUnits('3000', MOCHI.decimals))
 )
+ */
