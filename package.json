@@ -5,6 +5,7 @@
   "description": "Frontend for Carrot KPIs.",
   "devDependencies": {
     "@apollo/client": "^3.6.9",
+    "@carrot-kpi/decoder": "^0.4.0",
     "@carrot-kpi/sdk-core": "^1.2.1",
     "@carrot-kpi/v1-sdk": "^0.3.0",
     "@ethersproject/abi": "^5.6.4",
