@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { KpiToken, Fetcher } from '@carrot-kpi/v1-sdk'
 import { useActiveWeb3React } from './useActiveWeb3React'
 
-export function useKpiTokens(): { loading: boolean; kpiTokens?: KpiToken[] } {
+export function useKpiTokens(): { loading: boolean; kpiTokens: KpiToken[] } {
   const { chainId, library } = useActiveWeb3React()
 
   const [kpiTokens, setKpiTokens] = useState<KpiToken[]>([])
