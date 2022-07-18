@@ -1,6 +1,7 @@
 import { Token } from '@carrot-kpi/sdk-core'
 import { Erc20V100Data } from '@carrot-kpi/v1-sdk'
 import { defaultAbiCoder } from '@ethersproject/abi'
+import { commify } from '@ethersproject/units'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useActiveWeb3React } from '../../../../../hooks/useActiveWeb3React'
 import { useERC20TokenBalance } from '../../../../../hooks/useERC20TokenBalance'
@@ -21,7 +22,7 @@ export const Erc20V100Action = ({ address, data }: Erc20V100ActionProps) => {
     () => (chainId ? new Token(chainId, address, 18, data.symbol, data.name) : undefined),
     [address, chainId, data.name, data.symbol]
   )
-  const { loading: loadingKpiTokenBalance, balance: erc20Balance } = useERC20TokenBalance(erc20Token)
+  const { loading: loadingKpiTokenBalance, balance: erc20Balance } = useERC20TokenBalance(erc20Token, account)
   const redeemData = useMemo(() => defaultAbiCoder.encode(['address'], [address]), [address])
   const redeem = useRedeemKpiTokenCallback(address, redeemData)
 
@@ -63,8 +64,10 @@ export const Erc20V100Action = ({ address, data }: Erc20V100ActionProps) => {
     return (
       <>
         <h3>ERC20 KPI token actions</h3>
-        <p>KPI token balance: {loadingKpiTokenBalance || !erc20Balance ? 'Loading...' : erc20Balance.toString()}</p> No
-        action possible
+        <p>
+          KPI token balance: {loadingKpiTokenBalance || !erc20Balance ? 'Loading...' : commify(erc20Balance.toFixed(4))}
+        </p>{' '}
+        No action possible
       </>
     )
   }
@@ -72,8 +75,10 @@ export const Erc20V100Action = ({ address, data }: Erc20V100ActionProps) => {
     return (
       <>
         <h3>ERC20 KPI token actions</h3>
-        <p>KPI token balance: {loadingKpiTokenBalance || !erc20Balance ? 'Loading...' : erc20Balance.toString()}</p> No
-        action possible
+        <p>
+          KPI token balance: {loadingKpiTokenBalance || !erc20Balance ? 'Loading...' : commify(erc20Balance.toFixed(4))}
+        </p>{' '}
+        No action possible
       </>
     )
   }
