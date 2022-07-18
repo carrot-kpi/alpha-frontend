@@ -3,9 +3,12 @@ import { useERC20Contract } from './useContract'
 import { useSingleCallResult } from '../state/multicall/hooks'
 import { Amount, Token } from '@carrot-kpi/sdk-core'
 
-export function useERC20TokenBalance(token?: Token): { loading: boolean; balance: Amount<Token> | null } {
+export function useERC20TokenBalance(
+  token?: Token,
+  address?: string | null
+): { loading: boolean; balance: Amount<Token> | null } {
   const erc20Contract = useERC20Contract(token)
-  const callParams = useMemo(() => [token?.address], [token])
+  const callParams = useMemo(() => (address ? [address] : undefined), [address])
   const wrappedResult = useSingleCallResult(erc20Contract, 'balanceOf', callParams)
 
   const [loading, setLoading] = useState(true)
@@ -23,7 +26,7 @@ export function useERC20TokenBalance(token?: Token): { loading: boolean; balance
       return
     }
     setLoading(false)
-    setBalance(wrappedResult.result[0])
+    setBalance(new Amount(token, wrappedResult.result[0]))
   }, [erc20Contract, token, wrappedResult.error, wrappedResult.loading, wrappedResult.result])
 
   return { loading, balance }
