@@ -510,7 +510,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xca574573fa5aecc65633ee84c87f4343f4dc0188',
       kpiId: '0x4012876e7286997e7353eafa541dec1b8c38123b39fbe824fc2f10f769e91f46',
       creator: COW_CREATOR,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
