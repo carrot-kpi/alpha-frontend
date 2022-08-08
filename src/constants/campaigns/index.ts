@@ -510,7 +510,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xca574573fa5aecc65633ee84c87f4343f4dc0188',
       kpiId: '0x4012876e7286997e7353eafa541dec1b8c38123b39fbe824fc2f10f769e91f46',
       creator: COW_CREATOR,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -526,7 +526,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xe28e5f1f1d8fd6f6a9d5413cf2a77f6dc94710b7',
       kpiId: '0x9dc471b307381afa479941aaf79287c0617277d0a11c021e26426ec43240ad19',
       creator: DXDAO,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -541,6 +541,31 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       ],
       id: '0xfb9a28c035eb2183fdd896f1b7263e79fc49d9d8',
       kpiId: '0x0cc79f80f6d699e722cf16a69107a9fff9a11491951e812dae7f73f7788abf64',
+      creator: DXDAO,
+      featured: false,
+    },
+    {
+      metrics: [
+        new TokenLiquidityMetric(COW, swapr, DateTime.fromSeconds(1659625200), DateTime.fromSeconds(1662044400), 86400),
+      ],
+      id: '0xeda83ba36213611406758f9042dcb5c3dc43fa14',
+      kpiId: '0x6738978bdf9745447f75838dc723d85f2a3ebc6e0fa1d0ba15a47149af9d96d2',
+      creator: COW_CREATOR,
+      featured: true,
+    },
+    {
+      metrics: [
+        new TvlMetric(
+          ChainId.GNOSIS,
+          swapr,
+          swapr,
+          DateTime.fromSeconds(1659625200),
+          DateTime.fromSeconds(1662044400),
+          86400
+        ),
+      ],
+      id: '0xfa2ec69a0a1589a67dbbd2e1922d77406cef1a73',
+      kpiId: '0xb7f26f13c03b9d59efc938ec35a68cce0d28609cf2e54803fd444c588c08b103',
       creator: DXDAO,
       featured: true,
     },
