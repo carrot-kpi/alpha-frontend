@@ -128,7 +128,17 @@ export function useFeaturedKpiTokens() {
             kpiToken.collateral.token.name
           )
           const cid = kpiToken.oracleQuestion.text
-          const question = questions[cid]
+          console.log(cid === 'QmZka1df5eSj8bebFLxbp1dnNxZUm3vW1uA7meahV9r6Ci')
+          const question =
+            cid === 'QmZka1df5eSj8bebFLxbp1dnNxZUm3vW1uA7meahV9r6Ci'
+              ? `# What will the average TVL for the COW token on Swapr Gnosis Chain be from Aug 4th 15:00 UTC to Sep 1st 15:00 UTC?
+
+## Details
+This campaign will pay out in the range of 150k USD to 400k USD, with no payout when the result is below 150k USD and increasing linear payout over the range with a full collateral payout when the result is 400k USD or higher.
+          
+## Calculating the final answer
+The dedicated chart on the official carrot.eth frontend will show daily Swapr COW token TVL in the specified date range. Each bar represents a TVL reading taken each day at 15:00 UTC. To calculate the final result, use the data for each bar and calculate the average between all the charted values.`
+              : questions[cid]
           if (!question) {
             console.warn(`could not fetch kpi token question with cid ${cid}`)
             return
