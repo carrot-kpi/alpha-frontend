@@ -1,5 +1,5 @@
 import { OracleData } from '@carrot-kpi/v1-sdk'
-import { ManualRealityV100Action } from './manual/reality/v1.0.0'
+import { Reality1Action } from './reality/1'
 
 interface OracleActionProps {
   address: string
@@ -8,7 +8,7 @@ interface OracleActionProps {
 
 export const OracleAction = ({ address, data }: OracleActionProps) => {
   switch (data.type) {
-    case 'ManualReality-v1.0.0':
-      return <ManualRealityV100Action address={address} data={data} />
+    case 'Reality-1':
+      return <Reality1Action address={address} data={data} />
   }
 }

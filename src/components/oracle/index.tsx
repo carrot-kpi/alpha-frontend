@@ -11,11 +11,7 @@ interface OracleProps {
 export const Oracle = ({ oracle, kpiTokenExpired }: OracleProps) => {
   return (
     <>
-      <GenericOracleData
-        address={oracle.address}
-        templateSpecification={oracle.templateSpecification}
-        templateVersion={oracle.templateVersion}
-      />
+      <GenericOracleData address={oracle.address} template={oracle.template} />
       <SpecificOracleData data={oracle.data} />
       {!kpiTokenExpired ? (
         <OracleAction address={oracle.address} data={oracle.data} />

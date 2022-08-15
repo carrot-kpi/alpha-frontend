@@ -11,11 +11,7 @@ export const KpiToken = ({ kpiToken }: KpiTokenProps) => {
   return (
     <>
       <h2>KPI token</h2>
-      <GenericKpiTokenData
-        address={kpiToken.address}
-        templateSpecification={kpiToken.templateSpecification}
-        templateVersion={kpiToken.templateVersion}
-      />
+      <GenericKpiTokenData address={kpiToken.address} template={kpiToken.template} />
       <SpecificKpiTokenData data={kpiToken.data} />
       <KpiTokenAction kpiToken={kpiToken} />
     </>

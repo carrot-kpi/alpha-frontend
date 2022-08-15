@@ -1,5 +1,5 @@
 import { OracleData } from '@carrot-kpi/v1-sdk'
-import { ManualRealityV100SpecificData } from './manual/reality/v1.0.0'
+import { Reality1SpecificData } from './reality/1'
 
 interface GenericOracleSpecificDataProps {
   data: OracleData
@@ -7,7 +7,7 @@ interface GenericOracleSpecificDataProps {
 
 export const SpecificOracleData = ({ data }: GenericOracleSpecificDataProps) => {
   switch (data.type) {
-    case 'ManualReality-v1.0.0':
-      return <ManualRealityV100SpecificData data={data} />
+    case 'Reality-1':
+      return <Reality1SpecificData data={data} />
   }
 }

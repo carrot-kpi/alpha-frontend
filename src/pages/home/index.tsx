@@ -15,6 +15,11 @@ export const Home = () => {
   return (
     <>
       {!account && <button onClick={handleActivate}>Connect wallet</button>}
+      {account && (
+        <Link to="/create">
+          <button>Create KPI token</button>
+        </Link>
+      )}
       {error}
       {loading && <>Loading...</>}
       {!loading && kpiTokens.length > 0 && (

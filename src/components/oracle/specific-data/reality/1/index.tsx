@@ -1,10 +1,10 @@
-import { ManualRealityV100Data } from '@carrot-kpi/v1-sdk'
+import { Reality1Data } from '@carrot-kpi/v1-sdk'
 
-interface ManualRealityV100SpecificDataProps {
-  data: ManualRealityV100Data
+interface Reality1SpecificDataProps {
+  data: Reality1Data
 }
 
-export const ManualRealityV100SpecificData = ({ data }: ManualRealityV100SpecificDataProps) => {
+export const Reality1SpecificData = ({ data }: Reality1SpecificDataProps) => {
   return (
     <>
       <h3>Manual Reality.eth oracle data</h3>

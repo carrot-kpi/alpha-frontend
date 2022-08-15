@@ -1,5 +1,5 @@
 import { Token } from '@carrot-kpi/sdk-core'
-import { Erc20V100Data } from '@carrot-kpi/v1-sdk'
+import { Erc201Data } from '@carrot-kpi/v1-sdk'
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { commify } from '@ethersproject/units'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -9,12 +9,12 @@ import { useIsKpiTokenExpired } from '../../../../../hooks/useIsKpiTokenExpired'
 import { useIsKpiTokenFinalized } from '../../../../../hooks/useIsKpiTokenFinalized'
 import { useRedeemKpiTokenCallback } from '../../../../../hooks/useRedeemKpiTokenCallback'
 
-interface Erc20V100ActionProps {
+interface Erc201ActionProps {
   address: string
-  data: Erc20V100Data
+  data: Erc201Data
 }
 
-export const Erc20V100Action = ({ address, data }: Erc20V100ActionProps) => {
+export const Erc201Action = ({ address, data }: Erc201ActionProps) => {
   const { chainId, account } = useActiveWeb3React()
   const { loading: loadingFinalized, finalized } = useIsKpiTokenFinalized(address)
   const { loading: loadingExpired, expired } = useIsKpiTokenExpired(address)

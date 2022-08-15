@@ -1,5 +1,5 @@
 import { KpiTokenData } from '@carrot-kpi/v1-sdk'
-import { Erc20100 } from './erc20/v1.0.0'
+import { Erc201SpecificData } from './erc20/1'
 
 interface GenericKpiTokenDataProps {
   data: KpiTokenData
@@ -7,7 +7,7 @@ interface GenericKpiTokenDataProps {
 
 export const SpecificKpiTokenData = ({ data }: GenericKpiTokenDataProps) => {
   switch (data.type) {
-    case 'Erc20-v1.0.0':
-      return <Erc20100 data={data} />
+    case 'Erc20-1':
+      return <Erc201SpecificData data={data} />
   }
 }

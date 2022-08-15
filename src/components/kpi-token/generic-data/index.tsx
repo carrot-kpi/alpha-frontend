@@ -1,23 +1,20 @@
-import { KpiTokenTemplateSpecification, TemplateVersion } from '@carrot-kpi/v1-sdk'
+import { Template } from '@carrot-kpi/v1-sdk'
 
 interface GenericKpiTokenDataProps {
   address: string
-  templateSpecification: KpiTokenTemplateSpecification
-  templateVersion: TemplateVersion
+  template: Template
 }
 
-export const GenericKpiTokenData = ({ address, templateSpecification, templateVersion }: GenericKpiTokenDataProps) => {
+export const GenericKpiTokenData = ({ address, template }: GenericKpiTokenDataProps) => {
   return (
     <>
       <h3>Generic data</h3>
       <ul>
         <li>Address: {address}</li>
-        <li>Template name: {templateSpecification.name}</li>
-        <li>
-          Template version: v{templateVersion.major}.{templateVersion.minor}.{templateVersion.patch}
-        </li>
-        <li>Template description: {templateSpecification.description}</li>
-        <li>Template tags: {templateSpecification.tags.join(', ')}</li>
+        <li>Template name: {template.specification.name}</li>
+        <li>Template version: {template.version.toString()}</li>
+        <li>Template description: {template.specification.description}</li>
+        <li>Template tags: {template.specification.tags.join(', ')}</li>
       </ul>
     </>
   )

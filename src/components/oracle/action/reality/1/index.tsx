@@ -1,12 +1,12 @@
-import { ManualRealityV100Data } from '@carrot-kpi/v1-sdk'
+import { Reality1Data } from '@carrot-kpi/v1-sdk'
 import { DateTime } from 'luxon'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
-import { useFinalizeOracleCallback } from '../../../../../../hooks/useFinalizeOracleCallback'
-import { useIsOracleFinalized } from '../../../../../../hooks/useIsOracleFinalized'
-import { useIsRealityQuestionFinalized } from '../../../../../../hooks/useIsRealityQuestionFinalized'
-import { ExternalLink } from '../../../../../undecorated-link'
+import { useFinalizeOracleCallback } from '../../../../../hooks/useFinalizeOracleCallback'
+import { useIsOracleFinalized } from '../../../../../hooks/useIsOracleFinalized'
+import { useIsRealityQuestionFinalized } from '../../../../../hooks/useIsRealityQuestionFinalized'
+import { ExternalLink } from '../../../../undecorated-link'
 
 const ErrorText = styled.span`
   color: ${(props) => props.theme.red};
@@ -19,12 +19,12 @@ export enum RealityQuestionStatus {
   FINALIZED,
 }
 
-interface ManualRealityV100ActionProps {
+interface Reality1ActionProps {
   address: string
-  data: ManualRealityV100Data
+  data: Reality1Data
 }
 
-export const ManualRealityV100Action = ({ address, data }: ManualRealityV100ActionProps) => {
+export const Reality1Action = ({ address, data }: Reality1ActionProps) => {
   const realityQuestionId = useMemo(() => data.questionId, [data.questionId])
   const { loading: loadingRealityQuestionFinalized, finalized: realityQuestionFinalized } =
     useIsRealityQuestionFinalized(realityQuestionId)

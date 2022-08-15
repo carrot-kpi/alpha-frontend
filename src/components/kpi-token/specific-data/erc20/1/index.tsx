@@ -1,11 +1,11 @@
-import { Erc20V100Data } from '@carrot-kpi/v1-sdk'
+import { Erc201Data } from '@carrot-kpi/v1-sdk'
 import { formatUnits } from '@ethersproject/units'
 
-interface Erc20100Props {
-  data: Erc20V100Data
+interface Erc201SpecificDataProps {
+  data: Erc201Data
 }
 
-export const Erc20100 = ({ data }: Erc20100Props) => {
+export const Erc201SpecificData = ({ data }: Erc201SpecificDataProps) => {
   return (
     <>
       <h3>ERC20 KPI token data</h3>
