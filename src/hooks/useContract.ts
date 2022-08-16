@@ -1,8 +1,6 @@
 import { FACTORY_ABI } from '@carrot-kpi/v1-sdk'
 import {
   FACTORY_ADDRESS,
-  REALITY_ABI,
-  REALITY_ADDRESS,
   KPI_TOKEN_ABI,
   ORACLE_ABI,
   ORACLES_MANAGER_ADDRESS,
@@ -13,6 +11,7 @@ import { ChainId, PERMISSIVE_MULTICALL_ADDRESS, PERMISSIVE_MULTICALL_ABI } from 
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from './useActiveWeb3React'
+import { REALITY3_ABI, REALITY3_ADDRESS } from '../constants'
 
 export function useContract(
   address: string | undefined,
@@ -42,10 +41,10 @@ export function useERC20Contract(token?: Token, withSignerIfPossible = false): C
   return useContract(address, ERC20_ABI, withSignerIfPossible)
 }
 
-export function useRealityContract(withSignerIfPossible = false): Contract | null {
+export function useReality3Contract(withSignerIfPossible = false): Contract | null {
   const { chainId } = useActiveWeb3React()
   // FIXME: use mainnet as the default key
-  return useContract(REALITY_ADDRESS[(chainId as ChainId) || ChainId.GNOSIS], REALITY_ABI, withSignerIfPossible)
+  return useContract(REALITY3_ADDRESS[(chainId as ChainId) || ChainId.GNOSIS], REALITY3_ABI, withSignerIfPossible)
 }
 
 export function useKpiTokenContract(address?: string, withSignerIfPossible = false): Contract | null {

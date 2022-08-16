@@ -12,13 +12,17 @@ export const CARROT_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<Normalize
   }),
 }
 
-export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
+export const SWAPR_SUBGRAPH_CLIENT: Record<ChainId, ApolloClient<NormalizedCacheObject>> = {
   [ChainId.MAINNET]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-mainnet-v2',
     cache: new InMemoryCache(),
   }),
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-rinkeby-new',
+    cache: new InMemoryCache(),
+  }),
+  [ChainId.GOERLI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/luzzif/swapr-xdai-v2', // FIXME: this should be the proper goerli endpoint
     cache: new InMemoryCache(),
   }),
   [ChainId.GNOSIS]: new ApolloClient({
@@ -34,7 +38,6 @@ export const SYMMETRIC_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<Normal
   }),
 }
 
-
 export const BLOCK_SUBGRAPH_CLIENTS: { [chainId in ChainId]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.MAINNET]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/alium-finance/mainnet-blocks',
@@ -42,6 +45,10 @@ export const BLOCK_SUBGRAPH_CLIENTS: { [chainId in ChainId]: ApolloClient<Normal
   }),
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/rinkeby-blocks',
+    cache: new InMemoryCache(),
+  }),
+  [ChainId.GOERLI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/goerli-blocks',
     cache: new InMemoryCache(),
   }),
   [ChainId.GNOSIS]: new ApolloClient({

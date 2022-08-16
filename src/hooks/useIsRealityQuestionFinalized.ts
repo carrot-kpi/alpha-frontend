@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSingleCallResult } from '../state/multicall/hooks'
-import { useRealityContract } from './useContract'
+import { useReality3Contract } from './useContract'
 
 export function useIsRealityQuestionFinalized(questionId?: string): { loading: boolean; finalized: boolean } {
-  const realityContract = useRealityContract(false)
+  const realityContract = useReality3Contract(false)
   const callParams = useMemo(() => [questionId], [questionId])
   const wrappedResult = useSingleCallResult(realityContract, 'isFinalized', callParams)
 

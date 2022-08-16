@@ -9,6 +9,7 @@ import ethereumLogo from '../assets/ethereum-logo.png'
 import xDaiLogo from '../assets/svgs/xdai-logo.svg'
 import { parseUnits } from '@ethersproject/units'
 import { JsonRpcProvider } from '@ethersproject/providers'
+import REALITY3_ABI from './abis/reality-3.0.json'
 
 export const ZERO_USD = new Amount<Currency>(Currency.USD, BigNumber.from(0))
 export const ZERO_DECIMAL = new Decimal(0)
@@ -16,6 +17,13 @@ export const ZERO_DECIMAL = new Decimal(0)
 export const INVALID_REALITY_ANSWER = BigNumber.from(
   '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
 )
+
+export const REALITY3_ADDRESS: Record<ChainId, string> = {
+  [ChainId.MAINNET]: '0x325a2e0F3CCA2ddbaeBB4DfC38Df8D19ca165b47',
+  [ChainId.RINKEBY]: '0xDf33060F476F8cff7511F806C72719394da1Ad64',
+  [ChainId.GOERLI]: '0x6F80C5cBCF9FbC2dA2F0675E56A5900BB70Df72f',
+  [ChainId.GNOSIS]: '0x79e32aE03fb27B07C89c0c568F80287C01ca2E57',
+}
 
 export interface WalletInfo {
   connector: AbstractConnector
@@ -100,3 +108,5 @@ if (process.env.NODE_ENV !== 'production') {
 export const NETWORK_CONTEXT_NAME = 'NETWORK_CONTEXT'
 
 export const MAINNET_PROVIDER = new JsonRpcProvider(RPC_URL[ChainId.MAINNET])
+
+export { REALITY3_ABI }

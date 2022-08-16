@@ -12,7 +12,7 @@ export const schema: FormStepGetter[] = [
           type: 'hidden',
           id: 'realityInstanceAddress',
           required: true,
-          value: '0xDf33060F476F8cff7511F806C72719394da1Ad64',
+          value: '0x6F80C5cBCF9FbC2dA2F0675E56A5900BB70Df72f',
         },
         {
           type: 'select',
