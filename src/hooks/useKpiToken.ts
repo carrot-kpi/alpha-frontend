@@ -12,7 +12,7 @@ export function useKpiToken(kpiTokenAddress?: string): { loading: boolean; kpiTo
     let cancelled = false
     async function fetchData() {
       if (!chainId || !library || !kpiTokenAddress) return
-      setLoading(true)
+      if (!cancelled) setLoading(true)
       try {
         const kpiToken = await Fetcher.fetchKpiToken(chainId, kpiTokenAddress, library)
         if (!cancelled) setKpiToken(kpiToken)
