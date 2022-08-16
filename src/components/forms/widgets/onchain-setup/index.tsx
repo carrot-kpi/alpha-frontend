@@ -3,9 +3,9 @@ import { KpiTokenInitializationDataGetter, OnchainSetupStep } from '../../types'
 import { FACTORY_ABI, FACTORY_ADDRESS, KPI_TOKENS_MANAGER_ABI, KPI_TOKENS_MANAGER_ADDRESS } from '@carrot-kpi/v1-sdk'
 import { useActiveWeb3React } from '../../../../hooks/useActiveWeb3React'
 import { CreationFormContext } from '../../../../contexts/creation-form-context'
-import { CID } from 'multiformats/cid'
-import { encode as encodeIpfsJson } from 'multiformats/codecs/json'
-import { sha256 } from 'multiformats/hashes/sha2'
+// import { CID } from 'multiformats/cid'
+// import { encode as encodeIpfsJson } from 'multiformats/codecs/json'
+// import { sha256 } from 'multiformats/hashes/sha2'
 import { TransactionRequest } from '@ethersproject/providers'
 import { Interface } from '@ethersproject/abi'
 import { Contract } from '@ethersproject/contracts'
@@ -56,19 +56,19 @@ export const OnchainSetup = ({ spec, initializationDataGetter }: OnchainSetupPro
       if (!state || Object.keys(state).length === 0 || !chainId || !account) return
       const { kpiTokenData, oraclesData } = initializationDataGetter(state)
 
-      const encodedJson = encodeIpfsJson({
-        title: state.title,
-        description: state.description,
-        tags: state.tags,
-        widgets: state.widgets,
-      })
-      const hash = await sha256.digest(encodedJson)
-      const cid = CID.createV0(hash).toV1().toString()
+      // const encodedJson = encodeIpfsJson({
+      //   title: state.title,
+      //   description: state.description,
+      //   tags: state.tags,
+      //   widgets: state.widgets,
+      // })
+      // const hash = await sha256.digest(encodedJson)
+      // const cid = CID.createV0(hash).toString()
       const kpiTokensManager = new Contract(KPI_TOKENS_MANAGER_ADDRESS[chainId], KPI_TOKENS_MANAGER_INTERFACE, library)
       const tokenAddress = await kpiTokensManager.predictInstanceAddress(
         account,
         state.__chosenTemplate.id,
-        cid,
+        'QmW4YJMBeWJAkYmQUt2g1h9qMpqyFZyHsr8Cw8ha7KYpcA',
         kpiTokenData,
         oraclesData
       )
@@ -86,7 +86,7 @@ export const OnchainSetup = ({ spec, initializationDataGetter }: OnchainSetupPro
       })
       const encodedData = FACTORY_INTERFACE.encodeFunctionData('createToken(uint256,string,uint256,bytes,bytes)', [
         state.__chosenTemplate.id,
-        cid,
+        'QmW4YJMBeWJAkYmQUt2g1h9qMpqyFZyHsr8Cw8ha7KYpcA',
         Math.floor(Date.now() / 1000) + 10000, // TODO: this must be a user input
         kpiTokenData,
         oraclesData,

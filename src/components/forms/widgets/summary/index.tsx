@@ -35,16 +35,18 @@ const getFieldSummary = (value: { spec: FormField | DedicatedStepDefinition; int
       return (
         <>
           <p>Oracles:</p>
-          {value.internalState.map((oracle: any) => {
-            return (
-              <>
-                {Object.entries(oracle.internalState).map(([key, oracleField]: any) => {
-                  return getFieldSummary(oracleField)
-                })}
-                <br />
-              </>
-            )
-          })}
+          <ul>
+            {value.internalState.map((oracle: any, index: number) => {
+              return (
+                <li key={index}>
+                  {Object.entries(oracle.internalState).map(([key, oracleField]: any) => {
+                    return getFieldSummary(oracleField)
+                  })}
+                  <br />
+                </li>
+              )
+            })}
+          </ul>
         </>
       )
     }

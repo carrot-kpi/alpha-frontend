@@ -50,7 +50,10 @@ export const schema: FormStepGetter[] = [
       maximumOracles: 5,
       additionalPerOracleFields: (overallState: any, oracleState: any) => {
         let fields: FormField[]
-        if (oracleState.__chosenTemplate.id === 1 && oracleState.internalState.templateId.internalState === '0')
+        if (
+          oracleState.__chosenTemplate.id.toString() === '1' &&
+          oracleState.internalState.templateId.internalState === '0'
+        )
           fields = [
             {
               type: 'hidden',

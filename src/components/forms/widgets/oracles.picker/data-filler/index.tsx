@@ -13,7 +13,7 @@ interface TemplatesPickerProps {
 
 export const DataFiller = ({ chosenTemplates, additionalPerOracleFields, onNext }: TemplatesPickerProps) => {
   const { state, updateState } = useContext(CreationFormContext)
-  
+
   useEffect(() => {
     if (state.oracles.internalState.length !== 0) return
     chosenTemplates.map((chosenTemplate) => {
