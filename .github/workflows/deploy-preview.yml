@@ -21,20 +21,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
-      - name: Start Deployment
-        uses: bobheadxi/deployments@v1
-        id: deployment
-        with:
-          step: start
-          token: ${{secrets.GITHUB_TOKEN}}
-          env: ${{env.GITHUB_HEAD_REF_SLUG_URL || env.GITHUB_REF_SLUG_URL}}
-          ref: ${{github.head_ref}}
       - name: Install dependencies
-        uses: borales/actions-yarn@v2
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: install --frozen-lockfile
       - name: Build
-        uses: borales/actions-yarn@v2
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: ipfs-build
       - name: Deploy to IPFS
@@ -43,12 +35,3 @@ jobs:
         with:
           web3_token: ${{secrets.WEB3_STORAGE_TOKEN}}
           path_to_add: 'build'
-      - name: Update Deployment Status
-        uses: bobheadxi/deployments@v1
-        if: always()
-        with:
-          step: finish
-          token: ${{secrets.GITHUB_TOKEN}}
-          status: ${{job.status}}
-          deployment_id: ${{steps.deployment.outputs.deployment_id}}
-          env_url: 'https://${{steps.web3.outputs.cid}}.ipfs.infura-ipfs.io'
