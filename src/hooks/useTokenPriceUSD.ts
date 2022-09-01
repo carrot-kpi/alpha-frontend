@@ -13,6 +13,7 @@ import { useHoneyswapTokenPriceUSD } from './useHoneyswapTokenPriceUSD'
 
 const COINGECKO_PLATFORMS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'ethereum',
+  [ChainId.GOERLI]: 'goerli',
   [ChainId.RINKEBY]: 'ethereum',
   [ChainId.GNOSIS]: 'xdai',
 }

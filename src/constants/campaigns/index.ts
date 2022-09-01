@@ -59,6 +59,7 @@ const honeyswap = new Honeyswap()
 
 export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
   // TODO: remove this, it's for test purposes!
+  [ChainId.GOERLI]: [],
   [ChainId.MAINNET]: [
     /* {
       metrics: [

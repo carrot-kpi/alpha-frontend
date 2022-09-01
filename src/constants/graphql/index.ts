@@ -25,6 +25,10 @@ export const SWAPR_SUBGRAPH_CLIENT: { [chainId in ChainId]: ApolloClient<Normali
     uri: 'https://api.thegraph.com/subgraphs/name/dxgraphs/swapr-xdai-v2',
     cache: new InMemoryCache(),
   }),
+  [ChainId.GOERLI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/dxgraphs/swapr-xdai-v2',
+    cache: new InMemoryCache(),
+  }), // FIXME: not right
 }
 
 export const SYMMETRIC_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
@@ -47,4 +51,8 @@ export const BLOCK_SUBGRAPH_CLIENTS: { [chainId in ChainId]: ApolloClient<Normal
     uri: 'https://api.thegraph.com/subgraphs/name/1hive/xdai-blocks',
     cache: new InMemoryCache(),
   }),
+  [ChainId.GOERLI]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/blocklytics/goerli-blocks',
+    cache: new InMemoryCache(),
+  }), // TODO: fix
 }
