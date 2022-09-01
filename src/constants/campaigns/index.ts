@@ -552,7 +552,7 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xeda83ba36213611406758f9042dcb5c3dc43fa14',
       kpiId: '0x6738978bdf9745447f75838dc723d85f2a3ebc6e0fa1d0ba15a47149af9d96d2',
       creator: COW_CREATOR,
-      featured: true,
+      featured: false,
     },
     {
       metrics: [
@@ -568,6 +568,31 @@ export const CAMPAIGNS: { [chainId in ChainId]: Campaign[] } = {
       id: '0xfa2ec69a0a1589a67dbbd2e1922d77406cef1a73',
       kpiId: '0xb7f26f13c03b9d59efc938ec35a68cce0d28609cf2e54803fd444c588c08b103',
       creator: DXDAO,
+      featured: false,
+    },
+    {
+      metrics: [
+        new TvlMetric(
+          ChainId.GNOSIS,
+          swapr,
+          swapr,
+          DateTime.fromSeconds(1662044400),
+          DateTime.fromSeconds(1664463600),
+          86400
+        ),
+      ],
+      id: '0x73ddcfa8189ec1ef16774d5f7f0e53d30392b6cc',
+      kpiId: '0xf6ddeea4059673c06cc2f696a60756bd8e3e9af5484fa589dcf89cdbda557d9a',
+      creator: DXDAO,
+      featured: true,
+    },
+    {
+      metrics: [
+        new TokenLiquidityMetric(COW, swapr, DateTime.fromSeconds(1662044400), DateTime.fromSeconds(1664463600), 86400),
+      ],
+      id: '0xc22dc59c3b653d7a9325ce9e63d729d3b88c7cd2',
+      kpiId: '0x0fab349ce651faedbbec6999f5142c73a58ea5b73e02bb4850062320bbc4f665',
+      creator: COW_CREATOR,
       featured: true,
     },
   ],
