@@ -3,7 +3,7 @@
   "license": "GPL-3.0-or-later",
   "version": "1.0.0-alpha.16",
   "description": "Frontend for Carrot KPIs.",
-  "homepage": ".",
+  "homepage": "./",
   "devDependencies": {
     "@apollo/client": "^3.6.9",
     "@carrot-kpi/alpha-sdk": "^1.2.1",
