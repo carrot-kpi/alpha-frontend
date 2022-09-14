@@ -5,9 +5,7 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 
 // Used to make the build reproducible between different machines (IPFS-related)
 module.exports = (config, env) => {
-  if (env !== 'production') {
-    return config
-  }
+  if (env !== 'production') return config
   const gitRevisionPlugin = new GitRevisionPlugin()
   const shortCommitHash = gitRevisionPlugin.commithash().substring(0, 8)
   config.output.filename = `static/js/[name].${shortCommitHash}.js`
